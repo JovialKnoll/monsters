@@ -1,4 +1,3 @@
-#This is the game file.
 import pygame
 class Game(object):
     def __init__(self):

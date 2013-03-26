@@ -1,4 +1,3 @@
-#This is the main python file.
 #If we want to take in arguments, we would use this file.
 #This is where we create and run the game.
 import sys

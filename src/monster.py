@@ -1,8 +1,12 @@
+import os, pygame, random
 from feelings import *
 from skin import *
+random.seed()
 class Monster(object):
     drv_max = 4
     lvl_max = 3
+    sprite_size = (48,48)
+    sprite_path = os.path.join('gfx', 'monster-parts')
     
     @classmethod
     def atLevel(cls, in_lvl, in_stats={}):
@@ -11,7 +15,7 @@ class Monster(object):
         for n in range(min(in_lvl,cls.lvl_max)):
             new_mon.levelUp()
         return new_mon
-    
+        
     def __init__(self, in_stats={}):
         """Create a new monster, setting stats, etc. as needed."""
         self.lvl = 0
@@ -25,6 +29,14 @@ class Monster(object):
         #the look of the monster should be set, too...
         self.skin = Skin.random(self.personality)
         #access the SkinTone with self.skin[self.lvl]
+        self.sprite = pygame.Surface(Monster.sprite_size)
+        #not entirely sure about the order for the next few lines
+        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-body-'+random.choice(('A','B','C'))+'.png')), (0,0))
+        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-head-'+random.choice(('A','B','C'))+'.png')), (0,0))
+        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-legs-'+random.choice(('A','B','C'))+'.png')), (0,0))
+        
+        #convert after finishing stuff
+        self.sprite.convert_alpha()
         
     def levelUp(self):
         """Level up a monster, setting stats, etc. as needed."""
@@ -34,3 +46,7 @@ class Monster(object):
         #change other stats as appropriate here...
         #change the look as appropriate here...
         return 1
+        
+    def draw(self, screen):
+        screen.blit(self.sprite, (0,0))
+        #just a test

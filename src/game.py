@@ -1,10 +1,12 @@
 import pygame
+from monster import *
 class Game(object):
     def __init__(self):
         """Start and create things as needed."""
         pygame.init()
         self.running = 1
         self.screen = pygame.display.set_mode((256, 256))
+        self.test_mon = Monster()
         
     def __del__(self):
         """End and delete things as needed."""
@@ -24,6 +26,8 @@ class Game(object):
                     return 0
                 if event.key == pygame.K_q:
                     self.running = 0
+                if event.key == pygame.K_SPACE:
+                    self.test_mon = Monster()
         return 1
         
     def update(self):
@@ -32,5 +36,6 @@ class Game(object):
         
     def draw(self):
         """Draw things as needed."""
+        self.test_mon.draw(self.screen)
         pygame.display.flip()
         return 1

@@ -6,6 +6,7 @@ class Game(object):
         pygame.init()
         self.running = 1
         self.screen = pygame.display.set_mode((256, 256))
+        self.clock = pygame.time.Clock()
         
         #test stuff
         self.test_mon = Monster()
@@ -17,7 +18,7 @@ class Game(object):
         
     def run(self):
         """Run the game, and check if the game needs to end."""
-        return self.running and self.input() and self.update() and self.draw()
+        return self.running and self.input() and self.update() and self.draw() and self.time()
         
     def input(self):
         """Take inputs as needed."""
@@ -49,4 +50,10 @@ class Game(object):
         self.screen.fill(self.fill)
         self.test_mon.draw(self.screen)
         pygame.display.flip()
+        return 1
+        
+    def time(self):
+        """Take care of time stuff."""
+        pygame.display.set_caption(str(self.clock.get_fps()))
+        self.clock.tick(60)
         return 1

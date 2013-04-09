@@ -45,6 +45,7 @@ class Monster(object):
         self.lvl += 1
         #change other stats as appropriate here...
         #change the look as appropriate here...
+        #for my own reference: tail->body->head->legs->arms
         return 1
         
     def draw(self, screen):

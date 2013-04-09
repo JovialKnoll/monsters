@@ -6,7 +6,10 @@ class Game(object):
         pygame.init()
         self.running = 1
         self.screen = pygame.display.set_mode((256, 256))
+        
+        #test stuff
         self.test_mon = Monster()
+        self.fill = [255, 255, 255]
         
     def __del__(self):
         """End and delete things as needed."""
@@ -26,8 +29,15 @@ class Game(object):
                     return 0
                 if event.key == pygame.K_q:
                     self.running = 0
+                #test stuff
                 if event.key == pygame.K_SPACE:
                     self.test_mon = Monster()
+                if event.key == pygame.K_r:
+                    self.fill[0] = 255*(self.fill[0]!=255)
+                if event.key == pygame.K_g:
+                    self.fill[1] = 255*(self.fill[1]!=255)
+                if event.key == pygame.K_b:
+                    self.fill[2] = 255*(self.fill[2]!=255)
         return 1
         
     def update(self):
@@ -36,6 +46,7 @@ class Game(object):
         
     def draw(self):
         """Draw things as needed."""
+        self.screen.fill(self.fill)
         self.test_mon.draw(self.screen)
         pygame.display.flip()
         return 1

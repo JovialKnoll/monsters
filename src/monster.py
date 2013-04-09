@@ -26,16 +26,12 @@ class Monster(object):
         self.stats['drv'] = Monster.drv_max/2
         self.stats[self.personality.stat] += 1
         self.stats.update(in_stats)
-        #the look of the monster should be set, too...
+        
         self.skin = Skin.random(self.personality)
         #access the SkinTone with self.skin[self.lvl]
-        self.sprite = pygame.Surface(Monster.sprite_size)
-        #not entirely sure about the order for the next few lines
-        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-body-'+random.choice(('A','B','C'))+'.png')), (0,0))
+        self.sprite = pygame.image.load(os.path.join(Monster.sprite_path, '0-body-'+random.choice(('A','B','C'))+'.png'))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-head-'+random.choice(('A','B','C'))+'.png')), (0,0))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-legs-'+random.choice(('A','B','C'))+'.png')), (0,0))
-        
-        #convert after finishing stuff
         self.sprite.convert_alpha()
         
     def levelUp(self):
@@ -46,8 +42,9 @@ class Monster(object):
         #change other stats as appropriate here...
         #change the look as appropriate here...
         #for my own reference: tail->body->head->legs->arms
+        
         return 1
         
     def draw(self, screen):
-        screen.blit(self.sprite, (0,0))
+        screen.blit(self.sprite, (104,104))
         #just a test

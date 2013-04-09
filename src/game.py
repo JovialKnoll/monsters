@@ -33,6 +33,8 @@ class Game(object):
                 #test stuff
                 if event.key == pygame.K_SPACE:
                     self.test_mon = Monster()
+                if event.key == pygame.K_l:
+                    self.test_mon.levelUp()
                 if event.key == pygame.K_r:
                     self.fill[0] = 255*(self.fill[0]!=255)
                 if event.key == pygame.K_g:

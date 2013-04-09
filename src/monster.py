@@ -29,9 +29,10 @@ class Monster(object):
         
         self.skin = Skin.random(self.personality)
         #access the SkinTone with self.skin[self.lvl]
-        self.sprite = pygame.image.load(os.path.join(Monster.sprite_path, '0-body-'+random.choice(('A','B','C'))+'.png'))
-        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-head-'+random.choice(('A','B','C'))+'.png')), (0,0))
-        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-legs-'+random.choice(('A','B','C'))+'.png')), (0,0))
+        self.sprite_groups = [random.choice(('A','B','C')) for x in range(5)]
+        self.sprite = pygame.image.load(os.path.join(Monster.sprite_path, '0-body-'+self.sprite_groups[1]+'.png'))
+        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-head-'+self.sprite_groups[2]+'.png')), (0,0))
+        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-legs-'+self.sprite_groups[3]+'.png')), (0,0))
         self.sprite.convert_alpha()
         
     def levelUp(self):
@@ -42,7 +43,13 @@ class Monster(object):
         #change other stats as appropriate here...
         #change the look as appropriate here...
         #for my own reference: tail->body->head->legs->arms
-        
+        self.sprite = pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-tail-'+self.sprite_groups[0]+str(random.randint(0,2))+'.png'))
+        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-body-'+self.sprite_groups[1]+str(random.randint(0,2))+'.png')), (0,0))
+        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-head-'+self.sprite_groups[2]+str(random.randint(0,2))+'.png')), (0,0))
+        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-legs-'+self.sprite_groups[3]+str(random.randint(0,2))+'.png')), (0,0))
+        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-arms-'+self.sprite_groups[4]+str(random.randint(0,2))+'.png')), (0,0))
+        #color stuff here
+        self.sprite.convert_alpha()
         return 1
         
     def draw(self, screen):

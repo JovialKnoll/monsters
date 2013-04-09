@@ -4,7 +4,7 @@ class Game(object):
         """Start and create things as needed."""
         pygame.init()
         self.running = 1
-        self.screen = pygame.display.set_mode((128, 128))
+        self.screen = pygame.display.set_mode((256, 256))
         
     def __del__(self):
         """End and delete things as needed."""

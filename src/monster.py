@@ -49,9 +49,14 @@ class Monster(object):
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-legs-'+self.sprite_groups[3]+str(random.randint(0,2))+'.png')), (0,0))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-arms-'+self.sprite_groups[4]+str(random.randint(0,2))+'.png')), (0,0))
         #color stuff here
+        pix_array = pygame.PixelArray(self.sprite)
+        pix_array.replace(self.skin[0].dark, self.skin[self.lvl].dark)
+        pix_array.replace(self.skin[0].light, self.skin[self.lvl].light)
+        del pix_array
         self.sprite.convert_alpha()
         return 1
         
     def draw(self, screen):
+        """Draw the monster on the screen."""
         screen.blit(self.sprite, (104,104))
         #just a test

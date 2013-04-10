@@ -50,7 +50,7 @@ class Game(object):
     def draw(self):
         """Draw things as needed."""
         self.screen.fill(self.fill)
-        self.test_mon.draw(self.screen)
+        self.test_mon.draw(self.screen, (104,104))
         pygame.display.flip()
         return 1
         

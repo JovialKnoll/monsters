@@ -14,7 +14,10 @@ class Game(object):
         self.monitor_res = (pygame.display.Info().current_w,pygame.display.Info().current_h)
         self.upscale_max = min(self.monitor_res[0]//self.res[0], self.monitor_res[1]//self.res[1])
         self.upscale = self.upscale_max//2
+        self.disp_res_max = (self.res[0]*self.upscale_max, self.res[1]*self.upscale_max)
         self.window_set(0)
+        self.fullscreen_offset = ((self.monitor_res[0]-self.disp_res_max[0])/2, (self.monitor_res[1]-self.disp_res_max[1])/2)
+        self.full_screen = pygame.Surface(self.disp_res_max)
         
         self.clock = pygame.time.Clock()
         #test stuff
@@ -32,6 +35,13 @@ class Game(object):
             os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % ((self.monitor_res[0]-self.disp_res[0])//2, (self.monitor_res[1]-self.disp_res[1])//2)
         self.disp_screen = pygame.display.set_mode(self.disp_res)
         self.screen.convert()
+        self.is_fullscreen = False
+        
+    def window_set_fullscreen(self):
+        self.disp_screen = pygame.display.set_mode(self.monitor_res, pygame.FULLSCREEN)
+        self.screen.convert()
+        self.full_screen.convert()
+        self.is_fullscreen = True
         
     def run(self):
         """Run the game, and check if the game needs to end."""
@@ -56,6 +66,12 @@ class Game(object):
                         continue
                     self.window_set(-1)
                     continue
+                if event.key == pygame.K_F11:
+                    if self.is_fullscreen:
+                        self.window_set(0)
+                    else:
+                        self.window_set_fullscreen()
+                    continue
                 #test stuff
                 if event.key == pygame.K_SPACE:
                     self.test_mon = Monster()
@@ -78,7 +94,11 @@ class Game(object):
         self.screen.fill(self.fill)
         self.test_mon.draw(self.screen, (136,66))
         #now scale onto display surface
-        pygame.transform.scale(self.screen, self.disp_res, self.disp_screen)
+        if not self.is_fullscreen:
+            pygame.transform.scale(self.screen, self.disp_res, self.disp_screen)
+        else:
+            pygame.transform.scale(self.screen, self.disp_res_max, self.full_screen)
+            self.disp_screen.blit(self.full_screen, self.fullscreen_offset)
         pygame.display.flip()
         return 1
         

@@ -60,3 +60,4 @@ class Monster(object):
         """Draw the monster on the screen."""
         screen.blit(self.sprite, pos)
         #just a test
+        

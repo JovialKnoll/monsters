@@ -51,3 +51,4 @@ class Skin(object):
         if personality == Personality.Energetic:
             return random.choice(cls.energeticAffectionate + cls.carefulEnergetic)
         return 0
+        

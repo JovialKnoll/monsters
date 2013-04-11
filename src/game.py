@@ -31,7 +31,7 @@ class Game(object):
         #if os.name != 'posix':
         try:
             os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % ((self.monitor_res[0]-self.disp_res[0])//2, (self.monitor_res[1]-self.disp_res[1])//2)
-        except EnvironmentError:
+        except OSError:
             sys.exc_clear()
         self.disp_screen = pygame.display.set_mode(self.disp_res)
         self.screen.convert()
@@ -89,3 +89,4 @@ class Game(object):
         pygame.display.set_caption(str(self.clock.get_fps()))
         self.clock.tick(self.framerate)
         return 1
+        

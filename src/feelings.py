@@ -27,3 +27,4 @@ class Mood(object):
     sad = 2
     angry = 3
     happy = 4
+    

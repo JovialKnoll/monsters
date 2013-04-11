@@ -23,7 +23,7 @@ class Monster(object):
         self.personality = Personality.random()
         self.mood = Mood.neutral
         self.stats = {x: 4 for x in ('hpm', 'hpc', 'atk', 'def', 'spd')}
-        self.stats['drv'] = Monster.drv_max/2
+        self.stats['drv'] = Monster.drv_max//2
         self.stats[self.personality.stat] += 1
         self.stats.update(in_stats)
         

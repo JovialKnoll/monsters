@@ -74,7 +74,7 @@ class Game(object):
     def draw(self):
         """Draw things as needed."""
         self.screen.fill(self.fill)
-        self.test_mon.draw(self.screen, (0,0))
+        self.test_mon.draw(self.screen, (136,66))
         #now scale onto display surface
         pygame.transform.scale(self.screen, self.disp_res, self.disp_screen)
         pygame.display.flip()

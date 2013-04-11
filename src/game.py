@@ -48,12 +48,13 @@ class Game(object):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return 0
-                if event.key == pygame.K_PAGEUP:
+                #Window re-sizing stuff
+                if event.key == pygame.K_PAGEUP or event.key == pygame.K_PERIOD:
                     if self.upscale == self.upscale_max:
                         continue
                     self.window_set(1)
                     continue
-                if event.key == pygame.K_PAGEDOWN:
+                if event.key == pygame.K_PAGEDOWN or event.key == pygame.K_COMMA:
                     if self.upscale == 1:
                         continue
                     self.window_set(-1)

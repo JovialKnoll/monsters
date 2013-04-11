@@ -29,10 +29,7 @@ class Game(object):
         self.upscale += scale_change
         self.disp_res = (self.res[0]*self.upscale, self.res[1]*self.upscale)
         if not sys.platform.startswith('freebsd') and not sys.platform.startswith('darwin'):
-            try:
-                os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % ((self.monitor_res[0]-self.disp_res[0])//2, (self.monitor_res[1]-self.disp_res[1])//2)
-            except:
-                sys.exc_clear()
+            os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % ((self.monitor_res[0]-self.disp_res[0])//2, (self.monitor_res[1]-self.disp_res[1])//2)
         self.disp_screen = pygame.display.set_mode(self.disp_res)
         self.screen.convert()
         

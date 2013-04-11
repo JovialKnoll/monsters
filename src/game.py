@@ -1,13 +1,22 @@
-import pygame
+import pygame, os
 from monster import *
 class Game(object):
     def __init__(self):
         """Start and create things as needed."""
         pygame.init()
         self.running = 1
-        self.screen = pygame.display.set_mode((256, 256))
-        self.clock = pygame.time.Clock()
+        self.framerate = 60
         
+        pygame.mouse.set_visible(False)
+        #set window icon/captions here...
+        self.res = (320,180)
+        self.screen = pygame.Surface(self.res)
+        self.monitor_res = (pygame.display.Info().current_w,pygame.display.Info().current_h)
+        self.upscale_max = min(self.monitor_res[0]//self.res[0], self.monitor_res[1]//self.res[1])
+        self.upscale = self.upscale_max//2
+        self.window_set(0)
+        
+        self.clock = pygame.time.Clock()
         #test stuff
         self.test_mon = Monster()
         self.fill = [255, 255, 255]
@@ -15,6 +24,13 @@ class Game(object):
     def __del__(self):
         """End and delete things as needed."""
         pygame.quit()
+        
+    def window_set(self, scale_change):
+        self.upscale += scale_change
+        self.disp_res = (self.res[0]*self.upscale, self.res[1]*self.upscale)
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % ((self.monitor_res[0]-self.disp_res[0])//2, (self.monitor_res[1]-self.disp_res[1])//2)
+        self.disp_screen = pygame.display.set_mode(self.disp_res)
+        self.screen.convert()
         
     def run(self):
         """Run the game, and check if the game needs to end."""
@@ -28,8 +44,16 @@ class Game(object):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return 0
-                if event.key == pygame.K_q:
-                    self.running = 0
+                if event.key == pygame.K_PAGEUP:
+                    if self.upscale == self.upscale_max:
+                        continue
+                    self.window_set(1)
+                    continue
+                if event.key == pygame.K_PAGEDOWN:
+                    if self.upscale == 1:
+                        continue
+                    self.window_set(-1)
+                    continue
                 #test stuff
                 if event.key == pygame.K_SPACE:
                     self.test_mon = Monster()
@@ -50,12 +74,14 @@ class Game(object):
     def draw(self):
         """Draw things as needed."""
         self.screen.fill(self.fill)
-        self.test_mon.draw(self.screen, (104,104))
+        self.test_mon.draw(self.screen, (0,0))
+        #now scale onto display surface
+        pygame.transform.scale(self.screen, self.disp_res, self.disp_screen)
         pygame.display.flip()
         return 1
         
     def time(self):
         """Take care of time stuff."""
         pygame.display.set_caption(str(self.clock.get_fps()))
-        self.clock.tick(60)
+        self.clock.tick(self.framerate)
         return 1

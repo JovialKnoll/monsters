@@ -39,8 +39,8 @@ class Game(object):
         
     def window_set_fullscreen(self):
         self.disp_screen = pygame.display.set_mode(self.monitor_res, pygame.FULLSCREEN)
-        self.screen.convert()
         self.full_screen.convert()
+        self.screen.convert(self.full_screen)
         self.is_fullscreen = True
         
     def run(self):

@@ -66,7 +66,7 @@ class Game(object):
                         continue
                     self.window_set(-1)
                     continue
-                if event.key == pygame.K_F11:
+                if event.key == pygame.K_F11 or event.key == pygame.K_TAB:
                     if self.is_fullscreen:
                         self.window_set(0)
                     else:

@@ -92,7 +92,7 @@ class Game(object):
     def draw(self):
         """Draw things as needed."""
         self.screen.fill(self.fill)
-        self.test_mon.draw(self.screen, (136,66))
+        self.test_mon.draw_standing(self.screen, (160,114))
         #now scale onto display surface
         if not self.is_fullscreen:
             pygame.transform.scale(self.screen, self.disp_res, self.disp_screen)

@@ -5,7 +5,6 @@ random.seed()
 class Monster(object):
     drv_max = 4
     lvl_max = 3
-    sprite_size = (48,48)
     sprite_path = os.path.join('gfx', 'monster-parts')
     
     @classmethod
@@ -18,6 +17,7 @@ class Monster(object):
         
     def __init__(self, in_stats={}):
         """Create a new monster, setting stats, etc. as needed."""
+        self.sprite_size = (48,48)
         self.lvl = 0
         self.awr = 0
         self.personality = Personality.random()
@@ -40,6 +40,8 @@ class Monster(object):
         if self.lvl >= Monster.lvl_max:
             return 0
         self.lvl += 1
+        if self.lvl > 2:
+            self.sprite_size = (64,64)
         #change other stats as appropriate here...
         #for my own reference: tail->body->head->legs->arms
         #sprite construction stuff
@@ -55,6 +57,14 @@ class Monster(object):
         del pix_array
         self.sprite.convert_alpha()
         return 1
+        
+    def draw_centered(self, screen, pos):
+        """Draw the monster on the screen, with its center at the position passed."""
+        self.draw(screen, (pos[0]-self.sprite_size[0]//2, pos[1]-self.sprite_size[1]//2))
+        
+    def draw_standing(self, screen, pos):
+        """Draw the monster on the screen, with its bottom-center at the position passed."""
+        self.draw(screen, (pos[0]-self.sprite_size[0]//2, pos[1]-self.sprite_size[1]))
         
     def draw(self, screen, pos):
         """Draw the monster on the screen."""

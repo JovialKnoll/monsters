@@ -1,6 +1,6 @@
 import os, pygame, random
-from feelings import *
 from skin import *
+from feelings import *
 random.seed()
 class Monster(object):
     drv_max = 4
@@ -27,6 +27,8 @@ class Monster(object):
         self.stats[self.personality.stat] += 1
         self.stats.update(in_stats)
         
+        self.generateName()
+        
         self.skin = Skin.random(self.personality)
         #access the SkinTone with self.skin[self.lvl]
         self.sprite_groups = [random.choice(('A','B','C')) for x in range(5)]
@@ -34,6 +36,14 @@ class Monster(object):
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-head-'+self.sprite_groups[2]+'.png')), (0,0))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-legs-'+self.sprite_groups[3]+'.png')), (0,0))
         self.sprite.convert_alpha()
+        
+    def generateName(self):
+        """Generate a name for the monster."""
+        #stuff based on look and/or personality of monster?
+        #maybe based on just first face and personality...
+        #maybe only some syllables are based on one or more of those...
+        temp_name = "Bob"#placeholder line, definitely not done
+        self.name = temp_name
         
     def levelUp(self):
         """Level up a monster, setting stats, etc. as needed."""

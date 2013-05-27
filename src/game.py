@@ -24,6 +24,8 @@ class Game(object):
         self.test_mon = Monster()
         self.fill = [255, 255, 255]
         
+        self.current_conversation = False
+        
     def __del__(self):
         """End and delete things as needed."""
         pygame.quit()
@@ -45,7 +47,11 @@ class Game(object):
         
     def run(self):
         """Run the game, and check if the game needs to end."""
-        return self.running and self.input() and self.update() and self.draw() and self.time()
+        #an easy way to defer to other functions
+        if self.current_conversation:
+            return self.running and self.current_conversation.input() and self.current_conversation.update() and self.current_conversation.draw(self.screen) and self.time()
+            
+        return self.running and self.input() and self.update() and self.draw(self.screen) and self.time()
         
     def input(self):
         """Take inputs as needed."""
@@ -89,15 +95,17 @@ class Game(object):
         """Update things as needed."""
         return 1
         
-    def draw(self):
+    def draw(self, screen):
         """Draw things as needed."""
-        self.screen.fill(self.fill)
-        self.test_mon.draw_standing(self.screen, (160,114))
+        #clear of old draws
+        screen.fill(self.fill)
+        #make new draws
+        self.test_mon.draw_standing(screen, (160,114))
         #now scale onto display surface
         if not self.is_fullscreen:
-            pygame.transform.scale(self.screen, self.disp_res, self.disp_screen)
+            pygame.transform.scale(screen, self.disp_res, self.disp_screen)
         else:
-            pygame.transform.scale(self.screen, self.disp_res_max, self.full_screen)
+            pygame.transform.scale(screen, self.disp_res_max, self.full_screen)
             self.disp_screen.blit(self.full_screen, self.fullscreen_offset)
         pygame.display.flip()
         return 1

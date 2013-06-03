@@ -1,7 +1,7 @@
 style conventions for this project, feel free to make things fit this
 
-
+modules: lowercaseletters
 classes: UpperCamelCase
 methods: lowerCamelCase
 variables: lowercase_separated_by_underscores
-constants: CAPITALIZED_SEPARATED_BY_UNDERSCORES
+constants: UPPERCASE_SEPARATED_BY_UNDERSCORES

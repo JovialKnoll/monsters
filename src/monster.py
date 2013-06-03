@@ -68,11 +68,11 @@ class Monster(object):
         self.sprite.convert_alpha()
         return 1
         
-    def draw_centered(self, screen, pos):
+    def drawCentered(self, screen, pos):
         """Draw the monster on the screen, with its center at the position passed."""
         self.draw(screen, (pos[0]-self.sprite_size[0]//2, pos[1]-self.sprite_size[1]//2))
         
-    def draw_standing(self, screen, pos):
+    def drawStanding(self, screen, pos):
         """Draw the monster on the screen, with its bottom-center at the position passed."""
         self.draw(screen, (pos[0]-self.sprite_size[0]//2, pos[1]-self.sprite_size[1]))
         

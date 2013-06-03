@@ -9,13 +9,13 @@ class Game(object):
         
         pygame.mouse.set_visible(False)
         #set window icon/captions here...
-        self.res = (320,180)
-        self.screen = pygame.Surface(self.res)
+        self.RES = (320,180)
+        self.screen = pygame.Surface(self.RES)
         self.monitor_res = (pygame.display.Info().current_w,pygame.display.Info().current_h)
-        self.upscale_max = min(self.monitor_res[0]//self.res[0], self.monitor_res[1]//self.res[1])
+        self.upscale_max = min(self.monitor_res[0]//self.RES[0], self.monitor_res[1]//self.RES[1])
         self.upscale = self.upscale_max//2
-        self.disp_res_max = (self.res[0]*self.upscale_max, self.res[1]*self.upscale_max)
-        self.window_set(0)
+        self.disp_res_max = (self.RES[0]*self.upscale_max, self.RES[1]*self.upscale_max)
+        self.windowSet(0)
         self.fullscreen_offset = ((self.monitor_res[0]-self.disp_res_max[0])/2, (self.monitor_res[1]-self.disp_res_max[1])/2)
         self.full_screen = pygame.Surface(self.disp_res_max)
         
@@ -30,16 +30,16 @@ class Game(object):
         """End and delete things as needed."""
         pygame.quit()
         
-    def window_set(self, scale_change):
+    def windowSet(self, scale_change):
         self.upscale += scale_change
-        self.disp_res = (self.res[0]*self.upscale, self.res[1]*self.upscale)
+        self.disp_res = (self.RES[0]*self.upscale, self.RES[1]*self.upscale)
         if not sys.platform.startswith('freebsd') and not sys.platform.startswith('darwin'):
             os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % ((self.monitor_res[0]-self.disp_res[0])//2, (self.monitor_res[1]-self.disp_res[1])//2)
         self.disp_screen = pygame.display.set_mode(self.disp_res)
         self.screen.convert()
         self.is_fullscreen = False
         
-    def window_set_fullscreen(self):
+    def windowSetFullscreen(self):
         self.disp_screen = pygame.display.set_mode(self.monitor_res, pygame.FULLSCREEN)
         self.full_screen.convert()
         self.screen.convert(self.full_screen)
@@ -47,11 +47,7 @@ class Game(object):
         
     def run(self):
         """Run the game, and check if the game needs to end."""
-        #an easy way to defer to other functions
-        if self.current_conversation:
-            return self.running and self.current_conversation.input() and self.current_conversation.update() and self.current_conversation.draw(self.screen) and self.time()
-            
-        return self.running and self.input() and self.update() and self.draw(self.screen) and self.time()
+        return self.running and self.input() and self.update() and self.draw(self.screen) and self.scaleThings(self.screen) and self.time()
         
     def input(self):
         """Take inputs as needed."""
@@ -65,18 +61,18 @@ class Game(object):
                 if event.key == pygame.K_PAGEUP or event.key == pygame.K_PERIOD:
                     if self.upscale == self.upscale_max:
                         continue
-                    self.window_set(1)
+                    self.windowSet(1)
                     continue
                 if event.key == pygame.K_PAGEDOWN or event.key == pygame.K_COMMA:
                     if self.upscale == 1:
                         continue
-                    self.window_set(-1)
+                    self.windowSet(-1)
                     continue
                 if event.key == pygame.K_F11 or event.key == pygame.K_TAB:
                     if self.is_fullscreen:
-                        self.window_set(0)
+                        self.windowSet(0)
                     else:
-                        self.window_set_fullscreen()
+                        self.windowSetFullscreen()
                     continue
                 #test stuff
                 if event.key == pygame.K_SPACE:
@@ -100,7 +96,10 @@ class Game(object):
         #clear of old draws
         screen.fill(self.fill)
         #make new draws
-        self.test_mon.draw_standing(screen, (160,114))
+        self.test_mon.drawStanding(screen, (160,114))
+        return 1
+        
+    def scaleThings(self, screen):
         #now scale onto display surface
         if not self.is_fullscreen:
             pygame.transform.scale(screen, self.disp_res, self.disp_screen)

@@ -79,5 +79,4 @@ class Monster(object):
     def draw(self, screen, pos):
         """Draw the monster on the screen."""
         screen.blit(self.sprite, pos)
-        #just a test
         

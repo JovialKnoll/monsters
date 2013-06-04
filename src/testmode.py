@@ -43,3 +43,4 @@ class TestMode(GameMode):
         screen.fill(self.fill)
         #make new draws
         self.test_mon.drawStanding(screen, self.test_mon_pos)
+        

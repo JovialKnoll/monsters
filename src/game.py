@@ -1,4 +1,5 @@
 import pygame, os, sys
+from quitmode import *
 from testmode import *
 class Game(object):
     def __init__(self):
@@ -20,6 +21,7 @@ class Game(object):
         self.clock = pygame.time.Clock()
         
         self.shared_dict = {}
+        self.quit_mode = False
         self.current_mode = False
         
         #test stuff
@@ -46,16 +48,28 @@ class Game(object):
         self.screen.convert(self.full_screen)
         self.is_fullscreen = True
         
+    def saveGame(self):
+        """Save the game."""
+        pass#a blank function for now
+        
     def run(self):
         """Run the game, and check if the game needs to end."""
         if not self.running:
-            #put something here maybe, could ask "are you sure you want to quit", etc
-            if False:
-                self.running = True
-            else:
-                return False
+            return False
         self.event_list = self.filterInput()
-        if self.current_mode:
+        if self.quit_mode:
+            self.quit_mode.input(self.event_list)
+            self.quit_mode.update()
+            self.quit_mode.draw(self.screen)
+            if self.quit_mode.choice == 1:
+                self.quit_mode = False
+            elif self.quit_mode.choice == 2:
+                self.saveGame()
+                self.running = False
+            elif self.quit_mode.choice == 3:
+                self.running = False
+        
+        elif self.current_mode:
             self.current_mode.input(self.event_list)
             self.current_mode.update()
             self.current_mode.draw(self.screen)
@@ -76,11 +90,17 @@ class Game(object):
         As an example, game-ending or display-changing events should be handled before all others.
         """
         if event.type == pygame.QUIT:
-            self.running = False
+            if self.quit_mode:
+                self.running = False
+            else:
+                self.quit_mode = QuitMode(self.SCREEN_SIZE, self.shared_dict)
             return False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                self.running = False
+                if self.quit_mode:
+                    self.running = False
+                else:
+                    self.quit_mode = QuitMode(self.SCREEN_SIZE, self.shared_dict)
                 return False
             #Window re-sizing stuff
             elif event.key == pygame.K_PAGEUP or event.key == pygame.K_PERIOD:

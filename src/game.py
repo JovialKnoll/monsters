@@ -8,9 +8,9 @@ class Game(object):
         """Start and create things as needed."""
         pygame.init()
         self.running = True
-        pygame.mouse.set_visible(False)
+        #pygame.mouse.set_visible(False)
         #set window icon/captions here...
-        GameMode.shared = {'SCREEN_SIZE': (320,180), 'font': pygame.font.Font(os.path.join('gfx', 'simplefont.ttf'), 8)}
+        GameMode.shared = {'SCREEN_SIZE': (320,180), 'font': pygame.font.Font(os.path.join('gfx', 'simplefont.ttf'), 16)}
         #all children of GameMode can access the shared dictionary with self.shared
         self.screen = pygame.Surface(GameMode.shared['SCREEN_SIZE'])
         self.monitor_res = (pygame.display.Info().current_w,pygame.display.Info().current_h)
@@ -18,7 +18,7 @@ class Game(object):
         self.upscale = self.upscale_max//2
         self.disp_res_max = (GameMode.shared['SCREEN_SIZE'][0]*self.upscale_max, GameMode.shared['SCREEN_SIZE'][1]*self.upscale_max)
         self.windowSet(0)
-        self.fullscreen_offset = ((self.monitor_res[0]-self.disp_res_max[0])/2, (self.monitor_res[1]-self.disp_res_max[1])/2)
+        self.fullscreen_offset = ((self.monitor_res[0]-self.disp_res_max[0])//2, (self.monitor_res[1]-self.disp_res_max[1])//2)
         self.full_screen = pygame.Surface(self.disp_res_max)
         self.framerate = 60
         self.clock = pygame.time.Clock()

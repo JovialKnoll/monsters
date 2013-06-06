@@ -1,8 +1,8 @@
 from gamemode import *
 import pygame
 class QuitMode(GameMode):
-    def __init__(self, screen_size, shared_dict):
-        super(QuitMode, self).__init__(screen_size, shared_dict)
+    def __init__(self, shared):
+        super(QuitMode, self).__init__(shared)
         self.choice = 0#1:Continue, 2:Save & Quit, 3:Quit
         
     def input(self, event_list):

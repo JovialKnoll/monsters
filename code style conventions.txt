@@ -5,3 +5,7 @@ classes: UpperCamelCase
 methods: lowerCamelCase
 variables: lowercase_separated_by_underscores
 constants: UPPERCASE_SEPARATED_BY_UNDERSCORES
+
+strings: use single quotes (') for things acting as identifiers (example: dictionaries)
+use tripe double quotes for docstrings (""")
+use double quotes otherwise (")

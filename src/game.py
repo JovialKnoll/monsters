@@ -1,5 +1,7 @@
 import pygame, os, sys
+from gamemode import *
 from quitmode import *
+
 from testmode import *
 class Game(object):
     def __init__(self):
@@ -8,12 +10,13 @@ class Game(object):
         self.running = True
         pygame.mouse.set_visible(False)
         #set window icon/captions here...
-        self.shared = {'SCREEN_SIZE': (320,180)}
-        self.screen = pygame.Surface(self.shared['SCREEN_SIZE'])
+        GameMode.shared = {'SCREEN_SIZE': (320,180), 'font': pygame.font.Font(os.path.join('gfx', 'simplefont.ttf'), 8)}
+        #all children of GameMode can access the shared dictionary with self.shared
+        self.screen = pygame.Surface(GameMode.shared['SCREEN_SIZE'])
         self.monitor_res = (pygame.display.Info().current_w,pygame.display.Info().current_h)
-        self.upscale_max = min(self.monitor_res[0]//self.shared['SCREEN_SIZE'][0], self.monitor_res[1]//self.shared['SCREEN_SIZE'][1])
+        self.upscale_max = min(self.monitor_res[0]//GameMode.shared['SCREEN_SIZE'][0], self.monitor_res[1]//GameMode.shared['SCREEN_SIZE'][1])
         self.upscale = self.upscale_max//2
-        self.disp_res_max = (self.shared['SCREEN_SIZE'][0]*self.upscale_max, self.shared['SCREEN_SIZE'][1]*self.upscale_max)
+        self.disp_res_max = (GameMode.shared['SCREEN_SIZE'][0]*self.upscale_max, GameMode.shared['SCREEN_SIZE'][1]*self.upscale_max)
         self.windowSet(0)
         self.fullscreen_offset = ((self.monitor_res[0]-self.disp_res_max[0])/2, (self.monitor_res[1]-self.disp_res_max[1])/2)
         self.full_screen = pygame.Surface(self.disp_res_max)
@@ -24,7 +27,7 @@ class Game(object):
         self.current_mode = False
         
         #test stuff
-        self.current_mode = TestMode(self.shared)
+        self.current_mode = TestMode()
         
     def __del__(self):
         """End and delete things as needed."""
@@ -33,7 +36,7 @@ class Game(object):
     def windowSet(self, scale_change):
         """Set the window to a scale of upscale + scale_change."""
         self.upscale += scale_change
-        self.disp_res = (self.shared['SCREEN_SIZE'][0]*self.upscale, self.shared['SCREEN_SIZE'][1]*self.upscale)
+        self.disp_res = (GameMode.shared['SCREEN_SIZE'][0]*self.upscale, GameMode.shared['SCREEN_SIZE'][1]*self.upscale)
         if not sys.platform.startswith('freebsd') and not sys.platform.startswith('darwin'):
             os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % ((self.monitor_res[0]-self.disp_res[0])//2, (self.monitor_res[1]-self.disp_res[1])//2)
         self.disp_screen = pygame.display.set_mode(self.disp_res)
@@ -74,7 +77,7 @@ class Game(object):
             self.current_mode.draw(self.screen)
             if self.current_mode.done:
                 #might need to check some values here
-                #but probably not, b/c of shared
+                #but probably not, b/c of GameMode.shared
                 self.current_mode = False
         else:
             self.input(self.event_list)
@@ -92,14 +95,14 @@ class Game(object):
             if self.quit_mode:
                 self.running = False
             else:
-                self.quit_mode = QuitMode(self.shared)
+                self.quit_mode = QuitMode()
             return False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 if self.quit_mode:
                     self.running = False
                 else:
-                    self.quit_mode = QuitMode(self.shared)
+                    self.quit_mode = QuitMode()
                 return False
             #Window re-sizing stuff
             elif event.key == pygame.K_PAGEUP or event.key == pygame.K_PERIOD:

@@ -1,8 +1,8 @@
 from gamemode import *
 import pygame
 class QuitMode(GameMode):
-    def __init__(self, shared):
-        super(QuitMode, self).__init__(shared)
+    def __init__(self):
+        super(QuitMode, self).__init__()
         self.choice = 0#1:Continue, 2:Save & Quit, 3:Quit
         
     def input(self, event_list):
@@ -23,4 +23,5 @@ class QuitMode(GameMode):
     def draw(self, screen):
         #just to show that the game is 'paused', in quit mode, something better should be here later
         pygame.draw.rect(screen, (255, 15, 20), pygame.Rect(144, 36, 32, 18))
-        
+        #self.shared
+        print self.shared['SCREEN_SIZE']

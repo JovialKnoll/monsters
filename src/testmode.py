@@ -1,8 +1,8 @@
 from gamemode import *
 from monster import *
 class TestMode(GameMode):
-    def __init__(self, shared):
-        super(TestMode, self).__init__(screen_size, shared)
+    def __init__(self):
+        super(TestMode, self).__init__()
         self.fill = (255, 255, 255)
         self.test_mon = Monster()
         self.test_mon_pos = [160,114]

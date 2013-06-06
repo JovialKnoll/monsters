@@ -9,3 +9,6 @@ constants: UPPERCASE_SEPARATED_BY_UNDERSCORES
 strings: use single quotes (') for things acting as identifiers (example: dictionaries, file names)
 use tripe double quotes for docstrings (""")
 use double quotes otherwise (")
+
+definitions: place a blank line (same indentation as one above) after function definitions
+additional blank lines can be places for readability / structure

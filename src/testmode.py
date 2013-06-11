@@ -1,19 +1,21 @@
 from gamemode import *
 from monster import *
 class TestMode(GameMode):
+    def _createMonster(self):
+        self.test_mon = Monster()
+        self.test_mon_pos = [160,122]
+        
     def __init__(self):
         super(TestMode, self).__init__()
         self.fill = (255, 255, 255)
-        self.test_mon = Monster()
-        self.test_mon_pos = [160,114]
+        self._createMonster()
         self.move_dict = {'left': 0, 'right': 0, 'up': 0, 'down': 0}
         
     def input(self, event_list):
         for event in event_list:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    self.test_mon = Monster()
-                    self.test_mon_pos = [160,114]
+                    self._createMonster()
                 elif event.key == pygame.K_l:
                     self.test_mon.levelUp()
                 elif event.key == pygame.K_LEFT:

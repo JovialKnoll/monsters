@@ -1,4 +1,5 @@
 import pygame, os, sys
+from fontwrap import *
 from gamemode import *
 from quitmode import *
 
@@ -11,6 +12,7 @@ class Game(object):
         #pygame.mouse.set_visible(False)
         #set window icon/captions here...
         GameMode.shared = {'SCREEN_SIZE': (320,180), 'font': pygame.font.Font(os.path.join('gfx', 'simplefont.ttf'), 16)}
+        GameMode.shared['font_wrap'] = FontWrap(GameMode.shared['font'])
         #all children of GameMode can access the shared dictionary with self.shared
         self.screen = pygame.Surface(GameMode.shared['SCREEN_SIZE'])
         self.monitor_res = (pygame.display.Info().current_w,pygame.display.Info().current_h)

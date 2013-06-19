@@ -8,7 +8,7 @@ class QuitMode(GameMode):
         
     def input(self, event_list):
         #this chould be replaced with actually buttons maybe
-        #or at least the display should say what buttons to press
+        #or could also have actual buttons
         for event in event_list:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_c:
@@ -24,11 +24,11 @@ class QuitMode(GameMode):
     def draw(self, screen):
         #just to show that the game is 'paused', in quit mode, something better should be here later
         if self.just_made:
-            #pygame.draw.rect(screen, (255, 15, 20), pygame.Rect(144, 36, 32, 18))
             disp_text = "Options: Continue (C), Save & Quit (S), Quit (Q)"
             s_s = self.shared['SCREEN_SIZE']
             d_s = self.shared['font'].size(disp_text)
-            screen.blit(self.shared['font'].render(disp_text, False, (255,255,255), (0,0,0)), ((s_s[0] - d_s[0])//2, (s_s[1] - d_s[1])//2))
-            
+            dest = ((s_s[0] - d_s[0])//2, (s_s[1] - d_s[1])//2)
+            self.shared['font_wrap'].renderTo(screen, dest, disp_text, False, (255,255,255), (0,0,0))
+            #print self.shared['font'].size(disp_text)
             self.just_made = False
             

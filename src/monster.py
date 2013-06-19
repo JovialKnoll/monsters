@@ -21,7 +21,7 @@ class Monster(object):
         self.lvl = 0
         self.awr = 0
         self.personality = Personality.random()
-        self.mood = Mood.neutral
+        self.mood = Mood.neutral#mood might only be changed by and do stuff during battles / convos? maybe
         self.stats = {x: 4 for x in ('hpm', 'hpc', 'atk', 'def', 'spd')}
         self.stats['drv'] = Monster.drv_max//2
         self.stats[self.personality.stat] += 1

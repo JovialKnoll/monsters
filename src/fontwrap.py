@@ -50,7 +50,9 @@ class FontWrap(object):
         imgs = []
         for line in [line.split() for line in text.splitlines()]:
             if line == []:
-                imgs.append(self.renderWordsInside(width, [""], antialias, color, background))
+                line = [""]
+            if background is None:
+                imgs.append(self.renderWordsInside(width, line, antialias, color))
             else:
                 imgs.append(self.renderWordsInside(width, line, antialias, color, background))
             height += imgs[-1].get_height()

@@ -7,6 +7,10 @@ class FontWrap(object):
     def renderTo(self, surf, dest, text, antialias, color, background=None):
         surf.blit(self.font.render(text, antialias, color, background), dest)
         
+    def renderToCentered(self, surf, dest, text, antialias, color, background=None):
+        text_size = self.font.size(text)
+        surf.blit(self.font.render(text, antialias, color, background), (dest[0] - text_size[0]//2, dest[1] - text_size[1]//2))
+        
     def renderWordsInside(self, width, words, antialias, color, background=None):
         """Returns a surface of the width with the words drawn on it.
         If any word is too long to fit, it will be in its own line, and truncated.

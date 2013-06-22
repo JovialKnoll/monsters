@@ -24,11 +24,7 @@ class QuitMode(GameMode):
     def draw(self, screen):
         #just to show that the game is 'paused', in quit mode, something better should be here later
         if self.just_made:
-            disp_text = "Options: Continue (C), Save & Quit (S), Quit (Q)"
-            s_s = self.shared['SCREEN_SIZE']
-            d_s = self.shared['font'].size(disp_text)
-            dest = ((s_s[0] - d_s[0])//2, (s_s[1] - d_s[1])//2)
-            self.shared['font_wrap'].renderTo(screen, dest, disp_text, False, (255,255,255), (0,0,0))
-            #print self.shared['font'].size(disp_text)
+            disp_text = "Options:\nContinue (C),\nSave & Quit (S),\nQuit (Q)"
+            self.shared['font_wrap'].renderToInside(screen, (0,0), 16 * 8, disp_text, False, (255,255,255), (0,0,0))
             self.just_made = False
             

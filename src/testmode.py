@@ -11,7 +11,7 @@ class TestMode(GameMode):
         self._createMonster()
         self.move_dict = {'left': 0, 'right': 0, 'up': 0, 'down': 0}
         self.test_text = "\
-        OOOOOOOOOOOOOOOOOOOOOO\n\
+        01234567890123456789\n\
         OOOOOOOOOOOOOOOOOOOOO\n\
         OOOOOOOOOOOOOOOOOOOO\n\
         OOOOOOOOOOOOOOOOOOO\n\

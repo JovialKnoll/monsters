@@ -46,6 +46,8 @@ class TestMode(GameMode):
                     self.move_dict['up'] = 0
                 elif event.key == pygame.K_DOWN:
                     self.move_dict['down'] = 0
+            elif event.type == pygame.MOUSEMOTION:
+                self.test_mon_pos = list(event.pos)
                     
     def update(self):
         self.test_mon_pos[0] += self.move_dict['right'] - self.move_dict['left']

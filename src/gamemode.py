@@ -7,11 +7,11 @@ class GameMode(object):
         self.done = False
         
     def input(self, event_list):
-        raise NotImplementedError("Implement: input.")
+        raise NotImplementedError("Implement: GameMode.input.")
         
     def update(self):
-        raise NotImplementedError("Implement: update.")
+        raise NotImplementedError("Implement: GameMode.update.")
         
     def draw(self, screen):
-        raise NotImplementedError("Implement: draw.")
+        raise NotImplementedError("Implement: GameMode.draw.")
         

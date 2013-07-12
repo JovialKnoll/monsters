@@ -129,11 +129,14 @@ class Game(object):
             try:
                 if self.is_fullscreen:
                     event.pos = (event.pos[0]//self.upscale_max, event.pos[1]//self.upscale_max)
+                    #still needs work, b/c there may be borders
                 else:
                     event.pos = (event.pos[0]//self.upscale, event.pos[1]//self.upscale)
             except AttributeError:
                 print "\nAttributeError caught:\nEvent data as follows:"
                 print event
+                print "And self.upscale is:"
+                print self.upscale
         return event
         
     def _filterInput(self, events):

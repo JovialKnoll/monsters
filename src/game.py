@@ -127,6 +127,11 @@ class Game(object):
         """Scale mouse position for events in terms of the screen (as opposed to the display surface)."""
         if event.type == pygame.MOUSEMOTION or event.type == pygame.MOUSEBUTTONUP or event.type == pygame.MOUSEBUTTONDOWN:
             try:
+                print event.pos
+            except AttributeError:
+                print "\nAttributeError caught:\nEvent data as follows:"
+                print event
+            """try:
                 if self.is_fullscreen:
                     event.pos = (event.pos[0]//self.upscale_max, event.pos[1]//self.upscale_max)
                     #still needs work, b/c there may be borders
@@ -136,7 +141,7 @@ class Game(object):
                 print "\nAttributeError caught:\nEvent data as follows:"
                 print event
                 print "And self.upscale is:"
-                print self.upscale
+                print self.upscale"""
         return event
         
     def _filterInput(self, events):

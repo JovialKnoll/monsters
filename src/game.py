@@ -4,6 +4,7 @@ from gamemode import *
 from quitmode import *
 
 from testmode import *
+from convomode0 import *
 class Game(object):
     def __init__(self):
         """Start and create things as needed."""
@@ -19,7 +20,7 @@ class Game(object):
         self.upscale_max = min(self.monitor_res[0]//GameMode.shared['SCREEN_SIZE'][0], self.monitor_res[1]//GameMode.shared['SCREEN_SIZE'][1])
         self.upscale = self.upscale_max//2
         self.disp_res_max = (GameMode.shared['SCREEN_SIZE'][0]*self.upscale_max, GameMode.shared['SCREEN_SIZE'][1]*self.upscale_max)
-        self.windowSet(0)
+        self._windowSet(0)
         self.fullscreen_offset = ((self.monitor_res[0]-self.disp_res_max[0])//2, (self.monitor_res[1]-self.disp_res_max[1])//2)
         self.full_screen = pygame.Surface(self.disp_res_max)
         self.framerate = 60
@@ -29,13 +30,14 @@ class Game(object):
         self.current_mode = False
         
         #test stuff
-        self.current_mode = TestMode()
+        #self.current_mode = TestMode()
+        self.current_mode = ConvoMode0()
         
     def __del__(self):
         """End and delete things as needed."""
         pygame.quit()
         
-    def windowSet(self, scale_change):
+    def _windowSet(self, scale_change):
         """Set the window to a scale of upscale + scale_change."""
         self.upscale += scale_change
         self.disp_res = (GameMode.shared['SCREEN_SIZE'][0]*self.upscale, GameMode.shared['SCREEN_SIZE'][1]*self.upscale)
@@ -109,15 +111,15 @@ class Game(object):
             #Window re-sizing stuff
             elif event.key == pygame.K_PAGEUP or event.key == pygame.K_PERIOD:
                 if self.upscale < self.upscale_max:
-                    self.windowSet(1)
+                    self._windowSet(1)
                 return False
             elif event.key == pygame.K_PAGEDOWN or event.key == pygame.K_COMMA:
                 if self.upscale > 1:
-                    self.windowSet(-1)
+                    self._windowSet(-1)
                 return False
             elif event.key == pygame.K_F11 or event.key == pygame.K_TAB:
                 if self.is_fullscreen:
-                    self.windowSet(0)
+                    self._windowSet(0)
                 else:
                     self._windowSetFullscreen()
                 return False

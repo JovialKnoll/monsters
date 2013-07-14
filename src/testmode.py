@@ -60,7 +60,6 @@ class TestMode(GameMode):
         self.test_mon.drawStanding(screen, self.test_mon_pos)
         self.shared['font_wrap'].renderToInside(screen, (0,0), self.shared['SCREEN_SIZE'][0]//2, self.test_text, False, (0,0,0), (255,255,255))
         self.shared['font_wrap'].renderToInside(screen, (self.shared['SCREEN_SIZE'][0]//2,0), self.shared['SCREEN_SIZE'][0]//2, "Lorem", False, (255,0,0))
-        
-        screen.blit(self.shared['font_wrap'].renderInside(self.shared['SCREEN_SIZE'][0]//2, self.test_text, False, (0,0,0), (255,255,255)), (0,0))
-        screen.blit(self.shared['font_wrap'].renderInside(self.shared['SCREEN_SIZE'][0]//2, "Lorem", False, (255,0,0)), (self.shared['SCREEN_SIZE'][0]//2,0))
+        #screen.blit(self.shared['font_wrap'].renderInside(self.shared['SCREEN_SIZE'][0]//2, self.test_text, False, (0,0,0), (255,255,255)), (0,0))
+        #screen.blit(self.shared['font_wrap'].renderInside(self.shared['SCREEN_SIZE'][0]//2, "Lorem", False, (255,0,0)), (self.shared['SCREEN_SIZE'][0]//2,0))
         

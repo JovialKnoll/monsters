@@ -1,8 +1,9 @@
 from convomode import *
-
+from testmode import *
 class ConvoMode0(ConvoMode):
     def _goButton0(self):
         print "Button 0 was pressed."
+        self.next_mode = TestMode()
     def _goButton1(self):
         print "Really anything can happen here."
     def _goButton2(self):
@@ -21,10 +22,10 @@ class ConvoMode0(ConvoMode):
             "c\n" + \
             "d\n" + \
             "e\n"
-        self.text0 = "Excited!"
+        self.text0 = "Go, to TestMode!"
         self.text1 = "012345678 012345678"
         self.text2 = "Content~"
-        self.text3 = "Fourth button?"
+        self.text3 = "Excited!"
         
     #__init__ need not be implemented unless adding things
     #if adding things to init, should start as below

@@ -74,15 +74,14 @@ class Game(object):
                 self.running = False
             elif self.quit_mode.choice == 3:
                 self.running = False
-        
+                
         elif self.current_mode:
             self.current_mode.input(self.event_list)
             self.current_mode.update()
             self.current_mode.draw(self.screen)
-            if self.current_mode.done:
-                #might need to check some values here
-                #but probably not, b/c of GameMode.shared
-                self.current_mode = False
+            if self.current_mode.next_mode != False:
+                self.current_mode = self.current_mode.next_mode
+                
         else:
             self._input(self.event_list)
             self._update()

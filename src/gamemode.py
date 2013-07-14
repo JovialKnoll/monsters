@@ -3,8 +3,8 @@ class GameMode(object):
     Children of this should implement input, update, and draw.
     """
     def __init__(self):
-        """All game modes must when they are done.be aware of the shared dictionary."""
-        self.done = False
+        """All game modes must when they are done, and set the next mode."""
+        self.next_mode = False
         
     def input(self, event_list):
         raise NotImplementedError(self.__class__.__name__ + ".input(self, event_list)")

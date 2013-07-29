@@ -1,4 +1,5 @@
 import pygame, os, sys
+from monster import *
 from fontwrap import *
 from gamemode import *
 from quitmode import *
@@ -12,9 +13,12 @@ class Game(object):
         self.running = True
         #pygame.mouse.set_visible(False)
         #set window icon/captions here...
-        GameMode.shared = {'SCREEN_SIZE': (320,180), 'font': pygame.font.Font(os.path.join('gfx', 'simple_mono.ttf'), 8)}
+        GameMode.shared = {\
+            'SCREEN_SIZE': (320,180),\
+            'font': pygame.font.Font(os.path.join('gfx', 'simple_mono.ttf'), 8)}
         GameMode.shared['font_wrap'] = FontWrap(GameMode.shared['font'])
         #all children of GameMode can access the shared dictionary with self.shared
+        
         self.screen = pygame.Surface(GameMode.shared['SCREEN_SIZE'])
         self.monitor_res = (pygame.display.Info().current_w,pygame.display.Info().current_h)
         self.upscale_max = min(self.monitor_res[0]//GameMode.shared['SCREEN_SIZE'][0], self.monitor_res[1]//GameMode.shared['SCREEN_SIZE'][1])
@@ -23,8 +27,11 @@ class Game(object):
         self._windowSet(0)
         self.fullscreen_offset = ((self.monitor_res[0]-self.disp_res_max[0])//2, (self.monitor_res[1]-self.disp_res_max[1])//2)
         self.full_screen = pygame.Surface(self.disp_res_max)
+        
         self.framerate = 60
         self.clock = pygame.time.Clock()
+        
+        GameMode.shared['protag_mon'] = Monster()
         
         self.quit_mode = False
         self.current_mode = False

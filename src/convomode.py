@@ -37,6 +37,10 @@ class ConvoMode(GameMode):
     black_box = pygame.image.load(os.path.join('gfx', 'backgrounds', 'blackbox.png'))
     converted = False
     
+    def _setText(self):
+        #set self.text, and self.text0 through 3
+        raise NotImplementedError(self.__class__.__name__ + "._setText(self)")
+        
     def _goButton0(self):
         raise NotImplementedError(self.__class__.__name__ + "._goButton0(self)")
         
@@ -48,10 +52,6 @@ class ConvoMode(GameMode):
         
     def _goButton3(self):
         raise NotImplementedError(self.__class__.__name__ + "._goButton3(self)")
-        
-    def _setText(self):
-        #set self.text, and self.text0 through 3
-        raise NotImplementedError(self.__class__.__name__ + "._setText(self)")
         
     def _readyText(self):
         #hopefully I don't have to do anything funky to access the child class' version of this function

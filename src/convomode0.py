@@ -1,16 +1,6 @@
-from convomode import *
+from monconvomode import *
 from testmode import *
-class ConvoMode0(ConvoMode):
-    def _goButton0(self):
-        print "Button 0 was pressed."
-        self.next_mode = TestMode()
-    def _goButton1(self):
-        print "Really anything can happen here."
-    def _goButton2(self):
-        print "The main thing would be to have pressing a button set variables."
-    def _goButton3(self):
-        print "The other main thing would be to have pressing a button change the mode.\n" + \
-            "It could set variables and then change the mode."
+class ConvoMode0(MonConvoMode):
     def _setText(self):
         self.text = "Scrolling is enabled!\n" + \
             "Try pressing the arrow keys!\n" + \
@@ -26,7 +16,16 @@ class ConvoMode0(ConvoMode):
         self.text1 = "012345678 012345678"
         self.text2 = "Content~"
         self.text3 = "Excited!"
-        
+    def _goButton0(self):
+        print "Button 0 was pressed."
+        self.next_mode = TestMode()
+    def _goButton1(self):
+        print "Really anything can happen here."
+    def _goButton2(self):
+        print "The main thing would be to have pressing a button set variables."
+    def _goButton3(self):
+        print "The other main thing would be to have pressing a button change the mode.\n" + \
+            "It could set variables and then change the mode."
     #__init__ need not be implemented unless adding things
     #if adding things to init, should start as below
     #def __init__(self):

@@ -2,7 +2,7 @@ from gamemode import *
 from monster import *
 class TestMode(GameMode):
     def _createMonster(self):
-        self.test_mon = Monster()
+        self.shared['protag_mon'] = Monster()
         self.test_mon_pos = [160,122]
         
     def __init__(self):
@@ -10,17 +10,7 @@ class TestMode(GameMode):
         self.fill = (0, 200, 0)
         self._createMonster()
         self.move_dict = {'left': 0, 'right': 0, 'up': 0, 'down': 0}
-        self.test_text = "\
-        01234567890123456789\n\
-        OOOOOOOOOOOOOOOOOOOOO\n\
-        OOOOOOOOOOOOOOOOOOOO\n\
-        OOOOOOOOOOOOOOOOOOO\n\
-        sit amet, consectetur\n\
-        adipisicing elit, sed do\n\
-        eiusmod tempor incididunt ut labore\n\
-        et dolore magna aliqua. Ut enim\n\
-        ad minim veniam, quis nostrud exercitation ullamco\n\
-        laboris nisi ut aliquip ex ea commodo consequat."
+        self.test_text = "01234567890123456789"
         
     def input(self, event_list):
         for event in event_list:
@@ -28,7 +18,7 @@ class TestMode(GameMode):
                 if event.key == pygame.K_SPACE:
                     self._createMonster()
                 elif event.key == pygame.K_l:
-                    self.test_mon.levelUp()
+                    self.shared['protag_mon'].levelUp()
                 elif event.key == pygame.K_LEFT:
                     self.move_dict['left'] = 1
                 elif event.key == pygame.K_RIGHT:
@@ -57,7 +47,7 @@ class TestMode(GameMode):
         #clear of old draws
         screen.fill(self.fill)
         #make new draws
-        self.test_mon.drawStanding(screen, self.test_mon_pos)
+        self.shared['protag_mon'].drawStanding(screen, self.test_mon_pos)
         self.shared['font_wrap'].renderToInside(screen, (0,0), self.shared['SCREEN_SIZE'][0]//2, self.test_text, False, (0,0,0), (255,255,255))
         self.shared['font_wrap'].renderToInside(screen, (self.shared['SCREEN_SIZE'][0]//2,0), self.shared['SCREEN_SIZE'][0]//2, "Lorem", False, (255,0,0))
         #screen.blit(self.shared['font_wrap'].renderInside(self.shared['SCREEN_SIZE'][0]//2, self.test_text, False, (0,0,0), (255,255,255)), (0,0))

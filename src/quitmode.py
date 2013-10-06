@@ -10,12 +10,14 @@ class QuitMode(GameMode):
         #this chould be replaced with actually buttons maybe
         #or could also have actual buttons
         for event in event_list:
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.QUIT:
+                self.choice = 3
+            elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_c:
                     self.choice = 1
                 if event.key == pygame.K_s:
                     self.choice = 2
-                if event.key == pygame.K_q:
+                if event.key in (pygame.K_q, pygame.K_ESCAPE):
                     self.choice = 3
                     
     def update(self):

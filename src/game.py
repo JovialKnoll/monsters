@@ -69,9 +69,9 @@ class Game(object):
         """Run the game, and check if the game needs to end."""
         if not self.running:
             return False
-        self.event_list = self._filterInput(pygame.event.get())
+        event_list = self._filterInput(pygame.event.get())
         if self.quit_mode:
-            self.quit_mode.input(self.event_list)
+            self.quit_mode.input(event_list)
             self.quit_mode.update()
             self.quit_mode.draw(self.screen)
             if self.quit_mode.choice == 1:
@@ -83,19 +83,23 @@ class Game(object):
                 self.running = False
                 
         elif self.current_mode:
-            self.current_mode.input(self.event_list)
+            self.current_mode.input(event_list)
             self.current_mode.update()
             self.current_mode.draw(self.screen)
             if self.current_mode.next_mode != False:
                 self.current_mode = self.current_mode.next_mode
                 
         else:
-            self._input(self.event_list)
+            self._input(event_list)
             self._update()
             self._draw(self.screen)
         self._scaleThings()
         self._time()
         return True
+        
+    def _filterInput(self, events):
+        """Take care of input that game modes should not take care of."""
+        return map(self._scaleMouseInput, filter(self._stillNeedsHandling, events))
         
     def _stillNeedsHandling(self, event):
         """If event should be handled before all others, handle it and return False, otherwise return True.
@@ -103,27 +107,25 @@ class Game(object):
         """
         if event.type == pygame.QUIT:
             if self.quit_mode:
-                self.running = False
-            else:
-                self.quit_mode = QuitMode()
+                return True
+            self.quit_mode = QuitMode()
             return False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 if self.quit_mode:
-                    self.running = False
-                else:
-                    self.quit_mode = QuitMode()
+                    return True
+                self.quit_mode = QuitMode()
                 return False
             #Window re-sizing stuff
-            elif event.key == pygame.K_PAGEUP or event.key == pygame.K_PERIOD:
+            elif event.key in (pygame.K_PAGEUP, pygame.K_PERIOD):
                 if self.upscale < self.upscale_max:
                     self._windowSet(1)
                 return False
-            elif event.key == pygame.K_PAGEDOWN or event.key == pygame.K_COMMA:
+            elif event.key in (pygame.K_PAGEDOWN, pygame.K_COMMA):
                 if self.upscale > 1:
                     self._windowSet(-1)
                 return False
-            elif event.key == pygame.K_F11 or event.key == pygame.K_TAB:
+            elif event.key in (pygame.K_F11, pygame.K_TAB):
                 if self.is_fullscreen:
                     self._windowSet(0)
                 else:
@@ -133,9 +135,9 @@ class Game(object):
         
     def _scaleMouseInput(self, event):
         """Scale mouse position for events in terms of the screen (as opposed to the display surface)."""
-        if event.type == pygame.MOUSEMOTION or event.type == pygame.MOUSEBUTTONUP or event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONUP, pygame.MOUSEBUTTONDOWN):
             if self.is_fullscreen:
-                event_dict = {'pos': ((event.pos[0]-self.fullscreen_offset[0])//self.upscale_max, (event.pos[1]-self.fullscreen_offset[1])//self.upscale_max)}#good?
+                event_dict = {'pos': ((event.pos[0]-self.fullscreen_offset[0])//self.upscale_max, (event.pos[1]-self.fullscreen_offset[1])//self.upscale_max)}
             else:
                 event_dict = {'pos': (event.pos[0]//self.upscale, event.pos[1]//self.upscale)}
             if event.type == pygame.MOUSEMOTION:
@@ -145,10 +147,6 @@ class Game(object):
                 event_dict['button'] = event.button
             return pygame.event.Event(event.type, event_dict)
         return event
-        
-    def _filterInput(self, events):
-        """Take care of input that game modes should not take care of."""
-        return map(self._scaleMouseInput, filter(self._stillNeedsHandling, events))
         
     def _input(self, event_list):
         """Take inputs as needed."""
@@ -173,6 +171,6 @@ class Game(object):
         
     def _time(self):
         """Take care of time stuff."""
-        pygame.display.set_caption(str(self.clock.get_fps()))
+        pygame.display.set_caption(str(self.clock.get_fps()))#just for debugging purposes
         self.clock.tick(self.framerate)
         

@@ -2,11 +2,11 @@ import os, pygame
 from gamemode import *
 class ConvoMode(GameMode):
     class ConvoBoxes(object):
-        top_left = pygame.Rect(8,88,88,36)
-        top_right = pygame.Rect(224,88,88,36)
-        bottom_left = pygame.Rect(8,132,88,36)
-        bottom_right = pygame.Rect(224,132,88,36)
-        elsewhere = pygame.Rect(0,0,320,180)
+        top_left     = pygame.Rect(  8, 88, 88, 36)
+        top_right    = pygame.Rect(224, 88, 88, 36)
+        bottom_left  = pygame.Rect(  8,132, 88, 36)
+        bottom_right = pygame.Rect(224,132, 88, 36)
+        elsewhere    = pygame.Rect(  0,  0,320,180)
         
         @classmethod
         def boxIn(cls, box, pos):
@@ -24,13 +24,13 @@ class ConvoMode(GameMode):
         @classmethod
         def boxKey(cls, box, key):
             """Return a rectangle based on the current rectangle and the key pressed."""
-            if (box == cls.top_right and key == pygame.K_LEFT) or (box == cls.bottom_right and key == pygame.K_RIGHT):
+            if (box, key) in ((cls.top_right, pygame.K_LEFT), (cls.bottom_right, pygame.K_RIGHT)):
                 return cls.top_left
-            if (box == cls.bottom_left and key == pygame.K_LEFT) or (box == cls.top_left and key == pygame.K_RIGHT):
+            if (box, key) in ((cls.bottom_left, pygame.K_LEFT), (cls.top_left, pygame.K_RIGHT)):
                 return cls.top_right
-            if (box == cls.bottom_right and key == pygame.K_LEFT) or (box == cls.top_right and key == pygame.K_RIGHT):
+            if (box, key) in ((cls.bottom_right, pygame.K_LEFT), (cls.top_right, pygame.K_RIGHT)):
                 return cls.bottom_left
-            if (box == cls.top_left and key == pygame.K_LEFT) or (box == cls.bottom_left and key == pygame.K_RIGHT):
+            if (box, key) in ((cls.top_left, pygame.K_LEFT), (cls.bottom_left, pygame.K_RIGHT)):
                 return cls.bottom_right
             return box
             
@@ -54,16 +54,15 @@ class ConvoMode(GameMode):
         raise NotImplementedError(self.__class__.__name__ + "._goButton3(self)")
         
     def _readyText(self):
-        #hopefully I don't have to do anything funky to access the child class' version of this function
         self._setText()
         #mainly, make the surfaces based on the text for view and buttons, fitting some criteria
         self.surf_text = self.shared['font_wrap'].renderInside(288, self.text, False, (164, 162, 165))
         self.surf_rect = self.surf_text.get_rect()
         self.text_rect = pygame.Rect(0,0,288,48)
         self.text_rect.clamp_ip(self.surf_rect)
-        self.shared['font_wrap'].renderToInside(self.background, (16,96), 72, self.text0, False, (164, 162, 165))
-        self.shared['font_wrap'].renderToInside(self.background, (232,96), 72, self.text1, False, (164, 162, 165))
-        self.shared['font_wrap'].renderToInside(self.background, (16,140), 72, self.text2, False, (164, 162, 165))
+        self.shared['font_wrap'].renderToInside(self.background, ( 16, 96), 72, self.text0, False, (164, 162, 165))
+        self.shared['font_wrap'].renderToInside(self.background, (232, 96), 72, self.text1, False, (164, 162, 165))
+        self.shared['font_wrap'].renderToInside(self.background, ( 16,140), 72, self.text2, False, (164, 162, 165))
         self.shared['font_wrap'].renderToInside(self.background, (232,140), 72, self.text3, False, (164, 162, 165))
         
     def __init__(self):
@@ -103,10 +102,8 @@ class ConvoMode(GameMode):
                         self._buttonPress()
                 elif event.button == 4:
                     self.text_rect.move_ip(0, -10)
-                    self.text_rect.clamp_ip(self.surf_rect)
                 elif event.button == 5:
                     self.text_rect.move_ip(0, 10)
-                    self.text_rect.clamp_ip(self.surf_rect)
                     
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
@@ -125,6 +122,7 @@ class ConvoMode(GameMode):
                     
     def update(self):
         self.text_rect.move_ip(0, self.y_scroll['down'] - self.y_scroll['up'])
+        
         self.text_rect.clamp_ip(self.surf_rect)
         
     def draw(self, screen):

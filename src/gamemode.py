@@ -3,7 +3,7 @@ class GameMode(object):
     Children of this should implement input, update, and draw.
     """
     def __init__(self):
-        """All game modes must when they are done, and set the next mode."""
+        """All game modes must know when they are done, and set the next mode."""
         self.next_mode = False
         
     def input(self, event_list):

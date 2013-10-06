@@ -1,0 +1,3 @@
+
+lower priority:
+	scroll slider thingy for convomode.py, click-and-drag-able

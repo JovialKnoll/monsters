@@ -1,8 +1,8 @@
 from monconvomode import *
 from testmode import *
 class ConvoMode0(MonConvoMode):
-    def _setText(self):
-        self.text = "Scrolling is enabled!\n" + \
+    def _textMain(self):
+        return "Scrolling is enabled!\n" + \
             "Try pressing the arrow keys!\n" + \
             "Up and down to scroll, left and right to select.\n" + \
             "This is the test conversation section.\n" + \
@@ -12,10 +12,14 @@ class ConvoMode0(MonConvoMode):
             "c\n" + \
             "d\n" + \
             "e\n"
-        self.text0 = "Go, to TestMode!"
-        self.text1 = "012345678 012345678"
-        self.text2 = "Content~"
-        self.text3 = "Excited!"
+    def _textButton0(self):
+        return "Go, to TestMode!"
+    def _textButton1(self):
+        return "012345678 012345678"
+    def _textButton2(self):
+        return "Content~"
+    def _textButton3(self):
+        return "Excited!"
     def _goButton0(self):
         print "Button 0 was pressed."
         self.next_mode = TestMode()

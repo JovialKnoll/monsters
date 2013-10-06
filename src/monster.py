@@ -19,20 +19,23 @@ class Monster(object):
         """Create a new monster, setting stats, etc. as needed."""
         self.sprite_size = (48,48)
         self.lvl = 0
-        self.awr = 0
+        self.awr = 0#awareness, this is a thing for conversations / progress through the game
+        #it might make more sense to hold info for conversations flow in GameMode.shared, but I'm not sure
+        #depends on how this number interacts with monster stuff
         self.personality = Personality.random()
         self.mood = Mood.neutral#mood might only be changed by and do stuff during battles / convos? maybe
-        self.stats = {x: 4 for x in ('hpm', 'hpc', 'atk', 'def', 'spd')}
+        self.stats = {x: 4 for x in ('hpm', 'atk', 'def', 'spd')}
         self.stats['drv'] = Monster.drv_max//2
         self.stats[self.personality.stat] += 1
+        self.stats['hpc'] = self.stats['hpm']
         self.stats.update(in_stats)
         
-        self._generateName()
+        self.name = self._generateName()
         
         self.skin = Skin.random(self.personality)
         #access the SkinTone with self.skin[self.lvl]
         self.sprite_groups = [random.choice(('A','B','C')) for x in range(5)]
-        self.sprite = pygame.image.load(os.path.join(Monster.sprite_path, '0-body-'+self.sprite_groups[1]+'.png'))
+        self.sprite =    pygame.image.load(os.path.join(Monster.sprite_path, '0-body-'+self.sprite_groups[1]+'.png'))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-head-'+self.sprite_groups[2]+'.png')), (0,0))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-legs-'+self.sprite_groups[3]+'.png')), (0,0))
         
@@ -43,11 +46,19 @@ class Monster(object):
         
     def _generateName(self):
         """Generate a name for the monster."""
-        #stuff based on look and/or personality of monster?
-        #maybe based on just first face and personality...
-        #maybe only some syllables are based on one or more of those...
-        temp_name = "Bob"#placeholder line, definitely not done
-        self.name = temp_name
+        #fill in with unique syllables
+        if self.personality in (Personality.Affectionate, Personality.Careful):
+            temp_name = random.choice(("0-0","0-1","0-2","0-3","0-4"))
+        elif self.personality in (Personality.Aggressive, Personality.Energetic):
+            temp_name = random.choice(("0-5","0-6","0-7","0-8","0-9"))
+        temp_name += random.choice({
+            Personality.Affectionate: ( "/1-0/", "/1-1/", "/1-2/", "/1-3/"),
+            Personality.Careful:      ( "/1-4/", "/1-5/", "/1-6/", "/1-7/"),
+            Personality.Aggressive:   ( "/1-8/", "/1-9/","/1-10/","/1-11/"),
+            Personality.Energetic:    ("/1-12/","/1-13/","/1-14/","/1-15/")
+            }[self.personality])
+        temp_name += random.choice(("2-0","2-1","2-2","2-3","2-4","2-5","2-6","2-7","2-8"))
+        return temp_name
         
     def levelUp(self):
         """Level up a monster, setting stats, etc. as needed."""

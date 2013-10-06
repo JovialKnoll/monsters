@@ -7,7 +7,7 @@ class QuitMode(GameMode):
         self.just_made = True
         
     def input(self, event_list):
-        #this chould be replaced with actually buttons maybe
+        #this could be replaced with actually buttons maybe
         #or could also have actual buttons
         for event in event_list:
             if event.type == pygame.QUIT:

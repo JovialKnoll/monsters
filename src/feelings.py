@@ -20,7 +20,7 @@ class Personality(object):
         return random.choice((cls.Affectionate, cls.Aggressive, cls.Careful, cls.Energetic))
         
 class Mood(object):
-    #So instead of useing numbers/strings/whatever for moods, just use Mood.the_mood
+    #So instead of using numbers/strings/whatever for moods, just use Mood.the_mood
     #This way, if something is mistyped or whatever we will get an error, useful.
     neutral = 0
     bored = 1

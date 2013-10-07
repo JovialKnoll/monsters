@@ -47,6 +47,9 @@ class Monster(object):
     def _generateName(self):
         """Generate a name for the monster."""
         #fill in with unique syllables
+        #ga, wa, la
+        #qu, ji, te, vi, va, ye, lo, em
+        #ba, shi, ru, na, ka, can, ta
         if self.personality in (Personality.Affectionate, Personality.Careful):
             temp_name = random.choice(("0-0","0-1","0-2","0-3","0-4"))
         elif self.personality in (Personality.Aggressive, Personality.Energetic):

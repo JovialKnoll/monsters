@@ -51,15 +51,9 @@ class Monster(object):
         #qu, ji, te, vi, va, ye, lo, em
         #ba, shi, ru, na, ka, can, ta
         if self.personality in (Personality.Affectionate, Personality.Careful):
-            temp_name = random.choice(("0-0","0-1","0-2","0-3","0-4"))
+            temp_name = random.choice(("0-0","0-1","0-2","0-3","0-4")) + random.choice(("/1-0/","/1-1/","/1-2/","/1-3/","/1-4/"))
         elif self.personality in (Personality.Aggressive, Personality.Energetic):
-            temp_name = random.choice(("0-5","0-6","0-7","0-8","0-9"))
-        temp_name += random.choice({
-            Personality.Affectionate: ( "/1-0/", "/1-1/", "/1-2/", "/1-3/"),
-            Personality.Careful:      ( "/1-4/", "/1-5/", "/1-6/", "/1-7/"),
-            Personality.Aggressive:   ( "/1-8/", "/1-9/","/1-10/","/1-11/"),
-            Personality.Energetic:    ("/1-12/","/1-13/","/1-14/","/1-15/")
-            }[self.personality])
+            temp_name = random.choice(("0-5","0-6","0-7","0-8","0-9")) + random.choice(("/1-5/","/1-6/","/1-7/","/1-8/","/1-9/"))
         temp_name += random.choice(("2-0","2-1","2-2","2-3","2-4","2-5","2-6","2-7","2-8"))
         return temp_name
         

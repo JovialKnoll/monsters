@@ -1,0 +1,2 @@
+for i in range(32):
+	print random.choice(("q","w","r","t","y","p","s","d","f","g","h","j","k","l","z","x","c","v","b","n","m"))+random.choice(("a","e","i","o","u"))

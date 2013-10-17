@@ -49,10 +49,9 @@ class Monster(object):
         #fill in with unique syllables
         if self.personality in (Personality.Affectionate, Personality.Careful):
             temp_name = random.choice(("wa","ji","shi","ba","vi")) + random.choice(("la","lo","mo","ta"))
-        elif self.personality in (Personality.Aggressive, Personality.Energetic):
+        else:#Personality.Aggressive, Personality.Energetic
             temp_name = random.choice(("ga","qu","ka","ru","te")) + random.choice(("va","ye","na","can"))
-        temp_name += random.choice(("ex","uc","av","em","ig","ab","ev","bu","po"))
-        return temp_name
+        return temp_name + random.choice(("ex","uc","av","em","ig","ab","ev","bu","po"))
         
     def levelUp(self):
         """Level up a monster, setting stats, etc. as needed."""

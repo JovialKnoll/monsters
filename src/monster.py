@@ -47,14 +47,11 @@ class Monster(object):
     def _generateName(self):
         """Generate a name for the monster."""
         #fill in with unique syllables
-        #ga, wa, la
-        #qu, ji, te, vi, va, ye, lo, em
-        #ba, shi, ru, na, ka, can, ta
         if self.personality in (Personality.Affectionate, Personality.Careful):
-            temp_name = random.choice(("0-0","0-1","0-2","0-3","0-4")) + random.choice(("/1-0/","/1-1/","/1-2/","/1-3/","/1-4/"))
+            temp_name = random.choice(("wa","ji","shi","ba","vi")) + random.choice(("la","lo","mo","ta"))
         elif self.personality in (Personality.Aggressive, Personality.Energetic):
-            temp_name = random.choice(("0-5","0-6","0-7","0-8","0-9")) + random.choice(("/1-5/","/1-6/","/1-7/","/1-8/","/1-9/"))
-        temp_name += random.choice(("2-0","2-1","2-2","2-3","2-4","2-5","2-6","2-7","2-8"))
+            temp_name = random.choice(("ga","qu","ka","ru","te")) + random.choice(("va","ye","na","can"))
+        temp_name += random.choice(("ex","uc","av","em","ig","ab","ev","bu","po"))
         return temp_name
         
     def levelUp(self):

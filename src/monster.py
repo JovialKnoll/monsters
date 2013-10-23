@@ -48,10 +48,10 @@ class Monster(object):
         """Generate a name for the monster."""
         #fill in with unique syllables
         if self.personality in (Personality.Affectionate, Personality.Careful):
-            temp_name = random.choice(("wa","ji","shi","ba","vi")) + random.choice(("la","lo","mo","ta"))
+            temp_name = random.choice(("fa","ji","sy","ba","vi","pho")) + random.choice(("la","lo","mog","ta"))
         else:#Personality.Aggressive, Personality.Energetic
-            temp_name = random.choice(("ga","qu","ka","ru","te")) + random.choice(("va","ye","na","can"))
-        return temp_name + random.choice(("ex","uc","av","em","ig","ab","ev","bu","po"))
+            temp_name = random.choice(("ga","ku","zi","ru","te","the")) + random.choice(("va","iy","na","ran"))
+        return temp_name + random.choice(("ex","ul","av","em","ix","ab","ev","og","za","el"))
         
     def levelUp(self):
         """Level up a monster, setting stats, etc. as needed."""

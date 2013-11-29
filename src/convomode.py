@@ -2,11 +2,11 @@ import os, pygame
 from gamemode import *
 class ConvoMode(GameMode):
     class ConvoBoxes(object):
-        top_left     = pygame.Rect(  8, 88, 88, 36)
-        top_right    = pygame.Rect(224, 88, 88, 36)
-        bottom_left  = pygame.Rect(  8,132, 88, 36)
-        bottom_right = pygame.Rect(224,132, 88, 36)
-        elsewhere    = pygame.Rect(  0,  0,320,180)
+        top_left     = pygame.Rect(  8,  88,  88,  36)
+        top_right    = pygame.Rect(224,  88,  88,  36)
+        bottom_left  = pygame.Rect(  8, 132,  88,  36)
+        bottom_right = pygame.Rect(224, 132,  88,  36)
+        elsewhere    = pygame.Rect(  0,   0, 320, 180)
         
         @classmethod
         def boxIn(cls, box, pos):
@@ -24,13 +24,13 @@ class ConvoMode(GameMode):
         @classmethod
         def boxKey(cls, box, key):
             """Return a rectangle based on the current rectangle and the key pressed."""
-            if (box, key) in ((cls.top_right, pygame.K_LEFT), (cls.bottom_right, pygame.K_RIGHT)):
+            if (box, key) in ((   cls.top_right, pygame.K_LEFT), (cls.bottom_right, pygame.K_RIGHT)):
                 return cls.top_left
-            if (box, key) in ((cls.bottom_left, pygame.K_LEFT), (cls.top_left, pygame.K_RIGHT)):
+            if (box, key) in (( cls.bottom_left, pygame.K_LEFT), (    cls.top_left, pygame.K_RIGHT)):
                 return cls.top_right
-            if (box, key) in ((cls.bottom_right, pygame.K_LEFT), (cls.top_right, pygame.K_RIGHT)):
+            if (box, key) in ((cls.bottom_right, pygame.K_LEFT), (   cls.top_right, pygame.K_RIGHT)):
                 return cls.bottom_left
-            if (box, key) in ((cls.top_left, pygame.K_LEFT), (cls.bottom_left, pygame.K_RIGHT)):
+            if (box, key) in ((    cls.top_left, pygame.K_LEFT), ( cls.bottom_left, pygame.K_RIGHT)):
                 return cls.bottom_right
             return box
             
@@ -71,11 +71,11 @@ class ConvoMode(GameMode):
         #mainly, make the surfaces based on the text for view and buttons, fitting some criteria
         self.surf_text = self.shared['font_wrap'].renderInside(288, self._textMain(), False, (164, 162, 165))
         self.surf_rect = self.surf_text.get_rect()
-        self.text_rect = pygame.Rect(0,0,288,48)
-        self.shared['font_wrap'].renderToInside(self.background, ( 16, 96), 72, self._textButton0(), False, (164, 162, 165))
-        self.shared['font_wrap'].renderToInside(self.background, (232, 96), 72, self._textButton1(), False, (164, 162, 165))
-        self.shared['font_wrap'].renderToInside(self.background, ( 16,140), 72, self._textButton2(), False, (164, 162, 165))
-        self.shared['font_wrap'].renderToInside(self.background, (232,140), 72, self._textButton3(), False, (164, 162, 165))
+        self.text_rect = pygame.Rect(0, 0, 288, 48)
+        self.shared['font_wrap'].renderToInside(self.background, ( 16,  96), 72, self._textButton0(), False, (164, 162, 165))
+        self.shared['font_wrap'].renderToInside(self.background, (232,  96), 72, self._textButton1(), False, (164, 162, 165))
+        self.shared['font_wrap'].renderToInside(self.background, ( 16, 140), 72, self._textButton2(), False, (164, 162, 165))
+        self.shared['font_wrap'].renderToInside(self.background, (232, 140), 72, self._textButton3(), False, (164, 162, 165))
         
     def __init__(self):
         super(ConvoMode, self).__init__()

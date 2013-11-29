@@ -74,12 +74,12 @@ class Game(object):
             self.quit_mode.input(event_list)
             self.quit_mode.update()
             self.quit_mode.draw(self.screen)
-            if self.quit_mode.choice == 1:
+            if self.quit_mode.choice == GameChoice.gameContinue:
                 self.quit_mode = False
-            elif self.quit_mode.choice == 2:
+            elif self.quit_mode.choice == GameChoice.gameSaveQuit:
                 self._saveGame()
                 self.running = False
-            elif self.quit_mode.choice == 3:
+            elif self.quit_mode.choice == GameChoice.gameQuit:
                 self.running = False
                 
         elif self.current_mode:

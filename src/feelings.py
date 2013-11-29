@@ -23,8 +23,8 @@ class Mood(object):
     #So instead of using numbers/strings/whatever for moods, just use Mood.the_mood
     #This way, if something is mistyped or whatever we will get an error, useful.
     neutral = 0
-    bored = 1
-    sad = 2
-    angry = 3
-    happy = 4
+    bored   = 1
+    sad     = 2
+    angry   = 3
+    happy   = 4
     

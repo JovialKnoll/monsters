@@ -1,9 +1,14 @@
 from gamemode import *
 import pygame
+class GameChoice(object):
+    gameUnsure   = 0
+    gameContinue = 1
+    gameSaveQuit = 2
+    gameQuit     = 3
 class QuitMode(GameMode):
     def __init__(self):
         super(QuitMode, self).__init__()
-        self.choice = 0#1:Continue, 2:Save & Quit, 3:Quit
+        self.choice = GameChoice.gameUnsure
         self.just_made = True
         
     def input(self, event_list):
@@ -11,14 +16,14 @@ class QuitMode(GameMode):
         #or could also have actual buttons
         for event in event_list:
             if event.type == pygame.QUIT:
-                self.choice = 3
+                self.choice = GameChoice.gameQuit
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_c:
-                    self.choice = 1
+                    self.choice = GameChoice.gameContinue
                 if event.key == pygame.K_s:
-                    self.choice = 2
+                    self.choice = GameChoice.gameSaveQuit
                 if event.key in (pygame.K_q, pygame.K_ESCAPE):
-                    self.choice = 3
+                    self.choice = GameChoice.gameQuit
                     
     def update(self):
         pass

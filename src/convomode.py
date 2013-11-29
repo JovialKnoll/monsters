@@ -80,8 +80,8 @@ class ConvoMode(GameMode):
     def __init__(self):
         super(ConvoMode, self).__init__()
         if not ConvoMode.converted:
+            ConvoMode.black_box = ConvoMode.black_box.convert_alpha()
             ConvoMode.converted = True
-            ConvoMode.black_box.convert_alpha()
         self.background = pygame.image.load(os.path.join('gfx', 'backgrounds', 'layout1boxes.png')).convert_alpha()
         self._readyText()
         self.y_scroll = {'up': 0, 'down': 0}
@@ -131,7 +131,6 @@ class ConvoMode(GameMode):
                     
     def update(self):
         self.text_rect.move_ip(0, self.y_scroll['down'] - self.y_scroll['up'])
-        
         self.text_rect.clamp_ip(self.surf_rect)
         
     def draw(self, screen):

@@ -42,7 +42,7 @@ class Monster(object):
         #self.sprite = pygame.Surface((48,48))
         #self.sprite.fill((255,0,0))
         
-        self.sprite.convert_alpha()
+        self.sprite = self.sprite.convert_alpha()
         
     def _generateName(self):
         """Generate a name for the monster."""
@@ -73,7 +73,7 @@ class Monster(object):
         pix_array.replace(self.skin[0].dark, self.skin[self.lvl].dark)
         pix_array.replace(self.skin[0].light, self.skin[self.lvl].light)
         del pix_array
-        self.sprite.convert_alpha()
+        self.sprite = self.sprite.convert_alpha()
         return 1
         
     def drawCentered(self, screen, pos):

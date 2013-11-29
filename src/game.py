@@ -50,14 +50,14 @@ class Game(object):
         if not sys.platform.startswith('freebsd') and not sys.platform.startswith('darwin'):
             os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % ((self.monitor_res[0]-self.disp_res[0])//2, (self.monitor_res[1]-self.disp_res[1])//2)
         self.disp_screen = pygame.display.set_mode(self.disp_res)
-        self.screen.convert()
+        self.screen = self.screen.convert()
         self.is_fullscreen = False
         
     def _windowSetFullscreen(self):
         """Set the window to fullscreen."""
         self.disp_screen = pygame.display.set_mode(self.monitor_res, pygame.FULLSCREEN)
-        self.full_screen.convert()
-        self.screen.convert(self.full_screen)
+        self.full_screen = self.full_screen.convert()
+        self.screen = self.screen.convert(self.full_screen)
         self.is_fullscreen = True
         
     def _saveGame(self):

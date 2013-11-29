@@ -2,7 +2,6 @@ import pygame, os, sys
 from monster import *
 from fontwrap import *
 from gamemode import *
-from quitmode import *
 
 from testmode import *
 from convomode0 import *
@@ -11,6 +10,7 @@ class Game(object):
         """Start and create things as needed."""
         pygame.init()
         self.running = True
+        self.quit = False
         #pygame.mouse.set_visible(False)
         #set window icon/captions here...
         GameMode.shared = {
@@ -33,7 +33,6 @@ class Game(object):
         
         GameMode.shared['protag_mon'] = Monster()
         
-        self.quit_mode = False
         self.current_mode = False
         
         #test stuff
@@ -65,23 +64,45 @@ class Game(object):
         """Save the game."""
         pass#a blank function for now
         
+    def _quitInit(self):
+        self.quit = True
+        self.quit_recent = True
+        
+    def _quitInput(self, event_list):
+        #this could be replaced with actual buttons maybe
+        #or could also have actual buttons
+        for event in event_list:
+            if event.type == pygame.QUIT:
+                self.running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_c:
+                    self.quit = False
+                if event.key == pygame.K_s:
+                    self._saveGame()
+                    self.running = False
+                if event.key in (pygame.K_q, pygame.K_ESCAPE):
+                    self.running = False
+                    
+    def _quitUpdate(self):
+        pass
+        
+    def _quitDraw(self, screen):
+        #just to show that the game is 'paused', in quit mode, something better should be here later
+        if self.quit_recent:
+            disp_text = "Options:\nContinue (C),\nSave & Quit (S),\nQuit (Q)"
+            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 16 * 8, disp_text, False, (255,255,255), (0,0,0))
+            self.quit_recent = False
+            
     def run(self):
         """Run the game, and check if the game needs to end."""
         if not self.running:
             return False
         event_list = self._filterInput(pygame.event.get())
-        if self.quit_mode:
-            self.quit_mode.input(event_list)
-            self.quit_mode.update()
-            self.quit_mode.draw(self.screen)
-            if self.quit_mode.choice == GameChoice.gameContinue:
-                self.quit_mode = False
-            elif self.quit_mode.choice == GameChoice.gameSaveQuit:
-                self._saveGame()
-                self.running = False
-            elif self.quit_mode.choice == GameChoice.gameQuit:
-                self.running = False
-                
+        if self.quit:
+            self._quitInput(event_list)
+            self._quitUpdate()
+            self._quitDraw(self.screen)
+            
         elif self.current_mode:
             self.current_mode.input(event_list)
             self.current_mode.update()
@@ -89,10 +110,6 @@ class Game(object):
             if self.current_mode.next_mode != False:
                 self.current_mode = self.current_mode.next_mode
                 
-        else:
-            self._input(event_list)
-            self._update()
-            self._draw(self.screen)
         self._scaleThings()
         self._time()
         return True
@@ -106,15 +123,15 @@ class Game(object):
         As an example, game-ending or display-changing events should be handled before all others.
         """
         if event.type == pygame.QUIT:
-            if self.quit_mode:
+            if self.quit:
                 return True
-            self.quit_mode = QuitMode()
+            self._quitInit()
             return False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                if self.quit_mode:
+                if self.quit:
                     return True
-                self.quit_mode = QuitMode()
+                self._quitInit()
                 return False
             #Window re-sizing stuff
             elif event.key in (pygame.K_PAGEUP, pygame.K_PERIOD):
@@ -147,18 +164,6 @@ class Game(object):
                 event_dict['button'] = event.button
             return pygame.event.Event(event.type, event_dict)
         return event
-        
-    def _input(self, event_list):
-        """Take inputs as needed."""
-        pass
-        
-    def _update(self):
-        """Update things as needed."""
-        pass
-        
-    def _draw(self, screen):
-        """Draw things as needed."""
-        pass
         
     def _scaleThings(self):
         """Scale screen onto display surface, then flip the display."""

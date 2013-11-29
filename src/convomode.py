@@ -1,5 +1,6 @@
 import os, pygame
 from gamemode import *
+from constants import *
 class ConvoMode(GameMode):
     class ConvoBoxes(object):
         top_left     = pygame.Rect(  8,  88,  88,  36)
@@ -8,6 +9,14 @@ class ConvoMode(GameMode):
         bottom_right = pygame.Rect(224, 132,  88,  36)
         elsewhere    = pygame.Rect(  0,   0, 320, 180)
         
+        @staticmethod
+        def textStart(box):
+            return (box.x + 8, box.y + 8)
+            
+        @staticmethod
+        def textWidth(box):
+            return box.w - 16
+            
         @classmethod
         def boxIn(cls, box, pos):
             """Return a rectangle containing the position."""
@@ -69,13 +78,29 @@ class ConvoMode(GameMode):
         
     def _readyText(self):
         #mainly, make the surfaces based on the text for view and buttons, fitting some criteria
-        self.surf_text = self.shared['font_wrap'].renderInside(288, self._textMain(), False, (164, 162, 165))
+        self.surf_text = self.shared['font_wrap'].renderInside(288, self._textMain(), False, TEXT_COLOR)
         self.surf_rect = self.surf_text.get_rect()
         self.text_rect = pygame.Rect(0, 0, 288, 48)
-        self.shared['font_wrap'].renderToInside(self.background, ( 16,  96), 72, self._textButton0(), False, (164, 162, 165))
-        self.shared['font_wrap'].renderToInside(self.background, (232,  96), 72, self._textButton1(), False, (164, 162, 165))
-        self.shared['font_wrap'].renderToInside(self.background, ( 16, 140), 72, self._textButton2(), False, (164, 162, 165))
-        self.shared['font_wrap'].renderToInside(self.background, (232, 140), 72, self._textButton3(), False, (164, 162, 165))
+        self.shared['font_wrap'].renderToInside(self.background,
+            ConvoMode.ConvoBoxes.textStart(    ConvoMode.ConvoBoxes.top_left),
+            ConvoMode.ConvoBoxes.textWidth(    ConvoMode.ConvoBoxes.top_left),
+            self._textButton0(), False, TEXT_COLOR
+        )
+        self.shared['font_wrap'].renderToInside(self.background,
+            ConvoMode.ConvoBoxes.textStart(   ConvoMode.ConvoBoxes.top_right),
+            ConvoMode.ConvoBoxes.textWidth(   ConvoMode.ConvoBoxes.top_right),
+            self._textButton1(), False, TEXT_COLOR
+        )
+        self.shared['font_wrap'].renderToInside(self.background,
+            ConvoMode.ConvoBoxes.textStart( ConvoMode.ConvoBoxes.bottom_left),
+            ConvoMode.ConvoBoxes.textWidth( ConvoMode.ConvoBoxes.bottom_left),
+            self._textButton2(), False, TEXT_COLOR
+        )
+        self.shared['font_wrap'].renderToInside(self.background,
+            ConvoMode.ConvoBoxes.textStart(ConvoMode.ConvoBoxes.bottom_right),
+            ConvoMode.ConvoBoxes.textWidth(ConvoMode.ConvoBoxes.bottom_right),
+            self._textButton3(), False, TEXT_COLOR
+        )
         
     def __init__(self):
         super(ConvoMode, self).__init__()
@@ -134,7 +159,7 @@ class ConvoMode(GameMode):
         self.text_rect.clamp_ip(self.surf_rect)
         
     def draw(self, screen):
-        screen.fill((255,255,255))
+        screen.fill(WHITE)
         screen.blit(self.background, (0,0))
         screen.blit(self.surf_text, (16,16), self.text_rect)
         if self.box_selected != ConvoMode.ConvoBoxes.elsewhere:

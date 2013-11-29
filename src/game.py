@@ -2,6 +2,7 @@ import pygame, os, sys
 from monster import *
 from fontwrap import *
 from gamemode import *
+from constants import *
 
 from testmode import *
 from convomode0 import *
@@ -90,7 +91,7 @@ class Game(object):
         #just to show that the game is 'paused', in quit mode, something better should be here later
         if self.quit_recent:
             disp_text = "Options:\nContinue (C),\nSave & Quit (S),\nQuit (Q)"
-            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 16 * 8, disp_text, False, (255,255,255), (0,0,0))
+            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 16 * 8, disp_text, False, WHITE, BLACK)
             self.quit_recent = False
             
     def run(self):

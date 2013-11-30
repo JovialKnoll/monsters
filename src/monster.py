@@ -30,7 +30,7 @@ class Monster(object):
         self.stats['hpc'] = self.stats['hpm']
         self.stats.update(in_stats)
         
-        self.name = self._generateName()
+        self.name = Personality.generateName(self.personality)
         
         self.skin = Skin.random(self.personality)
         #access the SkinTone with self.skin[self.lvl]
@@ -43,15 +43,6 @@ class Monster(object):
         #self.sprite.fill((255,0,0))
         
         self._finishSprite()
-        
-    def _generateName(self):
-        """Generate a name for the monster."""
-        #fill in with unique syllables
-        if self.personality in (Personality.Affectionate, Personality.Careful):
-            temp_name = random.choice(("fa","ji","sy","ba","vi","pho")) + random.choice(("la","lo","mog","ta"))
-        else:#Personality.Aggressive, Personality.Energetic
-            temp_name = random.choice(("ga","ku","zi","ru","te","the")) + random.choice(("va","iy","na","ran"))
-        return temp_name + random.choice(("ex","ul","av","em","ix","ab","ev","og","za","el"))
         
     def _finishSprite(self):
         self.sprite = self.sprite.convert_alpha()

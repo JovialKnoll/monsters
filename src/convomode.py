@@ -1,46 +1,27 @@
 import os, pygame
 from gamemode import *
+from boxes import *
 from constants import *
 class ConvoMode(GameMode):
-    class ConvoBoxes(object):
-        top_left     = pygame.Rect(  8,  88,  88,  36)
-        top_right    = pygame.Rect(224,  88,  88,  36)
-        bottom_left  = pygame.Rect(  8, 132,  88,  36)
-        bottom_right = pygame.Rect(224, 132,  88,  36)
-        elsewhere    = pygame.Rect(  0,   0, 320, 180)
-        
-        @staticmethod
-        def textStart(box):
-            return (box.x + 8, box.y + 8)
-            
-        @staticmethod
-        def textWidth(box):
-            return box.w - 16
-            
-        @classmethod
-        def boxIn(cls, pos):
-            """Return a rectangle containing the position."""
-            if cls.top_left.collidepoint(pos):
-                return cls.top_left
-            if cls.top_right.collidepoint(pos):
-                return cls.top_right
-            if cls.bottom_left.collidepoint(pos):
-                return cls.bottom_left
-            if cls.bottom_right.collidepoint(pos):
-                return cls.bottom_right
-            return cls.elsewhere
+    class ConvoBoxes(Boxes):
+        rects = {
+            'top_left'    : pygame.Rect(  8,  88,  88,  36),
+            'top_right'   : pygame.Rect(224,  88,  88,  36),
+            'bottom_left' : pygame.Rect(  8, 132,  88,  36),
+            'bottom_right': pygame.Rect(224, 132,  88,  36),
+        }
             
         @classmethod
         def boxKey(cls, box, key):
             """Return a rectangle based on the current rectangle and the key pressed."""
-            if (box, key) in ((   cls.top_right, pygame.K_LEFT), (cls.bottom_right, pygame.K_RIGHT)):
-                return cls.top_left
-            if (box, key) in (( cls.bottom_left, pygame.K_LEFT), (    cls.top_left, pygame.K_RIGHT)):
-                return cls.top_right
-            if (box, key) in ((cls.bottom_right, pygame.K_LEFT), (   cls.top_right, pygame.K_RIGHT)):
-                return cls.bottom_left
-            if (box, key) in ((    cls.top_left, pygame.K_LEFT), ( cls.bottom_left, pygame.K_RIGHT)):
-                return cls.bottom_right
+            if (box, key) in ((   cls.rects['top_right'], pygame.K_LEFT), (cls.rects['bottom_right'], pygame.K_RIGHT)):
+                return cls.rects['top_left']
+            if (box, key) in (( cls.rects['bottom_left'], pygame.K_LEFT), (    cls.rects['top_left'], pygame.K_RIGHT)):
+                return cls.rects['top_right']
+            if (box, key) in ((cls.rects['bottom_right'], pygame.K_LEFT), (   cls.rects['top_right'], pygame.K_RIGHT)):
+                return cls.rects['bottom_left']
+            if (box, key) in ((    cls.rects['top_left'], pygame.K_LEFT), ( cls.rects['bottom_left'], pygame.K_RIGHT)):
+                return cls.rects['bottom_right']
             return box
             
     SCROLL_AMOUNT_MOUSE = 10
@@ -82,23 +63,23 @@ class ConvoMode(GameMode):
         self.surf_rect = self.surf_text.get_rect()
         self.text_rect = pygame.Rect(0, 0, 288, 48)
         self.shared['font_wrap'].renderToInside(self.background,
-            ConvoMode.ConvoBoxes.textStart(    ConvoMode.ConvoBoxes.top_left),
-            ConvoMode.ConvoBoxes.textWidth(    ConvoMode.ConvoBoxes.top_left),
+            ConvoMode.ConvoBoxes.textStart(    ConvoMode.ConvoBoxes.rects['top_left']),
+            ConvoMode.ConvoBoxes.textWidth(    ConvoMode.ConvoBoxes.rects['top_left']),
             self._textButton0(), False, TEXT_COLOR
         )
         self.shared['font_wrap'].renderToInside(self.background,
-            ConvoMode.ConvoBoxes.textStart(   ConvoMode.ConvoBoxes.top_right),
-            ConvoMode.ConvoBoxes.textWidth(   ConvoMode.ConvoBoxes.top_right),
+            ConvoMode.ConvoBoxes.textStart(   ConvoMode.ConvoBoxes.rects['top_right']),
+            ConvoMode.ConvoBoxes.textWidth(   ConvoMode.ConvoBoxes.rects['top_right']),
             self._textButton1(), False, TEXT_COLOR
         )
         self.shared['font_wrap'].renderToInside(self.background,
-            ConvoMode.ConvoBoxes.textStart( ConvoMode.ConvoBoxes.bottom_left),
-            ConvoMode.ConvoBoxes.textWidth( ConvoMode.ConvoBoxes.bottom_left),
+            ConvoMode.ConvoBoxes.textStart( ConvoMode.ConvoBoxes.rects['bottom_left']),
+            ConvoMode.ConvoBoxes.textWidth( ConvoMode.ConvoBoxes.rects['bottom_left']),
             self._textButton2(), False, TEXT_COLOR
         )
         self.shared['font_wrap'].renderToInside(self.background,
-            ConvoMode.ConvoBoxes.textStart(ConvoMode.ConvoBoxes.bottom_right),
-            ConvoMode.ConvoBoxes.textWidth(ConvoMode.ConvoBoxes.bottom_right),
+            ConvoMode.ConvoBoxes.textStart(ConvoMode.ConvoBoxes.rects['bottom_right']),
+            ConvoMode.ConvoBoxes.textWidth(ConvoMode.ConvoBoxes.rects['bottom_right']),
             self._textButton3(), False, TEXT_COLOR
         )
         
@@ -110,17 +91,17 @@ class ConvoMode(GameMode):
         self.background = pygame.image.load(os.path.join('gfx', 'backgrounds', 'layout1boxes.png')).convert_alpha()
         self._readyText()
         self.y_scroll = {'up': 0, 'down': 0}
-        self.box_selected = ConvoMode.ConvoBoxes.top_left
+        self.box_selected = ConvoMode.ConvoBoxes.rects['top_left']
         #what else do conversations need?
         
     def _buttonPress(self):
-        if self.box_selected == ConvoMode.ConvoBoxes.top_left:
+        if self.box_selected == ConvoMode.ConvoBoxes.rects['top_left']:
             self._goButton0()
-        elif self.box_selected == ConvoMode.ConvoBoxes.top_right:
+        elif self.box_selected == ConvoMode.ConvoBoxes.rects['top_right']:
             self._goButton1()
-        elif self.box_selected == ConvoMode.ConvoBoxes.bottom_left:
+        elif self.box_selected == ConvoMode.ConvoBoxes.rects['bottom_left']:
             self._goButton2()
-        elif self.box_selected == ConvoMode.ConvoBoxes.bottom_right:
+        elif self.box_selected == ConvoMode.ConvoBoxes.rects['bottom_right']:
             self._goButton3()
             
     def input(self, event_list):

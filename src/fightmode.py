@@ -1,44 +1,27 @@
 import os, pygame
 from gamemode import *
+from boxes import *
 from constants import *
 class FightMode(GameMode):
-    class FightBoxes(object):
-        top       = pygame.Rect(24,  24,  88,  36)
-        middle    = pygame.Rect(24,  76,  88,  36)
-        bottom    = pygame.Rect(24, 128,  88,  36)
-        elsewhere = pygame.Rect( 0,   0, 320, 180)
+    class FightBoxes(Boxes):
+        rects = {
+            'top'   : pygame.Rect(24,  24,  88,  36),
+            'middle': pygame.Rect(24,  76,  88,  36),
+            'bottom': pygame.Rect(24, 128,  88,  36),
+        }
         
-        @staticmethod
-        def textStart(box):
-            return (box.x + 8, box.y + 8)
-            
-        @staticmethod
-        def textWidth(box):
-            return box.w - 16
-            
-        @classmethod
-        def boxIn(cls, pos):
-            """Return a rectangle containing the position."""
-            if cls.top.collidepoint(pos):
-                return cls.top
-            if cls.middle.collidepoint(pos):
-                return cls.middle
-            if cls.bottom.collidepoint(pos):
-                return cls.bottom
-            return cls.elsewhere
-            
         @classmethod
         def boxKey(cls, box, key):
             """Return a rectangle based on the current rectangle and the key pressed."""
-            if (box is cls.middle and key in (  pygame.K_UP,  pygame.K_LEFT))\
-            or (box is cls.bottom and key in (pygame.K_DOWN, pygame.K_RIGHT)):
-                return cls.top
-            if (box is cls.bottom and key in (  pygame.K_UP,  pygame.K_LEFT))\
-            or (box is    cls.top and key in (pygame.K_DOWN, pygame.K_RIGHT)):
-                return cls.middle
-            if (box is    cls.top and key in (  pygame.K_UP,  pygame.K_LEFT))\
-            or (box is cls.middle and key in (pygame.K_DOWN, pygame.K_RIGHT)):
-                return cls.bottom
+            if (box is cls.rects['middle'] and key in (  pygame.K_UP,  pygame.K_LEFT))\
+            or (box is cls.rects['bottom'] and key in (pygame.K_DOWN, pygame.K_RIGHT)):
+                return cls.rects['top']
+            if (box is cls.rects['bottom'] and key in (  pygame.K_UP,  pygame.K_LEFT))\
+            or (box is    cls.rects['top'] and key in (pygame.K_DOWN, pygame.K_RIGHT)):
+                return cls.rects['middle']
+            if (box is    cls.rects['top'] and key in (  pygame.K_UP,  pygame.K_LEFT))\
+            or (box is cls.rects['middle'] and key in (pygame.K_DOWN, pygame.K_RIGHT)):
+                return cls.rects['bottom']
             return box
             
     black_box = pygame.image.load(os.path.join('gfx', 'backgrounds', 'blackbox.png'))
@@ -50,30 +33,30 @@ class FightMode(GameMode):
         if not FightMode.converted:
             FightMode.black_box = FightMode.black_box.convert_alpha()
             FightMode.shared['font_wrap'].renderToInside(FightMode.background,
-                FightMode.FightBoxes.textStart(   FightMode.FightBoxes.top),
-                FightMode.FightBoxes.textWidth(   FightMode.FightBoxes.top),
+                FightMode.FightBoxes.textStart(   FightMode.FightBoxes.rects['top']),
+                FightMode.FightBoxes.textWidth(   FightMode.FightBoxes.rects['top']),
                 "Attack", False, TEXT_COLOR
             )
             FightMode.shared['font_wrap'].renderToInside(FightMode.background,
-                FightMode.FightBoxes.textStart(FightMode.FightBoxes.middle),
-                FightMode.FightBoxes.textWidth(FightMode.FightBoxes.middle),
+                FightMode.FightBoxes.textStart(FightMode.FightBoxes.rects['middle']),
+                FightMode.FightBoxes.textWidth(FightMode.FightBoxes.rects['middle']),
                 "Defend", False, TEXT_COLOR
             )
             FightMode.shared['font_wrap'].renderToInside(FightMode.background,
-                FightMode.FightBoxes.textStart(FightMode.FightBoxes.bottom),
-                FightMode.FightBoxes.textWidth(FightMode.FightBoxes.bottom),
+                FightMode.FightBoxes.textStart(FightMode.FightBoxes.rects['bottom']),
+                FightMode.FightBoxes.textWidth(FightMode.FightBoxes.rects['bottom']),
                 "Escape", False, TEXT_COLOR
             )
             FightMode.background = FightMode.background.convert_alpha()
             FightMode.converted = True
-        self.box_selected = FightMode.FightBoxes.top
+        self.box_selected = FightMode.FightBoxes.rects['top']
         
     def _buttonPress(self):
-        if self.box_selected == FightMode.FightBoxes.top:
+        if self.box_selected == FightMode.FightBoxes.rects['top']:
             print "pressed: top"
-        elif self.box_selected == FightMode.FightBoxes.middle:
+        elif self.box_selected == FightMode.FightBoxes.rects['middle']:
             print "pressed: middle"
-        elif self.box_selected == FightMode.FightBoxes.bottom:
+        elif self.box_selected == FightMode.FightBoxes.rects['bottom']:
             print "pressed: bottom"
             
     def input(self, event_list):

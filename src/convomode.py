@@ -18,7 +18,7 @@ class ConvoMode(GameMode):
             return box.w - 16
             
         @classmethod
-        def boxIn(cls, box, pos):
+        def boxIn(cls, pos):
             """Return a rectangle containing the position."""
             if cls.top_left.collidepoint(pos):
                 return cls.top_left
@@ -126,12 +126,12 @@ class ConvoMode(GameMode):
     def input(self, event_list):
         for event in event_list:
             if event.type == pygame.MOUSEMOTION:
-                select = ConvoMode.ConvoBoxes.boxIn(self.box_selected, event.pos)
+                select = ConvoMode.ConvoBoxes.boxIn(event.pos)
                 if select != ConvoMode.ConvoBoxes.elsewhere:
                     self.box_selected = select
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    select = ConvoMode.ConvoBoxes.boxIn(self.box_selected, event.pos)
+                    select = ConvoMode.ConvoBoxes.boxIn(event.pos)
                     if select != ConvoMode.ConvoBoxes.elsewhere:
                         self.box_selected = select
                         self._buttonPress()

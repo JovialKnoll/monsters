@@ -17,7 +17,7 @@ class FightMode(GameMode):
             return box.w - 16
             
         @classmethod
-        def boxIn(cls, box, pos):
+        def boxIn(cls, pos):
             """Return a rectangle containing the position."""
             if cls.top.collidepoint(pos):
                 return cls.top
@@ -79,12 +79,12 @@ class FightMode(GameMode):
     def input(self, event_list):
         for event in event_list:
             if event.type == pygame.MOUSEMOTION:
-                select = FightMode.FightBoxes.boxIn(self.box_selected, event.pos)
+                select = FightMode.FightBoxes.boxIn(event.pos)
                 if select != FightMode.FightBoxes.elsewhere:
                     self.box_selected = select
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    select = FightMode.FightBoxes.boxIn(self.box_selected, event.pos)
+                    select = FightMode.FightBoxes.boxIn(event.pos)
                     if select != FightMode.FightBoxes.elsewhere:
                         self.box_selected = select
                         self._buttonPress()

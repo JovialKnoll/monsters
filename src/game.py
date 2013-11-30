@@ -14,22 +14,19 @@ class Game(object):
         self.quit = False
         #pygame.mouse.set_visible(False)
         #set window icon/captions here...
-        GameMode.shared = {
-            'SCREEN_SIZE': (320,180),
-            'font': pygame.font.Font(os.path.join('gfx', 'simple_mono.ttf'), 8)}
+        GameMode.shared = {'font': pygame.font.Font(os.path.join('gfx', 'simple_mono.ttf'), 8)}
         GameMode.shared['font_wrap'] = FontWrap(GameMode.shared['font'])
         #all children of GameMode can access the shared dictionary with self.shared
         
-        self.screen = pygame.Surface(GameMode.shared['SCREEN_SIZE'])
+        self.screen = pygame.Surface(SCREEN_SIZE)
         self.monitor_res = (pygame.display.Info().current_w,pygame.display.Info().current_h)
-        self.upscale_max = min(self.monitor_res[0]//GameMode.shared['SCREEN_SIZE'][0], self.monitor_res[1]//GameMode.shared['SCREEN_SIZE'][1])
+        self.upscale_max = min(self.monitor_res[0]//SCREEN_SIZE[0], self.monitor_res[1]//SCREEN_SIZE[1])
         self.upscale = self.upscale_max//2
-        self.disp_res_max = (GameMode.shared['SCREEN_SIZE'][0]*self.upscale_max, GameMode.shared['SCREEN_SIZE'][1]*self.upscale_max)
+        self.disp_res_max = (SCREEN_SIZE[0]*self.upscale_max, SCREEN_SIZE[1]*self.upscale_max)
         self._windowSet(0)
         self.fullscreen_offset = ((self.monitor_res[0]-self.disp_res_max[0])//2, (self.monitor_res[1]-self.disp_res_max[1])//2)
         self.full_screen = pygame.Surface(self.disp_res_max)
         
-        self.framerate = 60
         self.clock = pygame.time.Clock()
         
         GameMode.shared['protag_mon'] = Monster()
@@ -47,7 +44,7 @@ class Game(object):
     def _windowSet(self, scale_change):
         """Set the window to a scale of upscale + scale_change."""
         self.upscale += scale_change
-        self.disp_res = (GameMode.shared['SCREEN_SIZE'][0]*self.upscale, GameMode.shared['SCREEN_SIZE'][1]*self.upscale)
+        self.disp_res = (SCREEN_SIZE[0]*self.upscale, SCREEN_SIZE[1]*self.upscale)
         if not sys.platform.startswith('freebsd') and not sys.platform.startswith('darwin'):
             os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % ((self.monitor_res[0]-self.disp_res[0])//2, (self.monitor_res[1]-self.disp_res[1])//2)
         self.disp_screen = pygame.display.set_mode(self.disp_res)
@@ -178,5 +175,5 @@ class Game(object):
     def _time(self):
         """Take care of time stuff."""
         pygame.display.set_caption(str(self.clock.get_fps()))#just for debugging purposes
-        self.clock.tick(self.framerate)
+        self.clock.tick(FRAMERATE)
         

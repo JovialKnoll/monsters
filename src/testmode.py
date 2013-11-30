@@ -49,8 +49,8 @@ class TestMode(GameMode):
         screen.fill(self.fill)
         #make new draws
         self.shared['protag_mon'].drawStanding(screen, self.test_mon_pos)
-        self.shared['font_wrap'].renderToInside(screen, (0,0), self.shared['SCREEN_SIZE'][0]//2, self.test_text, False, BLACK, WHITE)
-        self.shared['font_wrap'].renderToInside(screen, (self.shared['SCREEN_SIZE'][0]//2,0), self.shared['SCREEN_SIZE'][0]//2, "Lorem", False, (255,0,0))
-        #screen.blit(self.shared['font_wrap'].renderInside(self.shared['SCREEN_SIZE'][0]//2, self.test_text, False, BLACK, WHITE), (0,0))
-        #screen.blit(self.shared['font_wrap'].renderInside(self.shared['SCREEN_SIZE'][0]//2, "Lorem", False, (255,0,0)), (self.shared['SCREEN_SIZE'][0]//2,0))
+        self.shared['font_wrap'].renderToInside(screen, (0,0), SCREEN_SIZE[0]//2, self.test_text, False, BLACK, WHITE)
+        self.shared['font_wrap'].renderToInside(screen, (SCREEN_SIZE[0]//2,0), SCREEN_SIZE[0]//2, "Lorem", False, (255,0,0))
+        #screen.blit(self.shared['font_wrap'].renderInside(SCREEN_SIZE[0]//2, self.test_text, False, BLACK, WHITE), (0,0))
+        #screen.blit(self.shared['font_wrap'].renderInside(SCREEN_SIZE[0]//2, "Lorem", False, (255,0,0)), (SCREEN_SIZE[0]//2,0))
         

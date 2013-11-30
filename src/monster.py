@@ -42,7 +42,7 @@ class Monster(object):
         #self.sprite = pygame.Surface((48,48))
         #self.sprite.fill((255,0,0))
         
-        self.sprite = self.sprite.convert_alpha()
+        self._finishSprite()
         
     def _generateName(self):
         """Generate a name for the monster."""
@@ -52,6 +52,10 @@ class Monster(object):
         else:#Personality.Aggressive, Personality.Energetic
             temp_name = random.choice(("ga","ku","zi","ru","te","the")) + random.choice(("va","iy","na","ran"))
         return temp_name + random.choice(("ex","ul","av","em","ix","ab","ev","og","za","el"))
+        
+    def _finishSprite(self):
+        self.sprite = self.sprite.convert_alpha()
+        self.sprite_right = pygame.transform.flip(self.sprite, True, False)
         
     def levelUp(self):
         """Level up a monster, setting stats, etc. as needed."""
@@ -73,18 +77,18 @@ class Monster(object):
         pix_array.replace(self.skin[0].dark, self.skin[self.lvl].dark)
         pix_array.replace(self.skin[0].light, self.skin[self.lvl].light)
         del pix_array
-        self.sprite = self.sprite.convert_alpha()
+        self._finishSprite()
         return 1
         
-    def drawCentered(self, screen, pos):
+    def drawCentered(self, screen, pos, right=False):
         """Draw the monster on the screen, with its center at the position passed."""
-        self.draw(screen, (pos[0]-self.sprite_size[0]//2, pos[1]-self.sprite_size[1]//2))
+        self.draw(screen, (pos[0]-self.sprite_size[0]//2, pos[1]-self.sprite_size[1]//2), right)
         
-    def drawStanding(self, screen, pos):
+    def drawStanding(self, screen, pos, right=False):
         """Draw the monster on the screen, with its bottom-center at the position passed."""
-        self.draw(screen, (pos[0]-self.sprite_size[0]//2, pos[1]-self.sprite_size[1]))
+        self.draw(screen, (pos[0]-self.sprite_size[0]//2, pos[1]-self.sprite_size[1]), right)
         
-    def draw(self, screen, pos):
+    def draw(self, screen, pos, right=False):
         """Draw the monster on the screen."""
-        screen.blit(self.sprite, pos)
+        screen.blit(self.sprite if not right else self.sprite_right, pos)
         

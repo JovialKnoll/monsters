@@ -102,4 +102,5 @@ class FightMode(GameMode):
         screen.blit(FightMode.background, (0,0))
         if self.box_selected != FightMode.FightBoxes.elsewhere:
             screen.blit(FightMode.black_box, self.box_selected)
+        #draw some mons and stuff
             

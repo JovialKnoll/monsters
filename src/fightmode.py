@@ -66,14 +66,40 @@ class FightMode(GameMode):
             )
             FightMode.background = FightMode.background.convert_alpha()
             FightMode.converted = True
+        self.box_selected = FightMode.FightBoxes.top
         
+    def _buttonPress(self):
+        if self.box_selected == FightMode.FightBoxes.top:
+            print "pressed: top"
+        elif self.box_selected == FightMode.FightBoxes.middle:
+            print "pressed: middle"
+        elif self.box_selected == FightMode.FightBoxes.bottom:
+            print "pressed: bottom"
+            
     def input(self, event_list):
-        pass
-        
+        for event in event_list:
+            if event.type == pygame.MOUSEMOTION:
+                select = FightMode.FightBoxes.boxIn(self.box_selected, event.pos)
+                if select != FightMode.FightBoxes.elsewhere:
+                    self.box_selected = select
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    select = FightMode.FightBoxes.boxIn(self.box_selected, event.pos)
+                    if select != FightMode.FightBoxes.elsewhere:
+                        self.box_selected = select
+                        self._buttonPress()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    self._buttonPress()
+                else:
+                    self.box_selected = FightMode.FightBoxes.boxKey(self.box_selected, event.key)
+                    
     def update(self):
         pass
         
     def draw(self, screen):
         screen.fill(WHITE)
         screen.blit(FightMode.background, (0,0))
-        
+        if self.box_selected != FightMode.FightBoxes.elsewhere:
+            screen.blit(FightMode.black_box, self.box_selected)
+            

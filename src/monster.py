@@ -38,13 +38,12 @@ class Monster(object):
         self.sprite =    pygame.image.load(os.path.join(Monster.sprite_path, '0-body-'+self.sprite_groups[1]+'.png'))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-head-'+self.sprite_groups[2]+'.png')), (0,0))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-legs-'+self.sprite_groups[3]+'.png')), (0,0))
-        
-        #self.sprite = pygame.Surface((48,48))
-        #self.sprite.fill((255,0,0))
-        
         self._finishSprite()
         
     def _finishSprite(self):
+        #self.sprite_size = (64,64)
+        #self.sprite = pygame.Surface((64,64))
+        #self.sprite.fill((255,0,0))
         self.sprite = self.sprite.convert_alpha()
         self.sprite_right = pygame.transform.flip(self.sprite, True, False)
         

@@ -51,6 +51,9 @@ class FightMode(GameMode):
             FightMode.converted = True
         self.box_selected = FightMode.FightBoxes.rects['top']
         
+        self.player_mon = player_mon
+        self.enemy_mon = enemy_mon
+        
     def _buttonPress(self):
         if self.box_selected == FightMode.FightBoxes.rects['top']:
             print "pressed: top"
@@ -86,4 +89,5 @@ class FightMode(GameMode):
         if self.box_selected != FightMode.FightBoxes.elsewhere:
             screen.blit(FightMode.black_box, self.box_selected)
         #draw some mons and stuff
-            
+        self.enemy_mon.drawStanding(screen, (262,128))
+        self.player_mon.drawStanding(screen, (170,128), True)

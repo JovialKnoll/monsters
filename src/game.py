@@ -1,8 +1,8 @@
 import pygame, os, sys
+from constants import *
 from monster import *
 from fontwrap import *
 from gamemode import *
-from constants import *
 
 from testmode import *
 from convomode0 import *

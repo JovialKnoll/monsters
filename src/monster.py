@@ -55,7 +55,7 @@ class Monster(object):
         if self.lvl > 2:
             self.sprite_size = (64,64)
         #change other stats as appropriate here...
-        #for my own reference: tail->body->head->legs->arms
+        self.stats['hpc'] = self.stats['hpm']
         #sprite construction stuff
         self.sprite =    pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-tail-'+self.sprite_groups[0]+str(random.randint(0,2))+'.png'))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-body-'+self.sprite_groups[1]+str(random.randint(0,2))+'.png')), (0,0))

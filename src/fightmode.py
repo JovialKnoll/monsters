@@ -2,6 +2,7 @@ import os, pygame
 from gamemode import *
 from boxes import *
 from constants import *
+from collections import deque
 class FightMode(GameMode):
     class FightBoxes(Boxes):
         rects = {
@@ -60,6 +61,8 @@ class FightMode(GameMode):
         self.enemy_rel = [0,0]
         self.action = False
         self.anim = 0
+        self.action_display = deque((False, False, False, False))
+        self.action_set = False
         
     def _buttonPress(self):
         if self.box_selected == FightMode.FightBoxes.rects['top']:
@@ -92,59 +95,77 @@ class FightMode(GameMode):
                 else:
                     self.box_selected = FightMode.FightBoxes.boxKey(self.box_selected, event.key)
                     
+    def _setActionDisplay(self, text):
+        self.action_display.pop()
+        self.action_display.appendleft( FightMode.shared['font_wrap'].renderInside(200, text, False, TEXT_COLOR) )
+        self.action_set = not self.action_set
+        
     def update(self):
         if self.action == 'attack':
+            if self.action_set == False:
+                self._setActionDisplay("I'm gonna hit 'em!")
             if self.anim == 0:
-                self.player_rel[0] += 2
+                self.player_rel[0] += 1
                 if self.player_rel[0] == 12:
                     self.anim = 1
             elif self.anim == 1:
-                self.player_rel[0] -= 2
+                self.player_rel[0] -= 1
                 if self.player_rel[0] == 0:
                     self.anim = -1
             else:
                 self.action = False
                 self.anim = 0
-                #do other things (calculate results, display text, etc.)
+                self._setActionDisplay("Hit for X! Took X!")
+                #do other things (calculate results, etc.)
             
         elif self.action == 'defend':
+            if self.action_set == False:
+                self._setActionDisplay("I'm gonna block 'em!")
             if self.anim == 0:
-                self.player_rel[0] -= 2
+                self.player_rel[0] -= 1
                 if self.player_rel[0] == -8:
                     self.anim = 1
             elif self.anim == 1:
-                self.player_rel[0] += 2
+                self.player_rel[0] += 1
                 if self.player_rel[0] == 4:
                     self.anim = 2
             elif self.anim == 2:
-                self.player_rel[0] -= 2
+                self.player_rel[0] -= 1
                 if self.player_rel[0] == 0:
                     self.anim = -1
             else:
                 self.action = False
                 self.anim = 0
-                #do other things (calculate results, display text, etc.)
+                self._setActionDisplay("Hit for X! Took X!")
+                #do other things (calculate results, etc.)
             
         elif self.action == 'escape':
+            if self.action_set == False:
+                self._setActionDisplay("I'm gonna run away!")
             if self.anim == 0:
-                self.player_rel[0] -= 2
-                if self.player_rel[0] == -22:
+                self.player_rel[0] -= 1
+                if self.player_rel[0] == -20:
                     self.anim = 1
             elif self.anim == 1:
-                self.player_rel[0] = 0
-                self.anim = -1
+                self.player_rel[0] += 5
+                if self.player_rel[0] == 0:
+                    self.anim = -1
             else:
                 self.action = False
                 self.anim = 0
-                #do other things (calculate results, display text, etc.)
+                self._setActionDisplay("Hit for X! Took X!")
+                #do other things (calculate results, etc.)
             
             
     def draw(self, screen):
         screen.fill(WHITE)
         screen.blit(FightMode.background, (0,0))
-        if self.box_selected != FightMode.FightBoxes.elsewhere:
+        if self.box_selected != FightMode.FightBoxes.elsewhere and self.action_set == False:
             screen.blit(FightMode.black_box, self.box_selected)
         #draw some mons and stuff
         self.player_mon.drawStanding(screen, (self.player_pos[0]+self.player_rel[0], self.player_pos[1]+self.player_rel[1]), True)
         self.enemy_mon.drawStanding(screen, (self.enemy_pos[0]+self.enemy_rel[0], self.enemy_pos[1]+self.enemy_rel[1]))
+        for index, line in enumerate(self.action_display):
+            if line:
+                screen.blit(line, (120, 166 - 10 * index))
         

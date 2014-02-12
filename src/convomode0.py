@@ -17,7 +17,7 @@ class ConvoMode0(MonConvoMode):
     def _textButton0(self):
         return "Go, to TestMode!"
     def _textButton1(self):
-        return "Go, to FightMode!"
+        return "Go, to FightMode"
     def _textButton2(self):
         return "Content~"
     def _textButton3(self):

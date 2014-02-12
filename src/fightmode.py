@@ -61,7 +61,7 @@ class FightMode(GameMode):
         self.enemy_rel = [0,0]
         self.action = False
         self.anim = 0
-        self.action_display = deque((False, False, False, False))
+        self.action_display = deque((), 4)
         self.action_set = False
         
     def _buttonPress(self):
@@ -96,7 +96,6 @@ class FightMode(GameMode):
                     self.box_selected = FightMode.FightBoxes.boxKey(self.box_selected, event.key)
                     
     def _setActionDisplay(self, text):
-        self.action_display.pop()
         self.action_display.appendleft( FightMode.shared['font_wrap'].renderInside(200, text, False, TEXT_COLOR) )
         self.action_set = not self.action_set
         
@@ -166,6 +165,5 @@ class FightMode(GameMode):
         self.player_mon.drawStanding(screen, (self.player_pos[0]+self.player_rel[0], self.player_pos[1]+self.player_rel[1]), True)
         self.enemy_mon.drawStanding(screen, (self.enemy_pos[0]+self.enemy_rel[0], self.enemy_pos[1]+self.enemy_rel[1]))
         for index, line in enumerate(self.action_display):
-            if line:
-                screen.blit(line, (120, 166 - 10 * index))
+            screen.blit(line, (120, 166 - 10 * index))
         

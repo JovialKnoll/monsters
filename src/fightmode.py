@@ -1,8 +1,9 @@
-import os, pygame
+import os, pygame, random
 from gamemode import *
 from boxes import *
 from constants import *
 from collections import deque
+random.seed()
 class FightMode(GameMode):
     class FightBoxes(Boxes):
         rects = {
@@ -59,24 +60,29 @@ class FightMode(GameMode):
         self.enemy_pos = (262,128)
         self.player_rel = [0,0]
         self.enemy_rel = [0,0]
-        self.action = False
-        self.anim = 0
+        
+        self.player_action = False
+        self.enemy_action = False
+        self.player_anim = 0
+        self.enemy_anim = 0
+        
         self.action_display = deque((), 4)
         self.action_set = False
         
     def _buttonPress(self):
         if self.box_selected == FightMode.FightBoxes.rects['top']:
-            self.action = 'attack'
+            self.player_action = 'attack'
             #print "pressed: top"
         elif self.box_selected == FightMode.FightBoxes.rects['middle']:
-            self.action = 'defend'
+            self.player_action = 'defend'
             #print "pressed: middle"
         elif self.box_selected == FightMode.FightBoxes.rects['bottom']:
-            self.action = 'escape'
+            self.player_action = 'escape'
             #print "pressed: bottom"
+        self.enemy_action = random.choice(('attack', 'defend'))
             
     def input(self, event_list):
-        if self.action:
+        if self.player_action:
             return
         for event in event_list:
             if event.type == pygame.MOUSEMOTION:
@@ -100,61 +106,89 @@ class FightMode(GameMode):
         self.action_set = not self.action_set
         
     def update(self):
-        if self.action == 'attack':
+        #player animation, etc.
+        if self.player_action == 'attack':
             if self.action_set == False:
                 self._setActionDisplay("I'm gonna hit 'em!")
-            if self.anim == 0:
+            if self.player_anim == 0:
                 self.player_rel[0] += 1
                 if self.player_rel[0] == 12:
-                    self.anim = 1
-            elif self.anim == 1:
+                    self.player_anim = 1
+            elif self.player_anim == 1:
                 self.player_rel[0] -= 1
                 if self.player_rel[0] == 0:
-                    self.anim = -1
+                    self.player_anim = -1
             else:
-                self.action = False
-                self.anim = 0
-                self._setActionDisplay("Hit for X! Took X!")
                 #do other things (calculate results, etc.)
-            
-        elif self.action == 'defend':
+                self._setActionDisplay("Hit for X! Took X!")
+                self.player_action = False
+                self.player_anim = 0
+        elif self.player_action == 'defend':
             if self.action_set == False:
                 self._setActionDisplay("I'm gonna block 'em!")
-            if self.anim == 0:
+            if self.player_anim == 0:
                 self.player_rel[0] -= 1
                 if self.player_rel[0] == -8:
-                    self.anim = 1
-            elif self.anim == 1:
+                    self.player_anim = 1
+            elif self.player_anim == 1:
                 self.player_rel[0] += 1
                 if self.player_rel[0] == 4:
-                    self.anim = 2
-            elif self.anim == 2:
+                    self.player_anim = 2
+            elif self.player_anim == 2:
                 self.player_rel[0] -= 1
                 if self.player_rel[0] == 0:
-                    self.anim = -1
+                    self.player_anim = -1
             else:
-                self.action = False
-                self.anim = 0
-                self._setActionDisplay("Hit for X! Took X!")
                 #do other things (calculate results, etc.)
-            
-        elif self.action == 'escape':
+                self._setActionDisplay("Hit for X! Took X!")
+                self.player_action = False
+                self.player_anim = 0
+        elif self.player_action == 'escape':
             if self.action_set == False:
                 self._setActionDisplay("I'm gonna run away!")
-            if self.anim == 0:
+            if self.player_anim == 0:
                 self.player_rel[0] -= 1
                 if self.player_rel[0] == -20:
-                    self.anim = 1
-            elif self.anim == 1:
+                    self.player_anim = 1
+            elif self.player_anim == 1:
                 self.player_rel[0] += 5
                 if self.player_rel[0] == 0:
-                    self.anim = -1
+                    self.player_anim = -1
             else:
-                self.action = False
-                self.anim = 0
-                self._setActionDisplay("Hit for X! Took X!")
                 #do other things (calculate results, etc.)
+                self._setActionDisplay("Hit for X! Took X!")
+                self.player_action = False
+                self.player_anim = 0
             
+        #enemy animation
+        if self.enemy_action == 'attack':
+            if self.enemy_anim == 0:
+                self.enemy_rel[0] -= 1
+                if self.enemy_rel[0] == -12:
+                    self.enemy_anim = 1
+            elif self.enemy_anim == 1:
+                self.enemy_rel[0] += 1
+                if self.enemy_rel[0] == 0:
+                    self.enemy_anim = -1
+            else:
+                self.enemy_action = False
+                self.enemy_anim = 0
+        elif self.enemy_action == 'defend':
+            if self.enemy_anim == 0:
+                self.enemy_rel[0] += 1
+                if self.enemy_rel[0] == 8:
+                    self.enemy_anim = 1
+            elif self.enemy_anim == 1:
+                self.enemy_rel[0] -= 1
+                if self.enemy_rel[0] == -4:
+                    self.enemy_anim = 2
+            elif self.enemy_anim == 2:
+                self.enemy_rel[0] += 1
+                if self.enemy_rel[0] == 0:
+                    self.enemy_anim = -1
+            else:
+                self.enemy_action = False
+                self.enemy_anim = 0
             
     def draw(self, screen):
         screen.fill(WHITE)

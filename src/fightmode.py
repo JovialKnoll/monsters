@@ -105,6 +105,19 @@ class FightMode(GameMode):
         self.action_display.appendleft( FightMode.shared['font_wrap'].renderInside(200, text, False, TEXT_COLOR) )
         self.action_set = not self.action_set
         
+    def _playerActionDone(self):
+        #calculate results based on player_action, enemy_action, stats, and maybe a random element
+        #display results below
+        self._setActionDisplay("Hit for X! Took X!")
+        #affect health of mons
+        #do stuff (..?) if one/both of them has no health left
+        self.player_action = False
+        self.player_anim = 0
+        
+    def enemyActionDone(self):
+        self.enemy_action = False
+        self.enemy_anim = 0
+        
     def update(self):
         #player animation, etc.
         if self.player_action == 'attack':
@@ -119,10 +132,7 @@ class FightMode(GameMode):
                 if self.player_rel[0] == 0:
                     self.player_anim = -1
             else:
-                #do other things (calculate results, etc.)
-                self._setActionDisplay("Hit for X! Took X!")
-                self.player_action = False
-                self.player_anim = 0
+                self._playerActionDone()
         elif self.player_action == 'defend':
             if self.action_set == False:
                 self._setActionDisplay("I'm gonna block 'em!")
@@ -139,10 +149,7 @@ class FightMode(GameMode):
                 if self.player_rel[0] == 0:
                     self.player_anim = -1
             else:
-                #do other things (calculate results, etc.)
-                self._setActionDisplay("Hit for X! Took X!")
-                self.player_action = False
-                self.player_anim = 0
+                self._playerActionDone()
         elif self.player_action == 'escape':
             if self.action_set == False:
                 self._setActionDisplay("I'm gonna run away!")
@@ -155,10 +162,7 @@ class FightMode(GameMode):
                 if self.player_rel[0] == 0:
                     self.player_anim = -1
             else:
-                #do other things (calculate results, etc.)
-                self._setActionDisplay("Hit for X! Took X!")
-                self.player_action = False
-                self.player_anim = 0
+                self._playerActionDone()
             
         #enemy animation
         if self.enemy_action == 'attack':
@@ -171,8 +175,7 @@ class FightMode(GameMode):
                 if self.enemy_rel[0] == 0:
                     self.enemy_anim = -1
             else:
-                self.enemy_action = False
-                self.enemy_anim = 0
+                self.enemyActionDone()
         elif self.enemy_action == 'defend':
             if self.enemy_anim == 0:
                 self.enemy_rel[0] += 1
@@ -187,8 +190,7 @@ class FightMode(GameMode):
                 if self.enemy_rel[0] == 0:
                     self.enemy_anim = -1
             else:
-                self.enemy_action = False
-                self.enemy_anim = 0
+                self.enemyActionDone()
             
     def draw(self, screen):
         screen.fill(WHITE)
@@ -198,6 +200,7 @@ class FightMode(GameMode):
         #draw some mons and stuff
         self.player_mon.drawStanding(screen, (self.player_pos[0]+self.player_rel[0], self.player_pos[1]+self.player_rel[1]), True)
         self.enemy_mon.drawStanding(screen, (self.enemy_pos[0]+self.enemy_rel[0], self.enemy_pos[1]+self.enemy_rel[1]))
+        #draw health bar / health numbers / stats / etc
         for index, line in enumerate(self.action_display):
             screen.blit(line, (120, 166 - 10 * index))
         

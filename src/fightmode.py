@@ -114,7 +114,7 @@ class FightMode(GameMode):
         self.player_action = False
         self.player_anim = 0
         
-    def enemyActionDone(self):
+    def _enemyActionDone(self):
         self.enemy_action = False
         self.enemy_anim = 0
         
@@ -175,7 +175,7 @@ class FightMode(GameMode):
                 if self.enemy_rel[0] == 0:
                     self.enemy_anim = -1
             else:
-                self.enemyActionDone()
+                self._enemyActionDone()
         elif self.enemy_action == 'defend':
             if self.enemy_anim == 0:
                 self.enemy_rel[0] += 1
@@ -190,7 +190,7 @@ class FightMode(GameMode):
                 if self.enemy_rel[0] == 0:
                     self.enemy_anim = -1
             else:
-                self.enemyActionDone()
+                self._enemyActionDone()
             
     def draw(self, screen):
         screen.fill(WHITE)

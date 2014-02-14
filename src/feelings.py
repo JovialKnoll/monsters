@@ -4,16 +4,16 @@ class Personality(object):
     #Passing around classes instead of strings or something, sort of like an enum.
     class Affectionate(object):
         stat = 'hpm'
-    
+        
     class Aggressive(object):
         stat = 'atk'
-    
+        
     class Careful(object):
         stat = 'def'
-    
+        
     class Energetic(object):
         stat = 'spd'
-    
+        
     @classmethod
     def random(cls):
         """Return a random personality."""
@@ -32,9 +32,18 @@ class Personality(object):
 class Mood(object):
     #So instead of using numbers/strings/whatever for moods, just use Mood.the_mood
     #This way, if something is mistyped or whatever we will get an error, useful.
-    neutral = 0
-    bored   = 1
-    sad     = 2
-    angry   = 3
-    happy   = 4
-    
+    class Neutral(object):
+        drvChange = 0
+        
+    class Bored(object):
+        drvChange = -1
+        
+    class Sad(object):
+        drvChange = -1
+        
+    class Angry(object):
+        drvChange = 1
+        
+    class Happy(object):
+        drvChange = 1
+        

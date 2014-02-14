@@ -23,7 +23,7 @@ class Monster(object):
         #it might make more sense to hold info for conversations flow in GameMode.shared, but I'm not sure
         #depends on how this number interacts with monster stuff
         self.personality = Personality.random()
-        self.mood = Mood.neutral#mood might only be changed by and do stuff during battles / convos? maybe
+        self.mood = Mood.Neutral#mood might only be changed by and do stuff during battles / convos? maybe
         self.stats = {x: 4 for x in ('hpm', 'atk', 'def', 'spd')}
         self.stats['drv'] = Monster.drv_max//2
         self.stats[self.personality.stat] += 1
@@ -39,6 +39,26 @@ class Monster(object):
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-head-'+self.sprite_groups[2]+'.png')), (0,0))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-legs-'+self.sprite_groups[3]+'.png')), (0,0))
         self._finishSprite()
+        
+    def fightStart(self):
+        self.stats['drv'] = max(min(self.stats['drv'] + self.mood.drvChange, Monster.drv_max), 0)
+        
+    def fightHit(self, action):
+        #todo: make speed affect more things
+        attack = self.stats['atk'] + random.randint(-1,1)
+        defend = self.stats['def'] + random.randint(-1,1)
+        if action == 'attack':
+            attack += self.stats['atk']//2 + random.randint(0,2)
+            defend += self.stats['atk']//2
+        elif action == 'defend':
+            attack += self.stats['def']//2
+            defend += self.stats['def']//2 + random.randint(0,2)
+        else:#'escape'
+            attack = attack//2 + self.stats['spd']//2
+            defend = defend//2 + self.stats['spd']//2
+        attack = max(attack + self.stats['drv'] - Monster.drv_max, 0)
+        defend = max(defend, 0)
+        return (attack, defend)
         
     def _finishSprite(self):
         #self.sprite_size = (64,64)

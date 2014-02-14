@@ -53,6 +53,7 @@ class FightMode(GameMode):
             FightMode.converted = True
         self.box_selected = FightMode.FightBoxes.rects['top']
         
+        player_mon.fightStart()
         self.player_mon = player_mon
         self.enemy_mon = enemy_mon
         
@@ -107,8 +108,14 @@ class FightMode(GameMode):
         
     def _playerActionDone(self):
         #calculate results based on player_action, enemy_action, stats, and maybe a random element
+        player_attack_defend = self.player_mon.fightHit(self.player_action)
+        enemy_attack_defend = self.enemy_mon.fightHit(self.enemy_action)
         #display results below
-        self._setActionDisplay("Hit for X! Took X!")
+        print "player_attack_defend" + str(player_attack_defend)
+        print "enemy_attack_defend" + str(enemy_attack_defend)
+        damage_to_enemy = max(player_attack_defend[0] - enemy_attack_defend[1], 0)
+        damage_to_player = max(enemy_attack_defend[0] - player_attack_defend[1], 0)
+        self._setActionDisplay("Hit for " + str(damage_to_enemy) + "! Took " + str(damage_to_player) + "!")
         #affect health of mons
         #do stuff (..?) if one/both of them has no health left
         self.player_action = False

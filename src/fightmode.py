@@ -1,4 +1,4 @@
-import os, pygame, random
+import os, pygame, random, utility
 from gamemode import *
 from boxes import *
 from constants import *
@@ -97,6 +97,9 @@ class FightMode(GameMode):
                         self.box_selected = select
                         self._buttonPress()
             elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_t:
+                    print "player_mon.stats = "+str(self.player_mon.stats)
+                    print "enemy_mon.stats = "+str(self.enemy_mon.stats)
                 if event.key == pygame.K_RETURN:
                     self._buttonPress()
                 else:
@@ -111,10 +114,11 @@ class FightMode(GameMode):
         player_attack_defend = self.player_mon.fightHit(self.player_action)
         enemy_attack_defend = self.enemy_mon.fightHit(self.enemy_action)
         #display results below
-        print "player_attack_defend" + str(player_attack_defend)
-        print "enemy_attack_defend" + str(enemy_attack_defend)
-        damage_to_enemy = max(player_attack_defend[0] - enemy_attack_defend[1], 0)
-        damage_to_player = max(enemy_attack_defend[0] - player_attack_defend[1], 0)
+        print "player_attack_defend = " + str(player_attack_defend)
+        print "enemy_attack_defend  = " + str(enemy_attack_defend)
+        damage_to_enemy = utility.reduceNumber( max(player_attack_defend[0] - enemy_attack_defend[1], 0) )
+        damage_to_player = utility.reduceNumber( max(enemy_attack_defend[0] - player_attack_defend[1], 0) )
+        
         self._setActionDisplay("Hit for " + str(damage_to_enemy) + "! Took " + str(damage_to_player) + "!")
         #affect health of mons
         #do stuff (..?) if one/both of them has no health left

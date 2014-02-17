@@ -3,7 +3,7 @@ random.seed()
 class Personality(object):
     #Passing around classes instead of strings or something, sort of like an enum.
     class Affectionate(object):
-        stat = 'hpm'
+        stat = 'vit'
         
     class Aggressive(object):
         stat = 'atk'

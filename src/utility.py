@@ -10,3 +10,4 @@ def reduceNumber(number):
     else:
         temp = math.ceil(temp)
     return int(temp)
+    

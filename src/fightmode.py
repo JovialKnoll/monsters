@@ -116,12 +116,23 @@ class FightMode(GameMode):
         #display results below
         print "player_attack_defend = " + str(player_attack_defend)
         print "enemy_attack_defend  = " + str(enemy_attack_defend)
-        damage_to_enemy = utility.reduceNumber( max(player_attack_defend[0] - enemy_attack_defend[1], 0) )
-        damage_to_player = utility.reduceNumber( max(enemy_attack_defend[0] - player_attack_defend[1], 0) )
+        damage_to_player = utility.reduceNumber(max( enemy_attack_defend[0] - player_attack_defend[1], 0))
+        damage_to_enemy  = utility.reduceNumber(max(player_attack_defend[0] -  enemy_attack_defend[1], 0))
+        
+        if damage_to_player == 0 and damage_to_enemy == 0:
+            damage_to_player = damage_to_enemy = 1
         
         self._setActionDisplay("Hit for " + str(damage_to_enemy) + "! Took " + str(damage_to_player) + "!")
-        #affect health of mons
-        #do stuff (..?) if one/both of them has no health left
+        self.player_mon.stats['hpc'] -= damage_to_player
+        self.enemy_mon.stats[ 'hpc'] -= damage_to_enemy
+        
+        if self.player_mon.stats['hpc'] < 1 and self.enemy_mon.stats['hpc'] < 1:
+            pass
+        elif self.player_mon.stats['hpc'] < 1:
+            pass
+        elif self.enemy_mon.stats['hpc'] < 1:
+            pass
+        
         self.player_action = False
         self.player_anim = 0
         
@@ -209,8 +220,8 @@ class FightMode(GameMode):
         if self.box_selected != FightMode.FightBoxes.elsewhere and self.action_set == False:
             screen.blit(FightMode.black_box, self.box_selected)
         #draw some mons and stuff
-        self.player_mon.drawStanding(screen, (self.player_pos[0]+self.player_rel[0], self.player_pos[1]+self.player_rel[1]), True)
-        self.enemy_mon.drawStanding(screen, (self.enemy_pos[0]+self.enemy_rel[0], self.enemy_pos[1]+self.enemy_rel[1]))
+        self.player_mon.drawStanding(screen, (self.player_pos[0] + self.player_rel[0], self.player_pos[1] + self.player_rel[1]), True)
+        self.enemy_mon.drawStanding( screen, (self.enemy_pos[0]  + self.enemy_rel[0] , self.enemy_pos[1]  + self.enemy_rel[1] ) )
         #draw health bar / health numbers / stats / etc
         for index, line in enumerate(self.action_display):
             screen.blit(line, (120, 166 - 10 * index))

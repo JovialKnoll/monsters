@@ -110,7 +110,6 @@ class FightMode(GameMode):
         self.action_set = not self.action_set
         
     def _playerActionDone(self):
-        self.player_anim = 0
         player_attack_defend = self.player_mon.fightHit(self.player_action)
         enemy_attack_defend = self.enemy_mon.fightHit(self.enemy_action)
         #print "player_attack_defend = " + str(player_attack_defend)
@@ -132,8 +131,7 @@ class FightMode(GameMode):
             self.player_action = 'lose'
         else:
             self.player_action = False
-        
-    def _enemyActionDone(self):
+        self.player_anim = 0
         self.enemy_action = False
         self.enemy_anim = 0
         
@@ -148,8 +146,6 @@ class FightMode(GameMode):
                 self.enemy_rel[0] += 1
                 if self.enemy_rel[0] == 0:
                     self.enemy_anim = -1
-            else:
-                self._enemyActionDone()
         elif self.enemy_action == 'defend':
             if self.enemy_anim == 0:
                 self.enemy_rel[0] += 1
@@ -163,8 +159,6 @@ class FightMode(GameMode):
                 self.enemy_rel[0] += 1
                 if self.enemy_rel[0] == 0:
                     self.enemy_anim = -1
-            else:
-                self._enemyActionDone()
         #player animation, etc.
         if self.player_action == 'attack':
             if self.action_set == False:

@@ -24,9 +24,9 @@ class Personality(object):
         """Generate a name for a monster."""
         #fill in with unique syllables
         if mon_personality in (cls.Affectionate, cls.Careful):
-            temp_name = random.choice(("fa","ji","sy","ba","vi","pho")) + random.choice(("la","lo","mog","ta"))
+            temp_name = random.choice(("Fa","Ji","Sy","Ba","Vi","Pho")) + random.choice(("la","lo","mog","ta"))
         else:#cls.Aggressive, cls.Energetic
-            temp_name = random.choice(("ga","ku","zi","ru","te","the")) + random.choice(("va","iy","na","ran"))
+            temp_name = random.choice(("Ga","Ku","Zi","Ru","Te","The")) + random.choice(("va","iy","na","ran"))
         return temp_name + random.choice(("ex","ul","av","em","ix","ab","ev","og","za","el"))
         
 class Mood(object):

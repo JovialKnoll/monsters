@@ -29,6 +29,8 @@ class FightMode(GameMode):
     black_box = pygame.image.load(os.path.join('gfx', 'backgrounds', 'blackbox.png'))
     background = pygame.image.load(os.path.join('gfx', 'backgrounds', 'layout2boxes.png'))
     converted = False
+    end_display_wait = 12
+    end_display_wait2 = 36
     
     def __init__(self, player_mon, enemy_mon):
         super(FightMode, self).__init__()
@@ -204,29 +206,23 @@ class FightMode(GameMode):
             else:
                 self._playerActionDone()
         elif self.player_action == 'draw':
-            if self.player_anim == -1:
-                return
-            if self.player_anim < 6:
-                self.player_anim += 1
-            else:
-                self.player_anim = -1
+            self.player_anim += 1
+            if self.player_anim == FightMode.end_display_wait:
                 self._setActionDisplay("They're both out cold.")
+            elif self.player_anim == FightMode.end_display_wait2:
+                pass#move to results screen?
         elif self.player_action == 'win':
-            if self.player_anim == -1:
-                return
-            if self.player_anim < 6:
-                self.player_anim += 1
-            else:
-                self.player_anim = -1
+            self.player_anim += 1
+            if self.player_anim == FightMode.end_display_wait:
                 self._setActionDisplay("I won!!!")
+            elif self.player_anim == FightMode.end_display_wait2:
+                pass#move to results screen?
         elif self.player_action == 'lose':
-            if self.player_anim == -1:
-                return
-            if self.player_anim < 6:
-                self.player_anim += 1
-            else:
-                self.player_anim = -1
+            self.player_anim += 1
+            if self.player_anim == FightMode.end_display_wait:
                 self._setActionDisplay(self.player_mon.name + "'s out cold.")
+            elif self.player_anim == FightMode.end_display_wait2:
+                pass#move to results screen?
             
     def draw(self, screen):
         screen.fill(WHITE)

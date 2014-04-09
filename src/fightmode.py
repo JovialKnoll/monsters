@@ -110,37 +110,61 @@ class FightMode(GameMode):
         self.action_set = not self.action_set
         
     def _playerActionDone(self):
-        #calculate results based on player_action, enemy_action, stats, and maybe a random element
+        self.player_anim = 0
         player_attack_defend = self.player_mon.fightHit(self.player_action)
         enemy_attack_defend = self.enemy_mon.fightHit(self.enemy_action)
-        #display results below
-        print "player_attack_defend = " + str(player_attack_defend)
-        print "enemy_attack_defend  = " + str(enemy_attack_defend)
+        #print "player_attack_defend = " + str(player_attack_defend)
+        #print "enemy_attack_defend  = " + str(enemy_attack_defend)
         damage_to_player = utility.reduceNumber(max( enemy_attack_defend[0] - player_attack_defend[1], 0))
         damage_to_enemy  = utility.reduceNumber(max(player_attack_defend[0] -  enemy_attack_defend[1], 0))
-        
         if damage_to_player == 0 and damage_to_enemy == 0:
             damage_to_player = damage_to_enemy = 1
-        
+        #display results below
         self._setActionDisplay("Hit for " + str(damage_to_enemy) + "! Took " + str(damage_to_player) + "!")
         self.player_mon.stats['hpc'] -= damage_to_player
         self.enemy_mon.stats[ 'hpc'] -= damage_to_enemy
         
         if self.player_mon.stats['hpc'] < 1 and self.enemy_mon.stats['hpc'] < 1:
-            pass
-        elif self.player_mon.stats['hpc'] < 1:
-            pass
+            self.player_action = 'draw'
         elif self.enemy_mon.stats['hpc'] < 1:
-            pass
-        
-        self.player_action = False
-        self.player_anim = 0
+            self.player_action = 'win'
+        elif self.player_mon.stats['hpc'] < 1:
+            self.player_action = 'lose'
+        else:
+            self.player_action = False
         
     def _enemyActionDone(self):
         self.enemy_action = False
         self.enemy_anim = 0
         
     def update(self):
+        #enemy animation
+        if self.enemy_action == 'attack':
+            if self.enemy_anim == 0:
+                self.enemy_rel[0] -= 1
+                if self.enemy_rel[0] == -12:
+                    self.enemy_anim = 1
+            elif self.enemy_anim == 1:
+                self.enemy_rel[0] += 1
+                if self.enemy_rel[0] == 0:
+                    self.enemy_anim = -1
+            else:
+                self._enemyActionDone()
+        elif self.enemy_action == 'defend':
+            if self.enemy_anim == 0:
+                self.enemy_rel[0] += 1
+                if self.enemy_rel[0] == 8:
+                    self.enemy_anim = 1
+            elif self.enemy_anim == 1:
+                self.enemy_rel[0] -= 1
+                if self.enemy_rel[0] == -4:
+                    self.enemy_anim = 2
+            elif self.enemy_anim == 2:
+                self.enemy_rel[0] += 1
+                if self.enemy_rel[0] == 0:
+                    self.enemy_anim = -1
+            else:
+                self._enemyActionDone()
         #player animation, etc.
         if self.player_action == 'attack':
             if self.action_set == False:
@@ -185,34 +209,30 @@ class FightMode(GameMode):
                     self.player_anim = -1
             else:
                 self._playerActionDone()
-            
-        #enemy animation
-        if self.enemy_action == 'attack':
-            if self.enemy_anim == 0:
-                self.enemy_rel[0] -= 1
-                if self.enemy_rel[0] == -12:
-                    self.enemy_anim = 1
-            elif self.enemy_anim == 1:
-                self.enemy_rel[0] += 1
-                if self.enemy_rel[0] == 0:
-                    self.enemy_anim = -1
+        elif self.player_action == 'draw':
+            if self.player_anim == -1:
+                return
+            if self.player_anim < 6:
+                self.player_anim += 1
             else:
-                self._enemyActionDone()
-        elif self.enemy_action == 'defend':
-            if self.enemy_anim == 0:
-                self.enemy_rel[0] += 1
-                if self.enemy_rel[0] == 8:
-                    self.enemy_anim = 1
-            elif self.enemy_anim == 1:
-                self.enemy_rel[0] -= 1
-                if self.enemy_rel[0] == -4:
-                    self.enemy_anim = 2
-            elif self.enemy_anim == 2:
-                self.enemy_rel[0] += 1
-                if self.enemy_rel[0] == 0:
-                    self.enemy_anim = -1
+                self.player_anim = -1
+                self._setActionDisplay("They're both out cold.")
+        elif self.player_action == 'win':
+            if self.player_anim == -1:
+                return
+            if self.player_anim < 6:
+                self.player_anim += 1
             else:
-                self._enemyActionDone()
+                self.player_anim = -1
+                self._setActionDisplay("I won!!!")
+        elif self.player_action == 'lose':
+            if self.player_anim == -1:
+                return
+            if self.player_anim < 6:
+                self.player_anim += 1
+            else:
+                self.player_anim = -1
+                self._setActionDisplay(self.player_mon.name + "'s out cold.")
             
     def draw(self, screen):
         screen.fill(WHITE)

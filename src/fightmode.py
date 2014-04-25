@@ -29,8 +29,6 @@ class FightMode(GameMode):
     black_box = pygame.image.load(os.path.join('gfx', 'backgrounds', 'blackbox.png'))
     background = pygame.image.load(os.path.join('gfx', 'backgrounds', 'layout2boxes.png'))
     converted = False
-    end_display_wait = 12
-    end_display_wait2 = 36
     
     def __init__(self, player_mon, enemy_mon):
         super(FightMode, self).__init__()
@@ -72,6 +70,8 @@ class FightMode(GameMode):
         self.action_display = deque((), 4)
         self.action_set = False
         
+        self.result = False
+        
     def _buttonPress(self):
         if self.box_selected == FightMode.FightBoxes.rects['top']:
             self.player_action = 'attack'
@@ -85,6 +85,14 @@ class FightMode(GameMode):
         self.enemy_action = random.choice(('attack', 'defend'))
             
     def input(self, event_list):
+        if self.result:
+            for event in event_list:
+                if event.type in (pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN):
+                    pass#do something based on draw, win, lose
+                    #perhaps fightmode should take in arguments
+                    #for three functions (for draw, win, lose scenarios)
+                    #the functions would be assumed to return the next mode
+                    #and could set that up or interact with the other variables as needed
         if self.player_action:
             return
         for event in event_list:
@@ -99,6 +107,7 @@ class FightMode(GameMode):
                         self.box_selected = select
                         self._buttonPress()
             elif event.type == pygame.KEYDOWN:
+                #testing stuff, remove later
                 if event.key == pygame.K_t:
                     print "player_mon.stats = "+str(self.player_mon.stats)
                     print "enemy_mon.stats = "+str(self.enemy_mon.stats)
@@ -206,24 +215,20 @@ class FightMode(GameMode):
             else:
                 self._playerActionDone()
         elif self.player_action == 'draw':
-            self.player_anim += 1
-            if self.player_anim == FightMode.end_display_wait:
-                self._setActionDisplay("They're both out cold.")
-            elif self.player_anim == FightMode.end_display_wait2:
-                pass#move to results screen?
+            self._endStuff("They're both out cold.")
         elif self.player_action == 'win':
-            self.player_anim += 1
-            if self.player_anim == FightMode.end_display_wait:
-                self._setActionDisplay("I won!!!")
-            elif self.player_anim == FightMode.end_display_wait2:
-                pass#move to results screen?
+            self._endStuff("I won!!!")
         elif self.player_action == 'lose':
-            self.player_anim += 1
-            if self.player_anim == FightMode.end_display_wait:
-                self._setActionDisplay(self.player_mon.name + "'s out cold.")
-            elif self.player_anim == FightMode.end_display_wait2:
-                pass#move to results screen?
+            self._endStuff(self.player_mon.name + "'s out cold.")
             
+    def _endStuff(self, result_display):
+        self.player_anim += 1
+        if self.player_anim == 30:
+            self._setActionDisplay(result_display)
+        elif self.player_anim == 60:
+            self._setActionDisplay("Input to continue.")
+            self.result = self.player_action
+        
     def draw(self, screen):
         screen.fill(WHITE)
         screen.blit(FightMode.background, (0,0))

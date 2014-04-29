@@ -30,7 +30,8 @@ class FightMode(GameMode):
     background = pygame.image.load(os.path.join('gfx', 'backgrounds', 'layout2boxes.png'))
     converted = False
     
-    def __init__(self, player_mon, enemy_mon):
+    def __init__(self, player_mon, enemy_mon, draw_func, win_func, lose_func):
+        """The functions passed in should return the next mode."""
         super(FightMode, self).__init__()
         if not FightMode.converted:
             FightMode.black_box = FightMode.black_box.convert_alpha()
@@ -71,6 +72,7 @@ class FightMode(GameMode):
         self.action_set = False
         
         self.result = False
+        self.result_func = {'draw': draw_func, 'win': win_func, 'lose': lose_func}
         
     def _buttonPress(self):
         if self.box_selected == FightMode.FightBoxes.rects['top']:
@@ -88,11 +90,8 @@ class FightMode(GameMode):
         if self.result:
             for event in event_list:
                 if event.type in (pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN):
-                    pass#do something based on draw, win, lose
-                    #perhaps fightmode should take in arguments
-                    #for three functions (for draw, win, lose scenarios)
-                    #the functions would be assumed to return the next mode
-                    #and could set that up or interact with the other variables as needed
+                    self.next_mode = self.result_func[self.result]()
+                    return
         if self.player_action:
             return
         for event in event_list:

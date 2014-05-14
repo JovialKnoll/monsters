@@ -82,6 +82,12 @@ class Monster(object):
         self.stats['hpm'] = self.stats['vit']*2 + self.stats['vit']//2 + self.stats['vit']//4
         self.stats['hpc'] = self.stats['hpm']
         
+    def darkSkin(self):
+        return self.skin[self.lvl].dark
+        
+    def lightSkin(self):
+        return self.skin[self.lvl].light
+        
     def levelUp(self):
         """Level up a monster, setting stats, etc. as needed."""
         if self.lvl >= Monster.lvl_max:
@@ -99,8 +105,8 @@ class Monster(object):
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-arms-'+self.sprite_groups[4]+str(random.randint(0,2))+'.png')), (0,0))
         #color swapping stuff
         pix_array = pygame.PixelArray(self.sprite)
-        pix_array.replace(self.skin[0].dark, self.skin[self.lvl].dark)
-        pix_array.replace(self.skin[0].light, self.skin[self.lvl].light)
+        pix_array.replace(self.skin[0].dark, self.darkSkin())
+        pix_array.replace(self.skin[0].light, self.lightSkin())
         del pix_array
         self._finishSprite()
         return 1

@@ -26,7 +26,8 @@ class ConvoMode(GameMode):
             
     SCROLL_AMOUNT_MOUSE = 10
     SCROLL_AMOUNT_KEY = 1
-    black_box = pygame.image.load(os.path.join('gfx', 'backgrounds', 'blackbox.png'))
+    sprite_path = os.path.join('gfx', 'backgrounds')
+    black_box = pygame.image.load(os.path.join(sprite_path, 'blackbox.png'))
     converted = False
     
     def _textMain(self):
@@ -88,7 +89,7 @@ class ConvoMode(GameMode):
         if not ConvoMode.converted:
             ConvoMode.black_box = ConvoMode.black_box.convert_alpha()
             ConvoMode.converted = True
-        self.background = pygame.image.load(os.path.join('gfx', 'backgrounds', 'layout1boxes.png')).convert_alpha()
+        self.background = pygame.image.load(os.path.join(ConvoMode.sprite_path, 'layout1boxes.png')).convert_alpha()
         self._readyText()
         self.y_scroll = {'up': 0, 'down': 0}
         self.box_selected = ConvoMode.ConvoBoxes.rects['top_left']

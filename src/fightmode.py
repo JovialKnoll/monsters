@@ -26,8 +26,10 @@ class FightMode(GameMode):
                 return cls.rects['bottom']
             return box
             
-    black_box = pygame.image.load(os.path.join('gfx', 'backgrounds', 'blackbox.png'))
-    background = pygame.image.load(os.path.join('gfx', 'backgrounds', 'layout2boxes.png'))
+    sprite_path = os.path.join('gfx', 'backgrounds')
+    health_bar = pygame.image.load(os.path.join(sprite_path, 'healthbar.png'))
+    black_box = pygame.image.load(os.path.join(sprite_path, 'blackbox.png'))
+    background = pygame.image.load(os.path.join(sprite_path, 'layout2boxes.png'))
     converted = False
     
     def __init__(self, player_mon, enemy_mon, draw_func, win_func, lose_func):
@@ -235,8 +237,15 @@ class FightMode(GameMode):
             screen.blit(FightMode.black_box, self.box_selected)
         #draw some mons and stuff
         self.player_mon.drawStanding(screen, (self.player_pos[0] + self.player_rel[0], self.player_pos[1] + self.player_rel[1]), True)
+        player_bar_length = 60*self.player_mon.stats['hpc']//self.player_mon.stats['hpm']
+        screen.fill(self.player_mon.lightSkin(), (138, 30, player_bar_length, 10))
+        screen.blit(FightMode.health_bar, (137, 29))
+        
         self.enemy_mon.drawStanding( screen, (self.enemy_pos[0]  + self.enemy_rel[0] , self.enemy_pos[1]  + self.enemy_rel[1] ) )
-        #draw health bar / health numbers / stats / etc
+        enemy_bar_length = 60*self.enemy_mon.stats['hpc']//self.enemy_mon.stats['hpm']
+        screen.fill(self.enemy_mon.lightSkin(), (294-enemy_bar_length, 30, enemy_bar_length, 10))
+        screen.blit(FightMode.health_bar, (233, 29))
+        #maybe draw health numbers / stats / etc
         for index, line in enumerate(self.action_display):
             screen.blit(line, (120, 166 - 10 * index))
         

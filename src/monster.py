@@ -5,7 +5,7 @@ random.seed()
 class Monster(object):
     drv_max = 4
     lvl_max = 3
-    main_stats = ('vit', 'atk', 'def', 'spd')
+    main_stats = ('atk', 'def', 'spd', 'vit')
     sprite_path = os.path.join('gfx', 'monster-parts')
     
     @classmethod
@@ -20,6 +20,7 @@ class Monster(object):
         """Create a new monster, setting stats, etc. as needed."""
         self.sprite_size = (48,48)
         self.lvl = 0
+        #self.awr might not even need to be a thing, remove this if it ends up not mattering
         self.awr = 0#awareness, this is a thing for conversations / progress through the game
         #it might make more sense to hold info for conversations flow in GameMode.shared, but I'm not sure
         #depends on how this number interacts with monster stuff

@@ -2,6 +2,7 @@ from monconvomode import *
 from testmode import *
 from fightmode import *
 from monster import *
+from menumode import *
 class ConvoMode0(MonConvoMode):
     def _textMain(self):
         return "Scrolling is enabled!\n" + \
@@ -31,6 +32,7 @@ class ConvoMode0(MonConvoMode):
             lambda: ConvoMode0(), lambda: ConvoMode0(), lambda: TestMode())
     def _goButton2(self):
         print "The main thing would be to have pressing a button set variables."
+        self.next_mode = MenuMode()
     def _goButton3(self):
         print "The other main thing would be to have pressing a button change the mode.\n" + \
             "It could set variables and then change the mode."

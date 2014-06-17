@@ -1,3 +1,5 @@
+re-evaluate mon stats, tally up results for "which mon would win" for different possible distributions of stats
+saving the game!
 
 lower priority:
-	scroll slider thingy for convomode.py, click-and-drag-able
+	(maybe) scroll slider thingy for convomode.py, click-and-drag-able

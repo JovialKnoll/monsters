@@ -1,4 +1,4 @@
-import pygame, os, sys
+import pygame, os, sys, cPickle
 from constants import *
 from monster import *
 from fontwrap import *
@@ -12,6 +12,7 @@ class Game(object):
         pygame.init()
         self.running = True
         self.quit = False
+        self.save = False
         #pygame.mouse.set_visible(False)
         #set window icon/captions here...
         GameMode.shared = {'font': pygame.font.Font(os.path.join('gfx', 'simple_mono.ttf'), 8)}
@@ -58,9 +59,12 @@ class Game(object):
         self.screen = self.screen.convert(self.full_screen)
         self.is_fullscreen = True
         
-    def _saveGame(self):
+    def _saveGame(self, file_name):
         """Save the game."""
-        pass#a blank function for now
+        a = ['asd', (1,2,3), 123]
+        with open(file_name + '.sav', 'wb') as f:
+            cPickle.dump(a, f, 2)
+        #a blank function for now
         
     def _quitInit(self):
         self.quit = True
@@ -72,25 +76,39 @@ class Game(object):
         for event in event_list:
             if event.type == pygame.QUIT:
                 self.running = False
-            elif event.type == pygame.KEYDOWN:
+            elif event.type == pygame.KEYDOWN:#eventually use buttons, methinks
                 if event.key == pygame.K_c:
                     self.quit = False
                 if event.key == pygame.K_s:
-                    self._saveGame()
-                    self.running = False
+                    self.save = True
+                    self.save_file_name = ''
+                    #click on other save file names to set save_file_name equal
+                    #or type in
+                #also need option to load game
                 if event.key in (pygame.K_q, pygame.K_ESCAPE):
                     self.running = False
-                    
+                if event.key == pygame.K_RETURN:#button or this
+                    if self.save:
+                        self._saveGame(self.save_file_name)
+                        
     def _quitUpdate(self):
         pass
         
     def _quitDraw(self, screen):
-        #just to show that the game is 'paused', in quit mode, something better should be here later
         if self.quit_recent:
-            disp_text = "Options:\nContinue (C),\nSave & Quit (S),\nQuit (Q)"
-            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 16 * 8, disp_text, False, WHITE, BLACK)
+            self.old_screen = screen.copy()
             self.quit_recent = False
-            
+        screen.blit(self.old_screen, (0,0))
+        if self.save:
+            pass
+            #display prompt for file to save
+            #display save_file_name in there
+        
+        disp_text = "Options:\nContinue (C),\nSave & Quit (S),\nQuit (Q)"
+        GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 16 * 8, disp_text, False, WHITE, BLACK)
+        #center this, make bigger and buttons
+        #more to come
+        
     def run(self):
         """Run the game, and check if the game needs to end."""
         if not self.running:

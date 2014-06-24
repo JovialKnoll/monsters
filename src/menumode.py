@@ -11,7 +11,7 @@ class MenuMode(MonConvoMode):
         mon_string += "hpc: " + str(mon.stats['hpc']) + "  "
         mon_string += "drv: " + str(mon.stats['drv'])
         
-        return mon_string.upper()
+        return mon.name + "\n" + mon_string.upper()
         
     def _textButton0(self):
         return "Wanna Talk?"
@@ -26,6 +26,6 @@ class MenuMode(MonConvoMode):
     def _goButton1(self):
         print "Go to a fight?"
     def _goButton2(self):
-        print "Something?"
+        print "Something?"#uhhhh
     def _goButton3(self):
         pygame.event.post(pygame.event.Event(pygame.QUIT, {}))

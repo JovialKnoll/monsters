@@ -12,7 +12,7 @@ class Game(object):
         pygame.init()
         self.running = True
         self.quit = False
-        self.save = False
+        self._clearSaveStuff()
         #pygame.mouse.set_visible(False)
         #set window icon/captions here...
         GameMode.shared = {'font': pygame.font.Font(os.path.join('gfx', 'simple_mono.ttf'), 8)}
@@ -59,6 +59,12 @@ class Game(object):
         self.screen = self.screen.convert(self.full_screen)
         self.is_fullscreen = True
         
+    def _clearSaveStuff(self):
+        self.save = False
+        self.save_selected = False
+        self.save_name = ''
+        self.save_cursor = 0
+        
     def _saveGame(self, file_name):
         """Save the game."""
         a = ['asd', (1,2,3), 123]
@@ -77,24 +83,33 @@ class Game(object):
             if event.type == pygame.QUIT:
                 self.running = False
             elif event.type == pygame.KEYDOWN:#eventually use buttons, methinks
+                if self.save_selected:
+                    in_key = event.key
+                    if in_key == pygame.K_BACKSPACE and self.save_cursor > 0:
+                        self.save_name = self.save_name[:self.save_cursor-1] + self.save_name[self.save_cursor:]
+                    if in_key == pygame.K_DELETE:
+                        self.save_name = self.save_name[:self.save_cursor] + self.save_name[self.save_cursor+1:]
+                    if in_key == pygame.K_RETURN:
+                        self._saveGame(self.save_name)#also call on a button press
+                    #take in actual characters for a range...
+                    #keep track of capslock / shift...
+                    continue
                 if event.key == pygame.K_c:
                     self.quit = False
                 if event.key == pygame.K_s:
                     self.save = True
-                    self.save_file_name = ''
-                    #click on other save file names to set save_file_name equal
+                    self.save_selected = True
+                    #click on other save file names to set save_name equal
                     #or type in
                 #also need option to load game
-                if event.key in (pygame.K_q, pygame.K_ESCAPE):
+                if event.key in (pygame.K_q, pygame.K_ESCAPE):#make escape return to game, out of this menu
                     self.running = False
-                if event.key == pygame.K_RETURN:#button or this
-                    if self.save:
-                        self._saveGame(self.save_file_name)
                         
     def _quitUpdate(self):
         pass
         
     def _quitDraw(self, screen):
+        #buttons!!!
         if self.quit_recent:
             self.old_screen = screen.copy()
             self.quit_recent = False
@@ -102,7 +117,7 @@ class Game(object):
         if self.save:
             pass
             #display prompt for file to save
-            #display save_file_name in there
+            #display save_name in there
         
         disp_text = "Options:\nContinue (C),\nSave & Quit (S),\nQuit (Q)"
         GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 16 * 8, disp_text, False, WHITE, BLACK)

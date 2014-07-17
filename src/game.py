@@ -85,14 +85,21 @@ class Game(object):
             elif event.type == pygame.KEYDOWN:#eventually use buttons, methinks
                 if self.save_selected:
                     in_key = event.key
-                    if in_key == pygame.K_BACKSPACE and self.save_cursor > 0:
-                        self.save_name = self.save_name[:self.save_cursor-1] + self.save_name[self.save_cursor:]
-                    if in_key == pygame.K_DELETE:
-                        self.save_name = self.save_name[:self.save_cursor] + self.save_name[self.save_cursor+1:]
                     if in_key == pygame.K_RETURN:
                         self._saveGame(self.save_name)#also call on a button press
-                    #take in actual characters for a range...
-                    #keep track of capslock / shift...
+                        #other things should happen here (return whether game saved)
+                        #(also exit save section)
+                    elif in_key == pygame.K_DELETE:
+                        self.save_name = self.save_name[:self.save_cursor] + self.save_name[self.save_cursor+1:]
+                    elif in_key == pygame.K_BACKSPACE:
+                        if self.save_cursor > 0:
+                            self.save_name = self.save_name[:self.save_cursor-1] + self.save_name[self.save_cursor:]
+                            self.save_cursor -= 1
+                    elif in_key < 128:#maybe need better check for non-letter characters
+                        self.save_name = self.save_name + event.unicode
+                        self.save_cursor += 1
+                        #take in actual characters for a range...
+                        #keep track of capslock / shift...
                     continue
                 if event.key == pygame.K_c:
                     self.quit = False
@@ -114,15 +121,15 @@ class Game(object):
             self.old_screen = screen.copy()
             self.quit_recent = False
         screen.blit(self.old_screen, (0,0))
-        if self.save:
-            pass
+        if not self.save:
+            disp_text = "Options:\nContinue (C),\nSave & Quit (S),\nQuit (Q)"
+            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 16 * 8, disp_text, False, WHITE, BLACK)
+            #center this, make bigger and buttons
+            #more to come
+        else:
+            GameMode.shared['font_wrap'].renderToInside(screen, (64,64), 16 * 8, self.save_name, False, BLACK, WHITE)
             #display prompt for file to save
             #display save_name in there
-        
-        disp_text = "Options:\nContinue (C),\nSave & Quit (S),\nQuit (Q)"
-        GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 16 * 8, disp_text, False, WHITE, BLACK)
-        #center this, make bigger and buttons
-        #more to come
         
     def run(self):
         """Run the game, and check if the game needs to end."""

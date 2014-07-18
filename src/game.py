@@ -85,6 +85,7 @@ class Game(object):
             elif event.type == pygame.KEYDOWN:#eventually use buttons, methinks
                 if self.save_selected:
                     in_key = event.key
+                    char = event.unicode
                     if in_key == pygame.K_RETURN:
                         self._saveGame(self.save_name)#also call on a button press
                         #other things should happen here (return whether game saved)
@@ -95,8 +96,8 @@ class Game(object):
                         if self.save_cursor > 0:
                             self.save_name = self.save_name[:self.save_cursor-1] + self.save_name[self.save_cursor:]
                             self.save_cursor -= 1
-                    elif in_key < 128:#maybe need better check for non-letter characters
-                        self.save_name = self.save_name + event.unicode
+                    elif (char >= '0' and char <= '9' ) or (in_key > 96 and in_key < 123):
+                        self.save_name = self.save_name + char
                         self.save_cursor += 1
                         #take in actual characters for a range...
                         #keep track of capslock / shift...

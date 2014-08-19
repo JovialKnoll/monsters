@@ -61,7 +61,6 @@ class Game(object):
         
     def _clearSaveStuff(self):
         self.save = False
-        self.save_selected = False
         self.save_name = ''
         self.save_cursor = 0
         
@@ -69,8 +68,8 @@ class Game(object):
         """Save the game."""
         a = ['asd', (1,2,3), 123]
         with open(file_name + '.sav', 'wb') as f:
-            cPickle.dump(a, f, 2)
-        #a blank function for now
+            cPickle.dump(a, f, cPickle.HIGHEST_PROTOCOL)
+        self._clearSaveStuff()
         
     def _quitInit(self):
         self.quit = True
@@ -79,38 +78,43 @@ class Game(object):
     def _quitInput(self, event_list):
         #this could be replaced with actual buttons maybe
         #or could also have actual buttons
+        #get on that, future self
         for event in event_list:
             if event.type == pygame.QUIT:
                 self.running = False
-            elif event.type == pygame.KEYDOWN:#eventually use buttons, methinks
-                if self.save_selected:
+            elif event.type == pygame.KEYDOWN:
+                if self.save:
                     in_key = event.key
                     char = event.unicode
-                    if in_key == pygame.K_RETURN:
-                        self._saveGame(self.save_name)#also call on a button press
-                        #other things should happen here (return whether game saved)
-                        #(also exit save section)
+                    if in_key == pygame.K_ESCAPE:
+                        self._clearSaveStuff()
+                    if in_key == pygame.K_RETURN:#also call on a button press
+                        self._saveGame(self.save_name)
+                    elif in_key == pygame.K_LEFT:
+                        self.save_cursor = max(self.save_cursor-1, 0)
+                    elif in_key == pygame.K_RIGHT:
+                        self.save_cursor = min(self.save_cursor+1, len(self.save_name))
+                    elif in_key in (pygame.K_UP, pygame.K_HOME):
+                        self.save_cursor = 0
+                    elif in_key in (pygame.K_DOWN, pygame.K_END):
+                        self.save_cursor = len(self.save_name)
                     elif in_key == pygame.K_DELETE:
                         self.save_name = self.save_name[:self.save_cursor] + self.save_name[self.save_cursor+1:]
                     elif in_key == pygame.K_BACKSPACE:
                         if self.save_cursor > 0:
                             self.save_name = self.save_name[:self.save_cursor-1] + self.save_name[self.save_cursor:]
                             self.save_cursor -= 1
-                    elif (char >= '0' and char <= '9' ) or (in_key > 96 and in_key < 123):
-                        self.save_name = self.save_name + char
+                    elif (char >= '0' and char <= '9' ) or (in_key > 96 and in_key < 123):#numbers and letters
+                        self.save_name = self.save_name[:self.save_cursor] + char + self.save_name[self.save_cursor:]
                         self.save_cursor += 1
-                        #take in actual characters for a range...
-                        #keep track of capslock / shift...
                     continue
-                if event.key == pygame.K_c:
+                if event.key == pygame.K_ESCAPE:
                     self.quit = False
                 if event.key == pygame.K_s:
                     self.save = True
-                    self.save_selected = True
-                    #click on other save file names to set save_name equal
-                    #or type in
+                    #click on other save file names to set save_name equal to that
                 #also need option to load game
-                if event.key in (pygame.K_q, pygame.K_ESCAPE):#make escape return to game, out of this menu
+                if event.key == pygame.K_q:
                     self.running = False
                         
     def _quitUpdate(self):
@@ -123,7 +127,7 @@ class Game(object):
             self.quit_recent = False
         screen.blit(self.old_screen, (0,0))
         if not self.save:
-            disp_text = "Options:\nContinue (C),\nSave & Quit (S),\nQuit (Q)"
+            disp_text = "Options:\nContinue (ESC),\nSave & Quit (S),\nQuit (Q)"
             GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 16 * 8, disp_text, False, WHITE, BLACK)
             #center this, make bigger and buttons
             #more to come
@@ -172,7 +176,7 @@ class Game(object):
                     return True
                 self._quitInit()
                 return False
-            #Window re-sizing stuff
+            #window re-sizing stuff
             elif event.key in (pygame.K_PAGEUP, pygame.K_PERIOD):
                 if self.upscale < self.upscale_max:
                     self._windowSet(1)

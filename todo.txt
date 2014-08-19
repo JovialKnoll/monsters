@@ -1,5 +1,10 @@
-re-evaluate mon stats, tally up results for "which mon would win" for different possible distributions of stats
 saving the game!
+	displaying cursor
+	loading
+	saving to an existing save file name
+	buttons?
+
+re-evaluate mon stats, tally up results for "which mon would win" for different possible distributions of stats
 
 lower priority:
 	(maybe) scroll slider thingy for convomode.py, click-and-drag-able

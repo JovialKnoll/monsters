@@ -88,7 +88,7 @@ class Game(object):
                     char = event.unicode
                     if in_key == pygame.K_ESCAPE:
                         self._clearSaveStuff()
-                    if in_key == pygame.K_RETURN:#also call on a button press
+                    elif in_key == pygame.K_RETURN:#also call on a button press
                         self._saveGame(self.save_name)
                     elif in_key == pygame.K_LEFT:
                         self.save_cursor = max(self.save_cursor-1, 0)

@@ -89,7 +89,8 @@ class Game(object):
                     if in_key == pygame.K_ESCAPE:
                         self._clearSaveStuff()
                     elif in_key == pygame.K_RETURN:#also call on a button press
-                        self._saveGame(self.save_name)
+                        if self.save_name:
+                            self._saveGame(self.save_name)
                     elif in_key == pygame.K_LEFT:
                         self.save_cursor = max(self.save_cursor-1, 0)
                     elif in_key == pygame.K_RIGHT:
@@ -127,11 +128,13 @@ class Game(object):
             self.quit_recent = False
         screen.blit(self.old_screen, (0,0))
         if not self.save:
-            disp_text = "Options:\nContinue (ESC),\nSave & Quit (S),\nQuit (Q)"
+            disp_text = "Options:\n_Continue (ESC)\n_Save (S)\n_Quit (Q)"
             GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 16 * 8, disp_text, False, WHITE, BLACK)
             #center this, make bigger and buttons
             #more to come
         else:
+            disp_text = "Options:\n_Go Back (ESC)\n_Save (ENTER)\nType a file name:"
+            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 16 * 8, disp_text, False, WHITE, BLACK)
             GameMode.shared['font_wrap'].renderToInside(screen, (64,64), 16 * 8, self.save_name, False, BLACK, WHITE)
             #display prompt for file to save
             #display save_name in there

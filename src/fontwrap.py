@@ -15,24 +15,25 @@ class FontWrap(object):
         """Returns a surface of the width with the words drawn on it.
         If any word is too long to fit, it will be in its own line, and truncated.
         """
-        lines = words[:1]
+        lines = [words[0].replace('_', ' ')]
         for word in words[1:]:
-            if self.font.size(lines[-1]+" "+word)[0] > width:
-                lines.append(word)
+            new_word = word.replace('_', ' ')
+            if self.font.size(lines[-1] + " " + new_word)[0] > width:
+                lines.append(new_word)
             else:
-                lines[-1] += " "+word
+                lines[-1] += " " + new_word
                 
         height = self.font.get_height()
         if background is None:
             drawn_lines = [self.font.render(line, antialias, color).convert_alpha() for line in lines]
         else:
             drawn_lines = [self.font.render(line, antialias, color, background).convert() for line in lines]
-        result = pygame.Surface((width, height*len(drawn_lines)), 0, drawn_lines[0])
+        result = pygame.Surface((width, height * len(drawn_lines)), 0, drawn_lines[0])
         if background is not None:
             result.fill(background)
             
         for i, line in enumerate(drawn_lines):
-            result.blit(line, (0, i*height))
+            result.blit(line, (0, i * height))
         return result
         
     def renderToInside(self, surf, dest, width, text, antialias, color, background=None):

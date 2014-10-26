@@ -135,9 +135,11 @@ class Game(object):
             #center this, make bigger and buttons
             #more to come
         else:
-            disp_text = "Options:\n_Go Back (ESC)\n_Save (ENTER)\nType a file name:"
+            disp_text = "Options:\n_Go Back (ESC)\n_Save (ENTER)\nType a file name:\n"
+            if self.save_name:
+                disp_text += self.save_name
+            disp_text += ".sav"
             GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 20 * 8, disp_text, False, WHITE, BLACK)
-            GameMode.shared['font_wrap'].renderToInside(screen, (64,64), 20 * 8, self.save_name, False, BLACK, WHITE)
             #display prompt for file to save
             #display save_name in there
         

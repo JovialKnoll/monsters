@@ -157,3 +157,6 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+# This project
+savegames/

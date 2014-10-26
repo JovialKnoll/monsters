@@ -67,7 +67,9 @@ class Game(object):
     def _saveGame(self, file_name):
         """Save the game."""
         a = ['asd', (1,2,3), 123]
-        with open(file_name + '.sav', 'wb') as f:
+        if not os.path.exists(SAVE_DIRECTORY):
+            os.makedirs(SAVE_DIRECTORY)
+        with open(os.path.join(SAVE_DIRECTORY, file_name + '.sav'), 'wb') as f:
             cPickle.dump(a, f, cPickle.HIGHEST_PROTOCOL)
         self._clearSaveStuff()
         
@@ -129,13 +131,13 @@ class Game(object):
         screen.blit(self.old_screen, (0,0))
         if not self.save:
             disp_text = "Options:\n_Continue (ESC)\n_Save (S)\n_Quit (Q)"
-            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 16 * 8, disp_text, False, WHITE, BLACK)
+            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 20 * 8, disp_text, False, WHITE, BLACK)
             #center this, make bigger and buttons
             #more to come
         else:
             disp_text = "Options:\n_Go Back (ESC)\n_Save (ENTER)\nType a file name:"
-            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 16 * 8, disp_text, False, WHITE, BLACK)
-            GameMode.shared['font_wrap'].renderToInside(screen, (64,64), 16 * 8, self.save_name, False, BLACK, WHITE)
+            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 20 * 8, disp_text, False, WHITE, BLACK)
+            GameMode.shared['font_wrap'].renderToInside(screen, (64,64), 20 * 8, self.save_name, False, BLACK, WHITE)
             #display prompt for file to save
             #display save_name in there
         

@@ -1,7 +1,7 @@
 import os, pygame, random, utility
+from constants import *
 from gamemode import *
 from boxes import *
-from constants import *
 from collections import deque
 random.seed()
 class FightMode(GameMode):
@@ -26,7 +26,7 @@ class FightMode(GameMode):
                 return cls.rects['bottom']
             return box
             
-    sprite_path = os.path.join('gfx', 'backgrounds')
+    sprite_path = os.path.join(GRAPHICS_DIRECTORY, BACKGROUNDS_DIRECTORY)
     health_bar = pygame.image.load(os.path.join(sprite_path, 'healthbar.png'))
     black_box = pygame.image.load(os.path.join(sprite_path, 'blackbox.png'))
     background = pygame.image.load(os.path.join(sprite_path, 'layout2boxes.png'))

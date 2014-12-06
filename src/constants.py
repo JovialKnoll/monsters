@@ -3,4 +3,7 @@ FRAMERATE = 60
 TEXT_COLOR = (164, 162, 165)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+GRAPHICS_DIRECTORY = 'gfx'
+BACKGROUNDS_DIRECTORY = 'backgrounds'
+FONT = 'simple_mono.ttf'
 SAVE_DIRECTORY = 'savegames'

@@ -15,7 +15,7 @@ class Game(object):
         self._clearSaveStuff()
         #pygame.mouse.set_visible(False)
         #set window icon/captions here...
-        GameMode.shared = {'font': pygame.font.Font(os.path.join('gfx', 'simple_mono.ttf'), 8)}
+        GameMode.shared = {'font': pygame.font.Font(os.path.join(GRAPHICS_DIRECTORY, FONT), 8)}
         GameMode.shared['font_wrap'] = FontWrap(GameMode.shared['font'])
         #all children of GameMode can access the shared dictionary with self.shared
         

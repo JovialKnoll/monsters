@@ -1,4 +1,5 @@
 import os, pygame, random
+from constants import *
 from skin import *
 from feelings import *
 random.seed()
@@ -6,7 +7,7 @@ class Monster(object):
     drv_max = 4
     lvl_max = 3
     main_stats = ('atk', 'def', 'spd', 'vit')
-    sprite_path = os.path.join('gfx', 'monster-parts')
+    sprite_path = os.path.join(GRAPHICS_DIRECTORY, 'monster-parts')
     
     @classmethod
     def atLevel(cls, in_lvl, in_stats={}):

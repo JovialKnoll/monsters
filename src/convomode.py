@@ -1,7 +1,7 @@
 import os, pygame
+from constants import *
 from gamemode import *
 from boxes import *
-from constants import *
 class ConvoMode(GameMode):
     class ConvoBoxes(Boxes):
         rects = {
@@ -26,7 +26,7 @@ class ConvoMode(GameMode):
             
     SCROLL_AMOUNT_MOUSE = 10
     SCROLL_AMOUNT_KEY = 1
-    sprite_path = os.path.join('gfx', 'backgrounds')
+    sprite_path = os.path.join(GRAPHICS_DIRECTORY, BACKGROUNDS_DIRECTORY)
     black_box = pygame.image.load(os.path.join(sprite_path, 'blackbox.png'))
     converted = False
     

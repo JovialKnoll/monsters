@@ -88,6 +88,7 @@ class Game(object):
                 if self.save:
                     in_key = event.key
                     char = event.unicode
+                    length = len(self.save_name)
                     if in_key == pygame.K_ESCAPE:
                         self._clearSaveStuff()
                     elif in_key == pygame.K_RETURN:#also call on a button press
@@ -96,18 +97,18 @@ class Game(object):
                     elif in_key == pygame.K_LEFT:
                         self.save_cursor = max(self.save_cursor-1, 0)
                     elif in_key == pygame.K_RIGHT:
-                        self.save_cursor = min(self.save_cursor+1, len(self.save_name))
+                        self.save_cursor = min(self.save_cursor+1, length)
                     elif in_key in (pygame.K_UP, pygame.K_HOME):
                         self.save_cursor = 0
                     elif in_key in (pygame.K_DOWN, pygame.K_END):
-                        self.save_cursor = len(self.save_name)
+                        self.save_cursor = length
                     elif in_key == pygame.K_DELETE:
                         self.save_name = self.save_name[:self.save_cursor] + self.save_name[self.save_cursor+1:]
                     elif in_key == pygame.K_BACKSPACE:
                         if self.save_cursor > 0:
                             self.save_name = self.save_name[:self.save_cursor-1] + self.save_name[self.save_cursor:]
                             self.save_cursor -= 1
-                    elif (char >= '0' and char <= '9' ) or (in_key > 96 and in_key < 123):#numbers and letters
+                    elif length < 16 and ((char >= '0' and char <= '9' ) or (in_key > 96 and in_key < 123)):#numbers and letters
                         self.save_name = self.save_name[:self.save_cursor] + char + self.save_name[self.save_cursor:]
                         self.save_cursor += 1
                     continue

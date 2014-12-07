@@ -7,3 +7,4 @@ GRAPHICS_DIRECTORY = 'gfx'
 BACKGROUNDS_DIRECTORY = 'backgrounds'
 FONT = 'simple_mono.ttf'
 SAVE_DIRECTORY = 'savegames'
+CURSOR_TIME = 30

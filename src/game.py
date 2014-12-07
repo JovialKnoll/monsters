@@ -62,7 +62,9 @@ class Game(object):
     def _clearSaveStuff(self):
         self.save = False
         self.save_name = ''
-        self.save_cursor = 0
+        self.cursor_position = 0
+        self.cursor_switch = True
+        self.cursor_timer = 0
         
     def _saveGame(self, file_name):
         """Save the game."""
@@ -95,22 +97,22 @@ class Game(object):
                         if self.save_name:
                             self._saveGame(self.save_name)
                     elif in_key == pygame.K_LEFT:
-                        self.save_cursor = max(self.save_cursor-1, 0)
+                        self.cursor_position = max(self.cursor_position-1, 0)
                     elif in_key == pygame.K_RIGHT:
-                        self.save_cursor = min(self.save_cursor+1, length)
+                        self.cursor_position = min(self.cursor_position+1, length)
                     elif in_key in (pygame.K_UP, pygame.K_HOME):
-                        self.save_cursor = 0
+                        self.cursor_position = 0
                     elif in_key in (pygame.K_DOWN, pygame.K_END):
-                        self.save_cursor = length
+                        self.cursor_position = length
                     elif in_key == pygame.K_DELETE:
-                        self.save_name = self.save_name[:self.save_cursor] + self.save_name[self.save_cursor+1:]
+                        self.save_name = self.save_name[:self.cursor_position] + self.save_name[self.cursor_position+1:]
                     elif in_key == pygame.K_BACKSPACE:
-                        if self.save_cursor > 0:
-                            self.save_name = self.save_name[:self.save_cursor-1] + self.save_name[self.save_cursor:]
-                            self.save_cursor -= 1
+                        if self.cursor_position > 0:
+                            self.save_name = self.save_name[:self.cursor_position-1] + self.save_name[self.cursor_position:]
+                            self.cursor_position -= 1
                     elif length < 16 and ((char >= '0' and char <= '9' ) or (in_key > 96 and in_key < 123)):#numbers and letters
-                        self.save_name = self.save_name[:self.save_cursor] + char + self.save_name[self.save_cursor:]
-                        self.save_cursor += 1
+                        self.save_name = self.save_name[:self.cursor_position] + char + self.save_name[self.cursor_position:]
+                        self.cursor_position += 1
                     continue
                 if event.key == pygame.K_ESCAPE:
                     self.quit = False
@@ -141,6 +143,12 @@ class Game(object):
                 disp_text += self.save_name
             disp_text += ".sav"
             GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 20 * 8, disp_text, False, WHITE, BLACK)
+            if self.cursor_timer >= CURSOR_TIME:
+                self.cursor_switch = not self.cursor_switch
+                self.cursor_timer = 0
+            if self.cursor_switch:
+                screen.fill(WHITE, ((self.cursor_position * 8,40),(2,10)))
+            self.cursor_timer += 1
             #display prompt for file to save
             #display save_name in there
         

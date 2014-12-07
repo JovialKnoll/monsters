@@ -114,11 +114,11 @@ class Game(object):
                     continue
                 if event.key == pygame.K_ESCAPE:
                     self.quit = False
-                if event.key == pygame.K_s:
+                if event.key == pygame.K_F1:
                     self.save = True
                     #click on other save file names to set save_name equal to that
                 #also need option to load game
-                if event.key == pygame.K_q:
+                if event.key == pygame.K_F2:
                     self.running = False
                         
     def _quitUpdate(self):
@@ -131,7 +131,7 @@ class Game(object):
             self.quit_recent = False
         screen.blit(self.old_screen, (0,0))
         if not self.save:
-            disp_text = "Options:\n_Continue (ESC)\n_Save (S)\n_Quit (Q)"
+            disp_text = "Options:\n_Go Back (ESC)\n_Save (F1)\n_Quit (F2)"
             GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 20 * 8, disp_text, False, WHITE, BLACK)
             #center this, make bigger and buttons
             #more to come

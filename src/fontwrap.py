@@ -3,14 +3,14 @@ import pygame
 class FontWrap(object):
     def __init__(self, in_font):
         self.font = in_font
-        
+
     def renderTo(self, surf, dest, text, antialias, color, background=None):
         surf.blit(self.font.render(text, antialias, color, background), dest)
-        
+
     def renderToCentered(self, surf, dest, text, antialias, color, background=None):
         text_size = self.font.size(text)
         surf.blit(self.font.render(text, antialias, color, background), (dest[0] - text_size[0]//2, dest[1] - text_size[1]//2))
-        
+
     def renderWordsInside(self, width, words, antialias, color, background=None):
         """Returns a surface of the width with the words drawn on it.
         If any word is too long to fit, it will be in its own line, and truncated.
@@ -22,7 +22,7 @@ class FontWrap(object):
                 lines.append(new_word)
             else:
                 lines[-1] += " " + new_word
-                
+
         height = self.font.get_height()
         if background is None:
             drawn_lines = [self.font.render(line, antialias, color).convert_alpha() for line in lines]
@@ -31,11 +31,11 @@ class FontWrap(object):
         result = pygame.Surface((width, height * len(drawn_lines)), 0, drawn_lines[0])
         if background is not None:
             result.fill(background)
-            
+
         for i, line in enumerate(drawn_lines):
             result.blit(line, (0, i * height))
         return result
-        
+
     def renderToInside(self, surf, dest, width, text, antialias, color, background=None):
         #probably more efficient to do once?
         part_dest = [dest[0], dest[1]]
@@ -48,7 +48,7 @@ class FontWrap(object):
                 img = self.renderWordsInside(width, line, antialias, color, background)
             surf.blit(img, part_dest)
             part_dest[1] += img.get_height()
-        
+
     def renderInside(self, width, text, antialias, color, background=None):
         #probably more efficient if keeping resultant surface and using that to draw over and over?
         height = 0
@@ -67,4 +67,3 @@ class FontWrap(object):
             result.blit(img, dest)
             dest[1] += img.get_height()
         return result
-        

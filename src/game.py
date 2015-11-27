@@ -18,7 +18,7 @@ class Game(object):
         GameMode.shared = {'font': pygame.font.Font(os.path.join(GRAPHICS_DIRECTORY, FONT), 8)}
         GameMode.shared['font_wrap'] = FontWrap(GameMode.shared['font'])
         #all children of GameMode can access the shared dictionary with self.shared
-        
+
         self.screen = pygame.Surface(SCREEN_SIZE)
         self.monitor_res = (pygame.display.Info().current_w,pygame.display.Info().current_h)
         self.upscale_max = min(self.monitor_res[0]//SCREEN_SIZE[0], self.monitor_res[1]//SCREEN_SIZE[1])
@@ -27,21 +27,21 @@ class Game(object):
         self._windowSet(0)
         self.fullscreen_offset = ((self.monitor_res[0]-self.disp_res_max[0])//2, (self.monitor_res[1]-self.disp_res_max[1])//2)
         self.full_screen = pygame.Surface(self.disp_res_max)
-        
+
         self.clock = pygame.time.Clock()
-        
+
         GameMode.shared['protag_mon'] = Monster()
-        
+
         self.current_mode = False
-        
+
         #test stuff
         #self.current_mode = TestMode()
         self.current_mode = ConvoMode0()
-        
+
     def __del__(self):
         """End and delete things as needed."""
         pygame.quit()
-        
+
     def _windowSet(self, scale_change):
         """Set the window to a scale of upscale + scale_change."""
         self.upscale += scale_change
@@ -51,21 +51,21 @@ class Game(object):
         self.disp_screen = pygame.display.set_mode(self.disp_res)
         self.screen = self.screen.convert()
         self.is_fullscreen = False
-        
+
     def _windowSetFullscreen(self):
         """Set the window to fullscreen."""
         self.disp_screen = pygame.display.set_mode(self.monitor_res, pygame.FULLSCREEN)
         self.full_screen = self.full_screen.convert()
         self.screen = self.screen.convert(self.full_screen)
         self.is_fullscreen = True
-        
+
     def _clearSaveStuff(self):
         self.save = False
         self.save_name = ''
         self.cursor_position = 0
         self.cursor_switch = True
         self.cursor_timer = 0
-        
+
     def _saveGame(self, file_name):
         """Save the game."""
         a = ['asd', (1,2,3), 123]
@@ -74,11 +74,11 @@ class Game(object):
         with open(os.path.join(SAVE_DIRECTORY, file_name + '.sav'), 'wb') as f:
             cPickle.dump(a, f, cPickle.HIGHEST_PROTOCOL)
         self._clearSaveStuff()
-        
+
     def _quitInit(self):
         self.quit = True
         self.quit_recent = True
-        
+
     def _quitInput(self, event_list):
         #this could be replaced with actual buttons maybe
         #or could also have actual buttons
@@ -122,10 +122,10 @@ class Game(object):
                 #also need option to load game
                 if event.key == pygame.K_F2:
                     self.running = False
-                        
+
     def _quitUpdate(self):
         pass
-        
+
     def _quitDraw(self, screen):
         #buttons!!!
         if self.quit_recent:
@@ -147,11 +147,11 @@ class Game(object):
                 self.cursor_switch = not self.cursor_switch
                 self.cursor_timer = 0
             if self.cursor_switch:
-                screen.fill(WHITE, ((self.cursor_position * 8,40),(2,10)))
+                screen.fill(WHITE, ((self.cursor_position * 8,40),(1,10)))
             self.cursor_timer += 1
             #display prompt for file to save
             #display save_name in there
-        
+
     def run(self):
         """Run the game, and check if the game needs to end."""
         if not self.running:
@@ -161,22 +161,22 @@ class Game(object):
             self._quitInput(event_list)
             self._quitUpdate()
             self._quitDraw(self.screen)
-            
+
         elif self.current_mode:
             self.current_mode.input(event_list)
             self.current_mode.update()
             self.current_mode.draw(self.screen)
             if self.current_mode.next_mode != False:
                 self.current_mode = self.current_mode.next_mode
-                
+
         self._scaleThings()
         self._time()
         return True
-        
+
     def _filterInput(self, events):
         """Take care of input that game modes should not take care of."""
         return map(self._scaleMouseInput, filter(self._stillNeedsHandling, events))
-        
+
     def _stillNeedsHandling(self, event):
         """If event should be handled before all others, handle it and return False, otherwise return True.
         As an example, game-ending or display-changing events should be handled before all others.
@@ -208,7 +208,7 @@ class Game(object):
                     self._windowSetFullscreen()
                 return False
         return True
-        
+
     def _scaleMouseInput(self, event):
         """Scale mouse position for events in terms of the screen (as opposed to the display surface)."""
         if event.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONUP, pygame.MOUSEBUTTONDOWN):
@@ -223,7 +223,7 @@ class Game(object):
                 event_dict['button'] = event.button
             return pygame.event.Event(event.type, event_dict)
         return event
-        
+
     def _scaleThings(self):
         """Scale screen onto display surface, then flip the display."""
         if not self.is_fullscreen:
@@ -232,9 +232,8 @@ class Game(object):
             pygame.transform.scale(self.screen, self.disp_res_max, self.full_screen)
             self.disp_screen.blit(self.full_screen, self.fullscreen_offset)
         pygame.display.flip()
-        
+
     def _time(self):
         """Take care of time stuff."""
         pygame.display.set_caption(str(self.clock.get_fps()))#just for debugging purposes
         self.clock.tick(FRAMERATE)
-        

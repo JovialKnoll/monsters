@@ -8,7 +8,7 @@ class Monster(object):
     lvl_max = 3
     main_stats = ('atk', 'def', 'spd', 'vit')
     sprite_path = os.path.join(GRAPHICS_DIRECTORY, 'monster-parts')
-    
+
     @classmethod
     def atLevel(cls, in_lvl, in_stats={}):
         """Create a new monster at a given level not above the maximum level, setting stats, etc. as needed."""
@@ -16,7 +16,7 @@ class Monster(object):
         for n in range(min(in_lvl,cls.lvl_max)):
             new_mon.levelUp()
         return new_mon
-        
+
     def __init__(self, in_stats={}):
         """Create a new monster, setting stats, etc. as needed."""
         self.sprite_size = (48,48)
@@ -30,25 +30,25 @@ class Monster(object):
         self.skin = Skin.random(self.personality)
         #access the SkinTone with self.skin[self.lvl]
         self.mood = Mood.Neutral#mood might only be changed by and do stuff during battles / convos? maybe
-        
+
         self.stats = {x: 2 for x in Monster.main_stats}
         self.stats['drv'] = Monster.drv_max//2
         self._levelStats()
         self.stats.update(in_stats)
         self.setHealth()
-        
+
         self.sprite_groups = [random.choice(('A','B','C')) for x in range(5)]
         self.sprite =    pygame.image.load(os.path.join(Monster.sprite_path, '0-body-'+self.sprite_groups[1]+'.png'))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-head-'+self.sprite_groups[2]+'.png')), (0,0))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, '0-legs-'+self.sprite_groups[3]+'.png')), (0,0))
         self._finishSprite()
-        
+
     def fightStart(self):
         self.stats['drv'] = max(min(self.stats['drv'] + self.mood.drvChange, Monster.drv_max), 0)
-        
+
     def _drvEffect(self):
         return self.stats['drv'] - Monster.drv_max + 1
-        
+
     def fightHit(self, action):
         #todo: make speed affect more things
         attack = self.stats['atk']
@@ -65,31 +65,31 @@ class Monster(object):
         attack = max(attack + random.randint(-1,1) + self._drvEffect(), 0)
         defend = max(defend + random.randint(-1,1) + self._drvEffect(), 0)
         return (attack, defend)
-        
+
     def _finishSprite(self):
         #self.sprite_size = (64,64)
         #self.sprite = pygame.Surface((64,64))
         #self.sprite.fill((255,0,0))
         self.sprite = self.sprite.convert_alpha()
         self.sprite_right = pygame.transform.flip(self.sprite, True, False)
-        
+
     def _levelStats(self):
         for stat in Monster.main_stats:
             self.stats[stat] += 2
         for stat in random.sample(Monster.main_stats, 2):
             self.stats[stat] += 1
         self.stats[self.personality.stat] += 2
-        
+
     def setHealth(self):
         self.stats['hpm'] = self.stats['vit']*2 + self.stats['vit']//2 + self.stats['vit']//4
         self.stats['hpc'] = self.stats['hpm']
-        
+
     def darkSkin(self):
         return self.skin[self.lvl].dark
-        
+
     def lightSkin(self):
         return self.skin[self.lvl].light
-        
+
     def levelUp(self):
         """Level up a monster, setting stats, etc. as needed."""
         if self.lvl >= Monster.lvl_max:
@@ -112,16 +112,15 @@ class Monster(object):
         del pix_array
         self._finishSprite()
         return 1
-        
+
     def drawCentered(self, screen, pos, right=False):
         """Draw the monster on the screen, with its center at the position passed."""
         self.draw(screen, (pos[0]-self.sprite_size[0]//2, pos[1]-self.sprite_size[1]//2), right)
-        
+
     def drawStanding(self, screen, pos, right=False):
         """Draw the monster on the screen, with its bottom-center at the position passed."""
         self.draw(screen, (pos[0]-self.sprite_size[0]//2, pos[1]-self.sprite_size[1]), right)
-        
+
     def draw(self, screen, pos, right=False):
         """Draw the monster on the screen."""
         screen.blit(self.sprite if not right else self.sprite_right, pos)
-        

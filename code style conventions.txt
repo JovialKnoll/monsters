@@ -11,7 +11,7 @@ use tripe double quotes for docstrings (""")
 use double quotes otherwise (")
 
 definitions: place a blank line (same indentation as one above) after function definitions
-additional blank lines can be placed for readability / structure
+additional single blank lines can be placed for readability / structure
 
 "private" functions: though python does not have private functions,
 use a single leading underscore to indicate that something should be private to the class

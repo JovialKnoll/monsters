@@ -40,4 +40,3 @@ class ConvoMode0(MonConvoMode):
     #if adding things to init, should start as below
     #def __init__(self):
     #    super(ConvoMode0, self).__init__()
-        

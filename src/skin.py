@@ -6,7 +6,7 @@ class SkinTone(object):
         """Hold onto the darker and lighter colors."""
         self.dark = pygame.Color(in_dark[0], in_dark[1], in_dark[2])
         self.light = pygame.Color(in_light[0], in_light[1], in_light[2])
-        
+
 class Skin(object):
     start_tone = SkinTone((72,79,69),(123,129,121))
     d1 = ( 94, 71,124)
@@ -38,7 +38,7 @@ class Skin(object):
         (start_tone, SkinTone(d1,( 85,135,147)), SkinTone(d2,( 71,144,157)), SkinTone(d3,( 57,152,167))),
         (start_tone, SkinTone(d1,(117,151,149)), SkinTone(d2,(111,173,177)), SkinTone(d3,(105,195,205))))
     del start_tone, d1, d2, d3
-    
+
     @classmethod
     def random(cls, personality):
         """Return a random list of colors for levels, based on personality."""
@@ -51,4 +51,3 @@ class Skin(object):
         if personality == Personality.Energetic:
             return random.choice(cls.energetic_affectionate + cls.careful_energetic)
         return 0
-        

@@ -5,14 +5,14 @@ class TestMode(GameMode):
     def _createMonster(self):
         self.shared['protag_mon'] = Monster()
         self.test_mon_pos = [160,122]
-        
+
     def __init__(self):
         super(TestMode, self).__init__()
         self.fill = (0, 200, 0)
         self._createMonster()
         self.move_dict = {'left': 0, 'right': 0, 'up': 0, 'down': 0}
         self.test_text = "01234567890123456789"
-        
+
     def input(self, event_list):
         for event in event_list:
             if event.type == pygame.KEYDOWN:
@@ -39,11 +39,11 @@ class TestMode(GameMode):
                     self.move_dict['down'] = 0
             elif event.type == pygame.MOUSEMOTION:
                 self.test_mon_pos = list(event.pos)
-                    
+
     def update(self):
         self.test_mon_pos[0] += self.move_dict['right'] - self.move_dict['left']
         self.test_mon_pos[1] += self.move_dict['down'] - self.move_dict['up']
-        
+
     def draw(self, screen):
         #clear of old draws
         screen.fill(self.fill)
@@ -53,4 +53,3 @@ class TestMode(GameMode):
         self.shared['font_wrap'].renderToInside(screen, (SCREEN_SIZE[0]//2,0), SCREEN_SIZE[0]//2, "Lorem", False, (255,0,0))
         #screen.blit(self.shared['font_wrap'].renderInside(SCREEN_SIZE[0]//2, self.test_text, False, BLACK, WHITE), (0,0))
         #screen.blit(self.shared['font_wrap'].renderInside(SCREEN_SIZE[0]//2, "Lorem", False, (255,0,0)), (SCREEN_SIZE[0]//2,0))
-        

@@ -59,12 +59,15 @@ class Game(object):
         self.screen = self.screen.convert(self.full_screen)
         self.is_fullscreen = True
 
+    def _resetCursorBlink(self):
+        self.cursor_switch = True
+        self.cursor_timer = 0
+
     def _clearSaveStuff(self):
         self.save = False
         self.save_name = ''
         self.cursor_position = 0
-        self.cursor_switch = True
-        self.cursor_timer = 0
+        self._resetCursorBlink()
 
     def _saveGame(self, file_name):
         """Save the game."""
@@ -98,33 +101,44 @@ class Game(object):
                             self._saveGame(self.save_name)
                     elif in_key == pygame.K_LEFT:
                         self.cursor_position = max(self.cursor_position-1, 0)
+                        self._resetCursorBlink()
                     elif in_key == pygame.K_RIGHT:
                         self.cursor_position = min(self.cursor_position+1, length)
+                        self._resetCursorBlink()
                     elif in_key in (pygame.K_UP, pygame.K_HOME):
                         self.cursor_position = 0
+                        self._resetCursorBlink()
                     elif in_key in (pygame.K_DOWN, pygame.K_END):
                         self.cursor_position = length
+                        self._resetCursorBlink()
                     elif in_key == pygame.K_DELETE:
                         self.save_name = self.save_name[:self.cursor_position] + self.save_name[self.cursor_position+1:]
+                        self._resetCursorBlink()
                     elif in_key == pygame.K_BACKSPACE:
                         if self.cursor_position > 0:
                             self.save_name = self.save_name[:self.cursor_position-1] + self.save_name[self.cursor_position:]
                             self.cursor_position -= 1
+                        self._resetCursorBlink()
                     elif length < 16 and ((char >= '0' and char <= '9' ) or (in_key > 96 and in_key < 123)):#numbers and letters
                         self.save_name = self.save_name[:self.cursor_position] + char + self.save_name[self.cursor_position:]
                         self.cursor_position += 1
+                        self._resetCursorBlink()
                     continue
                 if event.key == pygame.K_ESCAPE:
                     self.quit = False
                 if event.key == pygame.K_F1:
                     self.save = True
+                    self._resetCursorBlink()
                     #click on other save file names to set save_name equal to that
                 #also need option to load game
                 if event.key == pygame.K_F2:
                     self.running = False
 
     def _quitUpdate(self):
-        pass
+        if self.cursor_timer >= CURSOR_TIME:
+            self.cursor_switch = not self.cursor_switch
+            self.cursor_timer = 0
+        self.cursor_timer += 1
 
     def _quitDraw(self, screen):
         #buttons!!!
@@ -143,12 +157,8 @@ class Game(object):
                 disp_text += self.save_name
             disp_text += ".sav"
             GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 20 * 8, disp_text, False, WHITE, BLACK)
-            if self.cursor_timer >= CURSOR_TIME:
-                self.cursor_switch = not self.cursor_switch
-                self.cursor_timer = 0
             if self.cursor_switch:
                 screen.fill(WHITE, ((self.cursor_position * 8,40),(1,10)))
-            self.cursor_timer += 1
             #display prompt for file to save
             #display save_name in there
 

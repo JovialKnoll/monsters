@@ -14,13 +14,13 @@ class ConvoMode(GameMode):
         @classmethod
         def boxKey(cls, box, key):
             """Return a rectangle based on the current rectangle and the key pressed."""
-            if (box, key) in ((   cls.rects['top_right'], pygame.K_LEFT), (cls.rects['bottom_right'], pygame.K_RIGHT)):
+            if (box, key) in ((cls.rects[   'top_right'], pygame.K_LEFT), (cls.rects['bottom_right'], pygame.K_RIGHT)):
                 return cls.rects['top_left']
-            if (box, key) in (( cls.rects['bottom_left'], pygame.K_LEFT), (    cls.rects['top_left'], pygame.K_RIGHT)):
+            if (box, key) in ((cls.rects[ 'bottom_left'], pygame.K_LEFT), (cls.rects[    'top_left'], pygame.K_RIGHT)):
                 return cls.rects['top_right']
-            if (box, key) in ((cls.rects['bottom_right'], pygame.K_LEFT), (   cls.rects['top_right'], pygame.K_RIGHT)):
+            if (box, key) in ((cls.rects['bottom_right'], pygame.K_LEFT), (cls.rects[   'top_right'], pygame.K_RIGHT)):
                 return cls.rects['bottom_left']
-            if (box, key) in ((    cls.rects['top_left'], pygame.K_LEFT), ( cls.rects['bottom_left'], pygame.K_RIGHT)):
+            if (box, key) in ((cls.rects[    'top_left'], pygame.K_LEFT), (cls.rects[ 'bottom_left'], pygame.K_RIGHT)):
                 return cls.rects['bottom_right']
             return box
 
@@ -64,18 +64,18 @@ class ConvoMode(GameMode):
         self.surf_rect = self.surf_text.get_rect()
         self.text_rect = pygame.Rect(0, 0, 288, 48)
         self.shared['font_wrap'].renderToInside(self.background,
-            ConvoMode.ConvoBoxes.textStart(    ConvoMode.ConvoBoxes.rects['top_left']),
-            ConvoMode.ConvoBoxes.textWidth(    ConvoMode.ConvoBoxes.rects['top_left']),
+            ConvoMode.ConvoBoxes.textStart(ConvoMode.ConvoBoxes.rects['top_left']),
+            ConvoMode.ConvoBoxes.textWidth(ConvoMode.ConvoBoxes.rects['top_left']),
             self._textButton0(), False, TEXT_COLOR
         )
         self.shared['font_wrap'].renderToInside(self.background,
-            ConvoMode.ConvoBoxes.textStart(   ConvoMode.ConvoBoxes.rects['top_right']),
-            ConvoMode.ConvoBoxes.textWidth(   ConvoMode.ConvoBoxes.rects['top_right']),
+            ConvoMode.ConvoBoxes.textStart(ConvoMode.ConvoBoxes.rects['top_right']),
+            ConvoMode.ConvoBoxes.textWidth(ConvoMode.ConvoBoxes.rects['top_right']),
             self._textButton1(), False, TEXT_COLOR
         )
         self.shared['font_wrap'].renderToInside(self.background,
-            ConvoMode.ConvoBoxes.textStart( ConvoMode.ConvoBoxes.rects['bottom_left']),
-            ConvoMode.ConvoBoxes.textWidth( ConvoMode.ConvoBoxes.rects['bottom_left']),
+            ConvoMode.ConvoBoxes.textStart(ConvoMode.ConvoBoxes.rects['bottom_left']),
+            ConvoMode.ConvoBoxes.textWidth(ConvoMode.ConvoBoxes.rects['bottom_left']),
             self._textButton2(), False, TEXT_COLOR
         )
         self.shared['font_wrap'].renderToInside(self.background,

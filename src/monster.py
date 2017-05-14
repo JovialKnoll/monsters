@@ -7,13 +7,13 @@ class Monster(object):
     drv_max = 4
     lvl_max = 3
     main_stats = ('atk', 'def', 'spd', 'vit')
-    sprite_path = os.path.join(GRAPHICS_DIRECTORY, 'monster-parts')
+    sprite_path = os.path.join(GRAPHICS_DIRECTORY, MONSTER_PARTS_DIRECTORY)
 
     @classmethod
     def atLevel(cls, in_lvl, in_stats={}):
         """Create a new monster at a given level not above the maximum level, setting stats, etc. as needed."""
         new_mon = cls(in_stats)
-        for n in range(min(in_lvl,cls.lvl_max)):
+        for n in range(min(in_lvl, cls.lvl_max)):
             new_mon.levelUp()
         return new_mon
 

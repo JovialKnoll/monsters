@@ -3,10 +3,10 @@
 import sys
 from game import *
 
-g = Game()
-while g.run():
+game = Game()
+while game.run():
     #stuff can be put here, in which case pass is not needed
     pass
 
-del g
+del game
 sys.exit()

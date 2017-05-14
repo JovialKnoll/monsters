@@ -2,15 +2,15 @@ import pygame
 from constants import *
 class Boxes(object):
     rects = {}
-    elsewhere = pygame.Rect((0, 0), SCREEN_SIZE)
+    elsewhere = pygame.Rect((0,0), SCREEN_SIZE)
 
     @staticmethod
     def textStart(box):
-        return (box.x + 8, box.y + 8)
+        return (box.x + FONT_SIZE, box.y + FONT_SIZE)
 
     @staticmethod
     def textWidth(box):
-        return box.w - 16
+        return box.w - (2 * FONT_SIZE)
 
     @classmethod
     def boxIn(cls, pos):

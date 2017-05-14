@@ -7,20 +7,23 @@ from gamemode import *
 from testmode import *
 from convomode0 import *
 class Game(object):
+    class State(object):
+        Normal, Menu, Save, Load = range(4)
     def __init__(self):
         """Start and create things as needed."""
         pygame.init()
         self.running = True
-        self.quit = False
-        self._clearSaveStuff()
+        self.state = Game.State.Normal
+        self.old_screen = False
         #pygame.mouse.set_visible(False)
         #set window icon/captions here...
-        GameMode.shared = {'font': pygame.font.Font(os.path.join(GRAPHICS_DIRECTORY, FONT), 8)}
-        GameMode.shared['font_wrap'] = FontWrap(GameMode.shared['font'])
+        font = pygame.font.Font(os.path.join(GRAPHICS_DIRECTORY, FONT_FILE), FONT_SIZE)
+        GameMode.shared = { 'font_wrap': FontWrap(font) }
         #all children of GameMode can access the shared dictionary with self.shared
 
+        #space
         self.screen = pygame.Surface(SCREEN_SIZE)
-        self.monitor_res = (pygame.display.Info().current_w,pygame.display.Info().current_h)
+        self.monitor_res = (pygame.display.Info().current_w, pygame.display.Info().current_h)
         self.upscale_max = min(self.monitor_res[0]//SCREEN_SIZE[0], self.monitor_res[1]//SCREEN_SIZE[1])
         self.upscale = self.upscale_max//2
         self.disp_res_max = (SCREEN_SIZE[0]*self.upscale_max, SCREEN_SIZE[1]*self.upscale_max)
@@ -28,6 +31,7 @@ class Game(object):
         self.fullscreen_offset = ((self.monitor_res[0]-self.disp_res_max[0])//2, (self.monitor_res[1]-self.disp_res_max[1])//2)
         self.full_screen = pygame.Surface(self.disp_res_max)
 
+        #time
         self.clock = pygame.time.Clock()
 
         GameMode.shared['protag_mon'] = Monster()
@@ -64,121 +68,151 @@ class Game(object):
         self.cursor_timer = 0
 
     def _clearSaveStuff(self):
-        self.save = False
         self.save_name = ''
         self.cursor_position = 0
         self._resetCursorBlink()
 
-    def _saveGame(self, file_name):
+    def _saveGame(self):
         """Save the game."""
-        a = ['asd', (1,2,3), 123]
+        objects = ['asd', (1,2,3), 123]
         if not os.path.exists(SAVE_DIRECTORY):
             os.makedirs(SAVE_DIRECTORY)
-        with open(os.path.join(SAVE_DIRECTORY, file_name + '.sav'), 'wb') as f:
-            cPickle.dump(a, f, cPickle.HIGHEST_PROTOCOL)
-        self._clearSaveStuff()
+        with open(os.path.join(SAVE_DIRECTORY, self.save_name + '.sav'), 'wb') as file:
+            cPickle.dump(objects, file, cPickle.HIGHEST_PROTOCOL)
 
-    def _quitInit(self):
-        self.quit = True
-        self.quit_recent = True
+    def _menuEvent(self, event):
+        if self.state is Game.State.Normal:
+            pass
+        elif self.state is Game.State.Menu:
+            if event.type == pygame.QUIT:
+                self.running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.state = Game.State.Normal
+                elif event.key == pygame.K_F1:
+                    self._clearSaveStuff()
+                    self.state = Game.State.Save
+                elif event.key == pygame.K_F2:
+                    self._clearSaveStuff()
+                    self.state = Game.State.Load
+                elif event.key == pygame.K_F3:
+                    self.running = False
+        elif self.state is Game.State.Save:
+            if event.type == pygame.QUIT:
+                self.state = Game.State.Menu
+            elif event.type == pygame.KEYDOWN:
+                char = event.unicode
+                length = len(self.save_name)
+                if event.key == pygame.K_ESCAPE:
+                    self.state = Game.State.Menu
+                elif event.key == pygame.K_RETURN:#also call on a button press
+                    if self.save_name:
+                        self._saveGame()
+                        self.state = Game.State.Menu
+                elif event.key == pygame.K_LEFT:
+                    self.cursor_position = max(self.cursor_position-1, 0)
+                    self._resetCursorBlink()
+                elif event.key == pygame.K_RIGHT:
+                    self.cursor_position = min(self.cursor_position+1, length)
+                    self._resetCursorBlink()
+                elif event.key in (pygame.K_UP, pygame.K_HOME):
+                    self.cursor_position = 0
+                    self._resetCursorBlink()
+                elif event.key in (pygame.K_DOWN, pygame.K_END):
+                    self.cursor_position = length
+                    self._resetCursorBlink()
+                elif event.key == pygame.K_DELETE:
+                    self.save_name = self.save_name[:self.cursor_position] + self.save_name[self.cursor_position+1:]
+                    self._resetCursorBlink()
+                elif event.key == pygame.K_BACKSPACE:
+                    if self.cursor_position > 0:
+                        self.save_name = self.save_name[:self.cursor_position-1] + self.save_name[self.cursor_position:]
+                        self.cursor_position -= 1
+                    self._resetCursorBlink()
+                elif length < 16 and ((char >= '0' and char <= '9' ) or (event.key > 96 and event.key < 123)):#numbers and letters
+                    self.save_name = self.save_name[:self.cursor_position] + char + self.save_name[self.cursor_position:]
+                    self.cursor_position += 1
+                    self._resetCursorBlink()
+        elif self.state is Game.State.Load:
+            if event.type == pygame.QUIT:
+                self.state = Game.State.Menu
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.state = Game.State.Menu
+                #put in scrolling to select save file? maybe typing too? alphebatized list...
+        else:
+            raise NotImplementedError("self.state = " + str(self.state))
 
-    def _quitInput(self, event_list):
+    def _menuInput(self, event_list):
         #this could be replaced with actual buttons maybe
         #or could also have actual buttons
         #get on that, future self
         for event in event_list:
-            if event.type == pygame.QUIT:
-                self.running = False
-            elif event.type == pygame.KEYDOWN:
-                if self.save:
-                    in_key = event.key
-                    char = event.unicode
-                    length = len(self.save_name)
-                    if in_key == pygame.K_ESCAPE:
-                        self._clearSaveStuff()
-                    elif in_key == pygame.K_RETURN:#also call on a button press
-                        if self.save_name:
-                            self._saveGame(self.save_name)
-                    elif in_key == pygame.K_LEFT:
-                        self.cursor_position = max(self.cursor_position-1, 0)
-                        self._resetCursorBlink()
-                    elif in_key == pygame.K_RIGHT:
-                        self.cursor_position = min(self.cursor_position+1, length)
-                        self._resetCursorBlink()
-                    elif in_key in (pygame.K_UP, pygame.K_HOME):
-                        self.cursor_position = 0
-                        self._resetCursorBlink()
-                    elif in_key in (pygame.K_DOWN, pygame.K_END):
-                        self.cursor_position = length
-                        self._resetCursorBlink()
-                    elif in_key == pygame.K_DELETE:
-                        self.save_name = self.save_name[:self.cursor_position] + self.save_name[self.cursor_position+1:]
-                        self._resetCursorBlink()
-                    elif in_key == pygame.K_BACKSPACE:
-                        if self.cursor_position > 0:
-                            self.save_name = self.save_name[:self.cursor_position-1] + self.save_name[self.cursor_position:]
-                            self.cursor_position -= 1
-                        self._resetCursorBlink()
-                    elif length < 16 and ((char >= '0' and char <= '9' ) or (in_key > 96 and in_key < 123)):#numbers and letters
-                        self.save_name = self.save_name[:self.cursor_position] + char + self.save_name[self.cursor_position:]
-                        self.cursor_position += 1
-                        self._resetCursorBlink()
-                    continue
-                if event.key == pygame.K_ESCAPE:
-                    self.quit = False
-                if event.key == pygame.K_F1:
-                    self.save = True
-                    self._resetCursorBlink()
-                    #click on other save file names to set save_name equal to that
-                #also need option to load game
-                if event.key == pygame.K_F2:
-                    self.running = False
+            self._menuEvent(event)
 
-    def _quitUpdate(self):
-        if self.cursor_timer >= CURSOR_TIME:
-            self.cursor_switch = not self.cursor_switch
-            self.cursor_timer = 0
-        self.cursor_timer += 1
-
-    def _quitDraw(self, screen):
-        #buttons!!!
-        if self.quit_recent:
-            self.old_screen = screen.copy()
-            self.quit_recent = False
-        screen.blit(self.old_screen, (0,0))
-        if not self.save:
-            disp_text = "Options:\n_Go Back (ESC)\n_Save (F1)\n_Quit (F2)"
-            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 20 * 8, disp_text, False, WHITE, BLACK)
-            #center this, make bigger and buttons
-            #more to come
+    def _menuUpdate(self):
+        if self.state is Game.State.Normal:
+            pass
+        elif self.state is Game.State.Menu:
+            pass
+        elif self.state is Game.State.Save:
+            if self.cursor_timer >= CURSOR_TIME:
+                self.cursor_switch = not self.cursor_switch
+                self.cursor_timer = 0
+            self.cursor_timer += 1
+        elif self.state is Game.State.Load:
+            pass
         else:
+            raise NotImplementedError("self.state = " + str(self.state))
+
+    def _menuDraw(self, screen):
+        if not self.old_screen:
+            self.old_screen = screen.copy()
+        screen.blit(self.old_screen, (0,0))
+        if self.state is Game.State.Normal:
+            pass
+        elif self.state is Game.State.Menu:
+            disp_text = "Options:\n_Go Back (ESC)\n_Save (F1)\n_Load (F2)\n_Quit (F3)"
+            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 20 * FONT_SIZE, disp_text, False, WHITE, BLACK)
+            #center this, make bigger and buttons... maybe
+            #more to come
+        elif self.state is Game.State.Save:
             disp_text = "Options:\n_Go Back (ESC)\n_Save (ENTER)\nType a file name:\n"
             if self.save_name:
                 disp_text += self.save_name
             disp_text += ".sav"
-            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 20 * 8, disp_text, False, WHITE, BLACK)
+            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 20 * FONT_SIZE, disp_text, False, WHITE, BLACK)
             if self.cursor_switch:
-                screen.fill(WHITE, ((self.cursor_position * 8,40),(1,10)))
+                screen.fill(WHITE, ((self.cursor_position * FONT_SIZE, 40), (1, 10)))
             #display prompt for file to save
             #display save_name in there
+        elif self.state is Game.State.Load:
+            disp_text = "Options:\n_Go Back (ESC)\n_Load (ENTER)\nSelect a file name:\n"
+            disp_text += ".sav"
+            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 20 * FONT_SIZE, disp_text, False, WHITE, BLACK)
+            #draw load thingy
+            pass
+        else:
+            raise NotImplementedError("self.state = " + str(self.state))
 
     def run(self):
         """Run the game, and check if the game needs to end."""
         if not self.running:
             return False
         event_list = self._filterInput(pygame.event.get())
-        if self.quit:
-            self._quitInput(event_list)
-            self._quitUpdate()
-            self._quitDraw(self.screen)
-
+        if self.state is not Game.State.Normal:
+            self._menuInput(event_list)
+            self._menuUpdate()
+            self._menuDraw(self.screen)
         elif self.current_mode:
             self.current_mode.input(event_list)
             self.current_mode.update()
             self.current_mode.draw(self.screen)
             if self.current_mode.next_mode != False:
                 self.current_mode = self.current_mode.next_mode
-
+        else:
+            #put something here for a no mode / ready to load game screen
+            pass
         self._scaleThings()
         self._time()
         return True
@@ -192,16 +226,18 @@ class Game(object):
         As an example, game-ending or display-changing events should be handled before all others.
         """
         if event.type == pygame.QUIT:
-            if self.quit:
-                return True
-            self._quitInit()
-            return False
+            if self.state is Game.State.Normal:
+                self.old_screen = False
+                self.state = Game.State.Menu
+                return False
+            return True
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                if self.quit:
-                    return True
-                self._quitInit()
-                return False
+                if self.state is Game.State.Normal:
+                    self.old_screen = False
+                    self.state = Game.State.Menu
+                    return False
+                return True
             #window re-sizing stuff
             elif event.key in (pygame.K_PAGEUP, pygame.K_PERIOD):
                 if self.upscale < self.upscale_max:

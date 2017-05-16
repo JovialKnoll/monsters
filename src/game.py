@@ -144,9 +144,6 @@ class Game(object):
             raise NotImplementedError("self.state = " + str(self.state))
 
     def _menuInput(self, event_list):
-        #this could be replaced with actual buttons maybe
-        #or could also have actual buttons
-        #get on that, future self
         for event in event_list:
             self._menuEvent(event)
 
@@ -221,23 +218,22 @@ class Game(object):
         """Take care of input that game modes should not take care of."""
         return map(self._scaleMouseInput, filter(self._stillNeedsHandling, events))
 
+    def _handleQuit(self):
+        if self.state is Game.State.Normal:
+            self.old_screen = False
+            self.state = Game.State.Menu
+            return False
+        return True
+
     def _stillNeedsHandling(self, event):
         """If event should be handled before all others, handle it and return False, otherwise return True.
         As an example, game-ending or display-changing events should be handled before all others.
         """
         if event.type == pygame.QUIT:
-            if self.state is Game.State.Normal:
-                self.old_screen = False
-                self.state = Game.State.Menu
-                return False
-            return True
+            return self._handleQuit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                if self.state is Game.State.Normal:
-                    self.old_screen = False
-                    self.state = Game.State.Menu
-                    return False
-                return True
+                return self._handleQuit()
             #window re-sizing stuff
             elif event.key in (pygame.K_PAGEUP, pygame.K_PERIOD):
                 if self.upscale < self.upscale_max:

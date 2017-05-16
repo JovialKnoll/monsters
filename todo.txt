@@ -1,3 +1,5 @@
+variable frame rate (should only need to input time information into the update functions
+
 saving the game!
 	displaying cursor
 	loading

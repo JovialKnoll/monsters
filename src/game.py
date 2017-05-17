@@ -12,7 +12,7 @@ class Game(object):
     def __init__(self):
         """Start and create things as needed."""
         pygame.init()
-        #pygame.mouse.set_visible(False)
+        # pygame.mouse.set_visible(False)
         # set window icon here
         pygame.display.set_caption(SCREEN_CAPTION)
         font = pygame.font.Font(os.path.join(GRAPHICS_DIRECTORY, FONT_FILE), FONT_SIZE)
@@ -37,7 +37,7 @@ class Game(object):
         GameMode.shared['protag_mon'] = Monster()
 
         # test stuff
-        #self.current_mode = TestMode()
+        # self.current_mode = TestMode()
         self.current_mode = ConvoMode0()
 
     def __del__(self):
@@ -91,7 +91,7 @@ class Game(object):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 return self._handleQuit()
-            #window re-sizing stuff
+            # window re-sizing stuff
             elif event.key in (pygame.K_PAGEUP, pygame.K_PERIOD):
                 if self.upscale < self.upscale_max:
                     self._windowSet(1)

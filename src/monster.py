@@ -21,15 +21,15 @@ class Monster(object):
         """Create a new monster, setting stats, etc. as needed."""
         self.sprite_size = (48,48)
         self.lvl = 0
-        #self.awr might not even need to be a thing, remove this if it ends up not mattering
-        self.awr = 0#awareness, this is a thing for conversations / progress through the game
-        #it might make more sense to hold info for conversations flow in GameMode.shared, but I'm not sure
-        #depends on how this number interacts with monster stuff
+        # self.awr might not even need to be a thing, remove this if it ends up not mattering
+        self.awr = 0# awareness, this is a thing for conversations / progress through the game
+        # it might make more sense to hold info for conversations flow in GameMode.shared, but I'm not sure
+        # depends on how this number interacts with monster stuff
         self.personality = Personality.random()
         self.name = Personality.generateName(self.personality)
         self.skin = Skin.random(self.personality)
-        #access the SkinTone with self.skin[self.lvl]
-        self.mood = Mood.Neutral#mood might only be changed by and do stuff during battles / convos? maybe
+        # access the SkinTone with self.skin[self.lvl]
+        self.mood = Mood.Neutral# mood might only be changed by and do stuff during battles / convos? maybe
 
         self.stats = {x: 2 for x in Monster.main_stats}
         self.stats['drv'] = Monster.drv_max//2
@@ -50,7 +50,7 @@ class Monster(object):
         return self.stats['drv'] - Monster.drv_max + 1
 
     def fightHit(self, action):
-        #todo: make speed affect more things
+        # todo: make speed affect more things
         attack = self.stats['atk']
         defend = self.stats['def']
         if action == 'attack':
@@ -59,7 +59,7 @@ class Monster(object):
         elif action == 'defend':
             attack += self.stats['atk']//2 + self.stats['def']//2
             defend += self.stats['atk']//2 + self.stats['spd'] + random.randint(0,1)
-        else:#'escape'
+        else:# 'escape'
             attack = attack//2 + self.stats['spd']//2
             defend = defend//2 + self.stats['spd']//2
         attack = max(attack + random.randint(-1,1) + self._drvEffect(), 0)
@@ -67,9 +67,9 @@ class Monster(object):
         return (attack, defend)
 
     def _finishSprite(self):
-        #self.sprite_size = (64,64)
-        #self.sprite = pygame.Surface((64,64))
-        #self.sprite.fill((255,0,0))
+        # self.sprite_size = (64,64)
+        # self.sprite = pygame.Surface((64,64))
+        # self.sprite.fill((255,0,0))
         self.sprite = self.sprite.convert_alpha()
         self.sprite_right = pygame.transform.flip(self.sprite, True, False)
 
@@ -99,13 +99,13 @@ class Monster(object):
             self.sprite_size = (64,64)
         self._levelStats()
         self.setHealth()
-        #sprite construction stuff
+        # sprite construction stuff
         self.sprite =    pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-tail-'+self.sprite_groups[0]+str(random.randint(0,2))+'.png'))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-body-'+self.sprite_groups[1]+str(random.randint(0,2))+'.png')), (0,0))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-head-'+self.sprite_groups[2]+str(random.randint(0,2))+'.png')), (0,0))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-legs-'+self.sprite_groups[3]+str(random.randint(0,2))+'.png')), (0,0))
         self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-arms-'+self.sprite_groups[4]+str(random.randint(0,2))+'.png')), (0,0))
-        #color swapping stuff
+        # color swapping stuff
         pix_array = pygame.PixelArray(self.sprite)
         pix_array.replace(self.skin[0].dark, self.darkSkin())
         pix_array.replace(self.skin[0].light, self.lightSkin())

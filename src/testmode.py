@@ -45,11 +45,11 @@ class TestMode(GameMode):
         self.test_mon_pos[1] += self.move_dict['down'] - self.move_dict['up']
 
     def draw(self, screen):
-        #clear of old draws
+        # clear of old draws
         screen.fill(self.fill)
-        #make new draws
+        # make new draws
         self.shared['protag_mon'].drawStanding(screen, self.test_mon_pos)
         self.shared['font_wrap'].renderToInside(screen, (0,0), SCREEN_SIZE[0]//2, self.test_text, False, BLACK, WHITE)
         self.shared['font_wrap'].renderToInside(screen, (SCREEN_SIZE[0]//2,0), SCREEN_SIZE[0]//2, "Lorem", False, (255,0,0))
-        #screen.blit(self.shared['font_wrap'].renderInside(SCREEN_SIZE[0]//2, self.test_text, False, BLACK, WHITE), (0,0))
-        #screen.blit(self.shared['font_wrap'].renderInside(SCREEN_SIZE[0]//2, "Lorem", False, (255,0,0)), (SCREEN_SIZE[0]//2,0))
+        # screen.blit(self.shared['font_wrap'].renderInside(SCREEN_SIZE[0]//2, self.test_text, False, BLACK, WHITE), (0,0))
+        # screen.blit(self.shared['font_wrap'].renderInside(SCREEN_SIZE[0]//2, "Lorem", False, (255,0,0)), (SCREEN_SIZE[0]//2,0))

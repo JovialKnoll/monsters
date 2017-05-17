@@ -52,7 +52,7 @@ class GameMenuMode(GameMode):
             length = len(self.save_name)
             if event.key == pygame.K_ESCAPE:
                 self.state = GameMenuMode.State.Menu
-            elif event.key == pygame.K_RETURN:#also call on a button press
+            elif event.key == pygame.K_RETURN:# also call on a button press
                 if self.save_name:
                     self._saveGame()
                     self.state = GameMenuMode.State.Menu
@@ -76,7 +76,7 @@ class GameMenuMode(GameMode):
                     self.save_name = self.save_name[:self.cursor_position-1] + self.save_name[self.cursor_position:]
                     self.cursor_position -= 1
                 self._resetCursorBlink()
-            elif length < 16 and ((char >= '0' and char <= '9' ) or (event.key > 96 and event.key < 123)):#numbers and letters
+            elif length < 16 and ((char >= '0' and char <= '9' ) or (event.key > 96 and event.key < 123)):# numbers and letters
                 self.save_name = self.save_name[:self.cursor_position] + char + self.save_name[self.cursor_position:]
                 self.cursor_position += 1
                 self._resetCursorBlink()
@@ -87,7 +87,7 @@ class GameMenuMode(GameMode):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 self.state = GameMenuMode.State.Menu
-            #put in scrolling to select save file? maybe typing too? alphebatized list...
+            # put in scrolling to select save file? maybe typing too? alphebatized list...
 
     def input(self, event_list):
         if self.state is GameMenuMode.State.Menu:

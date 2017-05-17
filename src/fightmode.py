@@ -79,13 +79,13 @@ class FightMode(GameMode):
     def _buttonPress(self):
         if self.box_selected == FightMode.FightBoxes.rects['top']:
             self.player_action = 'attack'
-            #print "pressed: top"
+            # print "pressed: top"
         elif self.box_selected == FightMode.FightBoxes.rects['middle']:
             self.player_action = 'defend'
-            #print "pressed: middle"
+            # print "pressed: middle"
         elif self.box_selected == FightMode.FightBoxes.rects['bottom']:
             self.player_action = 'escape'
-            #print "pressed: bottom"
+            # print "pressed: bottom"
         self.enemy_action = random.choice(('attack', 'defend'))
 
     def input(self, event_list):
@@ -108,7 +108,7 @@ class FightMode(GameMode):
                         self.box_selected = select
                         self._buttonPress()
             elif event.type == pygame.KEYDOWN:
-                #testing stuff, remove later
+                # testing stuff, remove later
                 if event.key == pygame.K_t:
                     print "player_mon.stats = "+str(self.player_mon.stats)
                     print "enemy_mon.stats = "+str(self.enemy_mon.stats)
@@ -124,13 +124,13 @@ class FightMode(GameMode):
     def _playerActionDone(self):
         player_attack_defend = self.player_mon.fightHit(self.player_action)
         enemy_attack_defend = self.enemy_mon.fightHit(self.enemy_action)
-        #print "player_attack_defend = " + str(player_attack_defend)
-        #print "enemy_attack_defend  = " + str(enemy_attack_defend)
+        # print "player_attack_defend = " + str(player_attack_defend)
+        # print "enemy_attack_defend  = " + str(enemy_attack_defend)
         damage_to_player = utility.reduceNumber(max( enemy_attack_defend[0] - player_attack_defend[1], 0))
         damage_to_enemy  = utility.reduceNumber(max(player_attack_defend[0] -  enemy_attack_defend[1], 0))
         if damage_to_player == 0 and damage_to_enemy == 0:
             damage_to_player = damage_to_enemy = 1
-        #display results below
+        # display results below
         self._setActionDisplay("Hit for " + str(damage_to_enemy) + "! Took " + str(damage_to_player) + "!")
         self.player_mon.stats['hpc'] -= damage_to_player
         self.enemy_mon.stats[ 'hpc'] -= damage_to_enemy
@@ -148,7 +148,7 @@ class FightMode(GameMode):
         self.enemy_anim = 0
 
     def update(self):
-        #enemy animation
+        # enemy animation
         if self.enemy_action == 'attack':
             if self.enemy_anim == 0:
                 self.enemy_rel[0] -= 1
@@ -171,7 +171,7 @@ class FightMode(GameMode):
                 self.enemy_rel[0] += 1
                 if self.enemy_rel[0] == 0:
                     self.enemy_anim = -1
-        #player animation, etc.
+        # player animation, etc.
         if self.player_action == 'attack':
             if self.action_set == False:
                 self._setActionDisplay("I'm gonna hit 'em!")
@@ -235,7 +235,7 @@ class FightMode(GameMode):
         screen.blit(FightMode.background, (0,0))
         if self.box_selected != FightMode.FightBoxes.elsewhere and self.action_set == False:
             screen.blit(FightMode.black_box, self.box_selected)
-        #draw some mons and stuff
+        # draw some mons and stuff
         self.player_mon.drawStanding(screen, (self.player_pos[0] + self.player_rel[0], self.player_pos[1] + self.player_rel[1]), True)
         player_bar_length = 60*self.player_mon.stats['hpc']//self.player_mon.stats['hpm']
         screen.fill(self.player_mon.lightSkin(), (138, 30, player_bar_length, 10))
@@ -245,6 +245,6 @@ class FightMode(GameMode):
         enemy_bar_length = 60*self.enemy_mon.stats['hpc']//self.enemy_mon.stats['hpm']
         screen.fill(self.enemy_mon.lightSkin(), (294-enemy_bar_length, 30, enemy_bar_length, 10))
         screen.blit(FightMode.health_bar, (233, 29))
-        #maybe draw health numbers / stats / etc
+        # maybe draw health numbers / stats / etc
         for index, line in enumerate(self.action_display):
             screen.blit(line, (120, 166 - 10 * index))

@@ -1,15 +1,16 @@
 import pygame, os, cPickle
 from constants import *
-from fontwrap import *
 from gamemode import *
 
 class GameMenuMode(GameMode):
     class State(object):
         Menu, Save, Load = range(3)
-    def __init__(self):
+    def __init__(self, previous_mode):
         super(GameMenuMode, self).__init__()
-        self.old_screen = False
         self.state = GameMenuMode.State.Menu
+        self.old_screen = False
+        self.previous_mode = previous_mode
+        self.end_the_game = False
 
     def _resetCursorBlink(self):
         self.cursor_switch = True
@@ -30,10 +31,10 @@ class GameMenuMode(GameMode):
 
     def _inputMenu(self, event):
         if event.type == pygame.QUIT:
-            self.running = False
+            self.end_the_game = True
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                self.state = GameMenuMode.State.Normal
+                self.next_mode = self.previous_mode
             elif event.key == pygame.K_F1:
                 self._clearSaveStuff()
                 self.state = GameMenuMode.State.Save
@@ -41,7 +42,7 @@ class GameMenuMode(GameMode):
                 self._clearSaveStuff()
                 self.state = GameMenuMode.State.Load
             elif event.key == pygame.K_F3:
-                self.running = False
+                self.end_the_game = True
 
     def _inputSave(self, event):
         if event.type == pygame.QUIT:
@@ -99,7 +100,7 @@ class GameMenuMode(GameMode):
             for event in event_list:
                 self._inputLoad(event)
         else:
-            raise NotImplementedError("self.state = " + str(self.state))
+            raise RuntimeError("incorrect: self.state = " + str(self.state))
 
     def update(self):
         if self.state is GameMenuMode.State.Menu:
@@ -112,32 +113,33 @@ class GameMenuMode(GameMode):
         elif self.state is GameMenuMode.State.Load:
             pass
         else:
-            raise NotImplementedError("self.state = " + str(self.state))
+            raise RuntimeError("incorrect: self.state = " + str(self.state))
+        return self.end_the_game
 
     def draw(self, screen):
         if not self.old_screen:
             self.old_screen = screen.copy()
         screen.blit(self.old_screen, (0,0))
-        if self.state is Game.State.Menu:
+        if self.state is GameMenuMode.State.Menu:
             disp_text = "Options:\n_Go Back (ESC)\n_Save (F1)\n_Load (F2)\n_Quit (F3)"
-            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 20 * FONT_SIZE, disp_text, False, WHITE, BLACK)
-            #center this, make bigger and buttons... maybe
-            #more to come
-        elif self.state is Game.State.Save:
+            self.shared['font_wrap'].renderToInside(screen, (0,0), 20 * FONT_SIZE, disp_text, False, WHITE, BLACK)
+            # center this, make bigger and buttons... maybe
+            # more to come
+        elif self.state is GameMenuMode.State.Save:
             disp_text = "Options:\n_Go Back (ESC)\n_Save (ENTER)\nType a file name:\n"
             if self.save_name:
                 disp_text += self.save_name
             disp_text += ".sav"
-            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 20 * FONT_SIZE, disp_text, False, WHITE, BLACK)
+            self.shared['font_wrap'].renderToInside(screen, (0,0), 20 * FONT_SIZE, disp_text, False, WHITE, BLACK)
             if self.cursor_switch:
                 screen.fill(WHITE, ((self.cursor_position * FONT_SIZE, 40), (1, 10)))
-            #display prompt for file to save
-            #display save_name in there
-        elif self.state is Game.State.Load:
+            # display prompt for file to save
+            # display save_name in there
+        elif self.state is GameMenuMode.State.Load:
             disp_text = "Options:\n_Go Back (ESC)\n_Load (ENTER)\nSelect a file name:\n"
             disp_text += ".sav"
-            GameMode.shared['font_wrap'].renderToInside(screen, (0,0), 20 * FONT_SIZE, disp_text, False, WHITE, BLACK)
-            #draw load thingy
+            self.shared['font_wrap'].renderToInside(screen, (0,0), 20 * FONT_SIZE, disp_text, False, WHITE, BLACK)
+            # draw load thingy
             pass
         else:
-            raise NotImplementedError("self.state = " + str(self.state))
+            raise RuntimeError("incorrect: self.state = " + str(self.state))

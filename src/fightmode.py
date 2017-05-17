@@ -37,17 +37,17 @@ class FightMode(GameMode):
         super(FightMode, self).__init__()
         if not FightMode.converted:
             FightMode.black_box = FightMode.black_box.convert_alpha()
-            FightMode.shared['font_wrap'].renderToInside(FightMode.background,
+            self.shared['font_wrap'].renderToInside(FightMode.background,
                 FightMode.FightBoxes.textStart(   FightMode.FightBoxes.rects['top']),
                 FightMode.FightBoxes.textWidth(   FightMode.FightBoxes.rects['top']),
                 "Attack", False, TEXT_COLOR
             )
-            FightMode.shared['font_wrap'].renderToInside(FightMode.background,
+            self.shared['font_wrap'].renderToInside(FightMode.background,
                 FightMode.FightBoxes.textStart(FightMode.FightBoxes.rects['middle']),
                 FightMode.FightBoxes.textWidth(FightMode.FightBoxes.rects['middle']),
                 "Defend", False, TEXT_COLOR
             )
-            FightMode.shared['font_wrap'].renderToInside(FightMode.background,
+            self.shared['font_wrap'].renderToInside(FightMode.background,
                 FightMode.FightBoxes.textStart(FightMode.FightBoxes.rects['bottom']),
                 FightMode.FightBoxes.textWidth(FightMode.FightBoxes.rects['bottom']),
                 "Escape", False, TEXT_COLOR
@@ -118,7 +118,7 @@ class FightMode(GameMode):
                     self.box_selected = FightMode.FightBoxes.boxKey(self.box_selected, event.key)
 
     def _setActionDisplay(self, text):
-        self.action_display.appendleft( FightMode.shared['font_wrap'].renderInside(200, text, False, TEXT_COLOR) )
+        self.action_display.appendleft( self.shared['font_wrap'].renderInside(200, text, False, TEXT_COLOR) )
         self.action_set = not self.action_set
 
     def _playerActionDone(self):

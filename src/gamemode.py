@@ -2,6 +2,7 @@ class GameMode(object):
     """This is an abstract object for game modes.
     Children of this should implement input, update, and draw.
     """
+    shared = {}
     def __init__(self):
         """All game modes must know when they are done, and set the next mode."""
         self.next_mode = False

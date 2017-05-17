@@ -1,16 +1,16 @@
 import pygame
-from constants import *
 class Boxes(object):
+    text_margin = 8
     rects = {}
     elsewhere = pygame.Rect((0,0), SCREEN_SIZE)
 
-    @staticmethod
+    @classmethod
     def textStart(box):
-        return (box.x + FONT_SIZE, box.y + FONT_SIZE)
+        return (box.x + cls.text_margin, box.y + cls.text_margin)
 
-    @staticmethod
+    @classmethod
     def textWidth(box):
-        return box.w - (2 * FONT_SIZE)
+        return box.w - (2 * cls.text_margin)
 
     @classmethod
     def boxIn(cls, pos):

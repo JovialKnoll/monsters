@@ -17,7 +17,7 @@ class MenuMode(MonConvoMode):
     def _textButton1(self):
         return "Look for Trouble"
     def _textButton2(self):
-        return "Time for a Checkup"#mmm, maybe something else here
+        return "Time for a Checkup"# mmm, maybe something else here
     def _textButton3(self):
         return "Take a Break"
     def _goButton0(self):
@@ -25,6 +25,6 @@ class MenuMode(MonConvoMode):
     def _goButton1(self):
         print "Go to a fight?"
     def _goButton2(self):
-        print "Something?"#uhhhh
+        print "Something?"# uhhhh
     def _goButton3(self):
         pygame.event.post(pygame.event.Event(pygame.QUIT, {}))

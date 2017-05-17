@@ -36,7 +36,7 @@ class ConvoMode0(MonConvoMode):
     def _goButton3(self):
         print "The other main thing would be to have pressing a button change the mode.\n" + \
             "It could set variables and then change the mode."
-    #__init__ need not be implemented unless adding things
-    #if adding things to init, should start as below
-    #def __init__(self):
-    #    super(ConvoMode0, self).__init__()
+    # __init__ need not be implemented unless adding things
+    # if adding things to init, should start as below
+    # def __init__(self):
+    # super(ConvoMode0, self).__init__()

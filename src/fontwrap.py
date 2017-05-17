@@ -37,7 +37,7 @@ class FontWrap(object):
         return result
 
     def renderToInside(self, surf, dest, width, text, antialias, color, background=None):
-        #probably more efficient to do once?
+        # probably more efficient to do once?
         part_dest = [dest[0], dest[1]]
         for line in [line.split() for line in text.splitlines()]:
             if line == []:
@@ -50,7 +50,7 @@ class FontWrap(object):
             part_dest[1] += img.get_height()
 
     def renderInside(self, width, text, antialias, color, background=None):
-        #probably more efficient if keeping resultant surface and using that to draw over and over?
+        # probably more efficient if keeping resultant surface and using that to draw over and over?
         height = 0
         imgs = []
         for line in [line.split() for line in text.splitlines()]:

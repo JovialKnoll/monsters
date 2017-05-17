@@ -1,4 +1,4 @@
-#utility functions
+# utility functions
 from __future__ import division
 import random, math
 random.seed()

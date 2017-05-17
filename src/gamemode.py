@@ -11,7 +11,7 @@ class GameMode(object):
         raise NotImplementedError(self.__class__.__name__ + ".input(self, event_list)")
 
     def update(self):
-        """All game modes can update and return True to halt the game."""
+        """All game modes can update and can optionally return True to halt the game."""
         raise NotImplementedError(self.__class__.__name__ + ".update(self)")
 
     def draw(self, screen):

@@ -1,7 +1,8 @@
+fightmode etc init stuff in class
+
 variable frame rate (should only need to input time information into the update functions
 
 saving the game!
-	displaying cursor
 	loading
 	saving to an existing save file name
 	buttons?

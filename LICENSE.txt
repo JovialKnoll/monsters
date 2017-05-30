@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) Brett Kaplan
+Copyright (c) 2013 Brett Kaplan
 
 All rights reserved.
 

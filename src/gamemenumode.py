@@ -100,7 +100,7 @@ class GameMenuMode(GameMode):
             for event in event_list:
                 self._inputLoad(event)
         else:
-            raise RuntimeError("incorrect: self.state = " + str(self.state))
+            raise RuntimeError("error: self.state = " + str(self.state))
 
     def update(self):
         if self.state is GameMenuMode.State.Menu:
@@ -113,7 +113,7 @@ class GameMenuMode(GameMode):
         elif self.state is GameMenuMode.State.Load:
             pass
         else:
-            raise RuntimeError("incorrect: self.state = " + str(self.state))
+            raise RuntimeError("error: self.state = " + str(self.state))
         return self.end_the_game
 
     def draw(self, screen):
@@ -142,4 +142,4 @@ class GameMenuMode(GameMode):
             # draw load thingy
             pass
         else:
-            raise RuntimeError("incorrect: self.state = " + str(self.state))
+            raise RuntimeError("error: self.state = " + str(self.state))

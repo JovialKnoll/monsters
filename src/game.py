@@ -73,7 +73,7 @@ class Game(object):
             if self.current_mode.next_mode != False:
                 self.current_mode = self.current_mode.next_mode
         else:
-            raise RuntimeError("incorrect: no current mode")
+            raise RuntimeError("error: no current mode")
         self._scaleDraw()
         self._getTime()# todo: pass result to .update()
         return True# continue the game

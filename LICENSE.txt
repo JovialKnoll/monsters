@@ -1,6 +1,5 @@
-MIT License
-
-Copyright (c) 2013 Brett Kaplan
+Images Copyright (c) 2013 Sylvia Forrest
+Software Copyright (c) 2013 Brett Kaplan
 
 All rights reserved.
 

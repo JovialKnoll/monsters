@@ -1,12 +1,15 @@
-# If we want to take in arguments, we would use this file.
-# This is where we create and run the game.
+#!/usr/bin/env python3.6
 import sys
+
 from game import *
 
-game = Game()
-while game.run():
-    # stuff can be put here, in which case pass is not needed
-    pass
+def main():
+    game = Game()
+    while game.run():
+        # stuff can be put here, in which case pass is not needed
+        pass
+    del game
+    sys.exit()
 
-del game
-sys.exit()
+if __name__ == "__main__":
+    main()

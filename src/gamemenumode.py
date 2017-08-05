@@ -1,4 +1,4 @@
-import pygame, os, cPickle
+import pygame, os, pickle
 from constants import *
 from gamemode import *
 
@@ -27,7 +27,7 @@ class GameMenuMode(GameMode):
         if not os.path.exists(SAVE_DIRECTORY):
             os.makedirs(SAVE_DIRECTORY)
         with open(os.path.join(SAVE_DIRECTORY, self.save_name + '.sav'), 'wb') as f:
-            cPickle.dump(objects, f, cPickle.HIGHEST_PROTOCOL)
+            pickle.dump(objects, f, pickle.HIGHEST_PROTOCOL)
 
     def _inputMenu(self, event):
         if event.type == pygame.QUIT:

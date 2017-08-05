@@ -1,5 +1,8 @@
-import string, pygame
+import string
+import pygame
+
 from monconvomode import *
+
 class MenuMode(MonConvoMode):
     def _textMain(self):
         mon = GameMode.shared['protag_mon']

@@ -1,8 +1,14 @@
-import os, pygame, random, utility
+import os
+import random
+import pygame
+
+import utility
+
+from collections import deque
 from constants import *
 from gamemode import *
 from boxes import *
-from collections import deque
+
 random.seed()
 class FightMode(GameMode):
     class FightBoxes(Boxes):

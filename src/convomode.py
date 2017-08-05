@@ -1,7 +1,10 @@
-import os, pygame
+import os
+import pygame
+
 from constants import *
 from gamemode import *
 from boxes import *
+
 class ConvoMode(GameMode):
     class ConvoBoxes(Boxes):
         rects = {

@@ -1,5 +1,7 @@
 import pygame
+
 from constants import *
+
 class Boxes(object):
     text_margin = 8
     rects = {}

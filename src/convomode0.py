@@ -3,6 +3,7 @@ from testmode import *
 from fightmode import *
 from monster import *
 from menumode import *
+
 class ConvoMode0(MonConvoMode):
     def _textMain(self):
         return "Scrolling is enabled!\n" + \

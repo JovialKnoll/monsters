@@ -1,4 +1,7 @@
-import pygame, sys, os
+import os
+import sys
+import pygame
+
 from constants import *
 from fontwrap import *
 from gamemode import *
@@ -8,6 +11,7 @@ from monster import *
 
 from testmode import *
 from convomode0 import *
+
 class Game(object):
     def __init__(self):
         """Start and create things as needed."""

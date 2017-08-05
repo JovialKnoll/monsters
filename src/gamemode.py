@@ -9,12 +9,21 @@ class GameMode(object):
 
     def input(self, event_list):
         """All game modes can take in events."""
-        raise NotImplementedError(self.__class__.__name__ + ".input(self, event_list)")
+        raise NotImplementedError(
+            self.__class__.__name__
+            + ".input(self, event_list)"
+        )
 
     def update(self):
         """All game modes can update and can optionally return True to halt the game."""
-        raise NotImplementedError(self.__class__.__name__ + ".update(self)")
+        raise NotImplementedError(
+            self.__class__.__name__
+            + ".update(self)"
+        )
 
     def draw(self, screen):
         """All game modes can draw to the screen"""
-        raise NotImplementedError(self.__class__.__name__ + ".draw(self, screen)")
+        raise NotImplementedError(
+            self.__class__.__name__
+            + ".draw(self, screen)"
+        )

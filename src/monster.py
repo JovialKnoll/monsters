@@ -1,8 +1,13 @@
-import os, pygame, random
+import random
+import os
+import pygame
+
 from constants import *
 from skin import *
 from feelings import *
+
 random.seed()
+
 class Monster(object):
     drv_max = 4
     lvl_max = 3

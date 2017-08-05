@@ -1,6 +1,9 @@
-# utility functions
+import random
+import math
+
 from __future__ import division
-import random, math
+
+# utility functions
 random.seed()
 
 def reduceNumber(number):

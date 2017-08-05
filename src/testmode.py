@@ -1,6 +1,7 @@
 from gamemode import *
 from monster import *
 from constants import *
+
 class TestMode(GameMode):
     def _createMonster(self):
         self.shared['protag_mon'] = Monster()

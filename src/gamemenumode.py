@@ -1,4 +1,7 @@
-import pygame, os, pickle
+import os
+import pickle
+import pygame
+
 from constants import *
 from gamemode import *
 

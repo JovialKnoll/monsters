@@ -1,4 +1,5 @@
 from convomode import *
+
 class MonConvoMode(ConvoMode):
     def __init__(self):
         super(MonConvoMode, self).__init__()

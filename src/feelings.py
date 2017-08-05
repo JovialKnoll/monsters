@@ -1,4 +1,5 @@
 import random
+
 random.seed()
 class Personality(object):
     # Passing around classes instead of strings or something, sort of like an enum.

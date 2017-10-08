@@ -1,5 +1,5 @@
 import os
-import cPickle
+import pickle
 import pygame
 
 from constants import *
@@ -30,7 +30,7 @@ class GameMenuMode(GameMode):
         if not os.path.exists(SAVE_DIRECTORY):
             os.makedirs(SAVE_DIRECTORY)
         with open(os.path.join(SAVE_DIRECTORY, self.save_name + '.sav'), 'wb') as f:
-            cPickle.dump(objects, f, cPickle.HIGHEST_PROTOCOL)
+            pickle.dump(objects, f, pickle.HIGHEST_PROTOCOL)
 
     def _inputMenu(self, event):
         if event.type == pygame.QUIT:
@@ -55,7 +55,8 @@ class GameMenuMode(GameMode):
             length = len(self.save_name)
             if event.key == pygame.K_ESCAPE:
                 self.state = GameMenuMode.State.Menu
-            elif event.key == pygame.K_RETURN:# also call on a button press
+            elif event.key == pygame.K_RETURN:
+            # also call on a button press
                 if self.save_name:
                     self._saveGame()
                     self.state = GameMenuMode.State.Menu
@@ -93,17 +94,15 @@ class GameMenuMode(GameMode):
             # put in scrolling to select save file? maybe typing too? alphebatized list...
 
     def input(self, event_list):
-        if self.state is GameMenuMode.State.Menu:
-            for event in event_list:
+        for event in event_list:
+            if self.state is GameMenuMode.State.Menu:
                 self._inputMenu(event)
-        elif self.state is GameMenuMode.State.Save:
-            for event in event_list:
+            elif self.state is GameMenuMode.State.Save:
                 self._inputSave(event)
-        elif self.state is GameMenuMode.State.Load:
-            for event in event_list:
+            elif self.state is GameMenuMode.State.Load:
                 self._inputLoad(event)
-        else:
-            raise RuntimeError("error: self.state = " + str(self.state))
+            else:
+                raise RuntimeError("error: self.state = " + str(self.state))
 
     def update(self):
         if self.state is GameMenuMode.State.Menu:

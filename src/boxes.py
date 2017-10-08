@@ -18,7 +18,7 @@ class Boxes(object):
     @classmethod
     def boxIn(cls, pos):
         """Return a rectangle containing the position."""
-        for r in cls.rects.itervalues():# for python 3.x, .values()
+        for r in cls.rects.values():
             if r.collidepoint(pos):
                 return r
         return cls.elsewhere

@@ -7,8 +7,7 @@ class MenuMode(MonConvoMode):
     def _textMain(self):
         mon = GameMode.shared['protag_mon']
         mon_string = "lvl: " + str(mon.lvl) + "\n"
-        mon_string += string.join(
-            [stat + ": " + str(mon.stats[stat]) for stat in mon.main_stats], " ")
+        mon_string += " ".join([stat + ": " + str(mon.stats[stat]) for stat in mon.main_stats])
         mon_string += "\nhpm: " + str(mon.stats['hpm']) + "  "
         mon_string += "hpc: " + str(mon.stats['hpc']) + "  "
         mon_string += "drv: " + str(mon.stats['drv'])
@@ -20,14 +19,16 @@ class MenuMode(MonConvoMode):
     def _textButton1(self):
         return "Look for Trouble"
     def _textButton2(self):
-        return "Time for a Checkup"# mmm, maybe something else here
+        # mmm, maybe something else here
+        return "Time for a Checkup"
     def _textButton3(self):
         return "Take a Break"
     def _goButton0(self):
-        print "Go to a convo?"
+        print("Go to a convo?")
     def _goButton1(self):
-        print "Go to a fight?"
+        print("Go to a fight?")
     def _goButton2(self):
-        print "Something?"# uhhhh
+        # uhhhh
+        print("Something?")
     def _goButton3(self):
         pygame.event.post(pygame.event.Event(pygame.QUIT, {}))

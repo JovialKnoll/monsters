@@ -94,17 +94,15 @@ class GameMenuMode(GameMode):
             # put in scrolling to select save file? maybe typing too? alphebatized list...
 
     def input(self, event_list):
-        if self.state is GameMenuMode.State.Menu:
-            for event in event_list:
+        for event in event_list:
+            if self.state is GameMenuMode.State.Menu:
                 self._inputMenu(event)
-        elif self.state is GameMenuMode.State.Save:
-            for event in event_list:
+            elif self.state is GameMenuMode.State.Save:
                 self._inputSave(event)
-        elif self.state is GameMenuMode.State.Load:
-            for event in event_list:
+            elif self.state is GameMenuMode.State.Load:
                 self._inputLoad(event)
-        else:
-            raise RuntimeError("error: self.state = " + str(self.state))
+            else:
+                raise RuntimeError("error: self.state = " + str(self.state))
 
     def update(self):
         if self.state is GameMenuMode.State.Menu:

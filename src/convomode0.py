@@ -25,18 +25,18 @@ class ConvoMode0(MonConvoMode):
     def _textButton3(self):
         return "Excited!"
     def _goButton0(self):
-        print "Button 0 was pressed."
+        print("Button 0 was pressed.")
         self.next_mode = TestMode()
     def _goButton1(self):
-        print "Really anything can happen here."
+        print("Really anything can happen here.")
         self.next_mode = FightMode(self.shared['protag_mon'], Monster.atLevel(0),
             lambda: ConvoMode0(), lambda: ConvoMode0(), lambda: TestMode())
     def _goButton2(self):
-        print "The main thing would be to have pressing a button set variables."
+        print("The main thing would be to have pressing a button set variables.")
         self.next_mode = MenuMode()
     def _goButton3(self):
-        print "The other main thing would be to have pressing a button change the mode.\n" + \
-            "It could set variables and then change the mode."
+        print("The other main thing would be to have pressing a button change the mode.\n" + \
+            "It could set variables and then change the mode.")
     # __init__ need not be implemented unless adding things
     # if adding things to init, should start as below
     # def __init__(self):

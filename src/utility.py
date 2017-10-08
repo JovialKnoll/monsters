@@ -1,8 +1,6 @@
 import random
 import math
 
-from __future__ import division
-
 # utility functions
 random.seed()
 

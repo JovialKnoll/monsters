@@ -55,7 +55,8 @@ class GameMenuMode(GameMode):
             length = len(self.save_name)
             if event.key == pygame.K_ESCAPE:
                 self.state = GameMenuMode.State.Menu
-            elif event.key == pygame.K_RETURN:# also call on a button press
+            elif event.key == pygame.K_RETURN:
+            # also call on a button press
                 if self.save_name:
                     self._saveGame()
                     self.state = GameMenuMode.State.Menu

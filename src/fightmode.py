@@ -116,8 +116,8 @@ class FightMode(GameMode):
             elif event.type == pygame.KEYDOWN:
                 # testing stuff, remove later
                 if event.key == pygame.K_t:
-                    print "player_mon.stats = "+str(self.player_mon.stats)
-                    print "enemy_mon.stats = "+str(self.enemy_mon.stats)
+                    print("player_mon.stats = " + str(self.player_mon.stats))
+                    print("enemy_mon.stats = " + str(self.enemy_mon.stats))
                 if event.key == pygame.K_RETURN:
                     self._buttonPress()
                 else:

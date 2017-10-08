@@ -1,5 +1,3 @@
-CONVERT FIRST: https://docs.python.org/3/library/2to3.html
-
 fightmode etc init stuff in class
 
 choose a real software license

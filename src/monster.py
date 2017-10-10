@@ -104,18 +104,30 @@ class Monster(object):
             self.sprite_size = (64,64)
         self._levelStats()
         self.setHealth()
+        # find sprite paths
+        tailPath = os.path.join(Monster.sprite_path, str(self.lvl)+'-tail-'+self.sprite_groups[0]+str(random.randint(0,2))+'.png')
+        bodyPath = os.path.join(Monster.sprite_path, str(self.lvl)+'-body-'+self.sprite_groups[1]+str(random.randint(0,2))+'.png')
+        headPath = os.path.join(Monster.sprite_path, str(self.lvl)+'-head-'+self.sprite_groups[2]+str(random.randint(0,2))+'.png')
+        legsPath = os.path.join(Monster.sprite_path, str(self.lvl)+'-legs-'+self.sprite_groups[3]+str(random.randint(0,2))+'.png')
+        armsPath = os.path.join(Monster.sprite_path, str(self.lvl)+'-arms-'+self.sprite_groups[4]+str(random.randint(0,2))+'.png')
         # sprite construction stuff
-        self.sprite =    pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-tail-'+self.sprite_groups[0]+str(random.randint(0,2))+'.png'))
-        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-body-'+self.sprite_groups[1]+str(random.randint(0,2))+'.png')), (0,0))
-        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-head-'+self.sprite_groups[2]+str(random.randint(0,2))+'.png')), (0,0))
-        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-legs-'+self.sprite_groups[3]+str(random.randint(0,2))+'.png')), (0,0))
-        self.sprite.blit(pygame.image.load(os.path.join(Monster.sprite_path, str(self.lvl)+'-arms-'+self.sprite_groups[4]+str(random.randint(0,2))+'.png')), (0,0))
+        self.sprite = pygame.image.load(tailPath)
+        self.sprite.blit(pygame.image.load(bodyPath), (0,0))
+        self.sprite.blit(pygame.image.load(headPath), (0,0))
+        self.sprite.blit(pygame.image.load(legsPath), (0,0))
+        self.sprite.blit(pygame.image.load(armsPath), (0,0))
         # color swapping stuff
         pix_array = pygame.PixelArray(self.sprite)
         pix_array.replace(self.skin[0].dark, self.darkSkin())
         pix_array.replace(self.skin[0].light, self.lightSkin())
         del pix_array
         self._finishSprite()
+        print("Level up: " + self.name)
+        print("tailPath: " + tailPath)
+        print("bodyPath: " + bodyPath)
+        print("headPath: " + headPath)
+        print("legsPath: " + legsPath)
+        print("armsPath: " + armsPath)
         return 1
 
     def drawCentered(self, screen, pos, right=False):

@@ -42,6 +42,7 @@ class FightMode(GameMode):
         """The functions passed in should return the next mode."""
         super(FightMode, self).__init__()
         if not FightMode.converted:
+            FightMode.health_bar = FightMode.health_bar.convert_alpha()
             FightMode.black_box = FightMode.black_box.convert_alpha()
             self.shared['font_wrap'].renderToInside(FightMode.background,
                 FightMode.FightBoxes.textStart(   FightMode.FightBoxes.rects['top']),

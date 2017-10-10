@@ -1,5 +1,7 @@
 variable frame rate (should only need to input time information into the update functions
 
+wrap movement for fight inside monsters or a new class
+
 make and check settings file for
 	window size
 	fullscreen

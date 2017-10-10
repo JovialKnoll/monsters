@@ -1,5 +1,11 @@
 variable frame rate (should only need to input time information into the update functions
 
+make and check settings file for
+	window size
+	fullscreen
+	max framerate
+	etc
+
 saving the game!
 	loading
 	saving to an existing save file name

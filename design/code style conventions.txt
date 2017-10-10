@@ -1,4 +1,4 @@
-style conventions for this project, feel free to make things fit this
+style conventions for this project
 
 modules: lowercaseletters
 classes: UpperCamelCase
@@ -7,10 +7,10 @@ variables: lowercase_separated_by_underscores
 constants: UPPERCASE_SEPARATED_BY_UNDERSCORES
 
 strings: use single quotes (') for things acting as identifiers (example: dictionaries, file names)
-use tripe double quotes for docstrings (""")
+use triple double quotes for docstrings (""")
 use double quotes otherwise (")
 
-definitions: place a blank line (same indentation as one above) after function definitions
+definitions: place a blank line after function definitions
 additional single blank lines can be placed for readability / structure
 
 "private" functions: though python does not have private functions,

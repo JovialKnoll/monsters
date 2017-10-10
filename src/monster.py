@@ -48,9 +48,9 @@ class Monster(object):
         headPath = os.path.join(Monster.sprite_path, '0-head-'+self.sprite_groups[2]+'.png')
         legsPath = os.path.join(Monster.sprite_path, '0-legs-'+self.sprite_groups[3]+'.png')
         # sprite construction stuff
-        self.sprite = pygame.image.load(bodyPath)
-        self.sprite.blit(pygame.image.load(headPath), (0,0))
-        self.sprite.blit(pygame.image.load(legsPath), (0,0))
+        self.sprite = pygame.image.load(bodyPath).convert_alpha()
+        self.sprite.blit(pygame.image.load(headPath).convert_alpha(), (0,0))
+        self.sprite.blit(pygame.image.load(legsPath).convert_alpha(), (0,0))
         self._finishSprite()
 
     def fightStart(self):
@@ -116,11 +116,11 @@ class Monster(object):
         legsPath = os.path.join(Monster.sprite_path, str(self.lvl)+'-legs-'+self.sprite_groups[3]+str(random.randint(0,2))+'.png')
         armsPath = os.path.join(Monster.sprite_path, str(self.lvl)+'-arms-'+self.sprite_groups[4]+str(random.randint(0,2))+'.png')
         # sprite construction stuff
-        self.sprite = pygame.image.load(tailPath)
-        self.sprite.blit(pygame.image.load(bodyPath), (0,0))
-        self.sprite.blit(pygame.image.load(headPath), (0,0))
-        self.sprite.blit(pygame.image.load(legsPath), (0,0))
-        self.sprite.blit(pygame.image.load(armsPath), (0,0))
+        self.sprite = pygame.image.load(tailPath).convert_alpha()
+        self.sprite.blit(pygame.image.load(bodyPath).convert_alpha(), (0,0))
+        self.sprite.blit(pygame.image.load(headPath).convert_alpha(), (0,0))
+        self.sprite.blit(pygame.image.load(legsPath).convert_alpha(), (0,0))
+        self.sprite.blit(pygame.image.load(armsPath).convert_alpha(), (0,0))
         # color swapping stuff
         pix_array = pygame.PixelArray(self.sprite)
         pix_array.replace(self.skin[0].dark, self.darkSkin())

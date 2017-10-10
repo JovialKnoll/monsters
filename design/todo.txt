@@ -5,7 +5,10 @@ saving the game!
 	saving to an existing save file name
 	buttons?
 
-re-evaluate mon stats, tally up results for "which mon would win" for different possible distributions of stats
+re-evaluate mon stats
+	tally up results for winners for different possible distributions of stats
+	balancing that
+	maybe check that can be strategy to fight choices?
 
 lower priority:
 	(maybe) scroll slider thingy for convomode.py, click-and-drag-able

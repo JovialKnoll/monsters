@@ -133,5 +133,5 @@ ENV/
 # mypy
 .mypy_cache/
 
-# This project
+# this project
 savegames/

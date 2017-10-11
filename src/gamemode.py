@@ -7,12 +7,16 @@ class GameMode(object):
         """All game modes must know when they are done, and set the next mode."""
         self.next_mode = None
 
-    def input(self, event_list):
-        """All game modes can take in events."""
+    def input(self, event):
         raise NotImplementedError(
             self.__class__.__name__
-            + ".input(self, event_list)"
+            + ".input(self, event)"
         )
+
+    def input_list(self, event_list):
+        """All game modes can take in events."""
+        for event in event_list:
+            self.input(event)
 
     def update(self):
         """All game modes can update and can optionally return True to halt the game."""

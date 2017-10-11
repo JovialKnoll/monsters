@@ -12,56 +12,47 @@ from boxes import *
 random.seed()
 class FightMode(GameMode):
     class FightBoxes(Boxes):
-        rects = {
-            'top'   : pygame.Rect(24,  24,  88,  36),
-            'middle': pygame.Rect(24,  76,  88,  36),
-            'bottom': pygame.Rect(24, 128,  88,  36),
-        }
+        rects = [
+            pygame.Rect(24,  24,  88,  36),
+            pygame.Rect(24,  76,  88,  36),
+            pygame.Rect(24, 128,  88,  36),
+        ]
 
-        @classmethod
-        def boxKey(cls, box, key):
-            """Return a rectangle based on the current rectangle and the key pressed."""
-            if (box is cls.rects['middle'] and key in (  pygame.K_UP,  pygame.K_LEFT))\
-            or (box is cls.rects['bottom'] and key in (pygame.K_DOWN, pygame.K_RIGHT)):
-                return cls.rects[   'top']
-            if (box is cls.rects['bottom'] and key in (  pygame.K_UP,  pygame.K_LEFT))\
-            or (box is cls.rects[   'top'] and key in (pygame.K_DOWN, pygame.K_RIGHT)):
-                return cls.rects['middle']
-            if (box is cls.rects[   'top'] and key in (  pygame.K_UP,  pygame.K_LEFT))\
-            or (box is cls.rects['middle'] and key in (pygame.K_DOWN, pygame.K_RIGHT)):
-                return cls.rects['bottom']
-            return box
+        def keySelect(self, key):
+            if key in (pygame.K_UP, pygame.K_LEFT):
+                return self.changeSelect(-1)
+            if key in (pygame.K_DOWN, pygame.K_RIGHT):
+                return self.changeSelect(1)
 
     sprite_path = os.path.join(GRAPHICS_DIRECTORY, BACKGROUNDS_DIRECTORY)
     health_bar = pygame.image.load(os.path.join(sprite_path, 'healthbar.png'))
     black_box = pygame.image.load(os.path.join(sprite_path, 'blackbox.png'))
     background = pygame.image.load(os.path.join(sprite_path, 'layout2boxes.png'))
     converted = False
+    box_choices = [
+        "Attack",
+        "Defend",
+        "Escape",
+    ]
 
     def __init__(self, player_mon, enemy_mon, draw_func, win_func, lose_func):
         """The functions passed in should return the next mode."""
         super(FightMode, self).__init__()
         if not FightMode.converted:
-            FightMode.health_bar = FightMode.health_bar.convert_alpha()
-            FightMode.black_box = FightMode.black_box.convert_alpha()
-            self.shared['font_wrap'].renderToInside(FightMode.background,
-                FightMode.FightBoxes.textStart(   FightMode.FightBoxes.rects['top']),
-                FightMode.FightBoxes.textWidth(   FightMode.FightBoxes.rects['top']),
-                "Attack", False, TEXT_COLOR
-            )
-            self.shared['font_wrap'].renderToInside(FightMode.background,
-                FightMode.FightBoxes.textStart(FightMode.FightBoxes.rects['middle']),
-                FightMode.FightBoxes.textWidth(FightMode.FightBoxes.rects['middle']),
-                "Defend", False, TEXT_COLOR
-            )
-            self.shared['font_wrap'].renderToInside(FightMode.background,
-                FightMode.FightBoxes.textStart(FightMode.FightBoxes.rects['bottom']),
-                FightMode.FightBoxes.textWidth(FightMode.FightBoxes.rects['bottom']),
-                "Escape", False, TEXT_COLOR
-            )
+            for index, choice in enumerate(FightMode.box_choices):
+                self.shared['font_wrap'].renderToInside(
+                    FightMode.background,
+                    FightMode.FightBoxes.textStart(index),
+                    FightMode.FightBoxes.textWidth(index),
+                    choice,
+                    False,
+                    TEXT_COLOR
+                )
             FightMode.background = FightMode.background.convert_alpha()
+            FightMode.black_box = FightMode.black_box.convert_alpha()
+            FightMode.health_bar = FightMode.health_bar.convert_alpha()
             FightMode.converted = True
-        self.box_selected = FightMode.FightBoxes.rects['top']
+        self.boxes = FightMode.FightBoxes()
 
         player_mon.fightStart()
         self.player_mon = player_mon
@@ -84,16 +75,8 @@ class FightMode(GameMode):
         self.result_func = {'draw': draw_func, 'win': win_func, 'lose': lose_func}
 
     def _buttonPress(self):
-        if self.box_selected == FightMode.FightBoxes.rects['top']:
-            self.player_action = 'attack'
-            # print "pressed: top"
-        elif self.box_selected == FightMode.FightBoxes.rects['middle']:
-            self.player_action = 'defend'
-            # print "pressed: middle"
-        elif self.box_selected == FightMode.FightBoxes.rects['bottom']:
-            self.player_action = 'escape'
-            # print "pressed: bottom"
-        self.enemy_action = random.choice(('attack', 'defend'))
+        self.player_action = FightMode.box_choices[self.boxes.select]
+        self.enemy_action = random.choice(('Attack', 'Defend'))
 
     def input(self, event_list):
         if self.result:
@@ -105,24 +88,20 @@ class FightMode(GameMode):
             return
         for event in event_list:
             if event.type == pygame.MOUSEMOTION:
-                select = FightMode.FightBoxes.boxIn(event.pos)
-                if select != FightMode.FightBoxes.elsewhere:
-                    self.box_selected = select
+                self.boxes.posSelect(event.pos)
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    select = FightMode.FightBoxes.boxIn(event.pos)
-                    if select != FightMode.FightBoxes.elsewhere:
-                        self.box_selected = select
+                    if self.boxes.posSelect(event.pos) != None:
                         self._buttonPress()
             elif event.type == pygame.KEYDOWN:
-                # testing stuff, remove later
-                if event.key == pygame.K_t:
-                    print("player_mon.stats = " + str(self.player_mon.stats))
-                    print("enemy_mon.stats = " + str(self.enemy_mon.stats))
                 if event.key == pygame.K_RETURN:
                     self._buttonPress()
+                # testing stuff, remove later
+                elif event.key == pygame.K_t:
+                    print("player_mon.stats = " + str(self.player_mon.stats))
+                    print("enemy_mon.stats = " + str(self.enemy_mon.stats))
                 else:
-                    self.box_selected = FightMode.FightBoxes.boxKey(self.box_selected, event.key)
+                    self.boxes.keySelect(event.key)
 
     def _setActionDisplay(self, text):
         self.action_display.appendleft( self.shared['font_wrap'].renderInside(200, text, False, TEXT_COLOR) )
@@ -156,7 +135,7 @@ class FightMode(GameMode):
 
     def update(self):
         # enemy animation
-        if self.enemy_action == 'attack':
+        if self.enemy_action == 'Attack':
             if self.enemy_anim == 0:
                 self.enemy_rel[0] -= 1
                 if self.enemy_rel[0] == -12:
@@ -165,7 +144,7 @@ class FightMode(GameMode):
                 self.enemy_rel[0] += 1
                 if self.enemy_rel[0] == 0:
                     self.enemy_anim = -1
-        elif self.enemy_action == 'defend':
+        elif self.enemy_action == 'Defend':
             if self.enemy_anim == 0:
                 self.enemy_rel[0] += 1
                 if self.enemy_rel[0] == 8:
@@ -179,7 +158,7 @@ class FightMode(GameMode):
                 if self.enemy_rel[0] == 0:
                     self.enemy_anim = -1
         # player animation, etc.
-        if self.player_action == 'attack':
+        if self.player_action == 'Attack':
             if self.action_set == False:
                 self._setActionDisplay("I'm gonna hit 'em!")
             if self.player_anim == 0:
@@ -192,7 +171,7 @@ class FightMode(GameMode):
                     self.player_anim = -1
             else:
                 self._playerActionDone()
-        elif self.player_action == 'defend':
+        elif self.player_action == 'Defend':
             if self.action_set == False:
                 self._setActionDisplay("I'm gonna block 'em!")
             if self.player_anim == 0:
@@ -209,7 +188,7 @@ class FightMode(GameMode):
                     self.player_anim = -1
             else:
                 self._playerActionDone()
-        elif self.player_action == 'escape':
+        elif self.player_action == 'Escape':
             if self.action_set == False:
                 self._setActionDisplay("I'm gonna run away!")
             if self.player_anim == 0:
@@ -240,8 +219,8 @@ class FightMode(GameMode):
     def draw(self, screen):
         screen.fill(WHITE)
         screen.blit(FightMode.background, (0,0))
-        if self.box_selected != FightMode.FightBoxes.elsewhere and self.action_set == False:
-            screen.blit(FightMode.black_box, self.box_selected)
+        if self.action_set == False:
+            screen.blit(FightMode.black_box, self.boxes.getSelectRect())
         # draw some mons and stuff
         self.player_mon.drawStanding(screen, (self.player_pos[0] + self.player_rel[0], self.player_pos[1] + self.player_rel[1]), True)
         player_bar_length = 60*self.player_mon.stats['hpc']//self.player_mon.stats['hpm']

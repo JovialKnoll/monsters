@@ -11,7 +11,6 @@ class MenuMode(MonConvoMode):
         mon_string += "\nhpm: " + str(mon.stats['hpm']) + "  "
         mon_string += "hpc: " + str(mon.stats['hpc']) + "  "
         mon_string += "drv: " + str(mon.stats['drv'])
-
         return mon.name + "\n" + mon_string.upper()
 
     def _textButton0(self):

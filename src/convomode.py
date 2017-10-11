@@ -7,25 +7,18 @@ from boxes import *
 
 class ConvoMode(GameMode):
     class ConvoBoxes(Boxes):
-        rects = {
-            'top_left'    : pygame.Rect(  8,  88,  88,  36),
-            'top_right'   : pygame.Rect(224,  88,  88,  36),
-            'bottom_left' : pygame.Rect(  8, 132,  88,  36),
-            'bottom_right': pygame.Rect(224, 132,  88,  36),
-        }
+        rects = [
+            pygame.Rect(  8,  88,  88,  36),
+            pygame.Rect(224,  88,  88,  36),
+            pygame.Rect(  8, 132,  88,  36),
+            pygame.Rect(224, 132,  88,  36),
+        ]
 
-        @classmethod
-        def boxKey(cls, box, key):
-            """Return a rectangle based on the current rectangle and the key pressed."""
-            if (box, key) in ((cls.rects[   'top_right'], pygame.K_LEFT), (cls.rects['bottom_right'], pygame.K_RIGHT)):
-                return cls.rects['top_left']
-            if (box, key) in ((cls.rects[ 'bottom_left'], pygame.K_LEFT), (cls.rects[    'top_left'], pygame.K_RIGHT)):
-                return cls.rects['top_right']
-            if (box, key) in ((cls.rects['bottom_right'], pygame.K_LEFT), (cls.rects[   'top_right'], pygame.K_RIGHT)):
-                return cls.rects['bottom_left']
-            if (box, key) in ((cls.rects[    'top_left'], pygame.K_LEFT), (cls.rects[ 'bottom_left'], pygame.K_RIGHT)):
-                return cls.rects['bottom_right']
-            return box
+        def keySelect(self, key):
+            if key == pygame.K_LEFT:
+                return self.changeSelect(-1)
+            if key == pygame.K_RIGHT:
+                return self.changeSelect(1)
 
     SCROLL_AMOUNT_MOUSE = 10
     SCROLL_AMOUNT_KEY = 1
@@ -61,64 +54,69 @@ class ConvoMode(GameMode):
         # do stuff for button 3
         raise NotImplementedError(self.__class__.__name__ + "._goButton3(self)")
 
-    def _readyText(self):
-        # mainly, make the surfaces based on the text for view and buttons, fitting some criteria
-        self.surf_text = self.shared['font_wrap'].renderInside(288, self._textMain(), False, TEXT_COLOR)
-        self.surf_rect = self.surf_text.get_rect()
-        self.text_rect = pygame.Rect(0, 0, 288, 48)
-        self.shared['font_wrap'].renderToInside(self.background,
-            ConvoMode.ConvoBoxes.textStart(ConvoMode.ConvoBoxes.rects['top_left']),
-            ConvoMode.ConvoBoxes.textWidth(ConvoMode.ConvoBoxes.rects['top_left']),
-            self._textButton0(), False, TEXT_COLOR
-        )
-        self.shared['font_wrap'].renderToInside(self.background,
-            ConvoMode.ConvoBoxes.textStart(ConvoMode.ConvoBoxes.rects['top_right']),
-            ConvoMode.ConvoBoxes.textWidth(ConvoMode.ConvoBoxes.rects['top_right']),
-            self._textButton1(), False, TEXT_COLOR
-        )
-        self.shared['font_wrap'].renderToInside(self.background,
-            ConvoMode.ConvoBoxes.textStart(ConvoMode.ConvoBoxes.rects['bottom_left']),
-            ConvoMode.ConvoBoxes.textWidth(ConvoMode.ConvoBoxes.rects['bottom_left']),
-            self._textButton2(), False, TEXT_COLOR
-        )
-        self.shared['font_wrap'].renderToInside(self.background,
-            ConvoMode.ConvoBoxes.textStart(ConvoMode.ConvoBoxes.rects['bottom_right']),
-            ConvoMode.ConvoBoxes.textWidth(ConvoMode.ConvoBoxes.rects['bottom_right']),
-            self._textButton3(), False, TEXT_COLOR
-        )
-
     def __init__(self):
         super(ConvoMode, self).__init__()
         if not ConvoMode.converted:
             ConvoMode.black_box = ConvoMode.black_box.convert_alpha()
             ConvoMode.converted = True
         self.background = pygame.image.load(os.path.join(ConvoMode.sprite_path, 'layout1boxes.png')).convert_alpha()
-        self._readyText()
+        # mainly, make the surfaces based on the text for view and buttons, fitting some criteria
+        self.text_rect = pygame.Rect(0, 0, 288, 48)
+        self.surf_text = self.shared['font_wrap'].renderInside(288, self._textMain(), False, TEXT_COLOR)
+        self.shared['font_wrap'].renderToInside(
+            self.background,
+            ConvoMode.ConvoBoxes.textStart(0),
+            ConvoMode.ConvoBoxes.textWidth(0),
+            self._textButton0(),
+            False,
+            TEXT_COLOR
+        )
+        self.shared['font_wrap'].renderToInside(
+            self.background,
+            ConvoMode.ConvoBoxes.textStart(1),
+            ConvoMode.ConvoBoxes.textWidth(1),
+            self._textButton1(),
+            False,
+            TEXT_COLOR
+        )
+        self.shared['font_wrap'].renderToInside(
+            self.background,
+            ConvoMode.ConvoBoxes.textStart(2),
+            ConvoMode.ConvoBoxes.textWidth(2),
+            self._textButton2(),
+            False,
+            TEXT_COLOR
+        )
+        self.shared['font_wrap'].renderToInside(
+            self.background,
+            ConvoMode.ConvoBoxes.textStart(3),
+            ConvoMode.ConvoBoxes.textWidth(3),
+            self._textButton3(),
+            False,
+            TEXT_COLOR
+        )
+        self.boxes = ConvoMode.ConvoBoxes()
+
         self.y_scroll = {'up': 0, 'down': 0}
-        self.box_selected = ConvoMode.ConvoBoxes.rects['top_left']
         # what else do conversations need?
 
     def _buttonPress(self):
-        if self.box_selected == ConvoMode.ConvoBoxes.rects['top_left']:
+        if self.boxes.select == 0:
             self._goButton0()
-        elif self.box_selected == ConvoMode.ConvoBoxes.rects['top_right']:
+        elif self.boxes.select == 1:
             self._goButton1()
-        elif self.box_selected == ConvoMode.ConvoBoxes.rects['bottom_left']:
+        elif self.boxes.select == 2:
             self._goButton2()
-        elif self.box_selected == ConvoMode.ConvoBoxes.rects['bottom_right']:
+        elif self.boxes.select == 3:
             self._goButton3()
 
     def input(self, event_list):
         for event in event_list:
             if event.type == pygame.MOUSEMOTION:
-                select = ConvoMode.ConvoBoxes.boxIn(event.pos)
-                if select != ConvoMode.ConvoBoxes.elsewhere:
-                    self.box_selected = select
+                self.boxes.posSelect(event.pos)
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
-                    select = ConvoMode.ConvoBoxes.boxIn(event.pos)
-                    if select != ConvoMode.ConvoBoxes.elsewhere:
-                        self.box_selected = select
+                    if self.boxes.posSelect(event.pos) != None:
                         self._buttonPress()
                 elif event.button == 4:
                     self.text_rect.move_ip(0, -ConvoMode.SCROLL_AMOUNT_MOUSE)
@@ -132,7 +130,7 @@ class ConvoMode(GameMode):
                 elif event.key == pygame.K_DOWN:
                     self.y_scroll['down'] = ConvoMode.SCROLL_AMOUNT_KEY
                 else:
-                    self.box_selected = ConvoMode.ConvoBoxes.boxKey(self.box_selected, event.key)
+                    self.boxes.keySelect(event.key)
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
                     self.y_scroll['up'] = 0
@@ -141,11 +139,10 @@ class ConvoMode(GameMode):
 
     def update(self):
         self.text_rect.move_ip(0, self.y_scroll['down'] - self.y_scroll['up'])
-        self.text_rect.clamp_ip(self.surf_rect)
+        self.text_rect.clamp_ip(self.surf_text.get_rect())
 
     def draw(self, screen):
         screen.fill(WHITE)
         screen.blit(self.background, (0,0))
         screen.blit(self.surf_text, (16,16), self.text_rect)
-        if self.box_selected != ConvoMode.ConvoBoxes.elsewhere:
-            screen.blit(ConvoMode.black_box, self.box_selected)
+        screen.blit(ConvoMode.black_box, self.boxes.getSelectRect())

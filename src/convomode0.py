@@ -29,8 +29,13 @@ class ConvoMode0(MonConvoMode):
         self.next_mode = TestMode()
     def _goButton1(self):
         print("Really anything can happen here.")
-        self.next_mode = FightMode(self.shared['protag_mon'], Monster.atLevel(0),
-            lambda: ConvoMode0(), lambda: ConvoMode0(), lambda: TestMode())
+        self.next_mode = FightMode(
+            self.shared['protag_mon'],
+            Monster.atLevel(0),
+            lambda: ConvoMode0(),
+            lambda: ConvoMode0(),
+            lambda: TestMode()
+        )
     def _goButton2(self):
         print("The main thing would be to have pressing a button set variables.")
         self.next_mode = MenuMode()

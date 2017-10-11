@@ -5,7 +5,7 @@ class GameMode(object):
     shared = {}
     def __init__(self):
         """All game modes must know when they are done, and set the next mode."""
-        self.next_mode = False
+        self.next_mode = None
 
     def input(self, event_list):
         """All game modes can take in events."""

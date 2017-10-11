@@ -21,7 +21,7 @@ class FightMode(GameMode):
         def keySelect(self, key):
             if key in (pygame.K_UP, pygame.K_LEFT):
                 return self.changeSelect(-1)
-            if key in (pygame.K_DOWN, pygame.K_RIGHT):
+            elif key in (pygame.K_DOWN, pygame.K_RIGHT):
                 return self.changeSelect(1)
 
     sprite_path = os.path.join(GRAPHICS_DIRECTORY, BACKGROUNDS_DIRECTORY)

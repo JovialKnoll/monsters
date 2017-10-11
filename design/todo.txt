@@ -1,3 +1,13 @@
+for gamemmode, have change input(event_list) to input_list(event_list) making calls to input(event)
+
+move shared convomode and fight mode stuff into new class
+	basically just
+		black_box = pygame.image.load(os.path.join(sprite_path, 'blackbox.png'))
+	and conversion
+	and some input stuff
+
+switch over to python string formatting
+
 variable frame rate (should only need to input time information into the update functions
 
 wrap movement for fight inside monsters or a new class

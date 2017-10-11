@@ -68,13 +68,12 @@ class Game(object):
     def run(self):
         """Run the game, and check if the game needs to end."""
         event_list = self._filterInput(pygame.event.get())
-        halt_game = False
         if self.current_mode:
             self.current_mode.input(event_list)
             if self.current_mode.update():
                 return False# end the game
             self.current_mode.draw(self.screen)
-            if self.current_mode.next_mode != False:
+            if self.current_mode.next_mode is not None:
                 self.current_mode = self.current_mode.next_mode
         else:
             raise RuntimeError("error: no current mode")

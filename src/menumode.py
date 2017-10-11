@@ -13,21 +13,23 @@ class MenuMode(MonConvoMode):
         mon_string += "drv: " + str(mon.stats['drv'])
         return mon.name + "\n" + mon_string.upper()
 
-    def _textButton0(self):
-        return "Wanna Talk?"
-    def _textButton1(self):
-        return "Look for Trouble"
-    def _textButton2(self):
-        # mmm, maybe something else here
-        return "Time for a Checkup"
-    def _textButton3(self):
-        return "Take a Break"
-    def _goButton0(self):
-        print("Go to a convo?")
-    def _goButton1(self):
-        print("Go to a fight?")
-    def _goButton2(self):
-        # uhhhh
-        print("Something?")
-    def _goButton3(self):
-        pygame.event.post(pygame.event.Event(pygame.QUIT, {}))
+    def _textButton(self, index):
+        if index == 0:
+            return "Wanna Talk?"
+        elif index == 1:
+            return "Look for Trouble"
+        elif index == 2:
+            # mmm, maybe something else here
+            return "Time for a Checkup"
+        elif index == 3:
+            return "Take a Break"
+    def _goButton(self, index):
+        if index == 0:
+            print("Go to a convo?")
+        elif index == 1:
+            print("Go to a fight?")
+        elif index == 2:
+            # uhhhh
+            print("Something?")
+        elif index == 3:
+            pygame.event.post(pygame.event.Event(pygame.QUIT, {}))

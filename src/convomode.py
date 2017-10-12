@@ -13,7 +13,6 @@ class ConvoMode(GameMode):
             pygame.Rect(  8, 132,  88,  36),
             pygame.Rect(224, 132,  88,  36),
         ]
-
         def keySelect(self, key):
             if key == pygame.K_LEFT:
                 return self.changeSelect(-1)
@@ -55,39 +54,30 @@ class ConvoMode(GameMode):
                 TEXT_COLOR
             )
         self.boxes = ConvoMode.ConvoBoxes()
-
-        self.y_scroll = {'up': 0, 'down': 0}
         # what else do conversations need?
 
-    def input(self, event_list):
-        for event in event_list:
-            if event.type == pygame.MOUSEMOTION:
-                self.boxes.posSelect(event.pos)
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    if self.boxes.posSelect(event.pos) != None:
-                        self._goButton(self.boxes.select)
-                elif event.button == 4:
-                    self.text_rect.move_ip(0, -ConvoMode.SCROLL_AMOUNT_MOUSE)
-                elif event.button == 5:
-                    self.text_rect.move_ip(0, ConvoMode.SCROLL_AMOUNT_MOUSE)
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
+    def _input(self, event):
+        if event.type == pygame.MOUSEMOTION:
+            self.boxes.posSelect(event.pos)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if self.boxes.posSelect(event.pos) != None:
                     self._goButton(self.boxes.select)
-                elif event.key == pygame.K_UP:
-                    self.y_scroll['up'] = ConvoMode.SCROLL_AMOUNT_KEY
-                elif event.key == pygame.K_DOWN:
-                    self.y_scroll['down'] = ConvoMode.SCROLL_AMOUNT_KEY
-                else:
-                    self.boxes.keySelect(event.key)
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_UP:
-                    self.y_scroll['up'] = 0
-                elif event.key == pygame.K_DOWN:
-                    self.y_scroll['down'] = 0
+            elif event.button == 4:
+                self.text_rect.move_ip(0, -ConvoMode.SCROLL_AMOUNT_MOUSE)
+            elif event.button == 5:
+                self.text_rect.move_ip(0, ConvoMode.SCROLL_AMOUNT_MOUSE)
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                self._goButton(self.boxes.select)
+            else:
+                self.boxes.keySelect(event.key)
 
     def update(self):
-        self.text_rect.move_ip(0, self.y_scroll['down'] - self.y_scroll['up'])
+        self.text_rect.move_ip(
+            0,
+            (self._keyStatus(pygame.K_DOWN) - self._keyStatus(pygame.K_UP)) * ConvoMode.SCROLL_AMOUNT_KEY
+        )
         self.text_rect.clamp_ip(self.surf_text.get_rect())
 
     def draw(self, screen):

@@ -17,7 +17,6 @@ class FightMode(GameMode):
             pygame.Rect(24,  76,  88,  36),
             pygame.Rect(24, 128,  88,  36),
         ]
-
         def keySelect(self, key):
             if key in (pygame.K_UP, pygame.K_LEFT):
                 return self.changeSelect(-1)
@@ -78,33 +77,31 @@ class FightMode(GameMode):
         self.player_action = FightMode.box_choices[self.boxes.select]
         self.enemy_action = random.choice(('Attack', 'Defend'))
 
-    def input(self, event_list):
+    def _input(self, event):
         if self.result:
-            for event in event_list:
-                if event.type in (pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN):
-                    self.next_mode = self.result_func[self.result]()
-                    return
+            if event.type in (pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN):
+                self.next_mode = self.result_func[self.result]()
+                return
         if self.player_action:
             return
-        for event in event_list:
-            if event.type == pygame.MOUSEMOTION:
-                self.boxes.posSelect(event.pos)
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    if self.boxes.posSelect(event.pos) != None:
-                        self._buttonPress()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
+        if event.type == pygame.MOUSEMOTION:
+            self.boxes.posSelect(event.pos)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if self.boxes.posSelect(event.pos) != None:
                     self._buttonPress()
-                # testing stuff, remove later
-                elif event.key == pygame.K_t:
-                    print("player_mon.stats = " + str(self.player_mon.stats))
-                    print("enemy_mon.stats = " + str(self.enemy_mon.stats))
-                else:
-                    self.boxes.keySelect(event.key)
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                self._buttonPress()
+            # testing stuff, remove later
+            elif event.key == pygame.K_t:
+                print("player_mon.stats = " + str(self.player_mon.stats))
+                print("enemy_mon.stats = " + str(self.enemy_mon.stats))
+            else:
+                self.boxes.keySelect(event.key)
 
     def _setActionDisplay(self, text):
-        self.action_display.appendleft( self.shared['font_wrap'].renderInside(200, text, False, TEXT_COLOR) )
+        self.action_display.appendleft(self.shared['font_wrap'].renderInside(200, text, False, TEXT_COLOR))
         self.action_set = not self.action_set
 
     def _playerActionDone(self):

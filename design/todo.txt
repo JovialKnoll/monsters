@@ -4,16 +4,11 @@ move shared convomode and fight mode stuff into new class
 	and conversion
 	and some input stuff
 
-settings file, generate if it doesn't exist
-	read and generate in main? or game
-
 switch over to python string formatting
-
-variable frame rate (should only need to input time information into the update functions
 
 wrap movement for fight inside monsters or a new class
 
-make and check settings file for
+make and check settings file (main.py or game.py?)
 	window size
 	fullscreen
 	max framerate
@@ -28,6 +23,8 @@ re-evaluate mon stats
 	tally up results for winners for different possible distributions of stats
 	balancing that
 	maybe check that can be strategy to fight choices?
+
+variable frame rate (should only need to input time information into the update functions
 
 lower priority:
 	(maybe) scroll slider thingy for convomode.py, click-and-drag-able

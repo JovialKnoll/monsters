@@ -19,9 +19,11 @@ make and check settings file (main.py or game.py?)
 	etc
 
 saving the game!
+	https://docs.python.org/3/library/pickle.html#object.__getstate__
 	loading
 	saving to an existing save file name
 	buttons?
+	make a class to handle saves
 
 re-evaluate mon stats
 	tally up results for winners for different possible distributions of stats

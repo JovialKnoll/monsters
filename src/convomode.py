@@ -17,7 +17,7 @@ class ConvoMode(GameMode):
         def keySelect(self, key):
             if key == pygame.K_LEFT:
                 return self.changeSelect(-1)
-            if key == pygame.K_RIGHT:
+            elif key == pygame.K_RIGHT:
                 return self.changeSelect(1)
 
     SCROLL_AMOUNT_MOUSE = 10

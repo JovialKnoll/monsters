@@ -31,9 +31,10 @@ class Boxes(object):
         return None
 
     def numberSelect(self, num):
-        self.select = min(len(self.__class__.rects) - 1, num)
-        self.select = max(0, self.select)
-        return self.select
+        if num >= 0 and num < len(self.__class__.rects):
+            self.select = num
+            return self.select
+        return None
 
     def getSelectRect(self):
         return self.__class__.rects[self.select]

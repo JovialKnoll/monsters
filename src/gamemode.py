@@ -8,26 +8,26 @@ class GameMode(object):
     def __init__(self):
         """All game modes must know when they are done, and set the next mode."""
         self.next_mode = None
-        self._pressed_keys = {}
+        self.__pressed_keys = set()
 
     def _input(self, event):
         raise NotImplementedError(
             self.__class__.__name__ + "._input(self, event)"
         )
 
-    def _trackPressedKeys(self, event):
+    def __trackPressedKeys(self, event):
         if event.type == pygame.KEYDOWN:
-            self._pressed_keys[event.key] = True
+            self.__pressed_keys.add(event.key)
         elif event.type == pygame.KEYUP:
-            self._pressed_keys[event.key] = False
+            self.__pressed_keys.discard(event.key)
 
     def _keyStatus(self, key):
-        return self._pressed_keys.get(key, False)
+        return key in self.__pressed_keys
 
     def input_list(self, event_list):
         """All game modes can take in events."""
         for event in event_list:
-            self._trackPressedKeys(event)
+            self.__trackPressedKeys(event)
             self._input(event)
 
     def update(self):

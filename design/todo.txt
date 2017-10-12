@@ -1,3 +1,6 @@
+instead of holding shared state in gamemode class, hold it in game
+	just pass it to the modes each function
+
 move shared convomode and fight mode stuff into new class
 	basically just
 		black_box = pygame.image.load(os.path.join(sprite_path, 'blackbox.png'))

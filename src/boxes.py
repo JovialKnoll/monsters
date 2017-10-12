@@ -1,5 +1,3 @@
-import pygame
-
 from constants import *
 
 class Boxes(object):
@@ -8,15 +6,18 @@ class Boxes(object):
     # rects should be filled with pygame.Rect
 
     @classmethod
-    def textStart(cls, pos):
-        return (cls.rects[pos].x + cls.text_margin, cls.rects[pos].y + cls.text_margin)
+    def textStart(cls, index):
+        return (cls.rects[index].x + cls.text_margin, cls.rects[index].y + cls.text_margin)
 
     @classmethod
-    def textWidth(cls, pos):
-        return cls.rects[pos].w - (cls.text_margin * 2)
+    def textWidth(cls, index):
+        return cls.rects[index].w - (cls.text_margin * 2)
 
     def __init__(self):
         self.select = 0
+
+    def getSelectRect(self):
+        return self.__class__.rects[self.select]
 
     def changeSelect(self, change):
         self.select += change
@@ -31,9 +32,7 @@ class Boxes(object):
         return None
 
     def numberSelect(self, num):
-        self.select = min(len(self.__class__.rects) - 1, num)
-        self.select = max(0, self.select)
-        return self.select
-
-    def getSelectRect(self):
-        return self.__class__.rects[self.select]
+        if num >= 0 and num < len(self.__class__.rects):
+            self.select = num
+            return self.select
+        return None

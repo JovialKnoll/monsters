@@ -20,9 +20,8 @@ class Game(object):
         # set window icon here
         pygame.display.set_caption(SCREEN_CAPTION)
         font = pygame.font.Font(os.path.join(GRAPHICS_DIRECTORY, FONT_FILE), FONT_SIZE)
-        GameMode.shared['font_wrap'] = FontWrap(font)
         # all children of GameMode can access the shared dictionary with self.shared
-
+        GameMode.shared['font_wrap'] = FontWrap(font)
         # space
         self.screen = pygame.Surface(SCREEN_SIZE)
         self.monitor_res = (pygame.display.Info().current_w, pygame.display.Info().current_h)
@@ -32,11 +31,10 @@ class Game(object):
         self._windowSet(0)
         self.fullscreen_offset = ((self.monitor_res[0]-self.disp_res_max[0])//2, (self.monitor_res[1]-self.disp_res_max[1])//2)
         self.full_screen = pygame.Surface(self.disp_res_max)
-
         # time
         self.clock = pygame.time.Clock()
-
-        self.current_mode = False# must be set to something before running
+        # mode
+        self.current_mode = None# must be set to something before running
 
         GameMode.shared['protag_mon'] = Monster()
 
@@ -67,19 +65,21 @@ class Game(object):
 
     def run(self):
         """Run the game, and check if the game needs to end."""
+        if not self.current_mode:
+            raise RuntimeError("error: no current mode")
         event_list = self._filterInput(pygame.event.get())
         if self.current_mode:
-            self.current_mode.input(event_list)
+            self.current_mode.input_list(event_list)
             if self.current_mode.update():
-                return False# end the game
+                # end the game
+                return False
             self.current_mode.draw(self.screen)
             if self.current_mode.next_mode is not None:
                 self.current_mode = self.current_mode.next_mode
-        else:
-            raise RuntimeError("error: no current mode")
         self._scaleDraw()
         self._getTime()# todo: pass result to .update()
-        return True# continue the game
+        # continue the game
+        return True
 
     def _filterInput(self, events):
         """Take care of input that game modes should not take care of."""

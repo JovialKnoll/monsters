@@ -20,7 +20,6 @@ class Game(object):
         # pygame.mouse.set_visible(False)
         # set window icon here
         pygame.display.set_caption(SCREEN_CAPTION)
-        font = pygame.font.Font(os.path.join(GRAPHICS_DIRECTORY, FONT_FILE), FONT_SIZE)
         # space
         self.screen = pygame.Surface(SCREEN_SIZE)
         self.monitor_res = (pygame.display.Info().current_w, pygame.display.Info().current_h)

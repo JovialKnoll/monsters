@@ -34,12 +34,12 @@ class FightMode(GameMode):
         "Escape",
     ]
 
-    def __init__(self, player_mon, enemy_mon, draw_func, win_func, lose_func):
+    def __init__(self, player_mon, enemy_mon, draw_mode, win_mode, lose_mode):
         """The functions passed in should return the next mode."""
         super(FightMode, self).__init__()
         if not FightMode.converted:
             for index, choice in enumerate(FightMode.box_choices):
-                self.shared['font_wrap'].renderToInside(
+                self.shared.font_wrap.renderToInside(
                     FightMode.background,
                     FightMode.FightBoxes.textStart(index),
                     FightMode.FightBoxes.textWidth(index),
@@ -71,7 +71,11 @@ class FightMode(GameMode):
         self.action_set = False
 
         self.result = False
-        self.result_func = {'draw': draw_func, 'win': win_func, 'lose': lose_func}
+        self.result_mode = {
+            'draw': draw_mode,
+            'win': win_mode,
+            'lose': lose_mode,
+        }
 
     def _buttonPress(self):
         self.player_action = FightMode.box_choices[self.boxes.select]
@@ -80,7 +84,7 @@ class FightMode(GameMode):
     def _input(self, event):
         if self.result:
             if event.type in (pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN):
-                self.next_mode = self.result_func[self.result]()
+                self.next_mode = self.result_mode[self.result]()
                 return
         if self.player_action:
             return
@@ -101,7 +105,7 @@ class FightMode(GameMode):
                 self.boxes.keySelect(event.key)
 
     def _setActionDisplay(self, text):
-        self.action_display.appendleft(self.shared['font_wrap'].renderInside(200, text, False, TEXT_COLOR))
+        self.action_display.appendleft(self.shared.font_wrap.renderInside(200, text, False, TEXT_COLOR))
         self.action_set = not self.action_set
 
     def _playerActionDone(self):

@@ -32,11 +32,11 @@ class ConvoMode0(MonConvoMode):
         elif index == 1:
             print("Really anything can happen here.")
             self.next_mode = FightMode(
-                self.shared['protag_mon'],
+                self.shared.protag_mon,
                 Monster.atLevel(0),
-                lambda: ConvoMode0(),
-                lambda: ConvoMode0(),
-                lambda: TestMode()
+                ConvoMode0,
+                ConvoMode0,
+                TestMode
             )
         elif index == 2:
             print("The main thing would be to have pressing a button set variables.")

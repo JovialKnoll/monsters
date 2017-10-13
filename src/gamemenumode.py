@@ -123,7 +123,7 @@ class GameMenuMode(GameMode):
         screen.blit(self.old_screen, (0,0))
         if self.state is GameMenuMode.State.Menu:
             disp_text = "Options:\n_Go Back (ESC)\n_Save (F1)\n_Load (F2)\n_Quit (F3)"
-            self.shared['font_wrap'].renderToInside(screen, (0,0), 20 * FONT_SIZE, disp_text, False, WHITE, BLACK)
+            self.shared.font_wrap.renderToInside(screen, (0,0), 20 * FONT_SIZE, disp_text, False, WHITE, BLACK)
             # center this, make bigger and buttons... maybe
             # more to come
         elif self.state is GameMenuMode.State.Save:
@@ -131,7 +131,7 @@ class GameMenuMode(GameMode):
             if self.save_name:
                 disp_text += self.save_name
             disp_text += ".sav"
-            self.shared['font_wrap'].renderToInside(screen, (0,0), 20 * FONT_SIZE, disp_text, False, WHITE, BLACK)
+            self.shared.font_wrap.renderToInside(screen, (0,0), 20 * FONT_SIZE, disp_text, False, WHITE, BLACK)
             if self.cursor_switch:
                 screen.fill(WHITE, ((self.cursor_position * FONT_SIZE, 40), (1, 10)))
             # display prompt for file to save
@@ -139,7 +139,7 @@ class GameMenuMode(GameMode):
         elif self.state is GameMenuMode.State.Load:
             disp_text = "Options:\n_Go Back (ESC)\n_Load (ENTER)\nSelect a file name:\n"
             disp_text += ".sav"
-            self.shared['font_wrap'].renderToInside(screen, (0,0), 20 * FONT_SIZE, disp_text, False, WHITE, BLACK)
+            self.shared.font_wrap.renderToInside(screen, (0,0), 20 * FONT_SIZE, disp_text, False, WHITE, BLACK)
             # draw load thingy
             pass
         else:

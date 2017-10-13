@@ -16,12 +16,11 @@ class Game(object):
     def __init__(self):
         """Start and create things as needed."""
         pygame.init()
+        # replace with a custom mouse icon or get rid of it?
         # pygame.mouse.set_visible(False)
         # set window icon here
         pygame.display.set_caption(SCREEN_CAPTION)
         font = pygame.font.Font(os.path.join(GRAPHICS_DIRECTORY, FONT_FILE), FONT_SIZE)
-        # all children of GameMode can access the shared dictionary with self.shared
-        GameMode.shared['font_wrap'] = FontWrap(font)
         # space
         self.screen = pygame.Surface(SCREEN_SIZE)
         self.monitor_res = (pygame.display.Info().current_w, pygame.display.Info().current_h)
@@ -35,8 +34,6 @@ class Game(object):
         self.clock = pygame.time.Clock()
         # mode
         self.current_mode = None# must be set to something before running
-
-        GameMode.shared['protag_mon'] = Monster()
 
         # test stuff
         # self.current_mode = TestMode()

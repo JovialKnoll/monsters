@@ -43,9 +43,9 @@ class ConvoMode(GameMode):
         self.background = pygame.image.load(os.path.join(ConvoMode.sprite_path, 'layout1boxes.png')).convert_alpha()
         # mainly, make the surfaces based on the text for view and buttons, fitting some criteria
         self.text_rect = pygame.Rect(0, 0, 288, 48)
-        self.surf_text = self.shared['font_wrap'].renderInside(288, self._textMain(), False, TEXT_COLOR)
+        self.surf_text = self.shared.font_wrap.renderInside(288, self._textMain(), False, TEXT_COLOR)
         for index, rect in enumerate(ConvoMode.ConvoBoxes.rects):
-            self.shared['font_wrap'].renderToInside(
+            self.shared.font_wrap.renderToInside(
                 self.background,
                 ConvoMode.ConvoBoxes.textStart(index),
                 ConvoMode.ConvoBoxes.textWidth(index),

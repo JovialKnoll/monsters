@@ -1,12 +1,15 @@
 import pygame
-
-from sharedstate import *
+import sharedstate
 
 class GameMode(object):
     """This is an abstract object for game modes.
     Children of this should implement _input, update, and draw.
     """
-    shared = SharedState()
+    __slots__ = (
+        'next_mode',
+        '__pressed_keys',
+    )
+
     def __init__(self):
         """All game modes must know when they are done, and set the next mode."""
         self.next_mode = None
@@ -38,8 +41,11 @@ class GameMode(object):
             self.__class__.__name__ + ".update(self)"
         )
 
-    def draw(self, screen):
-        """All game modes can draw to the screen"""
+    def _drawScreen(self, screen):
         raise NotImplementedError(
-            self.__class__.__name__ + ".draw(self, screen)"
+            self.__class__.__name__ + "._drawScreen(self, screen)"
         )
+
+    def draw(self):
+        """All game modes can draw to the screen"""
+        self._drawScreen(sharedstate.state.screen)

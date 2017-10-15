@@ -1,11 +1,11 @@
 import os
 import random
 import pygame
-
+import sharedstate
 import utility
+import constants
 
 from collections import deque
-from constants import *
 from gamemode import *
 from boxes import *
 
@@ -23,9 +23,9 @@ class FightMode(GameMode):
             elif key in (pygame.K_DOWN, pygame.K_RIGHT):
                 return self.changeSelect(1)
 
-    sprite_path = os.path.join(GRAPHICS_DIRECTORY, BACKGROUNDS_DIRECTORY)
+    sprite_path = os.path.join(constants.GRAPHICS_DIRECTORY, constants.BACKGROUNDS_DIRECTORY)
     health_bar = pygame.image.load(os.path.join(sprite_path, 'healthbar.png'))
-    black_box = pygame.image.load(os.path.join(sprite_path, 'blackbox.png'))
+    constants.BLACK_box = pygame.image.load(os.path.join(sprite_path, 'constants.BLACKbox.png'))
     background = pygame.image.load(os.path.join(sprite_path, 'layout2boxes.png'))
     converted = False
     box_choices = [
@@ -39,16 +39,16 @@ class FightMode(GameMode):
         super(FightMode, self).__init__()
         if not FightMode.converted:
             for index, choice in enumerate(FightMode.box_choices):
-                self.shared.font_wrap.renderToInside(
+                sharedstate.state.font_wrap.renderToInside(
                     FightMode.background,
                     FightMode.FightBoxes.textStart(index),
                     FightMode.FightBoxes.textWidth(index),
                     choice,
                     False,
-                    TEXT_COLOR
+                    constants.TEXT_COLOR
                 )
             FightMode.background = FightMode.background.convert_alpha()
-            FightMode.black_box = FightMode.black_box.convert_alpha()
+            FightMode.constants.BLACK_box = FightMode.constants.BLACK_box.convert_alpha()
             FightMode.health_bar = FightMode.health_bar.convert_alpha()
             FightMode.converted = True
         self.boxes = FightMode.FightBoxes()
@@ -105,7 +105,7 @@ class FightMode(GameMode):
                 self.boxes.keySelect(event.key)
 
     def _setActionDisplay(self, text):
-        self.action_display.appendleft(self.shared.font_wrap.renderInside(200, text, False, TEXT_COLOR))
+        self.action_display.appendleft(sharedstate.state.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR))
         self.action_set = not self.action_set
 
     def _playerActionDone(self):
@@ -217,11 +217,11 @@ class FightMode(GameMode):
             self._setActionDisplay("Input to continue.")
             self.result = self.player_action
 
-    def draw(self, screen):
-        screen.fill(WHITE)
+    def _drawScreen(self, screen):
+        screen.fill(constants.WHITE)
         screen.blit(FightMode.background, (0,0))
         if self.action_set == False:
-            screen.blit(FightMode.black_box, self.boxes.getSelectRect())
+            screen.blit(FightMode.constants.BLACK_box, self.boxes.getSelectRect())
         # draw some mons and stuff
         self.player_mon.drawStanding(screen, (self.player_pos[0] + self.player_rel[0], self.player_pos[1] + self.player_rel[1]), True)
         player_bar_length = 60*self.player_mon.stats['hpc']//self.player_mon.stats['hpm']

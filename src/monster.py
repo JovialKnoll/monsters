@@ -1,8 +1,8 @@
 import random
 import os
 import pygame
+import constants
 
-from constants import *
 from skin import *
 from feelings import *
 
@@ -11,8 +11,19 @@ random.seed()
 class Monster(object):
     drv_max = 4
     lvl_max = 3
-    main_stats = ('atk', 'def', 'spd', 'vit')
-    sprite_path = os.path.join(GRAPHICS_DIRECTORY, MONSTER_PARTS_DIRECTORY)
+    main_stats = (
+        'atk',
+        'def',
+        'spd',
+        'vit',
+    )
+    body_sections = (
+        'tail',
+        'body',
+        'head',
+        'legs',
+        'arms',
+    )
 
     @classmethod
     def atLevel(cls, in_lvl, in_stats={}):
@@ -24,11 +35,10 @@ class Monster(object):
 
     def __init__(self, in_stats={}):
         """Create a new monster, setting stats, etc. as needed."""
-        self.sprite_size = (48,48)
         self.lvl = 0
         # self.awr might not even need to be a thing, remove this if it ends up not mattering
         self.awr = 0# awareness, this is a thing for conversations / progress through the game
-        # it might make more sense to hold info for conversations flow in GameMode.shared, but I'm not sure
+        # it might make more sense to hold info for conversations flow in sharedstate.state, but I'm not sure
         # depends on how this number interacts with monster stuff
         self.personality = Personality.random()
         self.name = Personality.generateName(self.personality)
@@ -36,28 +46,21 @@ class Monster(object):
         # access the SkinTone with self.skin[self.lvl]
         self.mood = Mood.Neutral# mood might only be changed by and do stuff during battles / convos? maybe
 
-        self.stats = {x: 2 for x in Monster.main_stats}
-        self.stats['drv'] = Monster.drv_max//2
+        self.stats = {x: 2 for x in self.__class__.main_stats}
+        self.stats['drv'] = self.__class__.drv_max//2
         self._levelStats()
         self.stats.update(in_stats)
         self.setHealth()
 
         self.sprite_groups = [random.choice(('A','B','C')) for x in range(5)]
-        # find sprite paths
-        bodyPath = os.path.join(Monster.sprite_path, '0-body-'+self.sprite_groups[1]+'.png')
-        headPath = os.path.join(Monster.sprite_path, '0-head-'+self.sprite_groups[2]+'.png')
-        legsPath = os.path.join(Monster.sprite_path, '0-legs-'+self.sprite_groups[3]+'.png')
-        # sprite construction stuff
-        self.sprite = pygame.image.load(bodyPath).convert_alpha()
-        self.sprite.blit(pygame.image.load(headPath).convert_alpha(), (0,0))
-        self.sprite.blit(pygame.image.load(legsPath).convert_alpha(), (0,0))
-        self._finishSprite()
+        self._setSpritePaths()
+        self._setSprites()
 
     def fightStart(self):
-        self.stats['drv'] = max(min(self.stats['drv'] + self.mood.drvChange, Monster.drv_max), 0)
+        self.stats['drv'] = max(min(self.stats['drv'] + self.mood.drvChange, self.__class__.drv_max), 0)
 
     def _drvEffect(self):
-        return self.stats['drv'] - Monster.drv_max + 1
+        return self.stats['drv'] - self.__class__.drv_max + 1
 
     def fightHit(self, action):
         # todo: make speed affect more things
@@ -76,17 +79,10 @@ class Monster(object):
         defend = max(defend + random.randint(-1,1) + self._drvEffect(), 0)
         return (attack, defend)
 
-    def _finishSprite(self):
-        # self.sprite_size = (64,64)
-        # self.sprite = pygame.Surface((64,64))
-        # self.sprite.fill((255,0,0))
-        self.sprite = self.sprite.convert_alpha()
-        self.sprite_right = pygame.transform.flip(self.sprite, True, False)
-
     def _levelStats(self):
-        for stat in Monster.main_stats:
+        for stat in self.__class__.main_stats:
             self.stats[stat] += 2
-        for stat in random.sample(Monster.main_stats, 2):
+        for stat in random.sample(self.__class__.main_stats, 2):
             self.stats[stat] += 1
         self.stats[self.personality.stat] += 2
 
@@ -94,54 +90,76 @@ class Monster(object):
         self.stats['hpm'] = self.stats['vit']*2 + self.stats['vit']//2 + self.stats['vit']//4
         self.stats['hpc'] = self.stats['hpm']
 
-    def darkSkin(self):
+    def _getSpritePath(self, section, group):
+        part = ''
+        if self.lvl > 0:
+            part = random.randint(0,2)
+        return os.path.join(
+            constants.GRAPHICS_DIRECTORY,
+            constants.MONSTER_PARTS_DIRECTORY,
+            '{}-{}-{}{}.png'.format(self.lvl, section, group, part)
+        )
+
+    def _setSpritePaths(self):
+        self.sprite_paths = tuple(
+            self._getSpritePath(self.__class__.body_sections[i], self.sprite_groups[i]) for i in range(5)
+        )
+        if self.lvl == 0:
+            self.sprite_paths = self.sprite_paths[1:4]
+
+    def _getDarkSkin(self):
         return self.skin[self.lvl].dark
 
-    def lightSkin(self):
+    def _getLightSkin(self):
         return self.skin[self.lvl].light
+
+    def _setSprites(self):
+        self.sprite = pygame.image.load(self.sprite_paths[0]).convert_alpha()
+        for sprite_path in self.sprite_paths[1:]:
+            self.sprite.blit(
+                pygame.image.load(sprite_path).convert_alpha(),
+                (0, 0)
+            )
+        if self.lvl > 0:
+            pix_array = pygame.PixelArray(self.sprite)
+            pix_array.replace(self.skin[0].dark, self._darkSkin())
+            pix_array.replace(self.skin[0].light, self._getLightSkin())
+            del pix_array
+        self.sprite = self.sprite.convert_alpha()
+        self.sprite_right = pygame.transform.flip(self.sprite, True, False)
 
     def levelUp(self):
         """Level up a monster, setting stats, etc. as needed."""
-        if self.lvl >= Monster.lvl_max:
-            return 0
+        if self.lvl >= self.__class__.lvl_max:
+            return False
         self.lvl += 1
-        if self.lvl > 2:
-            self.sprite_size = (64,64)
         self._levelStats()
         self.setHealth()
-        # find sprite paths
-        tailPath = os.path.join(Monster.sprite_path, str(self.lvl)+'-tail-'+self.sprite_groups[0]+str(random.randint(0,2))+'.png')
-        bodyPath = os.path.join(Monster.sprite_path, str(self.lvl)+'-body-'+self.sprite_groups[1]+str(random.randint(0,2))+'.png')
-        headPath = os.path.join(Monster.sprite_path, str(self.lvl)+'-head-'+self.sprite_groups[2]+str(random.randint(0,2))+'.png')
-        legsPath = os.path.join(Monster.sprite_path, str(self.lvl)+'-legs-'+self.sprite_groups[3]+str(random.randint(0,2))+'.png')
-        armsPath = os.path.join(Monster.sprite_path, str(self.lvl)+'-arms-'+self.sprite_groups[4]+str(random.randint(0,2))+'.png')
-        # sprite construction stuff
-        self.sprite = pygame.image.load(tailPath).convert_alpha()
-        self.sprite.blit(pygame.image.load(bodyPath).convert_alpha(), (0,0))
-        self.sprite.blit(pygame.image.load(headPath).convert_alpha(), (0,0))
-        self.sprite.blit(pygame.image.load(legsPath).convert_alpha(), (0,0))
-        self.sprite.blit(pygame.image.load(armsPath).convert_alpha(), (0,0))
-        # color swapping stuff
-        pix_array = pygame.PixelArray(self.sprite)
-        pix_array.replace(self.skin[0].dark, self.darkSkin())
-        pix_array.replace(self.skin[0].light, self.lightSkin())
-        del pix_array
-        self._finishSprite()
-        print("Level up: " + self.name)
-        print("tailPath: " + tailPath)
-        print("bodyPath: " + bodyPath)
-        print("headPath: " + headPath)
-        print("legsPath: " + legsPath)
-        print("armsPath: " + armsPath)
-        return 1
+        self._setSpritePaths()
+        self._setSprites()
+        return True
+
+    def getSpriteSize(self):
+        if self.lvl = self.__class__.lvl_max:
+            return (64, 64)
+        else:
+            return (48, 48)
 
     def drawCentered(self, screen, pos, right=False):
         """Draw the monster on the screen, with its center at the position passed."""
-        self.draw(screen, (pos[0]-self.sprite_size[0]//2, pos[1]-self.sprite_size[1]//2), right)
+        self.draw(
+            screen,
+            (pos[0] - self.getSpriteSize()[0] // 2, pos[1] - self.getSpriteSize()[1] // 2),
+            right
+        )
 
     def drawStanding(self, screen, pos, right=False):
         """Draw the monster on the screen, with its bottom-center at the position passed."""
-        self.draw(screen, (pos[0]-self.sprite_size[0]//2, pos[1]-self.sprite_size[1]), right)
+        self.draw(
+            screen,
+            (pos[0] - self.getSpriteSize()[0] // 2, pos[1] - self.getSpriteSize()[1]),
+            right
+        )
 
     def draw(self, screen, pos, right=False):
         """Draw the monster on the screen."""

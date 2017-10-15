@@ -1,6 +1,10 @@
 import pygame
 
 class FontWrap(object):
+    __slots__ = (
+        'font',
+    )
+
     def __init__(self, in_font):
         self.font = in_font
 

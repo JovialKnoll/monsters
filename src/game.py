@@ -1,8 +1,9 @@
 import os
 import sys
 import pygame
+import sharedstate
+import constants
 
-from constants import *
 from fontwrap import *
 from gamemode import *
 from gamemenumode import *
@@ -19,13 +20,12 @@ class Game(object):
         # replace with a custom mouse icon or get rid of it?
         # pygame.mouse.set_visible(False)
         # set window icon here
-        pygame.display.set_caption(SCREEN_CAPTION)
+        pygame.display.set_caption(constants.SCREEN_CAPTION)
         # space
-        self.screen = pygame.Surface(SCREEN_SIZE)
         self.monitor_res = (pygame.display.Info().current_w, pygame.display.Info().current_h)
-        self.upscale_max = min(self.monitor_res[0]//SCREEN_SIZE[0], self.monitor_res[1]//SCREEN_SIZE[1])
+        self.upscale_max = min(self.monitor_res[0]//constants.SCREEN_SIZE[0], self.monitor_res[1]//constants.SCREEN_SIZE[1])
         self.upscale = self.upscale_max//2
-        self.disp_res_max = (SCREEN_SIZE[0]*self.upscale_max, SCREEN_SIZE[1]*self.upscale_max)
+        self.disp_res_max = (constants.SCREEN_SIZE[0]*self.upscale_max, constants.SCREEN_SIZE[1]*self.upscale_max)
         self._windowSet(0)
         self.fullscreen_offset = ((self.monitor_res[0]-self.disp_res_max[0])//2, (self.monitor_res[1]-self.disp_res_max[1])//2)
         self.full_screen = pygame.Surface(self.disp_res_max)
@@ -45,18 +45,22 @@ class Game(object):
     def _windowSet(self, scale_change):
         """Set the window to a scale of upscale + scale_change."""
         self.upscale += scale_change
-        self.disp_res = (SCREEN_SIZE[0]*self.upscale, SCREEN_SIZE[1]*self.upscale)
-        if not sys.platform.startswith('freebsd') and not sys.platform.startswith('darwin'):
-            os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % ((self.monitor_res[0]-self.disp_res[0])//2, (self.monitor_res[1]-self.disp_res[1])//2)
+        self.disp_res = (constants.SCREEN_SIZE[0]*self.upscale, constants.SCREEN_SIZE[1]*self.upscale)
+        if os.name == 'nt':
+            os.environ['SDL_VIDEO_WINDOW_POS'] = "{},{}".format(
+                (self.monitor_res[0] - self.disp_res[0]) // 2,
+                (self.monitor_res[1] - self.disp_res[1]) // 2
+            )
         self.disp_screen = pygame.display.set_mode(self.disp_res)
-        self.screen = self.screen.convert()
+        sharedstate.state.screen = sharedstate.state.screen.convert()
         self.is_fullscreen = False
 
     def _windowSetFullscreen(self):
         """Set the window to fullscreen."""
         self.disp_screen = pygame.display.set_mode(self.monitor_res, pygame.FULLSCREEN)
+        # needs a separate full screen in case the largest full-multiple scale-up isn't the resolution
         self.full_screen = self.full_screen.convert()
-        self.screen = self.screen.convert(self.full_screen)
+        sharedstate.state.screen = sharedstate.state.screen.convert(self.full_screen)
         self.is_fullscreen = True
 
     def run(self):
@@ -69,7 +73,7 @@ class Game(object):
             if self.current_mode.update():
                 # end the game
                 return False
-            self.current_mode.draw(self.screen)
+            self.current_mode.draw()
             if self.current_mode.next_mode is not None:
                 self.current_mode = self.current_mode.next_mode
         self._scaleDraw()
@@ -132,13 +136,13 @@ class Game(object):
     def _getTime(self):
         """Take care of time stuff."""
         pygame.display.set_caption(str(self.clock.get_fps()))# just for debugging purposes
-        return self.clock.tick(MAX_FRAMERATE)
+        return self.clock.tick(constants.MAX_FRAMERATE)
 
     def _scaleDraw(self):
         """Scale screen onto display surface, then flip the display."""
         if not self.is_fullscreen:
-            pygame.transform.scale(self.screen, self.disp_res, self.disp_screen)
+            pygame.transform.scale(sharedstate.state.screen, self.disp_res, self.disp_screen)
         else:
-            pygame.transform.scale(self.screen, self.disp_res_max, self.full_screen)
+            pygame.transform.scale(sharedstate.state.screen, self.disp_res_max, self.full_screen)
             self.disp_screen.blit(self.full_screen, self.fullscreen_offset)
         pygame.display.flip()

@@ -1,7 +1,8 @@
 import os
 import pygame
+import sharedstate
+import constants
 
-from constants import *
 from gamemode import *
 from boxes import *
 
@@ -21,8 +22,8 @@ class ConvoMode(GameMode):
 
     SCROLL_AMOUNT_MOUSE = 10
     SCROLL_AMOUNT_KEY = 1
-    sprite_path = os.path.join(GRAPHICS_DIRECTORY, BACKGROUNDS_DIRECTORY)
-    black_box = pygame.image.load(os.path.join(sprite_path, 'blackbox.png'))
+    sprite_path = os.path.join(constants.GRAPHICS_DIRECTORY, constants.BACKGROUNDS_DIRECTORY)
+    constants.BLACK_box = pygame.image.load(os.path.join(sprite_path, 'constants.BLACKbox.png'))
     converted = False
 
     def _textMain(self):
@@ -38,20 +39,20 @@ class ConvoMode(GameMode):
     def __init__(self):
         super(ConvoMode, self).__init__()
         if not ConvoMode.converted:
-            ConvoMode.black_box = ConvoMode.black_box.convert_alpha()
+            ConvoMode.constants.BLACK_box = ConvoMode.constants.BLACK_box.convert_alpha()
             ConvoMode.converted = True
         self.background = pygame.image.load(os.path.join(ConvoMode.sprite_path, 'layout1boxes.png')).convert_alpha()
         # mainly, make the surfaces based on the text for view and buttons, fitting some criteria
         self.text_rect = pygame.Rect(0, 0, 288, 48)
-        self.surf_text = self.shared.font_wrap.renderInside(288, self._textMain(), False, TEXT_COLOR)
+        self.surf_text = sharedstate.state.font_wrap.renderInside(288, self._textMain(), False, constants.TEXT_COLOR)
         for index, rect in enumerate(ConvoMode.ConvoBoxes.rects):
-            self.shared.font_wrap.renderToInside(
+            sharedstate.state.font_wrap.renderToInside(
                 self.background,
                 ConvoMode.ConvoBoxes.textStart(index),
                 ConvoMode.ConvoBoxes.textWidth(index),
                 self._textButton(index),
                 False,
-                TEXT_COLOR
+                constants.TEXT_COLOR
             )
         self.boxes = ConvoMode.ConvoBoxes()
         # what else do conversations need?
@@ -80,8 +81,8 @@ class ConvoMode(GameMode):
         )
         self.text_rect.clamp_ip(self.surf_text.get_rect())
 
-    def draw(self, screen):
-        screen.fill(WHITE)
+    def _drawScreen(self, screen):
+        screen.fill(constants.WHITE)
         screen.blit(self.background, (0,0))
         screen.blit(self.surf_text, (16,16), self.text_rect)
-        screen.blit(ConvoMode.black_box, self.boxes.getSelectRect())
+        screen.blit(ConvoMode.constants.BLACK_box, self.boxes.getSelectRect())

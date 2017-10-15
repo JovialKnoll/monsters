@@ -1,4 +1,4 @@
-from constants import *
+import constants
 
 class Boxes(object):
     text_margin = 8

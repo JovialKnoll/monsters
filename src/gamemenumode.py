@@ -1,8 +1,8 @@
 import os
 import pickle
 import pygame
-import sharedstate
 import constants
+import sharedstate
 
 from gamemode import *
 

@@ -1,9 +1,9 @@
 import os
 import random
 import pygame
-import sharedstate
-import utility
 import constants
+import utility
+import sharedstate
 
 from collections import deque
 from gamemode import *

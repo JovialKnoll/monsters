@@ -1,8 +1,8 @@
 import os
 import sys
 import pygame
-import sharedstate
 import constants
+import sharedstate
 
 from fontwrap import *
 from gamemode import *

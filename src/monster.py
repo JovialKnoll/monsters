@@ -2,6 +2,7 @@ import random
 import os
 import pygame
 import constants
+import sharedstate
 
 from skin import *
 from feelings import *
@@ -114,10 +115,10 @@ class Monster(object):
         return self.skin[self.lvl].light
 
     def _setSprites(self):
-        self.sprite = pygame.image.load(self.sprite_paths[0]).convert_alpha()
+        self.sprite = pygame.image.load(self.sprite_paths[0]).convert_alpha(sharedstate.state.screen)
         for sprite_path in self.sprite_paths[1:]:
             self.sprite.blit(
-                pygame.image.load(sprite_path).convert_alpha(),
+                pygame.image.load(sprite_path).convert_alpha(self.sprite),
                 (0, 0)
             )
         if self.lvl > 0:
@@ -125,7 +126,7 @@ class Monster(object):
             pix_array.replace(self.skin[0].dark, self._darkSkin())
             pix_array.replace(self.skin[0].light, self._getLightSkin())
             del pix_array
-        self.sprite = self.sprite.convert_alpha()
+        self.sprite = self.sprite.convert_alpha(sharedstate.state.screen)
         self.sprite_right = pygame.transform.flip(self.sprite, True, False)
 
     def levelUp(self):

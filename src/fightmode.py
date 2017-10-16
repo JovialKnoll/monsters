@@ -11,6 +11,7 @@ from boxes import *
 
 random.seed()
 class FightMode(GameMode):
+    health_bar_length = 60
     box_choices = [
         "Attack",
         "Defend",
@@ -214,13 +215,20 @@ class FightMode(GameMode):
         if self.action_set == False:
             screen.blit(self.__class__.black_box, self.__class__.boxes.getSelectRect())
         # draw some mons and stuff
-        self.player_mon.drawStanding(screen, (self.player_pos[0] + self.player_rel[0], self.player_pos[1] + self.player_rel[1]), True)
-        player_bar_length = 60*self.player_mon.stats['hpc']//self.player_mon.stats['hpm']
+        self.player_mon.drawStanding(
+            screen,
+            (self.player_pos[0] + self.player_rel[0], self.player_pos[1] + self.player_rel[1]),
+            True
+        )
+        player_bar_length = self.__class__.health_bar_length * self.player_mon.stats['hpc'] // self.player_mon.stats['hpm']
         screen.fill(self.player_mon.lightSkin(), (138, 30, player_bar_length, 10))
         screen.blit(self.__class__.health_bar, (137, 29))
 
-        self.enemy_mon.drawStanding( screen, (self.enemy_pos[0]  + self.enemy_rel[0] , self.enemy_pos[1]  + self.enemy_rel[1] ) )
-        enemy_bar_length = 60*self.enemy_mon.stats['hpc']//self.enemy_mon.stats['hpm']
+        self.enemy_mon.drawStanding(
+            screen,
+            (self.enemy_pos[0] + self.enemy_rel[0], self.enemy_pos[1] + self.enemy_rel[1])
+        )
+        enemy_bar_length = self.__class__.health_bar_length * self.enemy_mon.stats['hpc'] // self.enemy_mon.stats['hpm']
         screen.fill(self.enemy_mon.lightSkin(), (294-enemy_bar_length, 30, enemy_bar_length, 10))
         screen.blit(self.__class__.health_bar, (233, 29))
         # maybe draw health numbers / stats / etc

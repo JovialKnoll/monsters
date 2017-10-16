@@ -140,7 +140,7 @@ class Monster(object):
         return True
 
     def getSpriteSize(self):
-        if self.lvl = self.__class__.lvl_max:
+        if self.lvl == self.__class__.lvl_max:
             return (64, 64)
         else:
             return (48, 48)

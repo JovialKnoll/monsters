@@ -13,7 +13,7 @@ class SharedState(object):
 
     def _setup(self):
         pygame.init()
-        font = pygame.font.Font(os.path.join(constants.GRAPHICS_DIRECTORY, constants.FONT_FILE), constants.FONT_SIZE)
+        font = pygame.font.Font(constants.FONT_FILE, constants.FONT_SIZE)
         self.font_wrap = FontWrap(font)
         self.screen = pygame.Surface(constants.SCREEN_SIZE)
 

@@ -23,10 +23,9 @@ class FightMode(GameMode):
             elif key in (pygame.K_DOWN, pygame.K_RIGHT):
                 return self.changeSelect(1)
 
-    sprite_path = os.path.join(constants.GRAPHICS_DIRECTORY, constants.BACKGROUNDS_DIRECTORY)
-    health_bar = pygame.image.load(os.path.join(sprite_path, 'healthbar.png'))
-    constants.BLACK_box = pygame.image.load(os.path.join(sprite_path, 'constants.BLACKbox.png'))
-    background = pygame.image.load(os.path.join(sprite_path, 'layout2boxes.png'))
+    health_bar = pygame.image.load(constants.HEALTHBAR_FILE)
+    black_box = pygame.image.load(constants.BLACKBOX_FILE)
+    background = pygame.image.load(constants.LAYOUT_2_FILE)
     converted = False
     box_choices = [
         "Attack",
@@ -48,7 +47,7 @@ class FightMode(GameMode):
                     constants.TEXT_COLOR
                 )
             FightMode.background = FightMode.background.convert_alpha()
-            FightMode.constants.BLACK_box = FightMode.constants.BLACK_box.convert_alpha()
+            FightMode.black_box = FightMode.black_box.convert_alpha()
             FightMode.health_bar = FightMode.health_bar.convert_alpha()
             FightMode.converted = True
         self.boxes = FightMode.FightBoxes()
@@ -221,7 +220,7 @@ class FightMode(GameMode):
         screen.fill(constants.WHITE)
         screen.blit(FightMode.background, (0,0))
         if self.action_set == False:
-            screen.blit(FightMode.constants.BLACK_box, self.boxes.getSelectRect())
+            screen.blit(FightMode.black_box, self.boxes.getSelectRect())
         # draw some mons and stuff
         self.player_mon.drawStanding(screen, (self.player_pos[0] + self.player_rel[0], self.player_pos[1] + self.player_rel[1]), True)
         player_bar_length = 60*self.player_mon.stats['hpc']//self.player_mon.stats['hpm']

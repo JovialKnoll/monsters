@@ -96,7 +96,6 @@ class Monster(object):
         if self.lvl > 0:
             part = random.randint(0,2)
         return os.path.join(
-            constants.GRAPHICS_DIRECTORY,
             constants.MONSTER_PARTS_DIRECTORY,
             '{}-{}-{}{}.png'.format(self.lvl, section, group, part)
         )

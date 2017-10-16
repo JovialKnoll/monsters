@@ -22,8 +22,7 @@ class ConvoMode(GameMode):
 
     SCROLL_AMOUNT_MOUSE = 10
     SCROLL_AMOUNT_KEY = 1
-    sprite_path = os.path.join(constants.GRAPHICS_DIRECTORY, constants.BACKGROUNDS_DIRECTORY)
-    constants.BLACK_box = pygame.image.load(os.path.join(sprite_path, 'constants.BLACKbox.png'))
+    black_box = pygame.image.load(constants.BLACKBOX_FILE)
     converted = False
 
     def _textMain(self):
@@ -39,9 +38,9 @@ class ConvoMode(GameMode):
     def __init__(self):
         super(ConvoMode, self).__init__()
         if not ConvoMode.converted:
-            ConvoMode.constants.BLACK_box = ConvoMode.constants.BLACK_box.convert_alpha()
+            ConvoMode.black_box = ConvoMode.black_box.convert_alpha()
             ConvoMode.converted = True
-        self.background = pygame.image.load(os.path.join(ConvoMode.sprite_path, 'layout1boxes.png')).convert_alpha()
+        self.background = pygame.image.load(constants.LAYOUT_1_FILE).convert_alpha()
         # mainly, make the surfaces based on the text for view and buttons, fitting some criteria
         self.text_rect = pygame.Rect(0, 0, 288, 48)
         self.surf_text = sharedstate.state.font_wrap.renderInside(288, self._textMain(), False, constants.TEXT_COLOR)
@@ -85,4 +84,4 @@ class ConvoMode(GameMode):
         screen.fill(constants.WHITE)
         screen.blit(self.background, (0,0))
         screen.blit(self.surf_text, (16,16), self.text_rect)
-        screen.blit(ConvoMode.constants.BLACK_box, self.boxes.getSelectRect())
+        screen.blit(ConvoMode.black_box, self.boxes.getSelectRect())

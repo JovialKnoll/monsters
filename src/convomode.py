@@ -8,12 +8,12 @@ from boxes import *
 
 class ConvoMode(GameMode):
     class ConvoBoxes(Boxes):
-        rects = [
+        rects = (
             pygame.Rect(  8,  88,  88,  36),
             pygame.Rect(224,  88,  88,  36),
             pygame.Rect(  8, 132,  88,  36),
             pygame.Rect(224, 132,  88,  36),
-        ]
+        )
         def keySelect(self, key):
             if key == pygame.K_LEFT:
                 return self.changeSelect(-1)

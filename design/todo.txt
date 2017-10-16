@@ -6,8 +6,6 @@ move shared convomode and fight mode stuff into new class
 
 switch over to python string formatting
 
-wrap movement for fight inside monsters or a new class
-
 make and check settings file (main.py or game.py?)
 	window size
 	fullscreen
@@ -26,7 +24,7 @@ re-evaluate mon stats
 	balancing that
 	maybe check that can be strategy to fight choices?
 
-variable frame rate (should only need to input time information into the update functions
+variable frame rate? (should only need to input time information into the update functions
 
 lower priority:
 	(maybe) scroll slider thingy for convomode.py, click-and-drag-able

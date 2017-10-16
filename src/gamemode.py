@@ -15,11 +15,6 @@ class GameMode(object):
         self.next_mode = None
         self.__pressed_keys = set()
 
-    def _input(self, event):
-        raise NotImplementedError(
-            self.__class__.__name__ + "._input(self, event)"
-        )
-
     def __trackPressedKeys(self, event):
         if event.type == pygame.KEYDOWN:
             self.__pressed_keys.add(event.key)
@@ -28,6 +23,11 @@ class GameMode(object):
 
     def _keyStatus(self, key):
         return key in self.__pressed_keys
+
+    def _input(self, event):
+        raise NotImplementedError(
+            self.__class__.__name__ + "._input(self, event)"
+        )
 
     def input_list(self, event_list):
         """All game modes can take in events."""

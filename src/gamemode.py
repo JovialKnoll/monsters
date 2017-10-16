@@ -6,7 +6,6 @@ class GameMode(object):
     Children of this should implement _input, update, and draw.
     """
     __slots__ = (
-        'state',
         'next_mode',
         '__pressed_keys',
     )

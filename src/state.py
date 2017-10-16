@@ -7,3 +7,5 @@ class State(object):
 
     def __init__(self):
         self.protag_mon = Monster()
+
+state = State()

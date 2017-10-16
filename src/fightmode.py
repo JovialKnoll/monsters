@@ -29,7 +29,7 @@ class FightMode(GameMode):
     )
     background = pygame.image.load(constants.LAYOUT_2_FILE)
     for index, choice in enumerate(box_choices):
-        sharedstate.state.font_wrap.renderToInside(
+        sharedstate.font_wrap.renderToInside(
             background,
             boxes.textStart(index),
             boxes.textWidth(index),
@@ -37,9 +37,9 @@ class FightMode(GameMode):
             False,
             constants.TEXT_COLOR
         )
-    background = background.convert_alpha(sharedstate.state.screen)
-    black_box = pygame.image.load(constants.BLACKBOX_FILE).convert_alpha(sharedstate.state.screen)
-    health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert_alpha(sharedstate.state.screen)
+    background = background.convert_alpha(sharedstate.screen)
+    black_box = pygame.image.load(constants.BLACKBOX_FILE).convert_alpha(sharedstate.screen)
+    health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert_alpha(sharedstate.screen)
 
     def __init__(self, player_mon, enemy_mon, draw_mode, win_mode, lose_mode):
         """The functions passed in should return the next mode."""
@@ -97,7 +97,7 @@ class FightMode(GameMode):
                 self.__class__.boxes.keySelect(event.key)
 
     def _setActionDisplay(self, text):
-        self.action_display.appendleft(sharedstate.state.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR))
+        self.action_display.appendleft(sharedstate.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR))
         self.action_set = not self.action_set
 
     def _playerActionDone(self):

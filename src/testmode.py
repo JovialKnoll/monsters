@@ -34,7 +34,7 @@ class TestMode(GameMode):
         screen.fill(self.fill)
         # make new draws
         sharedstate.state.protag_mon.drawStanding(screen, self.test_mon_pos)
-        sharedstate.state.font_wrap.renderToInside(screen, (0,0), constants.SCREEN_SIZE[0]//2, self.test_text, False, constants.BLACK, constants.WHITE)
-        sharedstate.state.font_wrap.renderToInside(screen, (constants.SCREEN_SIZE[0]//2,0), constants.SCREEN_SIZE[0]//2, "Lorem", False, (255,0,0))
-        # screen.blit(sharedstate.state.font_wrap.renderInside(constants.SCREEN_SIZE[0]//2, self.test_text, False, constants.BLACK, constants.WHITE), (0,0))
-        # screen.blit(sharedstate.state.font_wrap.renderInside(constants.SCREEN_SIZE[0]//2, "Lorem", False, (255,0,0)), (constants.SCREEN_SIZE[0]//2,0))
+        sharedstate.font_wrap.renderToInside(screen, (0,0), constants.SCREEN_SIZE[0]//2, self.test_text, False, constants.BLACK, constants.WHITE)
+        sharedstate.font_wrap.renderToInside(screen, (constants.SCREEN_SIZE[0]//2,0), constants.SCREEN_SIZE[0]//2, "Lorem", False, (255,0,0))
+        # screen.blit(sharedstate.font_wrap.renderInside(constants.SCREEN_SIZE[0]//2, self.test_text, False, constants.BLACK, constants.WHITE), (0,0))
+        # screen.blit(sharedstate.font_wrap.renderInside(constants.SCREEN_SIZE[0]//2, "Lorem", False, (255,0,0)), (constants.SCREEN_SIZE[0]//2,0))

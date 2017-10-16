@@ -20,7 +20,7 @@ class ConvoMode(GameMode):
         (pygame.K_LEFT),
         (pygame.K_RIGHT),
     )
-    black_box = pygame.image.load(constants.BLACKBOX_FILE).convert_alpha(sharedstate.state.screen)
+    black_box = pygame.image.load(constants.BLACKBOX_FILE).convert_alpha(sharedstate.screen)
 
     def _textMain(self):
         # return text for main section
@@ -41,12 +41,12 @@ class ConvoMode(GameMode):
     def __init__(self):
         super(ConvoMode, self).__init__()
 
-        self.background = pygame.image.load(constants.LAYOUT_1_FILE).convert_alpha(sharedstate.state.screen)
+        self.background = pygame.image.load(constants.LAYOUT_1_FILE).convert_alpha(sharedstate.screen)
         # mainly, make the surfaces based on the text for view and buttons, fitting some criteria
         self.text_rect = pygame.Rect(0, 0, 288, 48)
-        self.surf_text = sharedstate.state.font_wrap.renderInside(288, self._textMain(), False, constants.TEXT_COLOR)
+        self.surf_text = sharedstate.font_wrap.renderInside(288, self._textMain(), False, constants.TEXT_COLOR)
         for index, rect in enumerate(self.__class__.boxes.rects):
-            sharedstate.state.font_wrap.renderToInside(
+            sharedstate.font_wrap.renderToInside(
                 self.background,
                 self.__class__.boxes.textStart(index),
                 self.__class__.boxes.textWidth(index),

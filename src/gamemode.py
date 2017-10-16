@@ -48,4 +48,4 @@ class GameMode(object):
 
     def draw(self):
         """All game modes can draw to the screen"""
-        self._drawScreen(sharedstate.state.screen)
+        self._drawScreen(sharedstate.screen)

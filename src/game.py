@@ -52,7 +52,7 @@ class Game(object):
                 (self.monitor_res[1] - self.disp_res[1]) // 2
             )
         self.disp_screen = pygame.display.set_mode(self.disp_res)
-        sharedstate.state.screen = sharedstate.state.screen.convert()
+        sharedstate.screen = sharedstate.screen.convert()
         self.is_fullscreen = False
 
     def _windowSetFullscreen(self):
@@ -60,7 +60,7 @@ class Game(object):
         self.disp_screen = pygame.display.set_mode(self.monitor_res, pygame.FULLSCREEN)
         # needs a separate full screen in case the largest full-multiple scale-up isn't the resolution
         self.full_screen = self.full_screen.convert()
-        sharedstate.state.screen = sharedstate.state.screen.convert(self.full_screen)
+        sharedstate.screen = sharedstate.screen.convert(self.full_screen)
         self.is_fullscreen = True
 
     def run(self):
@@ -141,8 +141,8 @@ class Game(object):
     def _scaleDraw(self):
         """Scale screen onto display surface, then flip the display."""
         if not self.is_fullscreen:
-            pygame.transform.scale(sharedstate.state.screen, self.disp_res, self.disp_screen)
+            pygame.transform.scale(sharedstate.screen, self.disp_res, self.disp_screen)
         else:
-            pygame.transform.scale(sharedstate.state.screen, self.disp_res_max, self.full_screen)
+            pygame.transform.scale(sharedstate.screen, self.disp_res_max, self.full_screen)
             self.disp_screen.blit(self.full_screen, self.fullscreen_offset)
         pygame.display.flip()

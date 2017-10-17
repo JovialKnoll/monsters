@@ -3,8 +3,6 @@ import pygame
 
 from feelings import *
 
-random.seed()
-
 class SkinTone(object):
     def __init__(self, in_dark, in_light):
         """Hold onto the darker and lighter colors."""

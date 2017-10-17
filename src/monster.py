@@ -2,12 +2,10 @@ import random
 import os
 import pygame
 import constants
-import sharedstate
+import shared
 
 from skin import *
 from feelings import *
-
-random.seed()
 
 class Monster(object):
     drv_max = 4
@@ -39,7 +37,7 @@ class Monster(object):
         self.lvl = 0
         # self.awr might not even need to be a thing, remove this if it ends up not mattering
         self.awr = 0# awareness, this is a thing for conversations / progress through the game
-        # it might make more sense to hold info for conversations flow in sharedstate.state, but I'm not sure
+        # it might make more sense to hold info for conversations flow in shared.state, but I'm not sure
         # depends on how this number interacts with monster stuff
         self.personality = Personality.random()
         self.name = Personality.generateName(self.personality)
@@ -114,7 +112,7 @@ class Monster(object):
         return self.skin[self.lvl].light
 
     def _setSprites(self):
-        self.sprite = pygame.image.load(self.sprite_paths[0]).convert_alpha(sharedstate.screen)
+        self.sprite = pygame.image.load(self.sprite_paths[0]).convert_alpha(shared.screen)
         for sprite_path in self.sprite_paths[1:]:
             self.sprite.blit(
                 pygame.image.load(sprite_path).convert_alpha(self.sprite),
@@ -125,7 +123,7 @@ class Monster(object):
             pix_array.replace(self.skin[0].dark, self._darkSkin())
             pix_array.replace(self.skin[0].light, self._getLightSkin())
             del pix_array
-        self.sprite = self.sprite.convert_alpha(sharedstate.screen)
+        self.sprite = self.sprite.convert_alpha(shared.screen)
         self.sprite_right = pygame.transform.flip(self.sprite, True, False)
 
     def levelUp(self):

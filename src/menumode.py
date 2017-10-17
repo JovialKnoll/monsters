@@ -1,12 +1,11 @@
-import string
 import pygame
-import sharedstate
+import state
 
 from monconvomode import *
 
 class MenuMode(MonConvoMode):
     def _textMain(self):
-        mon = sharedstate.state.protag_mon
+        mon = state.state.protag_mon
         mon_string = "lvl: " + str(mon.lvl) + "\n"
         mon_string += " ".join([stat + ": " + str(mon.stats[stat]) for stat in mon.main_stats])
         mon_string += "\nhpm: " + str(mon.stats['hpm']) + "  "

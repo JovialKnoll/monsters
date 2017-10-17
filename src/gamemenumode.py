@@ -19,7 +19,7 @@ class GameMenuMode(GameMode):
 
     def _resetCursorBlink(self):
         self.cursor_switch = True
-        self.constants.CURSOR_TIMEr = 0
+        self.cursor_timer = 0
 
     def _clearSaveStuff(self):
         self.save_name = ''
@@ -109,10 +109,10 @@ class GameMenuMode(GameMode):
         if self.state is GameMenuMode.State.Menu:
             pass
         elif self.state is GameMenuMode.State.Save:
-            if self.constants.CURSOR_TIMEr >= constants.CURSOR_TIME:
+            if self.cursor_timer >= constants.CURSOR_TIME:
                 self.cursor_switch = not self.cursor_switch
-                self.constants.CURSOR_TIMEr = 0
-            self.constants.CURSOR_TIMEr += 1
+                self.cursor_timer = 0
+            self.cursor_timer += 1
         elif self.state is GameMenuMode.State.Load:
             pass
         else:

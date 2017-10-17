@@ -226,7 +226,7 @@ class FightMode(GameMode):
             True
         )
         player_bar_length = self.__class__.health_bar_length * self.player_mon.stats['hpc'] // self.player_mon.stats['hpm']
-        screen.fill(self.player_mon.lightSkin(), (138, 30, player_bar_length, 10))
+        screen.fill(self.player_mon.getLightSkin(), (138, 30, player_bar_length, 10))
         screen.blit(self.__class__.health_bar, (137, 29))
 
         self.enemy_mon.drawStanding(
@@ -234,7 +234,7 @@ class FightMode(GameMode):
             (self.enemy_pos[0] + self.enemy_rel[0], self.enemy_pos[1] + self.enemy_rel[1])
         )
         enemy_bar_length = self.__class__.health_bar_length * self.enemy_mon.stats['hpc'] // self.enemy_mon.stats['hpm']
-        screen.fill(self.enemy_mon.lightSkin(), (294-enemy_bar_length, 30, enemy_bar_length, 10))
+        screen.fill(self.enemy_mon.getLightSkin(), (294-enemy_bar_length, 30, enemy_bar_length, 10))
         screen.blit(self.__class__.health_bar, (233, 29))
         # maybe draw health numbers / stats / etc
         for index, line in enumerate(self.action_display):

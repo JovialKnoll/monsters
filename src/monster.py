@@ -107,10 +107,10 @@ class Monster(object):
         if self.lvl == 0:
             self.sprite_paths = self.sprite_paths[1:4]
 
-    def _getDarkSkin(self):
+    def getDarkSkin(self):
         return self.skin[self.lvl].dark
 
-    def _getLightSkin(self):
+    def getLightSkin(self):
         return self.skin[self.lvl].light
 
     def _setSprites(self):
@@ -122,8 +122,8 @@ class Monster(object):
             )
         if self.lvl > 0:
             pix_array = pygame.PixelArray(self.sprite)
-            pix_array.replace(self.skin[0].dark, self._darkSkin())
-            pix_array.replace(self.skin[0].light, self._getLightSkin())
+            pix_array.replace(self.skin[0].dark, self.getDarkSkin())
+            pix_array.replace(self.skin[0].light, self.getLightSkin())
             del pix_array
         self.sprite = self.sprite.convert_alpha(shared.screen)
         self.sprite_right = pygame.transform.flip(self.sprite, True, False)

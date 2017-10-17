@@ -54,14 +54,14 @@ def screenSet(scale_change):
         constants.SCREEN_SIZE[0] * upscale,
         constants.SCREEN_SIZE[1] * upscale,
     )
-    disp_screen = pygame.display.set_mode(disp_res)
-    screen = screen.convert(disp_screen)
     # center window
     if os.name == 'nt':
         os.environ['SDL_VIDEO_WINDOW_POS'] = "{},{}".format(
             (monitor_res[0] - disp_res[0]) // 2,
             (monitor_res[1] - disp_res[1]) // 2
         )
+    disp_screen = pygame.display.set_mode(disp_res)
+    screen = screen.convert(disp_screen)
     is_fullscreen = False
 
 def screenSetFullscreen():

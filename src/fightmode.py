@@ -1,13 +1,13 @@
-import os
 import random
+from collections import deque
+
 import pygame
+
 import constants
 import shared
 import utility
-
-from collections import deque
-from gamemode import *
-from boxes import *
+from gamemode import GameMode
+from boxes import Boxes
 
 class FightMode(GameMode):
     health_bar_length = 60

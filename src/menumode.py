@@ -1,7 +1,7 @@
 import pygame
-import state
 
-from monconvomode import *
+import state
+from monconvomode import MonConvoMode
 
 class MenuMode(MonConvoMode):
     def _textMain(self):

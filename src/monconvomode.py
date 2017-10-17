@@ -1,6 +1,6 @@
 import state
 
-from convomode import *
+from convomode import ConvoMode
 
 class MonConvoMode(ConvoMode):
     def _drawScreen(self, screen):

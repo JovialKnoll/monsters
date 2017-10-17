@@ -1,10 +1,9 @@
 import state
-
-from monconvomode import *
-from testmode import *
-from fightmode import *
-from monster import *
-from menumode import *
+from monconvomode import MonConvoMode
+from testmode import TestMode
+from fightmode import FightMode
+from monster import Monster
+from menumode import MenuMode
 
 class ConvoMode0(MonConvoMode):
     def _textMain(self):

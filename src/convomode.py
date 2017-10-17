@@ -1,10 +1,11 @@
 import os
+
 import pygame
+
 import constants
 import shared
-
-from gamemode import *
-from boxes import *
+from gamemode import GameMode
+from boxes import Boxes
 
 class ConvoMode(GameMode):
     scroll_amount_mouse = 10

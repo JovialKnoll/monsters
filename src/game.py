@@ -1,17 +1,12 @@
 import os
-import sys
+
 import pygame
+
 import constants
 import shared
-
-from fontwrap import *
-from gamemode import *
-from gamemenumode import *
-
-from monster import *
-
-from testmode import *
-from convomode0 import *
+from gamemenumode import GameMenuMode
+#from testmode import TestMode
+from convomode0 import ConvoMode0
 
 class Game(object):
     def __init__(self):

@@ -1,10 +1,10 @@
 import pygame
+
 import constants
 import shared
 import state
-
-from gamemode import *
-from monster import *
+from gamemode import GameMode
+from monster import Monster
 
 class TestMode(GameMode):
     def _createMonster(self):

@@ -1,4 +1,4 @@
-from monster import *
+from monster import Monster
 
 class State(object):
     __slots__ = (

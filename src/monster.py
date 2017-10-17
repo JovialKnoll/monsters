@@ -1,11 +1,13 @@
-import random
 import os
+import random
+
 import pygame
+
 import constants
 import shared
-
-from skin import *
-from feelings import *
+from personality import Personality
+from skin import Skin
+from mood import Mood
 
 class Monster(object):
     drv_max = 4

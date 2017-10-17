@@ -1,7 +1,7 @@
 import pygame
 import constants
 
-from fontwrap import *
+from fontwrap import FontWrap
 
 game_running = True
 pygame.init()

@@ -1,10 +1,11 @@
 import os
 import pickle
+
 import pygame
+
 import constants
 import shared
-
-from gamemode import *
+from gamemode import GameMode
 
 class GameMenuMode(GameMode):
     class State(object):

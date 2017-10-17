@@ -23,8 +23,14 @@ class FightMode(GameMode):
     )
     boxes = Boxes(
         box_rects,
-        (pygame.K_UP, pygame.K_LEFT),
-        (pygame.K_DOWN, pygame.K_RIGHT)
+        (
+            pygame.K_UP,
+            pygame.K_LEFT,
+        ),
+        (
+            pygame.K_DOWN,
+            pygame.K_RIGHT,
+        )
     )
     background = pygame.image.load(constants.LAYOUT_2_FILE)
     for index, choice in enumerate(box_choices):

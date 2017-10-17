@@ -41,30 +41,39 @@ screen = pygame.Surface(constants.SCREEN_SIZE)
 
 def screenSet(scale_change):
     """Set the window to a new scale."""
+    global upscale
+    global disp_res
+    global disp_screen
+    global screen
+    global is_fullscreen
     new_upscale = upscale + scale_change
     if new_upscale < 1 or new_upscale > upscale_max:
         return
-    nonlocal upscale = new_upscale
-    nonlocal disp_res = (
-        constants.SCREEN_SIZE[0] * self.upscale,
-        constants.SCREEN_SIZE[1] * self.upscale,
+    upscale = new_upscale
+    disp_res = (
+        constants.SCREEN_SIZE[0] * upscale,
+        constants.SCREEN_SIZE[1] * upscale,
     )
-    nonlocal disp_screen = pygame.display.set_mode(disp_res)
-    nonlocal screen = screen.convert(disp_screen)
+    disp_screen = pygame.display.set_mode(disp_res)
+    screen = screen.convert(disp_screen)
     # center window
     if os.name == 'nt':
         os.environ['SDL_VIDEO_WINDOW_POS'] = "{},{}".format(
             (monitor_res[0] - disp_res[0]) // 2,
             (monitor_res[1] - disp_res[1]) // 2
         )
-    nonlocal is_fullscreen = False
+    is_fullscreen = False
 
 def screenSetFullscreen():
     """Set the window to fullscreen."""
-    nonlocal disp_screen = pygame.display.set_mode(monitor_res, pygame.FULLSCREEN)
+    global disp_screen
+    global full_screen
+    global screen
+    global is_fullscreen
+    disp_screen = pygame.display.set_mode(monitor_res, pygame.FULLSCREEN)
     # needs a separate full screen in case the largest full-multiple scale-up doesn't fit
-    nonlocal full_screen = full_screen.convert(disp_screen)
-    nonlocal screen = screen.convert(full_screen)
-    nonlocal is_fullscreen = True
+    full_screen = full_screen.convert(disp_screen)
+    screen = screen.convert(full_screen)
+    is_fullscreen = True
 
 screenSet(0)

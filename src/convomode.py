@@ -18,8 +18,12 @@ class ConvoMode(GameMode):
     )
     boxes = Boxes(
         box_rects,
-        (pygame.K_LEFT),
-        (pygame.K_RIGHT),
+        (
+            pygame.K_LEFT,
+        ),
+        (
+            pygame.K_RIGHT,
+        ),
     )
     black_box = pygame.image.load(constants.BLACKBOX_FILE).convert_alpha(shared.screen)
 

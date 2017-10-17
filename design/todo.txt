@@ -1,4 +1,4 @@
-move _scaleDraw to shared
+move _scaleDraw to shared, also bundle display stuff into a class?
 
 move shared convomode and fight mode stuff into new class
 	basically just

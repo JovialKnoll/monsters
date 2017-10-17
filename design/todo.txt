@@ -8,7 +8,7 @@ move shared convomode and fight mode stuff into new class
 	and conversion
 	and some input stuff
 
-switch string concatenation over to python string formatting for most cases
+switch string concatenation over to .format() or f-strings for most cases
 
 make and check settings file (main.py or game.py?)
 	window size

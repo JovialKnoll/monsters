@@ -1,8 +1,9 @@
-from monconvomode import *
-from testmode import *
-from fightmode import *
-from monster import *
-from menumode import *
+import state
+from monconvomode import MonConvoMode
+from testmode import TestMode
+from fightmode import FightMode
+from monster import Monster
+from menumode import MenuMode
 
 class ConvoMode0(MonConvoMode):
     def _textMain(self):
@@ -32,11 +33,11 @@ class ConvoMode0(MonConvoMode):
         elif index == 1:
             print("Really anything can happen here.")
             self.next_mode = FightMode(
-                self.shared['protag_mon'],
+                state.state.protag_mon,
                 Monster.atLevel(0),
-                lambda: ConvoMode0(),
-                lambda: ConvoMode0(),
-                lambda: TestMode()
+                ConvoMode0,
+                ConvoMode0,
+                TestMode
             )
         elif index == 2:
             print("The main thing would be to have pressing a button set variables.")

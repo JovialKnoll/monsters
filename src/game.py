@@ -1,43 +1,19 @@
-import os
-import sys
 import pygame
 
-from constants import *
-from fontwrap import *
-from gamemode import *
-from gamemenumode import *
-
-from monster import *
-
-from testmode import *
-from convomode0 import *
+import constants
+import shared
+from gamemenumode import GameMenuMode
+#from testmode import TestMode
+from convomode0 import ConvoMode0
 
 class Game(object):
     def __init__(self):
         """Start and create things as needed."""
         pygame.init()
-        # pygame.mouse.set_visible(False)
-        # set window icon here
-        pygame.display.set_caption(SCREEN_CAPTION)
-        font = pygame.font.Font(os.path.join(GRAPHICS_DIRECTORY, FONT_FILE), FONT_SIZE)
-        # all children of GameMode can access the shared dictionary with self.shared
-        GameMode.shared['font_wrap'] = FontWrap(font)
-        # space
-        self.screen = pygame.Surface(SCREEN_SIZE)
-        self.monitor_res = (pygame.display.Info().current_w, pygame.display.Info().current_h)
-        self.upscale_max = min(self.monitor_res[0]//SCREEN_SIZE[0], self.monitor_res[1]//SCREEN_SIZE[1])
-        self.upscale = self.upscale_max//2
-        self.disp_res_max = (SCREEN_SIZE[0]*self.upscale_max, SCREEN_SIZE[1]*self.upscale_max)
-        self._windowSet(0)
-        self.fullscreen_offset = ((self.monitor_res[0]-self.disp_res_max[0])//2, (self.monitor_res[1]-self.disp_res_max[1])//2)
-        self.full_screen = pygame.Surface(self.disp_res_max)
         # time
         self.clock = pygame.time.Clock()
-        # mode
-        self.current_mode = None# must be set to something before running
-
-        GameMode.shared['protag_mon'] = Monster()
-
+        # mode (must be set before running
+        self.current_mode = None
         # test stuff
         # self.current_mode = TestMode()
         self.current_mode = ConvoMode0()
@@ -46,40 +22,21 @@ class Game(object):
         """End and delete things as needed."""
         pygame.quit()
 
-    def _windowSet(self, scale_change):
-        """Set the window to a scale of upscale + scale_change."""
-        self.upscale += scale_change
-        self.disp_res = (SCREEN_SIZE[0]*self.upscale, SCREEN_SIZE[1]*self.upscale)
-        if not sys.platform.startswith('freebsd') and not sys.platform.startswith('darwin'):
-            os.environ['SDL_VIDEO_WINDOW_POS'] = "%d,%d" % ((self.monitor_res[0]-self.disp_res[0])//2, (self.monitor_res[1]-self.disp_res[1])//2)
-        self.disp_screen = pygame.display.set_mode(self.disp_res)
-        self.screen = self.screen.convert()
-        self.is_fullscreen = False
-
-    def _windowSetFullscreen(self):
-        """Set the window to fullscreen."""
-        self.disp_screen = pygame.display.set_mode(self.monitor_res, pygame.FULLSCREEN)
-        self.full_screen = self.full_screen.convert()
-        self.screen = self.screen.convert(self.full_screen)
-        self.is_fullscreen = True
-
     def run(self):
         """Run the game, and check if the game needs to end."""
         if not self.current_mode:
             raise RuntimeError("error: no current mode")
-        event_list = self._filterInput(pygame.event.get())
-        if self.current_mode:
-            self.current_mode.input_list(event_list)
-            if self.current_mode.update():
-                # end the game
-                return False
-            self.current_mode.draw(self.screen)
-            if self.current_mode.next_mode is not None:
-                self.current_mode = self.current_mode.next_mode
+        self.current_mode.input_events(
+            self._filterInput(pygame.event.get())
+        )
+        self._getTime()
+        # todo(?): pass result to .update()
+        self.current_mode.update()
+        self.current_mode.draw()
         self._scaleDraw()
-        self._getTime()# todo: pass result to .update()
-        # continue the game
-        return True
+        if self.current_mode.next_mode is not None:
+            self.current_mode = self.current_mode.next_mode
+        return shared.game_running
 
     def _filterInput(self, events):
         """Take care of input that game modes should not take care of."""
@@ -96,18 +53,18 @@ class Game(object):
                 return self._handleQuit()
             # window re-sizing stuff
             elif event.key in (pygame.K_PAGEUP, pygame.K_PERIOD):
-                if self.upscale < self.upscale_max:
-                    self._windowSet(1)
+                if not shared.is_fullscreen:
+                    shared.screenSet(1)
                 return False
             elif event.key in (pygame.K_PAGEDOWN, pygame.K_COMMA):
-                if self.upscale > 1:
-                    self._windowSet(-1)
+                if not shared.is_fullscreen:
+                    shared.screenSet(-1)
                 return False
             elif event.key in (pygame.K_F11, pygame.K_TAB):
-                if self.is_fullscreen:
-                    self._windowSet(0)
+                if shared.is_fullscreen:
+                    shared.screenSet(0)
                 else:
-                    self._windowSetFullscreen()
+                    shared.screenSetFullscreen()
                 return False
         return True
 
@@ -121,10 +78,20 @@ class Game(object):
     def _scaleMouseInput(self, event):
         """Scale mouse position for events in terms of the screen (as opposed to the display surface)."""
         if event.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONUP, pygame.MOUSEBUTTONDOWN):
-            if self.is_fullscreen:
-                event_dict = {'pos': ((event.pos[0]-self.fullscreen_offset[0])//self.upscale_max, (event.pos[1]-self.fullscreen_offset[1])//self.upscale_max)}
+            if shared.is_fullscreen:
+                event_dict = {
+                    'pos': (
+                        (event.pos[0] - shared.fullscreen_offset[0]) // shared.upscale_max,
+                        (event.pos[1] - shared.fullscreen_offset[1]) // shared.upscale_max,
+                    )
+                }
             else:
-                event_dict = {'pos': (event.pos[0]//self.upscale, event.pos[1]//self.upscale)}
+                event_dict = {
+                    'pos': (
+                        event.pos[0] // shared.upscale,
+                        event.pos[1] // shared.upscale,
+                    )
+                }
             if event.type == pygame.MOUSEMOTION:
                 event_dict['rel'] = event.rel
                 event_dict['buttons'] = event.buttons
@@ -136,13 +103,13 @@ class Game(object):
     def _getTime(self):
         """Take care of time stuff."""
         pygame.display.set_caption(str(self.clock.get_fps()))# just for debugging purposes
-        return self.clock.tick(MAX_FRAMERATE)
+        return self.clock.tick(constants.MAX_FRAMERATE)
 
     def _scaleDraw(self):
         """Scale screen onto display surface, then flip the display."""
-        if not self.is_fullscreen:
-            pygame.transform.scale(self.screen, self.disp_res, self.disp_screen)
+        if not shared.is_fullscreen:
+            pygame.transform.scale(shared.screen, shared.disp_res, shared.disp_screen)
         else:
-            pygame.transform.scale(self.screen, self.disp_res_max, self.full_screen)
-            self.disp_screen.blit(self.full_screen, self.fullscreen_offset)
+            pygame.transform.scale(shared.screen, shared.disp_res_max, shared.full_screen)
+            shared.disp_screen.blit(shared.full_screen, shared.fullscreen_offset)
         pygame.display.flip()

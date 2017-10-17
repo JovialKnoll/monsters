@@ -1,16 +1,10 @@
-instead of holding shared state in gamemode class, hold it in game
-	just pass it to the modes each function
-	GameMode.shared['font_wrap'] -> shared_state.fontWrap
-
 move shared convomode and fight mode stuff into new class
 	basically just
 		black_box = pygame.image.load(os.path.join(sprite_path, 'blackbox.png'))
 	and conversion
 	and some input stuff
 
-switch over to python string formatting
-
-wrap movement for fight inside monsters or a new class
+switch string concatenation over to python string formatting for most cases
 
 make and check settings file (main.py or game.py?)
 	window size
@@ -30,7 +24,7 @@ re-evaluate mon stats
 	balancing that
 	maybe check that can be strategy to fight choices?
 
-variable frame rate (should only need to input time information into the update functions
+variable frame rate? (should only need to input time information into the update functions
 
 lower priority:
 	(maybe) scroll slider thingy for convomode.py, click-and-drag-able

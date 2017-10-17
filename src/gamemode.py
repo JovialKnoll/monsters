@@ -1,19 +1,20 @@
 import pygame
 
+import shared
+
 class GameMode(object):
     """This is an abstract object for game modes.
     Children of this should implement _input, update, and draw.
     """
-    shared = {}
+    __slots__ = (
+        'next_mode',
+        '__pressed_keys',
+    )
+
     def __init__(self):
-        """All game modes must know when they are done, and set the next mode."""
+        """All game modes must set the next mode when they are done."""
         self.next_mode = None
         self.__pressed_keys = set()
-
-    def _input(self, event):
-        raise NotImplementedError(
-            self.__class__.__name__ + "._input(self, event)"
-        )
 
     def __trackPressedKeys(self, event):
         if event.type == pygame.KEYDOWN:
@@ -24,20 +25,28 @@ class GameMode(object):
     def _keyStatus(self, key):
         return key in self.__pressed_keys
 
-    def input_list(self, event_list):
+    def _input(self, event):
+        raise NotImplementedError(
+            self.__class__.__name__ + "._input(self, event)"
+        )
+
+    def input_events(self, event_list):
         """All game modes can take in events."""
         for event in event_list:
             self.__trackPressedKeys(event)
             self._input(event)
 
     def update(self):
-        """All game modes can update and can optionally return True to halt the game."""
+        """All game modes can update."""
         raise NotImplementedError(
             self.__class__.__name__ + ".update(self)"
         )
 
-    def draw(self, screen):
-        """All game modes can draw to the screen"""
+    def _drawScreen(self, screen):
         raise NotImplementedError(
-            self.__class__.__name__ + ".draw(self, screen)"
+            self.__class__.__name__ + "._drawScreen(self, screen)"
         )
+
+    def draw(self):
+        """All game modes can draw to the screen"""
+        self._drawScreen(shared.screen)

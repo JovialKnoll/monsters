@@ -2,7 +2,7 @@ import os
 import sys
 import pygame
 import constants
-import sharedstate
+import shared
 
 from fontwrap import *
 from gamemode import *
@@ -52,7 +52,7 @@ class Game(object):
                 (self.monitor_res[1] - self.disp_res[1]) // 2
             )
         self.disp_screen = pygame.display.set_mode(self.disp_res)
-        sharedstate.screen = sharedstate.screen.convert()
+        shared.screen = shared.screen.convert()
         self.is_fullscreen = False
 
     def _windowSetFullscreen(self):
@@ -60,26 +60,24 @@ class Game(object):
         self.disp_screen = pygame.display.set_mode(self.monitor_res, pygame.FULLSCREEN)
         # needs a separate full screen in case the largest full-multiple scale-up isn't the resolution
         self.full_screen = self.full_screen.convert()
-        sharedstate.screen = sharedstate.screen.convert(self.full_screen)
+        shared.screen = shared.screen.convert(self.full_screen)
         self.is_fullscreen = True
 
     def run(self):
         """Run the game, and check if the game needs to end."""
         if not self.current_mode:
             raise RuntimeError("error: no current mode")
-        event_list = self._filterInput(pygame.event.get())
-        if self.current_mode:
-            self.current_mode.input_list(event_list)
-            if self.current_mode.update():
-                # end the game
-                return False
-            self.current_mode.draw()
-            if self.current_mode.next_mode is not None:
-                self.current_mode = self.current_mode.next_mode
+        self.current_mode.input_events(
+            self._filterInput(pygame.event.get())
+        )
+        self._getTime()
+        # todo(?): pass result to .update()
+        self.current_mode.update()
+        self.current_mode.draw()
         self._scaleDraw()
-        self._getTime()# todo: pass result to .update()
-        # continue the game
-        return True
+        if self.current_mode.next_mode is not None:
+            self.current_mode = self.current_mode.next_mode
+        return shared.game_running
 
     def _filterInput(self, events):
         """Take care of input that game modes should not take care of."""
@@ -141,8 +139,8 @@ class Game(object):
     def _scaleDraw(self):
         """Scale screen onto display surface, then flip the display."""
         if not self.is_fullscreen:
-            pygame.transform.scale(sharedstate.screen, self.disp_res, self.disp_screen)
+            pygame.transform.scale(shared.screen, self.disp_res, self.disp_screen)
         else:
-            pygame.transform.scale(sharedstate.screen, self.disp_res_max, self.full_screen)
+            pygame.transform.scale(shared.screen, self.disp_res_max, self.full_screen)
             self.disp_screen.blit(self.full_screen, self.fullscreen_offset)
         pygame.display.flip()

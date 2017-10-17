@@ -2,7 +2,7 @@ import os
 import pickle
 import pygame
 import constants
-import sharedstate
+import shared
 
 from gamemode import *
 
@@ -12,9 +12,9 @@ class GameMenuMode(GameMode):
     def __init__(self, previous_mode):
         super(GameMenuMode, self).__init__()
         self.state = GameMenuMode.State.Menu
-        self.old_screen = False
         self.previous_mode = previous_mode
-        self.end_the_game = False
+        self.old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.screen)
+        previous_mode._drawScreen(self.old_screen)
 
     def _resetCursorBlink(self):
         self.cursor_switch = True
@@ -35,7 +35,7 @@ class GameMenuMode(GameMode):
 
     def _inputMenu(self, event):
         if event.type == pygame.QUIT:
-            self.end_the_game = True
+            shared.game_running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 self.next_mode = self.previous_mode
@@ -46,7 +46,7 @@ class GameMenuMode(GameMode):
                 self._clearSaveStuff()
                 self.state = GameMenuMode.State.Load
             elif event.key == pygame.K_F3:
-                self.end_the_game = True
+                shared.game_running = False
 
     def _inputSave(self, event):
         if event.type == pygame.QUIT:
@@ -116,15 +116,12 @@ class GameMenuMode(GameMode):
             pass
         else:
             raise RuntimeError("error: self.state = " + str(self.state))
-        return self.end_the_game
 
     def _drawScreen(self, screen):
-        if not self.old_screen:
-            self.old_screen = screen.copy()
         screen.blit(self.old_screen, (0,0))
         if self.state is GameMenuMode.State.Menu:
             disp_text = "Options:\n_Go Back (ESC)\n_Save (F1)\n_Load (F2)\n_Quit (F3)"
-            sharedstate.font_wrap.renderToInside(screen, (0,0), 20 * constants.FONT_SIZE, disp_text, False, constants.WHITE, constants.BLACK)
+            shared.font_wrap.renderToInside(screen, (0,0), 20 * constants.FONT_SIZE, disp_text, False, constants.WHITE, constants.BLACK)
             # center this, make bigger and buttons... maybe
             # more to come
         elif self.state is GameMenuMode.State.Save:
@@ -132,7 +129,7 @@ class GameMenuMode(GameMode):
             if self.save_name:
                 disp_text += self.save_name
             disp_text += ".sav"
-            sharedstate.font_wrap.renderToInside(screen, (0,0), 20 * constants.FONT_SIZE, disp_text, False, constants.WHITE, constants.BLACK)
+            shared.font_wrap.renderToInside(screen, (0,0), 20 * constants.FONT_SIZE, disp_text, False, constants.WHITE, constants.BLACK)
             if self.cursor_switch:
                 screen.fill(constants.WHITE, ((self.cursor_position * constants.FONT_SIZE, 40), (1, 10)))
             # display prompt for file to save
@@ -140,7 +137,7 @@ class GameMenuMode(GameMode):
         elif self.state is GameMenuMode.State.Load:
             disp_text = "Options:\n_Go Back (ESC)\n_Load (ENTER)\nSelect a file name:\n"
             disp_text += ".sav"
-            sharedstate.font_wrap.renderToInside(screen, (0,0), 20 * constants.FONT_SIZE, disp_text, False, constants.WHITE, constants.BLACK)
+            shared.font_wrap.renderToInside(screen, (0,0), 20 * constants.FONT_SIZE, disp_text, False, constants.WHITE, constants.BLACK)
             # draw load thingy
             pass
         else:

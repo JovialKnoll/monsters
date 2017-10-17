@@ -29,14 +29,14 @@ class GameMode(object):
             self.__class__.__name__ + "._input(self, event)"
         )
 
-    def input_list(self, event_list):
+    def input_events(self, event_list):
         """All game modes can take in events."""
         for event in event_list:
             self.__trackPressedKeys(event)
             self._input(event)
 
     def update(self):
-        """All game modes can update and can return True to halt the game."""
+        """All game modes can update."""
         raise NotImplementedError(
             self.__class__.__name__ + ".update(self)"
         )

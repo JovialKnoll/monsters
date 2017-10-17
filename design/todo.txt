@@ -1,3 +1,5 @@
+move _scaleDraw to shared
+
 move shared convomode and fight mode stuff into new class
 	basically just
 		black_box = pygame.image.load(os.path.join(sprite_path, 'blackbox.png'))

@@ -74,6 +74,7 @@ class Display(object):
         self.is_fullscreen = True
 
     def scaleDraw(self):
+        """Scale screen onto display surface, then flip the display."""
         if self.is_fullscreen:
             pygame.transform.scale(self.screen, self._disp_res_max, self._full_screen)
             self._disp_screen.blit(self._full_screen, self.fullscreen_offset)

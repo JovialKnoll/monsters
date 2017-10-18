@@ -16,7 +16,7 @@ class GameMenuMode(GameMode):
         super(GameMenuMode, self).__init__()
         self.state = GameMenuMode.State.Menu
         self.previous_mode = previous_mode
-        self.old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.screen)
+        self.old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
         previous_mode._drawScreen(self.old_screen)
 
     def _resetCursorBlink(self):

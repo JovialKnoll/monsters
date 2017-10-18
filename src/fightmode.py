@@ -42,9 +42,9 @@ class FightMode(GameMode):
             False,
             constants.TEXT_COLOR
         )
-    background = background.convert_alpha(shared.screen)
-    black_box = pygame.image.load(constants.BLACKBOX_FILE).convert_alpha(shared.screen)
-    health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert_alpha(shared.screen)
+    background = background.convert_alpha(shared.display.screen)
+    black_box = pygame.image.load(constants.BLACKBOX_FILE).convert_alpha(shared.display.screen)
+    health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert_alpha(shared.display.screen)
 
     def __init__(self, player_mon, enemy_mon, draw_mode, win_mode, lose_mode):
         """The functions passed in should return the next mode."""

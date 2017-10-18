@@ -33,7 +33,7 @@ class Game(object):
         # todo(?): pass result to .update()
         self.current_mode.update()
         self.current_mode.draw()
-        self._scaleDraw()
+        shared.display.scaleDraw()
         if self.current_mode.next_mode is not None:
             self.current_mode = self.current_mode.next_mode
         return shared.game_running
@@ -53,18 +53,18 @@ class Game(object):
                 return self._handleQuit()
             # window re-sizing stuff
             elif event.key in (pygame.K_PAGEUP, pygame.K_PERIOD):
-                if not shared.is_fullscreen:
-                    shared.screenSet(1)
+                if not shared.display.is_fullscreen:
+                    shared.display.screenSet(1)
                 return False
             elif event.key in (pygame.K_PAGEDOWN, pygame.K_COMMA):
-                if not shared.is_fullscreen:
-                    shared.screenSet(-1)
+                if not shared.display.is_fullscreen:
+                    shared.display.screenSet(-1)
                 return False
             elif event.key in (pygame.K_F11, pygame.K_TAB):
-                if shared.is_fullscreen:
-                    shared.screenSet(0)
+                if shared.display.is_fullscreen:
+                    shared.display.screenSet(0)
                 else:
-                    shared.screenSetFullscreen()
+                    shared.display.screenSetFullscreen()
                 return False
         return True
 
@@ -78,18 +78,18 @@ class Game(object):
     def _scaleMouseInput(self, event):
         """Scale mouse position for events in terms of the screen (as opposed to the display surface)."""
         if event.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONUP, pygame.MOUSEBUTTONDOWN):
-            if shared.is_fullscreen:
+            if shared.display.is_fullscreen:
                 event_dict = {
                     'pos': (
-                        (event.pos[0] - shared.fullscreen_offset[0]) // shared.upscale_max,
-                        (event.pos[1] - shared.fullscreen_offset[1]) // shared.upscale_max,
+                        (event.pos[0] - shared.display.fullscreen_offset[0]) // shared.display.upscale_max,
+                        (event.pos[1] - shared.display.fullscreen_offset[1]) // shared.display.upscale_max,
                     )
                 }
             else:
                 event_dict = {
                     'pos': (
-                        event.pos[0] // shared.upscale,
-                        event.pos[1] // shared.upscale,
+                        event.pos[0] // shared.display.upscale,
+                        event.pos[1] // shared.display.upscale,
                     )
                 }
             if event.type == pygame.MOUSEMOTION:
@@ -104,12 +104,3 @@ class Game(object):
         """Take care of time stuff."""
         pygame.display.set_caption(str(self.clock.get_fps()))# just for debugging purposes
         return self.clock.tick(constants.MAX_FRAMERATE)
-
-    def _scaleDraw(self):
-        """Scale screen onto display surface, then flip the display."""
-        if not shared.is_fullscreen:
-            pygame.transform.scale(shared.screen, shared.disp_res, shared.disp_screen)
-        else:
-            pygame.transform.scale(shared.screen, shared.disp_res_max, shared.full_screen)
-            shared.disp_screen.blit(shared.full_screen, shared.fullscreen_offset)
-        pygame.display.flip()

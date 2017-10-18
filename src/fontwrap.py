@@ -1,4 +1,5 @@
 import pygame
+
 import shared
 
 class FontWrap(object):
@@ -30,9 +31,9 @@ class FontWrap(object):
 
         height = self.font.get_height()
         if background is None:
-            drawn_lines = [self.font.render(line, antialias, color).convert_alpha(shared.screen) for line in lines]
+            drawn_lines = [self.font.render(line, antialias, color).convert_alpha(shared.display.screen) for line in lines]
         else:
-            drawn_lines = [self.font.render(line, antialias, color, background).convert(shared.screen) for line in lines]
+            drawn_lines = [self.font.render(line, antialias, color, background).convert(shared.display.screen) for line in lines]
         result = pygame.Surface((width, height * len(drawn_lines)), 0, drawn_lines[0])
         if background is not None:
             result.fill(background)

@@ -1,4 +1,4 @@
-import state
+import shared
 from monconvomode import MonConvoMode
 from testmode import TestMode
 from fightmode import FightMode
@@ -33,7 +33,7 @@ class ConvoMode0(MonConvoMode):
         elif index == 1:
             print("Really anything can happen here.")
             self.next_mode = FightMode(
-                state.state.protag_mon,
+                shared.state.protag_mon,
                 Monster.atLevel(0),
                 ConvoMode0,
                 ConvoMode0,

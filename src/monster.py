@@ -114,7 +114,7 @@ class Monster(object):
         return self.skin[self.lvl].light
 
     def _setSprites(self):
-        self.sprite = pygame.image.load(self.sprite_paths[0]).convert_alpha(shared.screen)
+        self.sprite = pygame.image.load(self.sprite_paths[0]).convert_alpha(shared.display.screen)
         for sprite_path in self.sprite_paths[1:]:
             self.sprite.blit(
                 pygame.image.load(sprite_path).convert_alpha(self.sprite),
@@ -125,7 +125,7 @@ class Monster(object):
             pix_array.replace(self.skin[0].dark, self.getDarkSkin())
             pix_array.replace(self.skin[0].light, self.getLightSkin())
             del pix_array
-        self.sprite = self.sprite.convert_alpha(shared.screen)
+        self.sprite = self.sprite.convert_alpha(shared.display.screen)
         self.sprite_right = pygame.transform.flip(self.sprite, True, False)
 
     def levelUp(self):

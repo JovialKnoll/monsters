@@ -8,7 +8,6 @@ from gamemode import GameMode
 from boxes import Boxes
 
 class ConvoMode(GameMode):
-    scroll_amount_mouse = 10
     scroll_amount_key = 1
     box_rects = (
         pygame.Rect(  8,  88,  88,  36),
@@ -69,9 +68,9 @@ class ConvoMode(GameMode):
                 if self.__class__.boxes.posSelect(event.pos) != None:
                     self._goButton(self.__class__.boxes.select)
             elif event.button == 4:
-                self.text_rect.move_ip(0, -self.__class__.scroll_amount_mouse)
+                self.text_rect.move_ip(0, -constants.FONT_HEIGHT)
             elif event.button == 5:
-                self.text_rect.move_ip(0, self.__class__.scroll_amount_mouse)
+                self.text_rect.move_ip(0, constants.FONT_HEIGHT)
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 self._goButton(self.__class__.boxes.select)

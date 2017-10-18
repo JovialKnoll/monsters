@@ -238,4 +238,4 @@ class FightMode(GameMode):
         screen.blit(self.__class__.health_bar, (233, 29))
         # maybe draw health numbers / stats / etc
         for index, line in enumerate(self.action_display):
-            screen.blit(line, (120, 166 - 10 * index))
+            screen.blit(line, (120, 166 - constants.FONT_HEIGHT * index))

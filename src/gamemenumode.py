@@ -164,7 +164,10 @@ class GameMenuMode(GameMode):
                 constants.BLACK
             )
             if self.cursor_switch:
-                screen.fill(constants.WHITE, ((self.cursor_position * constants.FONT_SIZE, 40), (1, 10)))
+                screen.fill(
+                    constants.WHITE,
+                    ((self.cursor_position * constants.FONT_SIZE, 4 * constants.FONT_HEIGHT), (1, constants.FONT_HEIGHT))
+                )
             # display prompt for file to save
             # display save_name in there
         elif self.state is GameMenuMode.State.Load:

@@ -8,20 +8,20 @@ from convomode0 import ConvoMode0
 
 class Game(object):
     __slots__ = (
-        'clock',
-        'current_mode',
+        '_clock',
+        '_current_mode',
     )
 
     def __init__(self):
         """Start and create things as needed."""
         pygame.init()
         # time
-        self.clock = pygame.time.Clock()
+        self._clock = pygame.time.Clock()
         # mode (must be set before running
-        self.current_mode = None
+        self._current_mode = None
         # test stuff
-        # self.current_mode = TestMode()
-        self.current_mode = ConvoMode0()
+        # self._current_mode = TestMode()
+        self._current_mode = ConvoMode0()
 
     def __del__(self):
         """End and delete things as needed."""
@@ -29,18 +29,18 @@ class Game(object):
 
     def run(self):
         """Run the game, and check if the game needs to end."""
-        if not self.current_mode:
+        if not self._current_mode:
             raise RuntimeError("error: no current mode")
-        self.current_mode.input_events(
+        self._current_mode.input_events(
             self._filterInput(pygame.event.get())
         )
         self._getTime()
         # todo(?): pass result to .update()
-        self.current_mode.update()
-        self.current_mode.draw()
+        self._current_mode.update()
+        self._current_mode.draw()
         shared.display.scaleDraw()
-        if self.current_mode.next_mode is not None:
-            self.current_mode = self.current_mode.next_mode
+        if self._current_mode.next_mode is not None:
+            self._current_mode = self._current_mode.next_mode
         return shared.game_running
 
     def _filterInput(self, events):
@@ -75,9 +75,9 @@ class Game(object):
 
     def _handleQuit(self):
         # pass quit events forward to the GameMenuMode, but not to other events
-        if isinstance(self.current_mode, GameMenuMode):
+        if isinstance(self._current_mode, GameMenuMode):
             return True
-        self.current_mode = GameMenuMode(self.current_mode)
+        self._current_mode = GameMenuMode(self._current_mode)
         return False
 
     def _scaleMouseInput(self, event):
@@ -107,5 +107,5 @@ class Game(object):
 
     def _getTime(self):
         """Take care of time stuff."""
-        pygame.display.set_caption(str(self.clock.get_fps()))# just for debugging purposes
-        return self.clock.tick(constants.MAX_FRAMERATE)
+        pygame.display.set_caption(str(self._clock.get_fps()))# just for debugging purposes
+        return self._clock.tick(constants.MAX_FRAMERATE)

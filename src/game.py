@@ -7,6 +7,11 @@ from gamemenumode import GameMenuMode
 from convomode0 import ConvoMode0
 
 class Game(object):
+    __slots__ = (
+        'clock',
+        'current_mode',
+    )
+
     def __init__(self):
         """Start and create things as needed."""
         pygame.init()

@@ -1,5 +1,7 @@
 put __slots__ on each class
 
+secret project
+
 move shared convomode and fight mode stuff into new class
 	basically just
 		black_box = pygame.image.load(os.path.join(sprite_path, 'blackbox.png'))

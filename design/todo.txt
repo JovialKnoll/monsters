@@ -1,5 +1,3 @@
-put __slots__ on each class
-
 secret project
 
 move shared convomode and fight mode stuff into new class

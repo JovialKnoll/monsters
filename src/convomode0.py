@@ -6,6 +6,9 @@ from monster import Monster
 from menumode import MenuMode
 
 class ConvoMode0(MonConvoMode):
+    __slots__ = (
+    )
+
     def _textMain(self):
         return "Scrolling is enabled!\n" + \
             "Try pressing the arrow keys!\n" + \

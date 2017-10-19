@@ -4,6 +4,9 @@ import shared
 from monconvomode import MonConvoMode
 
 class MenuMode(MonConvoMode):
+    __slots__ = (
+    )
+
     def _textMain(self):
         mon = shared.state.protag_mon
         mon_string = "lvl: " + str(mon.lvl) + "\n"

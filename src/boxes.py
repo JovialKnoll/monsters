@@ -3,15 +3,15 @@ class Boxes(object):
 
     __slots__ = (
         'rects',
-        'backKeys',
-        'forwardKeys',
+        '_backKeys',
+        '_forwardKeys',
         'select',
     )
 
-    def __init__(self, rects, backKeys, forwardKeys):
+    def __init__(self, rects, _backKeys, _forwardKeys):
         self.rects = rects
-        self.backKeys = set(backKeys)
-        self.forwardKeys = set(forwardKeys)
+        self._backKeys = set(_backKeys)
+        self._forwardKeys = set(_forwardKeys)
         self.select = 0
 
     def getSelectRect(self):
@@ -23,9 +23,9 @@ class Boxes(object):
         return self.select
 
     def keySelect(self, key):
-        if key in self.backKeys:
+        if key in self._backKeys:
             return self.changeSelect(-1)
-        elif key in self.forwardKeys:
+        elif key in self._forwardKeys:
             return self.changeSelect(1)
 
     def posSelect(self, pos):

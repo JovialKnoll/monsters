@@ -26,13 +26,19 @@ class Monster(object):
         'arms',
     )
 
-    @classmethod
-    def atLevel(cls, in_lvl, in_stats={}):
-        """Create a new monster at a given level not above the maximum level, setting stats, etc. as needed."""
-        new_mon = cls(in_stats)
-        for n in range(min(in_lvl, cls.lvl_max)):
-            new_mon.levelUp()
-        return new_mon
+    __slots__ = (
+        'lvl',
+        'awr',
+        'personality',
+        'name',
+        'skin',
+        'mood',
+        'stats',
+        'sprite_groups',
+        'sprite_paths',
+        'sprite',
+        'sprite_right',
+    )
 
     def __init__(self, in_stats={}):
         """Create a new monster, setting stats, etc. as needed."""
@@ -53,7 +59,7 @@ class Monster(object):
         self.stats.update(in_stats)
         self.setHealth()
 
-        self.sprite_groups = [random.choice(('A','B','C')) for x in range(5)]
+        self.sprite_groups = tuple(random.choice(('A','B','C')) for x in range(5))
         self._setSpritePaths()
         self._setSprites()
 
@@ -164,3 +170,11 @@ class Monster(object):
     def draw(self, screen, pos, right=False):
         """Draw the monster on the screen."""
         screen.blit(self.sprite if not right else self.sprite_right, pos)
+
+    @classmethod
+    def atLevel(cls, in_lvl, in_stats={}):
+        """Create a new monster at a given level not above the maximum level, setting stats, etc. as needed."""
+        new_mon = cls(in_stats)
+        for n in range(min(in_lvl, cls.lvl_max)):
+            new_mon.levelUp()
+        return new_mon

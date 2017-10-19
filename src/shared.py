@@ -1,4 +1,5 @@
 import os
+import random
 
 import pygame
 
@@ -7,6 +8,7 @@ from display import Display
 from fontwrap import FontWrap
 from state import State
 
+random.seed()
 game_running = True
 display = Display()
 font_wrap = FontWrap(

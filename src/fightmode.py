@@ -45,6 +45,23 @@ class FightMode(GameMode):
     background = background.convert_alpha(shared.display.screen)
     black_box = pygame.image.load(constants.BLACKBOX_FILE).convert_alpha(shared.display.screen)
     health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert_alpha(shared.display.screen)
+    player_pos = (170,128)
+    enemy_pos = (262,128)
+
+    __slots__ = (
+        'player_mon',
+        'enemy_mon',
+        'player_rel',
+        'enemy_rel',
+        'player_action',
+        'enemy_action',
+        'player_anim',
+        'enemy_anim',
+        'action_display',
+        'action_set',
+        'result',
+        'result_mode',
+    )
 
     def __init__(self, player_mon, enemy_mon, draw_mode, win_mode, lose_mode):
         """The functions passed in should return the next mode."""
@@ -54,8 +71,6 @@ class FightMode(GameMode):
         self.player_mon = player_mon
         self.enemy_mon = enemy_mon
 
-        self.player_pos = (170,128)
-        self.enemy_pos = (262,128)
         self.player_rel = [0,0]
         self.enemy_rel = [0,0]
 
@@ -222,7 +237,7 @@ class FightMode(GameMode):
         # draw some mons and stuff
         self.player_mon.drawStanding(
             screen,
-            (self.player_pos[0] + self.player_rel[0], self.player_pos[1] + self.player_rel[1]),
+            (self.__class__.player_pos[0] + self.player_rel[0], self.__class__.player_pos[1] + self.player_rel[1]),
             True
         )
         player_bar_length = self.__class__.health_bar_length * self.player_mon.stats['hpc'] // self.player_mon.stats['hpm']
@@ -231,7 +246,7 @@ class FightMode(GameMode):
 
         self.enemy_mon.drawStanding(
             screen,
-            (self.enemy_pos[0] + self.enemy_rel[0], self.enemy_pos[1] + self.enemy_rel[1])
+            (self.__class__.enemy_pos[0] + self.enemy_rel[0], self.__class__.enemy_pos[1] + self.enemy_rel[1])
         )
         enemy_bar_length = self.__class__.health_bar_length * self.enemy_mon.stats['hpc'] // self.enemy_mon.stats['hpm']
         screen.fill(self.enemy_mon.getLightSkin(), (294-enemy_bar_length, 30, enemy_bar_length, 10))

@@ -12,20 +12,31 @@ class GameMenuMode(GameMode):
         Menu, Save, Load = range(3)
     menu_width = 20
     file_extension = '.sav'
+
+    __slots__ = (
+        '_state',
+        '_previous_mode',
+        '_old_screen',
+        '_cursor_switch',
+        '_cursor_timer',
+        '_save_name',
+        '_cursor_position',
+    )
+
     def __init__(self, previous_mode):
         super(GameMenuMode, self).__init__()
-        self.state = GameMenuMode.State.Menu
-        self.previous_mode = previous_mode
-        self.old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
-        previous_mode._drawScreen(self.old_screen)
+        self._state = GameMenuMode.State.Menu
+        self._previous_mode = previous_mode
+        self._old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+        previous_mode._drawScreen(self._old_screen)
 
     def _resetCursorBlink(self):
-        self.cursor_switch = True
-        self.cursor_timer = 0
+        self._cursor_switch = True
+        self._cursor_timer = 0
 
     def _clearSaveStuff(self):
-        self.save_name = ''
-        self.cursor_position = 0
+        self._save_name = ''
+        self._cursor_position = 0
         self._resetCursorBlink()
 
     def _saveGame(self):
@@ -36,7 +47,7 @@ class GameMenuMode(GameMode):
         with open(
             os.path.join(
                 constants.SAVE_DIRECTORY,
-                self.save_name + self.__class__.file_extension
+                self._save_name + self.__class__.file_extension
             ),
             'wb'
         ) as f:
@@ -47,48 +58,48 @@ class GameMenuMode(GameMode):
             shared.game_running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                self.next_mode = self.previous_mode
+                self.next_mode = self._previous_mode
             elif event.key == pygame.K_F1:
                 self._clearSaveStuff()
-                self.state = GameMenuMode.State.Save
+                self._state = GameMenuMode.State.Save
             elif event.key == pygame.K_F2:
                 self._clearSaveStuff()
-                self.state = GameMenuMode.State.Load
+                self._state = GameMenuMode.State.Load
             elif event.key == pygame.K_F3:
                 shared.game_running = False
 
     def _inputSave(self, event):
         if event.type == pygame.QUIT:
-            self.state = GameMenuMode.State.Menu
+            self._state = GameMenuMode.State.Menu
         elif event.type == pygame.KEYDOWN:
             char = event.unicode
-            length = len(self.save_name)
+            length = len(self._save_name)
             if event.key == pygame.K_ESCAPE:
-                self.state = GameMenuMode.State.Menu
+                self._state = GameMenuMode.State.Menu
             elif event.key == pygame.K_RETURN:
             # also call on a button press
-                if self.save_name:
+                if self._save_name:
                     self._saveGame()
-                    self.state = GameMenuMode.State.Menu
+                    self._state = GameMenuMode.State.Menu
             elif event.key == pygame.K_LEFT:
-                self.cursor_position = max(self.cursor_position - 1, 0)
+                self._cursor_position = max(self._cursor_position - 1, 0)
                 self._resetCursorBlink()
             elif event.key == pygame.K_RIGHT:
-                self.cursor_position = min(self.cursor_position+1, length)
+                self._cursor_position = min(self._cursor_position+1, length)
                 self._resetCursorBlink()
             elif event.key in (pygame.K_UP, pygame.K_HOME):
-                self.cursor_position = 0
+                self._cursor_position = 0
                 self._resetCursorBlink()
             elif event.key in (pygame.K_DOWN, pygame.K_END):
-                self.cursor_position = length
+                self._cursor_position = length
                 self._resetCursorBlink()
             elif event.key == pygame.K_DELETE:
-                self.save_name = self.save_name[:self.cursor_position] + self.save_name[self.cursor_position+1:]
+                self._save_name = self._save_name[:self._cursor_position] + self._save_name[self._cursor_position+1:]
                 self._resetCursorBlink()
             elif event.key == pygame.K_BACKSPACE:
-                if self.cursor_position > 0:
-                    self.save_name = self.save_name[:self.cursor_position-1] + self.save_name[self.cursor_position:]
-                    self.cursor_position -= 1
+                if self._cursor_position > 0:
+                    self._save_name = self._save_name[:self._cursor_position-1] + self._save_name[self._cursor_position:]
+                    self._cursor_position -= 1
                 self._resetCursorBlink()
             elif (
                 length < (self.__class__.menu_width - len(self.__class__.file_extension))
@@ -99,44 +110,44 @@ class GameMenuMode(GameMode):
                     or (event.key > 96 and event.key < 123)
                 )
             ):
-                self.save_name = self.save_name[:self.cursor_position] + char + self.save_name[self.cursor_position:]
-                self.cursor_position += 1
+                self._save_name = self._save_name[:self._cursor_position] + char + self._save_name[self._cursor_position:]
+                self._cursor_position += 1
                 self._resetCursorBlink()
 
     def _inputLoad(self, event):
         if event.type == pygame.QUIT:
-            self.state = GameMenuMode.State.Menu
+            self._state = GameMenuMode.State.Menu
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                self.state = GameMenuMode.State.Menu
+                self._state = GameMenuMode.State.Menu
             # put in scrolling to select save file? maybe typing too? alphebatized list...
 
     def _input(self, event):
-        if self.state is GameMenuMode.State.Menu:
+        if self._state is GameMenuMode.State.Menu:
             self._inputMenu(event)
-        elif self.state is GameMenuMode.State.Save:
+        elif self._state is GameMenuMode.State.Save:
             self._inputSave(event)
-        elif self.state is GameMenuMode.State.Load:
+        elif self._state is GameMenuMode.State.Load:
             self._inputLoad(event)
         else:
-            raise RuntimeError("error: self.state = " + str(self.state))
+            raise RuntimeError("error: self._state = " + str(self._state))
 
     def update(self):
-        if self.state is GameMenuMode.State.Menu:
+        if self._state is GameMenuMode.State.Menu:
             pass
-        elif self.state is GameMenuMode.State.Save:
-            if self.cursor_timer >= constants.CURSOR_TIME:
-                self.cursor_switch = not self.cursor_switch
-                self.cursor_timer = 0
-            self.cursor_timer += 1
-        elif self.state is GameMenuMode.State.Load:
+        elif self._state is GameMenuMode.State.Save:
+            if self._cursor_timer >= constants.CURSOR_TIME:
+                self._cursor_switch = not self._cursor_switch
+                self._cursor_timer = 0
+            self._cursor_timer += 1
+        elif self._state is GameMenuMode.State.Load:
             pass
         else:
-            raise RuntimeError("error: self.state = " + str(self.state))
+            raise RuntimeError("error: self._state = " + str(self._state))
 
     def _drawScreen(self, screen):
-        screen.blit(self.old_screen, (0,0))
-        if self.state is GameMenuMode.State.Menu:
+        screen.blit(self._old_screen, (0,0))
+        if self._state is GameMenuMode.State.Menu:
             disp_text = "Options:\n_Go Back (ESC)\n_Save (F1)\n_Load (F2)\n_Quit (F3)"
             shared.font_wrap.renderToInside(
                 screen,
@@ -149,10 +160,10 @@ class GameMenuMode(GameMode):
             )
             # center this, make bigger and buttons... maybe
             # more to come
-        elif self.state is GameMenuMode.State.Save:
+        elif self._state is GameMenuMode.State.Save:
             disp_text = "Options:\n_Go Back (ESC)\n_Save (ENTER)\nType a file name:\n"
-            if self.save_name:
-                disp_text += self.save_name
+            if self._save_name:
+                disp_text += self._save_name
             disp_text += self.__class__.file_extension
             shared.font_wrap.renderToInside(
                 screen,
@@ -163,14 +174,14 @@ class GameMenuMode(GameMode):
                 constants.WHITE,
                 constants.BLACK
             )
-            if self.cursor_switch:
+            if self._cursor_switch:
                 screen.fill(
                     constants.WHITE,
-                    ((self.cursor_position * constants.FONT_SIZE, 4 * constants.FONT_HEIGHT), (1, constants.FONT_HEIGHT))
+                    ((self._cursor_position * constants.FONT_SIZE, 4 * constants.FONT_HEIGHT), (1, constants.FONT_HEIGHT))
                 )
             # display prompt for file to save
             # display save_name in there
-        elif self.state is GameMenuMode.State.Load:
+        elif self._state is GameMenuMode.State.Load:
             disp_text = "Options:\n_Go Back (ESC)\n_Load (ENTER)\nSelect a file name:\n"
             disp_text += self.__class__.file_extension
             shared.font_wrap.renderToInside(
@@ -185,4 +196,4 @@ class GameMenuMode(GameMode):
             # draw load thingy
             pass
         else:
-            raise RuntimeError("error: self.state = " + str(self.state))
+            raise RuntimeError("error: self._state = " + str(self._state))

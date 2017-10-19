@@ -26,16 +26,6 @@ class ConvoMode(GameMode):
     )
     black_box = pygame.image.load(constants.BLACKBOX_FILE).convert_alpha(shared.display.screen)
 
-    def _textMain(self):
-        # return text for main section
-        raise NotImplementedError(self.__class__.__name__ + "._textMain(self)")
-    def _textButton(self, index):
-        # return text for button
-        raise NotImplementedError(self.__class__.__name__ + "._textButton(self, index)")
-    def _goButton(self, index):
-        # do stuff for button
-        raise NotImplementedError(self.__class__.__name__ + "._goButton(self, index)")
-
     __slots__ = (
         'background',
         'text_rect',
@@ -59,6 +49,16 @@ class ConvoMode(GameMode):
                 constants.TEXT_COLOR
             )
         # what else do conversations need?
+
+    def _textMain(self):
+        # return text for main section
+        raise NotImplementedError(self.__class__.__name__ + "._textMain(self)")
+    def _textButton(self, index):
+        # return text for button
+        raise NotImplementedError(self.__class__.__name__ + "._textButton(self, index)")
+    def _goButton(self, index):
+        # do stuff for button
+        raise NotImplementedError(self.__class__.__name__ + "._goButton(self, index)")
 
     def _input(self, event):
         if event.type == pygame.MOUSEMOTION:

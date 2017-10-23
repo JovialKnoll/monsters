@@ -1,9 +1,9 @@
 import pygame
 
 import shared
-from monconvomode import MonConvoMode
+from modemonconvo import ModeMonConvo
 
-class MenuMode(MonConvoMode):
+class ModeMenu(ModeMonConvo):
     __slots__ = (
     )
 

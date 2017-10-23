@@ -2,7 +2,7 @@ import pygame
 
 import shared
 
-class GameMode(object):
+class Mode(object):
     """This is an abstract object for game modes.
     Children of this should implement _input, update, and draw.
     """

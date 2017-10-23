@@ -4,10 +4,10 @@ import pygame
 
 import constants
 import shared
-from gamemode import GameMode
+from mode import Mode
 from boxes import Boxes
 
-class ConvoMode(GameMode):
+class ModeConvo(Mode):
     scroll_amount_key = 1
     box_rects = (
         pygame.Rect(  8,  88,  88,  36),
@@ -33,7 +33,7 @@ class ConvoMode(GameMode):
     )
 
     def __init__(self):
-        super(ConvoMode, self).__init__()
+        super(ModeConvo, self).__init__()
 
         self.background = pygame.image.load(constants.LAYOUT_1_FILE).convert_alpha(shared.display.screen)
         # mainly, make the surfaces based on the text for view and buttons, fitting some criteria

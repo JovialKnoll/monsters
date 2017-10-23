@@ -2,10 +2,10 @@ import pygame
 
 import constants
 import shared
-from gamemode import GameMode
+from mode import Mode
 from monster import Monster
 
-class TestMode(GameMode):
+class ModeTest(Mode):
     fill = (0, 200, 0)
     test_text = "01234567890123456789"
 
@@ -18,7 +18,7 @@ class TestMode(GameMode):
         self._test_mon_pos = [160,122]
 
     def __init__(self):
-        super(TestMode, self).__init__()
+        super(ModeTest, self).__init__()
         self._createMonster()
 
     def _input(self, event):

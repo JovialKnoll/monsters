@@ -5,9 +5,9 @@ import pygame
 
 import constants
 import shared
-from gamemode import GameMode
+from mode import Mode
 
-class GameMenuMode(GameMode):
+class ModeGameMenu(Mode):
     class State(object):
         Menu, Save, Load = range(3)
     menu_width = 20
@@ -24,8 +24,8 @@ class GameMenuMode(GameMode):
     )
 
     def __init__(self, previous_mode):
-        super(GameMenuMode, self).__init__()
-        self._state = GameMenuMode.State.Menu
+        super(ModeGameMenu, self).__init__()
+        self._state = ModeGameMenu.State.Menu
         self._previous_mode = previous_mode
         self._old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
         previous_mode._drawScreen(self._old_screen)
@@ -61,26 +61,26 @@ class GameMenuMode(GameMode):
                 self.next_mode = self._previous_mode
             elif event.key == pygame.K_F1:
                 self._clearSaveStuff()
-                self._state = GameMenuMode.State.Save
+                self._state = ModeGameMenu.State.Save
             elif event.key == pygame.K_F2:
                 self._clearSaveStuff()
-                self._state = GameMenuMode.State.Load
+                self._state = ModeGameMenu.State.Load
             elif event.key == pygame.K_F3:
                 shared.game_running = False
 
     def _inputSave(self, event):
         if event.type == pygame.QUIT:
-            self._state = GameMenuMode.State.Menu
+            self._state = ModeGameMenu.State.Menu
         elif event.type == pygame.KEYDOWN:
             char = event.unicode
             length = len(self._save_name)
             if event.key == pygame.K_ESCAPE:
-                self._state = GameMenuMode.State.Menu
+                self._state = ModeGameMenu.State.Menu
             elif event.key == pygame.K_RETURN:
             # also call on a button press
                 if self._save_name:
                     self._saveGame()
-                    self._state = GameMenuMode.State.Menu
+                    self._state = ModeGameMenu.State.Menu
             elif event.key == pygame.K_LEFT:
                 self._cursor_position = max(self._cursor_position - 1, 0)
                 self._resetCursorBlink()
@@ -116,38 +116,38 @@ class GameMenuMode(GameMode):
 
     def _inputLoad(self, event):
         if event.type == pygame.QUIT:
-            self._state = GameMenuMode.State.Menu
+            self._state = ModeGameMenu.State.Menu
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                self._state = GameMenuMode.State.Menu
+                self._state = ModeGameMenu.State.Menu
             # put in scrolling to select save file? maybe typing too? alphebatized list...
 
     def _input(self, event):
-        if self._state is GameMenuMode.State.Menu:
+        if self._state is ModeGameMenu.State.Menu:
             self._inputMenu(event)
-        elif self._state is GameMenuMode.State.Save:
+        elif self._state is ModeGameMenu.State.Save:
             self._inputSave(event)
-        elif self._state is GameMenuMode.State.Load:
+        elif self._state is ModeGameMenu.State.Load:
             self._inputLoad(event)
         else:
             raise RuntimeError("error: self._state = " + str(self._state))
 
     def update(self):
-        if self._state is GameMenuMode.State.Menu:
+        if self._state is ModeGameMenu.State.Menu:
             pass
-        elif self._state is GameMenuMode.State.Save:
+        elif self._state is ModeGameMenu.State.Save:
             if self._cursor_timer >= constants.CURSOR_TIME:
                 self._cursor_switch = not self._cursor_switch
                 self._cursor_timer = 0
             self._cursor_timer += 1
-        elif self._state is GameMenuMode.State.Load:
+        elif self._state is ModeGameMenu.State.Load:
             pass
         else:
             raise RuntimeError("error: self._state = " + str(self._state))
 
     def _drawScreen(self, screen):
         screen.blit(self._old_screen, (0,0))
-        if self._state is GameMenuMode.State.Menu:
+        if self._state is ModeGameMenu.State.Menu:
             disp_text = "Options:\n_Go Back (ESC)\n_Save (F1)\n_Load (F2)\n_Quit (F3)"
             shared.font_wrap.renderToInside(
                 screen,
@@ -160,7 +160,7 @@ class GameMenuMode(GameMode):
             )
             # center this, make bigger and buttons... maybe
             # more to come
-        elif self._state is GameMenuMode.State.Save:
+        elif self._state is ModeGameMenu.State.Save:
             disp_text = "Options:\n_Go Back (ESC)\n_Save (ENTER)\nType a file name:\n"
             if self._save_name:
                 disp_text += self._save_name
@@ -181,7 +181,7 @@ class GameMenuMode(GameMode):
                 )
             # display prompt for file to save
             # display save_name in there
-        elif self._state is GameMenuMode.State.Load:
+        elif self._state is ModeGameMenu.State.Load:
             disp_text = "Options:\n_Go Back (ESC)\n_Load (ENTER)\nSelect a file name:\n"
             disp_text += self.__class__.file_extension
             shared.font_wrap.renderToInside(

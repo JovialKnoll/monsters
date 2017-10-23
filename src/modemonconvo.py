@@ -1,10 +1,10 @@
 import shared
-from convomode import ConvoMode
+from modeconvo import ModeConvo
 
-class MonConvoMode(ConvoMode):
+class ModeMonConvo(ModeConvo):
     __slots__ = (
     )
 
     def _drawScreen(self, screen):
-        super(MonConvoMode, self)._drawScreen(screen)
+        super(ModeMonConvo, self)._drawScreen(screen)
         shared.state.protag_mon.drawCentered(screen, (160,128))

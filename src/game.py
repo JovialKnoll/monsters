@@ -2,9 +2,9 @@ import pygame
 
 import constants
 import shared
-from gamemenumode import GameMenuMode
-#from testmode import TestMode
-from convomode0 import ConvoMode0
+from modegamemenu import ModeGameMenu
+#from modetest import ModeTest
+from modeconvo0 import ModeConvo0
 
 class Game(object):
     __slots__ = (
@@ -20,8 +20,8 @@ class Game(object):
         # mode (must be set before running
         self._current_mode = None
         # test stuff
-        # self._current_mode = TestMode()
-        self._current_mode = ConvoMode0()
+        # self._current_mode = ModeTest()
+        self._current_mode = ModeConvo0()
 
     def __del__(self):
         """End and delete things as needed."""
@@ -74,10 +74,10 @@ class Game(object):
         return True
 
     def _handleQuit(self):
-        # pass quit events forward to the GameMenuMode, but not to other events
-        if isinstance(self._current_mode, GameMenuMode):
+        # pass quit events forward to the ModeGameMenu, but not to other events
+        if isinstance(self._current_mode, ModeGameMenu):
             return True
-        self._current_mode = GameMenuMode(self._current_mode)
+        self._current_mode = ModeGameMenu(self._current_mode)
         return False
 
     def _scaleMouseInput(self, event):

@@ -6,10 +6,10 @@ import pygame
 import constants
 import shared
 import utility
-from gamemode import GameMode
+from mode import Mode
 from boxes import Boxes
 
-class FightMode(GameMode):
+class ModeFight(Mode):
     health_bar_length = 60
     box_choices = [
         "Attack",
@@ -65,7 +65,7 @@ class FightMode(GameMode):
 
     def __init__(self, player_mon, enemy_mon, draw_mode, win_mode, lose_mode):
         """The functions passed in should return the next mode."""
-        super(FightMode, self).__init__()
+        super(ModeFight, self).__init__()
 
         player_mon.fightStart()
         self.player_mon = player_mon

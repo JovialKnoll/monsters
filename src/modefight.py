@@ -16,13 +16,12 @@ class ModeFight(Mode):
         "Defend",
         "Escape",
     ]
-    box_rects = (
-        pygame.Rect(24,  24,  88,  36),
-        pygame.Rect(24,  76,  88,  36),
-        pygame.Rect(24, 128,  88,  36),
-    )
     boxes = Boxes(
-        box_rects,
+        (
+            pygame.Rect( 24, 24, 88, 36),
+            pygame.Rect( 24, 76, 88, 36),
+            pygame.Rect( 24,128, 88, 36),
+        ),
         (
             pygame.K_UP,
             pygame.K_LEFT,

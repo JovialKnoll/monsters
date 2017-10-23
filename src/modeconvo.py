@@ -9,14 +9,13 @@ from boxes import Boxes
 
 class ModeConvo(Mode):
     scroll_amount_key = 1
-    box_rects = (
-        pygame.Rect(  8,  88,  88,  36),
-        pygame.Rect(224,  88,  88,  36),
-        pygame.Rect(  8, 132,  88,  36),
-        pygame.Rect(224, 132,  88,  36),
-    )
     boxes = Boxes(
-        box_rects,
+        (
+            pygame.Rect(  8, 88, 88, 36),
+            pygame.Rect(224, 88, 88, 36),
+            pygame.Rect(  8,132, 88, 36),
+            pygame.Rect(224,132, 88, 36),
+        ),
         (
             pygame.K_LEFT,
         ),

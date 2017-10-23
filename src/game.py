@@ -3,8 +3,8 @@ import pygame
 import constants
 import shared
 from modegamemenu import ModeGameMenu
+from modeopening import ModeOpening
 #from modetest import ModeTest
-from modeconvo0 import ModeConvo0
 
 class Game(object):
     __slots__ = (
@@ -17,11 +17,10 @@ class Game(object):
         pygame.init()
         # time
         self._clock = pygame.time.Clock()
-        # mode (must be set before running
-        self._current_mode = None
+        # mode (must be set before running)
+        self._current_mode = ModeOpening()
         # test stuff
-        # self._current_mode = ModeTest()
-        self._current_mode = ModeConvo0()
+        #self._current_mode = ModeTest()
 
     def __del__(self):
         """End and delete things as needed."""

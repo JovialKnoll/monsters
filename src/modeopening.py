@@ -21,8 +21,8 @@ class ModeOpening(Mode):
         self.right_mon = Monster.atLevel(2)
         self.right_pos = [262, 128]
 
-    #def _changeMode(self):
-    #    self.next_mode = ModeConvo0()
+    def _changeMode(self):
+        self.next_mode = ModeConvo0()
 
     def _input(self, event):
         if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):

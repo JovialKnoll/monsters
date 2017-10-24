@@ -9,7 +9,7 @@ from personality import Personality
 from skin import Skin
 from mood import Mood
 
-class Monster(object):
+class Monster(pygame.sprite.Sprite):
     drv_max = 4
     lvl_max = 3
     main_stats = (
@@ -38,10 +38,12 @@ class Monster(object):
         'sprite_paths',
         'sprite',
         'sprite_right',
+        'facing_right',
     )
 
     def __init__(self, in_stats={}):
         """Create a new monster, setting stats, etc. as needed."""
+        super(Monster, self).__init__()
         self.lvl = 0
         # self.awr might not even need to be a thing, remove this if it ends up not mattering
         self.awr = 0# awareness, this is a thing for conversations / progress through the game
@@ -62,6 +64,7 @@ class Monster(object):
         self.sprite_groups = tuple(random.choice(('A','B','C')) for x in range(5))
         self._setSpritePaths()
         self._setSprites()
+        self._setImage()
 
     def fightStart(self):
         self.stats['drv'] = max(min(self.stats['drv'] + self.mood.drvChange, self.__class__.drv_max), 0)
@@ -134,6 +137,14 @@ class Monster(object):
         self.sprite = self.sprite.convert_alpha(shared.display.screen)
         self.sprite_right = pygame.transform.flip(self.sprite, True, False)
 
+    def _setImage(self, face_right = False):
+        self.facing_right = face_right
+        if face_right:
+            self.image = self.sprite_right
+        else:
+            self.image = self.sprite
+        self.rect = self.image.get_rect()
+
     def levelUp(self):
         """Level up a monster, setting stats, etc. as needed."""
         if self.lvl >= self.__class__.lvl_max:
@@ -143,6 +154,7 @@ class Monster(object):
         self.setHealth()
         self._setSpritePaths()
         self._setSprites()
+        self._setImage()
         return True
 
     def getSpriteSize(self):

@@ -177,7 +177,10 @@ class ModeGameMenu(Mode):
             if self._cursor_switch:
                 screen.fill(
                     constants.WHITE,
-                    ((self._cursor_position * constants.FONT_SIZE, 4 * constants.FONT_HEIGHT), (1, constants.FONT_HEIGHT))
+                    (
+                        (self._cursor_position * constants.FONT_SIZE, 4 * constants.FONT_HEIGHT),
+                        (1, constants.FONT_HEIGHT)
+                    )
                 )
             # display prompt for file to save
             # display save_name in there

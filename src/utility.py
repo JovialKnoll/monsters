@@ -1,10 +1,9 @@
 import random
 import math
 
-def reduceNumber(number):
-    temp = number/2
-    if random.randint(0,1) == 0:
-        temp = math.floor(temp)
-    else:
-        temp = math.ceil(temp)
-    return int(temp)
+def reduceNumber(number, divisor):
+    result = number // divisor
+    mod = number % divisor
+    if random.random() < (mod / divisor):
+        result += 1
+    return result

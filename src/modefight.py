@@ -124,8 +124,20 @@ class ModeFight(Mode):
         enemy_attack_defend = self.enemy_mon.fightHit(self.enemy_action)
         # print "player_attack_defend = " + str(player_attack_defend)
         # print "enemy_attack_defend  = " + str(enemy_attack_defend)
-        damage_to_player = utility.reduceNumber(max( enemy_attack_defend[0] - player_attack_defend[1], 0))
-        damage_to_enemy  = utility.reduceNumber(max(player_attack_defend[0] -  enemy_attack_defend[1], 0))
+        damage_to_player = utility.reduceNumber(
+            max(
+                0,
+                enemy_attack_defend[0] - player_attack_defend[1]
+            ),
+            2
+        )
+        damage_to_enemy  = utility.reduceNumber(
+            max(
+                0,
+                player_attack_defend[0] - enemy_attack_defend[1]
+            ),
+            2
+        )
         if damage_to_player == 0 and damage_to_enemy == 0:
             damage_to_player = damage_to_enemy = 1
         # display results below

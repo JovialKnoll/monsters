@@ -57,7 +57,7 @@ class Display(object):
         )
         # center window
         if os.name == 'nt':
-            os.environ['SDL_VIDEO_WINDOW_POS'] = "{},{}".format(
+            os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(
                 (self._monitor_res[0] - self._disp_res[0]) // 2,
                 (self._monitor_res[1] - self._disp_res[1]) // 2
             )

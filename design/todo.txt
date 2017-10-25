@@ -1,5 +1,4 @@
 make it easier to make opening
-    use 2d vector class? alter this one: http://pygame.org/wiki/2DVectorClass
     utility: make reduceNumber take in a divisor, use that for chances of ceiling vs floor
     utility: make function for lerping, maybe also for other interpolation
     modefight: let monsters handle animation, using lerping

@@ -1,5 +1,4 @@
 make it easier to make opening
-    utility: make function for lerping, maybe also for other interpolation
     modefight: let monsters handle animation, using lerping
         monster: inherit from object (inheriting from sprite)
             that tracks positions to lerp between, alters own rect for drawing

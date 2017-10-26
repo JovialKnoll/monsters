@@ -7,13 +7,18 @@ import operator
 import math
 
 class Vec2d(object):
-    """2d vector class, supports vector and scalar operators,
-       and also provides a bunch of high level functions
-       """
+    """2d vector class.
+    Supports vector and scalar operators,
+    and also provides high level functions.
+    """
     __slots__ = (
         'x',
         'y',
     )
+    def __getstate__(self):
+        return (self.x, self.y)
+    def __setstate__(self, dict):
+        self.x, self.y = dict
 
     def __init__(self, x_or_pair, y = None):
         if y is None:
@@ -58,7 +63,7 @@ class Vec2d(object):
 
     # Generic operator handlers
     def _o2(self, other, f):
-        """Any two-operator operation where the left operand is a Vec2d"""
+        """Any two-operator operation where the left operand is a Vec2d."""
         if hasattr(other, "__getitem__"):
             return Vec2d(
                 f(self.x, other[0]),
@@ -70,7 +75,7 @@ class Vec2d(object):
         )
 
     def _r_o2(self, other, f):
-        """Any two-operator operation where the right operand is a Vec2d"""
+        """Any two-operator operation where the right operand is a Vec2d."""
         if hasattr(other, "__getitem__"):
             return Vec2d(
                 f(other[0], self.x),
@@ -82,7 +87,7 @@ class Vec2d(object):
         )
 
     def _io(self, other, f):
-        """inplace operator"""
+        """Inplace operator."""
         if hasattr(other, "__getitem__"):
             self.x = f(self.x, other[0])
             self.y = f(self.y, other[1])
@@ -261,10 +266,6 @@ class Vec2d(object):
             self.dot(x_vector)/x_vector.get_length_sqrd(),
             self.dot(y_vector)/y_vector.get_length_sqrd()
         )
-    def __getstate__(self):
-        return (self.x, self.y)
-    def __setstate__(self, dict):
-        self.x, self.y = dict
 
 # Unit Testing
 if __name__ == "__main__":

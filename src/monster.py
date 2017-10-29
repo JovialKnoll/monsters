@@ -5,11 +5,12 @@ import pygame
 
 import constants
 import shared
+from animsprite import AnimSprite
 from personality import Personality
 from skin import Skin
 from mood import Mood
 
-class Monster(pygame.sprite.Sprite):
+class Monster(AnimSprite):
     drv_max = 4
     lvl_max = 3
     main_stats = (
@@ -61,6 +62,7 @@ class Monster(pygame.sprite.Sprite):
         self.stats.update(in_stats)
         self.setHealth()
 
+        self.rect = pygame.Rect(0, 0, 48, 48)
         self.sprite_groups = tuple(random.choice(('A','B','C')) for x in range(5))
         self._setSpritePaths()
         self._setSprites()
@@ -142,7 +144,9 @@ class Monster(pygame.sprite.Sprite):
             self.image = self.sprite_right
         else:
             self.image = self.sprite
+        standing_pos = self.rect.midbottom
         self.rect = self.image.get_rect()
+        self.rect.midbottom = standing_pos
 
     def levelUp(self):
         """Level up a monster, setting stats, etc. as needed."""
@@ -155,32 +159,6 @@ class Monster(pygame.sprite.Sprite):
         self._setSprites()
         self._setImage()
         return True
-
-    def getSpriteSize(self):
-        if self.lvl == self.__class__.lvl_max:
-            return (64, 64)
-        else:
-            return (48, 48)
-
-    def drawCentered(self, screen, pos, right=False):
-        """Draw the monster on the screen, with its center at the position passed."""
-        self.draw(
-            screen,
-            (pos[0] - self.getSpriteSize()[0] // 2, pos[1] - self.getSpriteSize()[1] // 2),
-            right
-        )
-
-    def drawStanding(self, screen, pos, right=False):
-        """Draw the monster on the screen, with its bottom-center at the position passed."""
-        self.draw(
-            screen,
-            (pos[0] - self.getSpriteSize()[0] // 2, pos[1] - self.getSpriteSize()[1]),
-            right
-        )
-
-    def draw(self, screen, pos, right=False):
-        """Draw the monster on the screen."""
-        screen.blit(self.sprite if not right else self.sprite_right, pos)
 
     @classmethod
     def atLevel(cls, in_lvl, in_stats={}):

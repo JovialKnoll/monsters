@@ -1,13 +1,6 @@
 make it easier to make opening
     modefight: let monsters handle animation, using lerping
-        monster: inherit from object (inheriting from sprite)
-            to add a new movement, def moveTo(position, time(ms), [interpolation type?])
-                also: def moveToRelative(position, time, [interpolation type?])
-            track animation_time (subtract current movement's time once you go over to find where you are in the next movement,
-            set to 0 when no movements left)
-            update: set new animation time and rect
         set monster rects and directions at start of fight
-    monster: get rid of the special draw functions, let people just set the special attributes on its rect
     variable frame rate (should only need to input time information into the update functions
 
 have gamemode.py track pressed mouse buttons + pressed joy buttons

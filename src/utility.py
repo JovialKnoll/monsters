@@ -18,16 +18,22 @@ def decSpeedLerp(start, end, mix):
 
 def incDecSpeedLerp(start, end, mix):
     midpoint = lerp(start, end, 0.5)
-    func = incSpeedLerp
-    if mix > 0.5:
-        func = decSpeedLerp
+    if mix < 0.5:
+        func = incSpeedLerp
+        end = midpoint
         mix -= 0.5
-    return func(start, midpoint, mix*2)
+    else:
+        func = decSpeedLerp
+        start = midpoint
+    return func(start, end, mix*2)
 
 def decIncSpeedLerp(start, end, mix):
     midpoint = lerp(start, end, 0.5)
-    func = decSpeedLerp
-    if mix > 0.5:
-        func = incSpeedLerp
+    if mix < 0.5:
+        func = decSpeedLerp
+        end = midpoint
         mix -= 0.5
-    return func(start, midpoint, mix*2)
+    else:
+        func = incSpeedLerp
+        start = midpoint
+    return func(start, end, mix*2)

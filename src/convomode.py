@@ -24,7 +24,8 @@ class ConvoMode(GameMode):
             pygame.K_RIGHT,
         ),
     )
-    black_box = pygame.image.load(constants.BLACKBOX_FILE).convert_alpha(shared.display.screen)
+    black_box = pygame.image.load(constants.BLACKBOX_FILE).convert(shared.display.screen)
+    black_box.set_colorkey(constants.COLORKEY)
 
     __slots__ = (
         'background',
@@ -35,7 +36,8 @@ class ConvoMode(GameMode):
     def __init__(self):
         super(ConvoMode, self).__init__()
 
-        self.background = pygame.image.load(constants.LAYOUT_1_FILE).convert_alpha(shared.display.screen)
+        self.background = pygame.image.load(constants.LAYOUT_1_FILE).convert(shared.display.screen)
+        self.background.set_colorkey(constants.COLORKEY)
         # mainly, make the surfaces based on the text for view and buttons, fitting some criteria
         self.text_rect = pygame.Rect(0, 0, 288, 48)
         self.surf_text = shared.font_wrap.renderInside(288, self._textMain(), False, constants.TEXT_COLOR)

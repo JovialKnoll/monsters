@@ -9,6 +9,7 @@ FONT_HEIGHT = 10
 TEXT_COLOR = (164, 162, 165)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+COLORKEY = (255, 0, 255)
 
 GRAPHICS_DIRECTORY = 'gfx'
 FONT_FILE = os.path.join(GRAPHICS_DIRECTORY, 'simple_mono.ttf')

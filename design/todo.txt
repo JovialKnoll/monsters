@@ -1,8 +1,6 @@
 make it easier to make opening
     modefight: let monsters handle animation, using lerping
         monster: inherit from object (inheriting from sprite)
-            that tracks positions to lerp between, alters own rect for drawing
-            pass flags to function for whether next pos is relative of absolute, what type of interpolation
             to add a new movement, def moveTo(position, time(ms), [interpolation type?])
                 also: def moveToRelative(position, time, [interpolation type?])
             track animation_time (subtract current movement's time once you go over to find where you are in the next movement,

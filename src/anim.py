@@ -4,14 +4,14 @@ class Anim(object):
     __slots__ = (
         'type',
         'time',
-        'vec',
+        'pos',
     )
     def __getstate__(self):
-        return (self.type, self.time, self.vec)
+        return (self.type, self.time, self.pos)
     def __setstate__(self, state):
-        self.type, self.time, self.vec = state
+        self.type, self.time, self.pos = state
 
     def __init__(self, type, time, x_or_pair, y = None):
         self.type = type
         self.time = time
-        self.vec = Vec2d(x_or_pair, y)
+        self.pos = Vec2d(x_or_pair, y)

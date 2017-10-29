@@ -6,7 +6,7 @@ from mode import Mode
 from monster import Monster
 
 class ModeTest(Mode):
-    fill = (0, 200, 0)
+    fill = (31, 31, 31)
     test_text = "01234567890123456789"
 
     __slots__ = (

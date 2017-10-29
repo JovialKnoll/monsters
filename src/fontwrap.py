@@ -1,5 +1,6 @@
 import pygame
 
+import constants
 import shared
 
 class FontWrap(object):
@@ -7,17 +8,20 @@ class FontWrap(object):
         'font',
     )
 
-    def __init__(self, in_font):
-        self.font = in_font
+    def __init__(self, font_file, font_size):
+        self.font = pygame.font.Font(font_file, font_size)
 
     def renderTo(self, surf, dest, text, antialias, color, background=None):
         surf.blit(self.font.render(text, antialias, color, background), dest)
 
     def renderToCentered(self, surf, dest, text, antialias, color, background=None):
         text_size = self.font.size(text)
-        surf.blit(self.font.render(text, antialias, color, background), (dest[0] - text_size[0]//2, dest[1] - text_size[1]//2))
+        surf.blit(
+            self.font.render(text, antialias, color, background),
+            (dest[0] - text_size[0]//2, dest[1] - text_size[1]//2)
+        )
 
-    def renderWordsInside(self, width, words, antialias, color, background=None):
+    def renderWordsInside(self, width, words, antialias, color, background):
         """Returns a surface of the width with the words drawn on it.
         If any word is too long to fit, it will be in its own line, and truncated.
         """
@@ -29,17 +33,11 @@ class FontWrap(object):
             else:
                 lines[-1] += " " + new_word
 
-        height = self.font.get_height()
-        if background is None:
-            drawn_lines = [self.font.render(line, antialias, color).convert_alpha(shared.display.screen) for line in lines]
-        else:
-            drawn_lines = [self.font.render(line, antialias, color, background).convert(shared.display.screen) for line in lines]
-        result = pygame.Surface((width, height * len(drawn_lines)), 0, drawn_lines[0])
-        if background is not None:
-            result.fill(background)
-
-        for i, line in enumerate(drawn_lines):
-            result.blit(line, (0, i * height))
+        result = pygame.Surface((width, constants.FONT_HEIGHT * len(lines))).convert(shared.display.screen)
+        result.fill(background)
+        for i, line in enumerate(lines):
+            drawn_line = self.font.render(line, antialias, color, background).convert(result)
+            result.blit(drawn_line, (0, i * constants.FONT_HEIGHT))
         return result
 
     def renderToInside(self, surf, dest, width, text, antialias, color, background=None):
@@ -49,7 +47,8 @@ class FontWrap(object):
             if line == []:
                 line = [""]
             if background is None:
-                img = self.renderWordsInside(width, line, antialias, color)
+                img = self.renderWordsInside(width, line, antialias, color, constants.COLORKEY)
+                img.set_colorkey(constants.COLORKEY)
             else:
                 img = self.renderWordsInside(width, line, antialias, color, background)
             surf.blit(img, part_dest)
@@ -62,14 +61,12 @@ class FontWrap(object):
         for line in [line.split() for line in text.splitlines()]:
             if line == []:
                 line = [""]
-            if background is None:
-                imgs.append(self.renderWordsInside(width, line, antialias, color))
-            else:
-                imgs.append(self.renderWordsInside(width, line, antialias, color, background))
+            imgs.append(self.renderWordsInside(width, line, antialias, color, background or constants.COLORKEY))
             height += imgs[-1].get_height()
-        result = pygame.Surface((width, height), 0, imgs[0])
+        result = pygame.Surface((width, height)).convert(shared.display.screen)
         dest = [0,0]
         for img in imgs:
             result.blit(img, dest)
             dest[1] += img.get_height()
+        result.set_colorkey(constants.COLORKEY)
         return result

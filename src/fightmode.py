@@ -42,9 +42,12 @@ class FightMode(GameMode):
             False,
             constants.TEXT_COLOR
         )
-    background = background.convert_alpha(shared.display.screen)
-    black_box = pygame.image.load(constants.BLACKBOX_FILE).convert_alpha(shared.display.screen)
-    health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert_alpha(shared.display.screen)
+    background = background.convert(shared.display.screen)
+    background.set_colorkey(constants.COLORKEY)
+    black_box = pygame.image.load(constants.BLACKBOX_FILE).convert(shared.display.screen)
+    black_box.set_colorkey(constants.COLORKEY)
+    health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert(shared.display.screen)
+    health_bar.set_colorkey(constants.COLORKEY)
     player_pos = (170,128)
     enemy_pos = (262,128)
 

@@ -17,8 +17,8 @@ class Vec2d(object):
     )
     def __getstate__(self):
         return (self.x, self.y)
-    def __setstate__(self, dict):
-        self.x, self.y = dict
+    def __setstate__(self, state):
+        self.x, self.y = state
 
     def __init__(self, x_or_pair, y = None):
         if y is None:

@@ -2,7 +2,6 @@ import os
 
 SCREEN_CAPTION = "Monsters and Stuff"
 SCREEN_SIZE = (320, 180)
-MAX_FRAMERATE = 60
 CURSOR_TIME = 20
 FONT_SIZE = 8
 FONT_HEIGHT = 10

@@ -8,14 +8,16 @@ from modeopening import ModeOpening
 
 class Game(object):
     __slots__ = (
+        '_max_framerate',
         '_clock',
         '_current_mode',
     )
 
-    def __init__(self):
+    def __init__(self, max_framerate):
         """Start and create things as needed."""
         pygame.init()
         # time
+        self._max_framerate = max_framerate
         self._clock = pygame.time.Clock()
         # mode (must be set before running)
         self._current_mode = ModeOpening()
@@ -33,9 +35,9 @@ class Game(object):
         self._current_mode.input_events(
             self._filterInput(pygame.event.get())
         )
-        self._getTime()
-        # todo(?): pass result to .update()
-        self._current_mode.update()
+        self._current_mode.update(
+            self._getTime()
+        )
         self._current_mode.draw()
         shared.display.scaleDraw()
         if self._current_mode.next_mode is not None:
@@ -107,4 +109,4 @@ class Game(object):
     def _getTime(self):
         """Take care of time stuff."""
         pygame.display.set_caption(str(self._clock.get_fps()))# just for debugging purposes
-        return self._clock.tick(constants.MAX_FRAMERATE)
+        return self._clock.tick(self._max_framerate)

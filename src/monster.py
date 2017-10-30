@@ -66,7 +66,7 @@ class Monster(AnimSprite):
         self.sprite_groups = tuple(random.choice(('A','B','C')) for x in range(5))
         self._setSpritePaths()
         self._setSprites()
-        self._setImage()
+        self.setImage()
 
     def fightStart(self):
         self.stats['drv'] = max(min(self.stats['drv'] + self.mood.drvChange, self.__class__.drv_max), 0)
@@ -138,7 +138,7 @@ class Monster(AnimSprite):
             del pix_array
         self.sprite_right = pygame.transform.flip(self.sprite, True, False)
 
-    def _setImage(self, face_right = False):
+    def setImage(self, face_right = False):
         self.facing_right = face_right
         if face_right:
             self.image = self.sprite_right
@@ -157,7 +157,7 @@ class Monster(AnimSprite):
         self.setHealth()
         self._setSpritePaths()
         self._setSprites()
-        self._setImage()
+        self.setImage()
         return True
 
     @classmethod

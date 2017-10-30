@@ -4,13 +4,14 @@ import pygame
 
 import utility
 from anim import Anim
+from vec2d import Vec2d
 
 class AnimSprite(pygame.sprite.Sprite):
     Lerp = 'LERP'
-    IncSpeed = 'INC_SPEED'
-    DecSpeed = 'DEC_SPEED'
-    IncDecSpeed = 'INC_DEC_SPEED'
-    DecIncSpeed = 'DEC_INC_SPEED'
+    IncSpeed = 'INC'
+    DecSpeed = 'DEC'
+    IncDecSpeed = 'INC_DEC'
+    DecIncSpeed = 'DEC_INC'
     funcDict = {
         Lerp: utility.lerp,
         IncSpeed: utility.incSpeedLerp,
@@ -20,7 +21,7 @@ class AnimSprite(pygame.sprite.Sprite):
     }
     @classmethod
     def toFunc(cls, type):
-        return funcDict.get(type, utility.lerp)
+        return cls.funcDict.get(type, utility.lerp)
 
     __slots__ = (
         'anims',
@@ -38,6 +39,11 @@ class AnimSprite(pygame.sprite.Sprite):
         self.anims = deque()
         self.last_pos = None
         self.time = 0
+
+    def stillAnimating(self):
+        if self.anims:
+            return True
+        return False
 
     def update(self, *args):
         if self.last_pos is None:
@@ -68,7 +74,7 @@ class AnimSprite(pygame.sprite.Sprite):
     def addPosRel(self, type, time, x_or_pair, y = None):
         newPos = Vec2d(x_or_pair, y)
         if self.anims:
-            newPos += anims[0].pos
+            newPos += self.anims[0].pos
         else:
             newPos += self.rect.topleft
         self.addPosAbs(type, time, newPos)

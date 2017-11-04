@@ -7,12 +7,14 @@ from anim import Anim
 from vec2d import Vec2d
 
 class AnimSprite(pygame.sprite.Sprite):
+    Binary = 'Binary'
     Lerp = 'LERP'
     IncSpeed = 'INC'
     DecSpeed = 'DEC'
     IncDecSpeed = 'INC_DEC'
     DecIncSpeed = 'DEC_INC'
     funcDict = {
+        Binary: utility.binary,
         Lerp: utility.lerp,
         IncSpeed: utility.incSpeedLerp,
         DecSpeed: utility.decSpeedLerp,
@@ -20,8 +22,8 @@ class AnimSprite(pygame.sprite.Sprite):
         DecIncSpeed: utility.decIncSpeedLerp,
     }
     @classmethod
-    def toFunc(cls, type):
-        return cls.funcDict.get(type, utility.lerp)
+    def toFunc(cls, func):
+        return cls.funcDict.get(func, utility.lerp)
 
     __slots__ = (
         'anims',
@@ -29,7 +31,7 @@ class AnimSprite(pygame.sprite.Sprite):
         'time',
     )
     def __getstate__(self):
-        return (self.rect, self.anims, last_pos, time)
+        return (self.rect, self.anims, self.last_pos, self.time)
     def __setstate__(self, state):
         super(AnimSprite, self).__init__()
         self.rect, self.anims, self.last_pos, self.time = state
@@ -57,7 +59,7 @@ class AnimSprite(pygame.sprite.Sprite):
             self.last_pos = self.rect.topleft
         if self.anims:
             current_anim = self.anims[-1]
-            func = self.__class__.toFunc(current_anim.type)
+            func = self.__class__.toFunc(current_anim.func)
             self.rect.topleft = func(
                 self.last_pos,
                 current_anim.pos,
@@ -66,15 +68,18 @@ class AnimSprite(pygame.sprite.Sprite):
         else:
             self.time = 0
 
-    def addPosAbs(self, type, time, x_or_pair, y = None):
+    def addPosAbs(self, func, time, x_or_pair, y=None):
         self.anims.appendleft(
-            Anim(type, time, x_or_pair, y)
+            Anim(func, time, x_or_pair, y)
         )
 
-    def addPosRel(self, type, time, x_or_pair, y = None):
+    def addPosRel(self, func, time, x_or_pair, y=None):
         newPos = Vec2d(x_or_pair, y)
         if self.anims:
             newPos += self.anims[0].pos
         else:
             newPos += self.rect.topleft
-        self.addPosAbs(type, time, newPos)
+        self.addPosAbs(func, time, newPos)
+
+    def addWait(self, time):
+        self.addPosRel(AnimSprite.Binary, time, 0, 0)

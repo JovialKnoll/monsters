@@ -7,6 +7,11 @@ def reduceNumber(number, divisor):
         result += 1
     return result
 
+def binary(start, end, mix):
+    if mix < 1.0:
+        return start
+    return end
+
 def lerp(start, end, mix):
     return start + (end - start)*mix
 

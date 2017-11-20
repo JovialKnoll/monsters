@@ -14,7 +14,7 @@ class Mode(object):
 
     def __init__(self):
         """All game modes must set the next mode when they are done."""
-        self.all_sprites = pygame.sprite.Group()
+        self.all_sprites = pygame.sprite.LayeredDirty()
         self.__pressed_keys = set()
         self.next_mode = None
 

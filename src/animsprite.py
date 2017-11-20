@@ -6,7 +6,7 @@ import utility
 from anim import Anim
 from vec2d import Vec2d
 
-class AnimSprite(pygame.sprite.Sprite):
+class AnimSprite(pygame.sprite.DirtySprite):
     Binary = 'Binary'
     Lerp = 'LERP'
     IncSpeed = 'INC'
@@ -38,6 +38,8 @@ class AnimSprite(pygame.sprite.Sprite):
 
     def __init__(self):
         super(AnimSprite, self).__init__()
+        # dirty = 2 : always draw
+        self.dirty = 2
         self.anims = deque()
         self.last_pos = None
         self.time = 0

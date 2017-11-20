@@ -18,6 +18,9 @@ class ModeOpening(Mode):
         super(ModeOpening, self).__init__()
         self.left_mon = Monster.atLevel(3)
         self.right_mon = Monster.atLevel(2)
+        # higher layer = draw later = "in front"
+        self.left_mon._layer = 1
+        self.right_mon._layer = 0
         self.all_sprites.add(self.right_mon, self.left_mon)
         # starts at right
         self.left_mon.rect.bottomright = constants.SCREEN_SIZE

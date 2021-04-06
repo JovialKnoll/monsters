@@ -28,7 +28,7 @@ class ModeGameMenu(Mode):
         self._state = ModeGameMenu.State.Menu
         self._previous_mode = previous_mode
         self._old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
-        previous_mode._drawScreen(self._old_screen)
+        previous_mode.draw(self._old_screen)
 
     def _resetCursorBlink(self):
         self._cursor_switch = True
@@ -120,7 +120,7 @@ class ModeGameMenu(Mode):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 self._state = ModeGameMenu.State.Menu
-            # put in scrolling to select save file? maybe typing too? alphebatized list...
+            # put in scrolling to select save file? maybe typing too? alphabetized list...
 
     def _input(self, event):
         if self._state is ModeGameMenu.State.Menu:
@@ -132,14 +132,14 @@ class ModeGameMenu(Mode):
         else:
             raise RuntimeError("error: self._state = " + str(self._state))
 
-    def update(self):
+    def update(self, dt):
         if self._state is ModeGameMenu.State.Menu:
             pass
         elif self._state is ModeGameMenu.State.Save:
+            self._cursor_timer += dt
             if self._cursor_timer >= constants.CURSOR_TIME:
                 self._cursor_switch = not self._cursor_switch
-                self._cursor_timer = 0
-            self._cursor_timer += 1
+                self._cursor_timer -= constants.CURSOR_TIME
         elif self._state is ModeGameMenu.State.Load:
             pass
         else:

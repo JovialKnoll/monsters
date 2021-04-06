@@ -4,6 +4,7 @@ import constants
 from mode import Mode
 from monster import Monster
 from modeconvo0 import ModeConvo0
+from modetest import ModeTest
 
 class ModeOpening(Mode):
     # next mode: ModeConvo0()
@@ -71,7 +72,7 @@ class ModeOpening(Mode):
         # self.right_mon.addPosRel(Monster.Lerp, beat, -jump, -jump * 2)
         # fire
     def _changeMode(self):
-        self.next_mode = ModeConvo0()
+        self.next_mode = ModeTest()
 
     def _input(self, event):
         if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):

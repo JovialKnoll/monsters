@@ -51,7 +51,7 @@ class Mode(object):
             self.__class__.__name__ + "._drawScreen(self, screen)"
         )
 
-    def draw(self):
+    def draw(self, screen=shared.display.screen):
         """All game modes can draw to the screen"""
-        self._drawScreen(shared.display.screen)
-        self.all_sprites.draw(shared.display.screen)
+        self._drawScreen(screen)
+        self.all_sprites.draw(screen)

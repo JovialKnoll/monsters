@@ -6,7 +6,7 @@ from game import Game
 
 def main():
     # grab the below from an ini file in the future
-    max_framerate = 144
+    max_framerate = 170
     game = Game(max_framerate)
     while game.run():
         pass

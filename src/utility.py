@@ -1,5 +1,11 @@
 import random
 
+def getIntMovement(tracking, vel, dt):
+    tracking += vel * dt
+    tracking_int = int(tracking)
+    tracking -= tracking_int
+    return tracking, tracking_int
+
 def reduceNumber(number, divisor):
     result = number // divisor
     mod = number % divisor

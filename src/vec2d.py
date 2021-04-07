@@ -45,7 +45,7 @@ class Vec2d(object):
         else:
             raise IndexError("Invalid subscript "+str(key)+" to Vec2d")
 
-    # String representaion (for debugging)
+    # String representation (for debugging)
     def __repr__(self):
         return 'Vec2d({}, {})'.format(self.x, self.y)
 

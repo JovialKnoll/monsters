@@ -29,6 +29,7 @@ class ModeGameMenu(Mode):
         self._previous_mode = previous_mode
         self._old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
         previous_mode.draw(self._old_screen)
+        self._clearSaveStuff()
 
     def _resetCursorBlink(self):
         self._cursor_switch = True
@@ -41,7 +42,8 @@ class ModeGameMenu(Mode):
 
     def _saveGame(self):
         """Save the game."""
-        objects = ['asd', (1,2,3), 123]
+        # check if current mode implements save?
+        objects = ['asd', (1, 2, 3), 123]
         if not os.path.exists(constants.SAVE_DIRECTORY):
             os.makedirs(constants.SAVE_DIRECTORY)
         with open(
@@ -105,9 +107,9 @@ class ModeGameMenu(Mode):
                 length < (self.__class__.menu_width - len(self.__class__.file_extension))
                 and (
                     # numbers
-                    (char >= '0' and char <= '9' )
+                    ('0' <= char <= '9')
                     # or letters
-                    or (event.key > 96 and event.key < 123)
+                    or (96 < event.key < 123)
                 )
             ):
                 self._save_name = self._save_name[:self._cursor_position] + char + self._save_name[self._cursor_position:]

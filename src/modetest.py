@@ -1,6 +1,7 @@
 import pygame
 
 import constants
+import utility
 import shared
 from mode import Mode
 from monster import Monster
@@ -8,10 +9,6 @@ from monster import Monster
 class ModeTest(Mode):
     fill = (31, 31, 31)
     test_text = "01234567890123456789"
-
-    __slots__ = (
-        '_test_mon_pos',
-    )
 
     def _createMonster(self):
         shared.state.protag_mon.kill()
@@ -22,6 +19,8 @@ class ModeTest(Mode):
     def __init__(self):
         super(ModeTest, self).__init__()
         self._createMonster()
+        self.dx = 0
+        self.dy = 0
 
     def _input(self, event):
         if event.type == pygame.MOUSEMOTION:
@@ -33,12 +32,19 @@ class ModeTest(Mode):
                 shared.state.protag_mon.levelUp()
 
     def update(self, dt):
-        dx = (self._keyStatus(pygame.K_RIGHT) - self._keyStatus(pygame.K_LEFT)) * dt * .2
-        dy = (self._keyStatus(pygame.K_DOWN) - self._keyStatus(pygame.K_UP)) * dt * .2
-        shared.state.protag_mon.rect.move_ip(dx, dy)
+        self.dx, dx_int = utility.getIntMovement(
+            self.dx,
+            (self._keyStatus(pygame.K_RIGHT) - self._keyStatus(pygame.K_LEFT)) * .1,
+            dt
+        )
+        self.dy, dy_int = utility.getIntMovement(
+            self.dy,
+            (self._keyStatus(pygame.K_DOWN) - self._keyStatus(pygame.K_UP)) * .1,
+            dt
+        )
+        shared.state.protag_mon.rect.move_ip(dx_int, dy_int)
 
     def _drawScreen(self, screen):
-        print(shared.state.protag_mon.rect.midbottom)
         # clear of old draws
         screen.fill(self.__class__.fill)
         # make new draws

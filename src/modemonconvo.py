@@ -5,6 +5,7 @@ class ModeMonConvo(ModeConvo):
     __slots__ = (
     )
 
-    def _drawScreen(self, screen):
-        super(ModeMonConvo, self)._drawScreen(screen)
-        shared.state.protag_mon.drawCentered(screen, (160,128))
+    def __init__(self):
+        super(ModeMonConvo, self).__init__()
+        shared.state.protag_mon.rect.center = (160, 128)
+        self.all_sprites.add(shared.state.protag_mon)

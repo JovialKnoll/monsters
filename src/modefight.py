@@ -18,9 +18,9 @@ class ModeFight(Mode):
     ]
     boxes = Boxes(
         (
-            pygame.Rect( 24, 24, 88, 36),
-            pygame.Rect( 24, 76, 88, 36),
-            pygame.Rect( 24,128, 88, 36),
+            pygame.Rect(24, 128, 88, 36),
+            pygame.Rect(24, 24, 88, 36),
+            pygame.Rect(24, 76, 88, 36),
         ),
         (
             pygame.K_UP,
@@ -106,7 +106,7 @@ class ModeFight(Mode):
             self.__class__.boxes.posSelect(event.pos)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                if self.__class__.boxes.posSelect(event.pos) != None:
+                if self.__class__.boxes.posSelect(event.pos) is not None:
                     self._buttonPress()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:

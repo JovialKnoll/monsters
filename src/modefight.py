@@ -186,7 +186,7 @@ class ModeFight(Mode):
                     self.enemy_anim = -1
         # player animation, etc.
         if self.player_action == 'Attack':
-            if self.action_set == False:
+            if not self.action_set:
                 self._setActionDisplay("I'm gonna hit 'em!")
             if self.player_anim == 0:
                 self.player_rel[0] += 1
@@ -199,7 +199,7 @@ class ModeFight(Mode):
             else:
                 self._playerActionDone()
         elif self.player_action == 'Defend':
-            if self.action_set == False:
+            if not self.action_set:
                 self._setActionDisplay("I'm gonna block 'em!")
             if self.player_anim == 0:
                 self.player_rel[0] -= 1
@@ -216,7 +216,7 @@ class ModeFight(Mode):
             else:
                 self._playerActionDone()
         elif self.player_action == 'Escape':
-            if self.action_set == False:
+            if not self.action_set:
                 self._setActionDisplay("I'm gonna run away!")
             if self.player_anim == 0:
                 self.player_rel[0] -= 1
@@ -246,7 +246,7 @@ class ModeFight(Mode):
     def _drawScreen(self, screen):
         screen.fill(constants.WHITE)
         screen.blit(self.__class__.background, (0,0))
-        if self.action_set == False:
+        if not self.action_set:
             screen.blit(self.__class__.black_box, self.__class__.boxes.getSelectRect())
         # draw some mons and stuff
         self.player_mon.drawStanding(
@@ -263,7 +263,7 @@ class ModeFight(Mode):
             (self.__class__.enemy_pos[0] + self.enemy_rel[0], self.__class__.enemy_pos[1] + self.enemy_rel[1])
         )
         enemy_bar_length = self.__class__.health_bar_length * self.enemy_mon.stats['hpc'] // self.enemy_mon.stats['hpm']
-        screen.fill(self.enemy_mon.getLightSkin(), (294-enemy_bar_length, 30, enemy_bar_length, 10))
+        screen.fill(self.enemy_mon.getLightSkin(), (294 - enemy_bar_length, 30, enemy_bar_length, 10))
         screen.blit(self.__class__.health_bar, (233, 29))
         # maybe draw health numbers / stats / etc
         for index, line in enumerate(self.action_display):

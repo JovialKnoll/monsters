@@ -112,28 +112,13 @@ class ModeFight(Mode):
             self.player_mon.addPosRel(AnimSprite.Lerp, 67, 20, 0)
 
         if self.enemy_action == 'Attack':
-            # if self.enemy_anim == 0:
-            #     self.enemy_rel[0] -= 1
-            #     if self.enemy_rel[0] == -12:
-            #         self.enemy_anim = 1
-            # elif self.enemy_anim == 1:
-            #     self.enemy_rel[0] += 1
-            #     if self.enemy_rel[0] == 0:
-            #         self.enemy_anim = -1
+            self.enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
+            self.enemy_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
             pass
         elif self.enemy_action == 'Defend':
-            # if self.enemy_anim == 0:
-            #     self.enemy_rel[0] += 1
-            #     if self.enemy_rel[0] == 8:
-            #         self.enemy_anim = 1
-            # elif self.enemy_anim == 1:
-            #     self.enemy_rel[0] -= 1
-            #     if self.enemy_rel[0] == -4:
-            #         self.enemy_anim = 2
-            # elif self.enemy_anim == 2:
-            #     self.enemy_rel[0] += 1
-            #     if self.enemy_rel[0] == 0:
-            #         self.enemy_anim = -1
+            self.enemy_mon.addPosRel(AnimSprite.Lerp, 133, 8, 0)
+            self.enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
+            self.enemy_mon.addPosRel(AnimSprite.Lerp, 67, 4, 0)
             pass
 
     def _input(self, event):

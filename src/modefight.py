@@ -8,6 +8,7 @@ import shared
 import utility
 from mode import Mode
 from boxes import Boxes
+from animsprite import AnimSprite
 
 class ModeFight(Mode):
     health_bar_length = 60
@@ -98,45 +99,17 @@ class ModeFight(Mode):
         if self.player_action == 'Attack':
             self._setActionDisplay("I'm gonna hit 'em!")
             # add animations here, old logic is below
-            self.player_mon
-            # if self.player_anim == 0:
-            #    self.player_rel[0] += 1
-            #    if self.player_rel[0] == 12:
-            #        self.player_anim = 1
-            # elif self.player_anim == 1:
-            #    self.player_rel[0] -= 1
-            #    if self.player_rel[0] == 0:
-            #        self.player_anim = -1
-            # else:
-            #    self._playerActionDone()
+            self.player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
+            self.player_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
         elif self.player_action == 'Defend':
             self._setActionDisplay("I'm gonna block 'em!")
-            # if self.player_anim == 0:
-            #     self.player_rel[0] -= 1
-            #     if self.player_rel[0] == -8:
-            #         self.player_anim = 1
-            # elif self.player_anim == 1:
-            #     self.player_rel[0] += 1
-            #     if self.player_rel[0] == 4:
-            #         self.player_anim = 2
-            # elif self.player_anim == 2:
-            #     self.player_rel[0] -= 1
-            #     if self.player_rel[0] == 0:
-            #         self.player_anim = -1
-            # else:
-            #     self._playerActionDone()
+            self.player_mon.addPosRel(AnimSprite.Lerp, 133, -8, 0)
+            self.player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
+            self.player_mon.addPosRel(AnimSprite.Lerp, 67, -4, 0)
         elif self.player_action == 'Escape':
             self._setActionDisplay("I'm gonna run away!")
-            # if self.player_anim == 0:
-            #     self.player_rel[0] -= 1
-            #     if self.player_rel[0] == -20:
-            #         self.player_anim = 1
-            # elif self.player_anim == 1:
-            #     self.player_rel[0] += 5
-            #     if self.player_rel[0] == 0:
-            #         self.player_anim = -1
-            # else:
-            #     self._playerActionDone()
+            self.player_mon.addPosRel(AnimSprite.Lerp, 333, -20, 0)
+            self.player_mon.addPosRel(AnimSprite.Lerp, 67, 20, 0)
 
         if self.enemy_action == 'Attack':
             # if self.enemy_anim == 0:
@@ -234,7 +207,7 @@ class ModeFight(Mode):
             self.player_action = False
         self.enemy_action = False
 
-    def update(self, dt):
+    def _update(self, dt):
         if self.player_action in self.__class__.box_choices and not self.player_mon.stillAnimating:
             self._playerActionDone()
         elif self.player_action == 'draw':

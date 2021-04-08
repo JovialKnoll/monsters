@@ -63,7 +63,7 @@ class Monster(AnimSprite):
         self.setHealth()
 
         self.rect = pygame.Rect(0, 0, 48, 48)
-        self.sprite_groups = tuple(random.choice(('A','B','C')) for x in range(5))
+        self.sprite_groups = tuple(random.choice(('A', 'B', 'C')) for x in range(5))
         self._setSpritePaths()
         self._setSprites()
         self.setImage()
@@ -79,16 +79,16 @@ class Monster(AnimSprite):
         attack = self.stats['atk']
         defend = self.stats['def']
         if action == 'attack':
-            attack += self.stats['atk']//2 + self.stats['spd'] + random.randint(0,1)
+            attack += self.stats['atk']//2 + self.stats['spd'] + random.randint(0, 1)
             defend += self.stats['def']//2 + self.stats['atk']//2
         elif action == 'defend':
             attack += self.stats['atk']//2 + self.stats['def']//2
-            defend += self.stats['atk']//2 + self.stats['spd'] + random.randint(0,1)
+            defend += self.stats['atk']//2 + self.stats['spd'] + random.randint(0, 1)
         else:# 'escape'
             attack = attack//2 + self.stats['spd']//2
             defend = defend//2 + self.stats['spd']//2
-        attack = max(attack + random.randint(-1,1) + self._drvEffect(), 0)
-        defend = max(defend + random.randint(-1,1) + self._drvEffect(), 0)
+        attack = max(attack + random.randint(-1, 1) + self._drvEffect(), 0)
+        defend = max(defend + random.randint(-1, 1) + self._drvEffect(), 0)
         return (attack, defend)
 
     def _levelStats(self):
@@ -138,7 +138,7 @@ class Monster(AnimSprite):
             del pix_array
         self.sprite_right = pygame.transform.flip(self.sprite, True, False)
 
-    def setImage(self, face_right = False):
+    def setImage(self, face_right=False):
         self.facing_right = face_right
         if face_right:
             self.image = self.sprite_right

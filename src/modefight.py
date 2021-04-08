@@ -193,7 +193,7 @@ class ModeFight(Mode):
         self.enemy_action = False
 
     def _update(self, dt):
-        if self.player_action in self.__class__.box_choices and not self.player_mon.stillAnimating:
+        if self.player_action in self.__class__.box_choices and not self.player_mon.stillAnimating():
             self._playerActionDone()
         elif self.player_action == 'draw':
             self._endStuff("They're both out cold.")

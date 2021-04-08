@@ -67,14 +67,21 @@ class ModeOpening(Mode):
         self.right_mon.addPosRel(Monster.Lerp, beat, jump, -jump * 2)
         self.right_mon.addPosRel(Monster.Lerp, beat, jump, jump * 2)
         # charge
-        # self.left_mon.addWait(beat)
-        # self.right_mon.addPosRel(Monster.Lerp, beat, -jump, -jump * 2)
+        self.right_mon.addWait(beat)
+        self.right_mon.addPosRel(Monster.Lerp, beat, jump // 2, jump // 2)
         # fire
+        self.right_mon.addWait(beat * 2)
+        self.right_mon.addPosRel(Monster.Lerp, beat * 1.5, -jump * 6 - jump // 2, -jump * 2 - jump // 2)
+
     def _changeMode(self):
         self.next_mode = ModeConvo0()
 
     def _input(self, event):
         if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
+            self._changeMode()
+
+    def _update(self, dt):
+        if not self.right_mon.stillAnimating():
             self._changeMode()
 
     def _drawScreen(self, screen):

@@ -56,11 +56,10 @@ class Display(object):
             constants.SCREEN_SIZE[1] * self.upscale,
         )
         # center window
-        if os.name == 'nt':
-            os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(
-                (self._monitor_res[0] - self._disp_res[0]) // 2,
-                (self._monitor_res[1] - self._disp_res[1]) // 2
-            )
+        os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(
+            (self._monitor_res[0] - self._disp_res[0]) // 2,
+            (self._monitor_res[1] - self._disp_res[1]) // 2
+        )
         self._disp_screen = pygame.display.set_mode(self._disp_res)
         self.screen = self.screen.convert(self._disp_screen)
         self.is_fullscreen = False

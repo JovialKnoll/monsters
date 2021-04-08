@@ -1,3 +1,5 @@
+https://github.com/wasmerio/wasmer-python
+
 make it easier to make opening
     modefight: let monsters handle animation, using lerping
         set monster rects and directions at start of fight

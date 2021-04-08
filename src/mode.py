@@ -2,19 +2,21 @@ import pygame
 
 import shared
 
-class GameMode(object):
+class Mode(object):
     """This is an abstract object for game modes.
     Children of this should implement _input, update, and draw.
     """
     __slots__ = (
-        'next_mode',
+        'all_sprites',
         '__pressed_keys',
+        'next_mode',
     )
 
     def __init__(self):
         """All game modes must set the next mode when they are done."""
-        self.next_mode = None
+        self.all_sprites = pygame.sprite.LayeredDirty()
         self.__pressed_keys = set()
+        self.next_mode = None
 
     def __trackPressedKeys(self, event):
         if event.type == pygame.KEYDOWN:
@@ -36,17 +38,20 @@ class GameMode(object):
             self.__trackPressedKeys(event)
             self._input(event)
 
-    def update(self):
+    def _update(self, dt):
+        pass
+
+    def update(self, dt):
         """All game modes can update."""
-        raise NotImplementedError(
-            self.__class__.__name__ + ".update(self)"
-        )
+        self._update(dt)
+        self.all_sprites.update(dt)
 
     def _drawScreen(self, screen):
         raise NotImplementedError(
             self.__class__.__name__ + "._drawScreen(self, screen)"
         )
 
-    def draw(self):
+    def draw(self, screen=shared.display.screen):
         """All game modes can draw to the screen"""
-        self._drawScreen(shared.display.screen)
+        self._drawScreen(screen)
+        self.all_sprites.draw(screen)

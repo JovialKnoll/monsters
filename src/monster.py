@@ -5,11 +5,12 @@ import pygame
 
 import constants
 import shared
+from animsprite import AnimSprite
 from personality import Personality
 from skin import Skin
 from mood import Mood
 
-class Monster(object):
+class Monster(AnimSprite):
     drv_max = 4
     lvl_max = 3
     main_stats = (
@@ -38,10 +39,12 @@ class Monster(object):
         'sprite_paths',
         'sprite',
         'sprite_right',
+        'facing_right',
     )
 
     def __init__(self, in_stats={}):
         """Create a new monster, setting stats, etc. as needed."""
+        super(Monster, self).__init__()
         self.lvl = 0
         # self.awr might not even need to be a thing, remove this if it ends up not mattering
         self.awr = 0# awareness, this is a thing for conversations / progress through the game
@@ -59,9 +62,11 @@ class Monster(object):
         self.stats.update(in_stats)
         self.setHealth()
 
-        self.sprite_groups = tuple(random.choice(('A','B','C')) for x in range(5))
+        self.rect = pygame.Rect(0, 0, 48, 48)
+        self.sprite_groups = tuple(random.choice(('A', 'B', 'C')) for x in range(5))
         self._setSpritePaths()
         self._setSprites()
+        self.setImage()
 
     def fightStart(self):
         self.stats['drv'] = max(min(self.stats['drv'] + self.mood.drvChange, self.__class__.drv_max), 0)
@@ -74,16 +79,16 @@ class Monster(object):
         attack = self.stats['atk']
         defend = self.stats['def']
         if action == 'attack':
-            attack += self.stats['atk']//2 + self.stats['spd'] + random.randint(0,1)
+            attack += self.stats['atk']//2 + self.stats['spd'] + random.randint(0, 1)
             defend += self.stats['def']//2 + self.stats['atk']//2
         elif action == 'defend':
             attack += self.stats['atk']//2 + self.stats['def']//2
-            defend += self.stats['atk']//2 + self.stats['spd'] + random.randint(0,1)
+            defend += self.stats['atk']//2 + self.stats['spd'] + random.randint(0, 1)
         else:# 'escape'
             attack = attack//2 + self.stats['spd']//2
             defend = defend//2 + self.stats['spd']//2
-        attack = max(attack + random.randint(-1,1) + self._drvEffect(), 0)
-        defend = max(defend + random.randint(-1,1) + self._drvEffect(), 0)
+        attack = max(attack + random.randint(-1, 1) + self._drvEffect(), 0)
+        defend = max(defend + random.randint(-1, 1) + self._drvEffect(), 0)
         return (attack, defend)
 
     def _levelStats(self):
@@ -133,6 +138,16 @@ class Monster(object):
             del pix_array
         self.sprite_right = pygame.transform.flip(self.sprite, True, False)
 
+    def setImage(self, face_right=False):
+        self.facing_right = face_right
+        if face_right:
+            self.image = self.sprite_right
+        else:
+            self.image = self.sprite
+        standing_pos = self.rect.midbottom
+        self.rect = self.image.get_rect()
+        self.rect.midbottom = standing_pos
+
     def levelUp(self):
         """Level up a monster, setting stats, etc. as needed."""
         if self.lvl >= self.__class__.lvl_max:
@@ -142,33 +157,8 @@ class Monster(object):
         self.setHealth()
         self._setSpritePaths()
         self._setSprites()
+        self.setImage()
         return True
-
-    def getSpriteSize(self):
-        if self.lvl == self.__class__.lvl_max:
-            return (64, 64)
-        else:
-            return (48, 48)
-
-    def drawCentered(self, screen, pos, right=False):
-        """Draw the monster on the screen, with its center at the position passed."""
-        self.draw(
-            screen,
-            (pos[0] - self.getSpriteSize()[0] // 2, pos[1] - self.getSpriteSize()[1] // 2),
-            right
-        )
-
-    def drawStanding(self, screen, pos, right=False):
-        """Draw the monster on the screen, with its bottom-center at the position passed."""
-        self.draw(
-            screen,
-            (pos[0] - self.getSpriteSize()[0] // 2, pos[1] - self.getSpriteSize()[1]),
-            right
-        )
-
-    def draw(self, screen, pos, right=False):
-        """Draw the monster on the screen."""
-        screen.blit(self.sprite if not right else self.sprite_right, pos)
 
     @classmethod
     def atLevel(cls, in_lvl, in_stats={}):

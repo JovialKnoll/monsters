@@ -1,12 +1,17 @@
-secret project
+make it easier to make opening
+    modefight: let monsters handle animation, using lerping
+        set monster rects and directions at start of fight
+    variable frame rate (should only need to input time information into the update functions
+
+have gamemode.py track pressed mouse buttons + pressed joy buttons
+    in addition to pressed keys
+    helpful: event objects can be printed
 
 move shared convomode and fight mode stuff into new class
 	basically just
 		black_box = pygame.image.load(os.path.join(sprite_path, 'blackbox.png'))
 	and conversion
 	and some input stuff
-
-switch string concatenation over to .format() or f-strings for most cases
 
 make and check settings file (main.py or game.py?)
 	window size
@@ -26,7 +31,6 @@ re-evaluate mon stats
 	balancing that
 	maybe check that can be strategy to fight choices?
 
-variable frame rate? (should only need to input time information into the update functions
-
 lower priority:
+    switch string concatenation over to .format() or f-strings for most cases
 	(maybe) scroll slider thingy for convomode.py, click-and-drag-able

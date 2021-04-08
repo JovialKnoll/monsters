@@ -2,26 +2,27 @@ import pygame
 
 import constants
 import shared
-from gamemenumode import GameMenuMode
-#from testmode import TestMode
-from convomode0 import ConvoMode0
+from modegamemenu import ModeGameMenu
+from modeopening import ModeOpening
+#from modetest import ModeTest
 
 class Game(object):
     __slots__ = (
+        '_max_framerate',
         '_clock',
         '_current_mode',
     )
 
-    def __init__(self):
+    def __init__(self, max_framerate):
         """Start and create things as needed."""
         pygame.init()
         # time
+        self._max_framerate = max_framerate
         self._clock = pygame.time.Clock()
-        # mode (must be set before running
-        self._current_mode = None
+        # mode (must be set before running)
+        self._current_mode = ModeOpening()
         # test stuff
-        # self._current_mode = TestMode()
-        self._current_mode = ConvoMode0()
+        #self._current_mode = ModeTest()
 
     def __del__(self):
         """End and delete things as needed."""
@@ -34,9 +35,9 @@ class Game(object):
         self._current_mode.input_events(
             self._filterInput(pygame.event.get())
         )
-        self._getTime()
-        # todo(?): pass result to .update()
-        self._current_mode.update()
+        self._current_mode.update(
+            self._getTime()
+        )
         self._current_mode.draw()
         shared.display.scaleDraw()
         if self._current_mode.next_mode is not None:
@@ -74,10 +75,10 @@ class Game(object):
         return True
 
     def _handleQuit(self):
-        # pass quit events forward to the GameMenuMode, but not to other events
-        if isinstance(self._current_mode, GameMenuMode):
+        # pass quit events forward to the ModeGameMenu, but not to other events
+        if isinstance(self._current_mode, ModeGameMenu):
             return True
-        self._current_mode = GameMenuMode(self._current_mode)
+        self._current_mode = ModeGameMenu(self._current_mode)
         return False
 
     def _scaleMouseInput(self, event):
@@ -108,4 +109,4 @@ class Game(object):
     def _getTime(self):
         """Take care of time stuff."""
         pygame.display.set_caption(str(self._clock.get_fps()))# just for debugging purposes
-        return self._clock.tick(constants.MAX_FRAMERATE)
+        return self._clock.tick(self._max_framerate)

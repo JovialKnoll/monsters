@@ -23,10 +23,10 @@ class ModeOpening(Mode):
         self.right_mon._layer = 0
         self.all_sprites.add(self.right_mon, self.left_mon)
         # starts at right
-        self.left_mon.rect.bottomright = constants.SCREEN_SIZE
+        self.left_mon.rect.bottomright = (constants.SCREEN_SIZE[0], constants.SCREEN_SIZE[1] - 32)
         self.left_mon.setImage(True)
         # starts at left
-        self.right_mon.rect.bottomleft = (0, constants.SCREEN_SIZE[1])
+        self.right_mon.rect.bottomleft = (0, constants.SCREEN_SIZE[1] - 32)
         # move to the positions
         beat = 250
         pause = 50

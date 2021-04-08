@@ -2,7 +2,7 @@ Except as otherwise noted:
 
 The MIT License
 
-Images Copyright (c) 2013 Sylvia Forrest
+Images Copyright (c) 2013 S. Forrest
 Software Copyright (c) 2013 Brett Kaplan
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

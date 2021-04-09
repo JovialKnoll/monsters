@@ -82,6 +82,31 @@ class Display(object):
         self.screen = self.screen.convert(self._full_screen)
         self.is_fullscreen = True
 
+    def _scaleMouseInput(self, event):
+        """Scale mouse position for events in terms of the screen (as opposed to the display surface)."""
+        if event.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONUP, pygame.MOUSEBUTTONDOWN):
+            if self.is_fullscreen:
+                event_dict = {
+                    'pos': (
+                        (event.pos[0] - self.fullscreen_offset[0]) // self.upscale_max,
+                        (event.pos[1] - self.fullscreen_offset[1]) // self.upscale_max,
+                    )
+                }
+            else:
+                event_dict = {
+                    'pos': (
+                        event.pos[0] // self.upscale,
+                        event.pos[1] // self.upscale,
+                    )
+                }
+            if event.type == pygame.MOUSEMOTION:
+                event_dict['rel'] = event.rel
+                event_dict['buttons'] = event.buttons
+            else:
+                event_dict['button'] = event.button
+            return pygame.event.Event(event.type, event_dict)
+        return event
+
     def scaleDraw(self):
         """Scale screen onto display surface, then flip the display."""
         if self.is_fullscreen:

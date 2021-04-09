@@ -46,7 +46,7 @@ class Game(object):
 
     def _filterInput(self, events):
         """Take care of input that game modes should not take care of."""
-        return map(self._scaleMouseInput, filter(self._stillNeedsHandling, events))
+        return map(shared.display._scaleMouseInput, filter(self._stillNeedsHandling, events))
 
     def _stillNeedsHandling(self, event):
         """If event should be handled before all others, handle it and return False, otherwise return True.
@@ -80,31 +80,6 @@ class Game(object):
             return True
         self._current_mode = ModeGameMenu(self._current_mode)
         return False
-
-    def _scaleMouseInput(self, event):
-        """Scale mouse position for events in terms of the screen (as opposed to the display surface)."""
-        if event.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONUP, pygame.MOUSEBUTTONDOWN):
-            if shared.display.is_fullscreen:
-                event_dict = {
-                    'pos': (
-                        (event.pos[0] - shared.display.fullscreen_offset[0]) // shared.display.upscale_max,
-                        (event.pos[1] - shared.display.fullscreen_offset[1]) // shared.display.upscale_max,
-                    )
-                }
-            else:
-                event_dict = {
-                    'pos': (
-                        event.pos[0] // shared.display.upscale,
-                        event.pos[1] // shared.display.upscale,
-                    )
-                }
-            if event.type == pygame.MOUSEMOTION:
-                event_dict['rel'] = event.rel
-                event_dict['buttons'] = event.buttons
-            else:
-                event_dict['button'] = event.button
-            return pygame.event.Event(event.type, event_dict)
-        return event
 
     def _getTime(self):
         """Take care of time stuff."""

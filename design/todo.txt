@@ -1,16 +1,16 @@
-https://github.com/wasmerio/wasmer-python
-
-move shared convomode and fight mode stuff into new class
-	basically just
-		black_box = pygame.image.load(os.path.join(sprite_path, 'blackbox.png'))
-	and conversion
-	and some input stuff
-
-make and check settings file (main.py or game.py?)
+1) finish opening
+2) music / sound
+3) content for convos and fights (based on each other)
+4) save implementation in some modes, only show save options if implemented
+    (specific to modes + shared state, no generic pickling)
+5) load implementation
+6) make and check settings file (main.py or game.py?)
 	window size
 	fullscreen
 	max framerate
 	etc
+7) build exes for playing without python and pygame installed
+8) https://github.com/wasmerio/wasmer-python
 
 saving the game!
 	https://docs.python.org/3/library/pickle.html#object.__getstate__
@@ -25,5 +25,4 @@ re-evaluate mon stats
 	maybe check that can be strategy to fight choices?
 
 lower priority:
-    switch string concatenation over to .format() or f-strings for most cases
 	(maybe) scroll slider thingy for convomode.py, click-and-drag-able

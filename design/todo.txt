@@ -1,9 +1,5 @@
 https://github.com/wasmerio/wasmer-python
 
-have gamemode.py track pressed mouse buttons + pressed joy buttons
-    in addition to pressed keys
-    helpful: event objects can be printed
-
 move shared convomode and fight mode stuff into new class
 	basically just
 		black_box = pygame.image.load(os.path.join(sprite_path, 'blackbox.png'))

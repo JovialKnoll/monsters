@@ -40,7 +40,7 @@ class Display(object):
             (self._monitor_res[0] - self._disp_res_max[0]) // 2,
             (self._monitor_res[1] - self._disp_res_max[1]) // 2,
         )
-        self.upscale = self.upscale_max // 2
+        self.upscale = self.upscale_max - 1
         self._full_screen = pygame.Surface(self._disp_res_max)
         self.screen = pygame.Surface(constants.SCREEN_SIZE)
         self.screenSet(0)
@@ -56,18 +56,27 @@ class Display(object):
             constants.SCREEN_SIZE[1] * self.upscale,
         )
         # center window
-        if os.name == 'nt':
-            os.environ['SDL_VIDEO_WINDOW_POS'] = '{},{}'.format(
-                (self._monitor_res[0] - self._disp_res[0]) // 2,
-                (self._monitor_res[1] - self._disp_res[1]) // 2
-            )
-        self._disp_screen = pygame.display.set_mode(self._disp_res)
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "{},{}".format(
+            (self._monitor_res[0] - self._disp_res[0]) // 2,
+            (self._monitor_res[1] - self._disp_res[1]) // 2
+        )
+        pygame.display.quit()
+        pygame.display.init()
+        self._disp_screen = pygame.display.set_mode(
+            self._disp_res,
+            pygame.DOUBLEBUF
+        )
         self.screen = self.screen.convert(self._disp_screen)
         self.is_fullscreen = False
 
     def screenSetFullscreen(self):
         """Set the window to fullscreen."""
-        self._disp_screen = pygame.display.set_mode(self._monitor_res, pygame.FULLSCREEN)
+        pygame.display.quit()
+        pygame.display.init()
+        self._disp_screen = pygame.display.set_mode(
+            self._monitor_res,
+            pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
+        )
         # needs a separate full screen in case the largest full-multiple scale-up doesn't fit
         self._full_screen = self._full_screen.convert(self._disp_screen)
         self.screen = self.screen.convert(self._full_screen)

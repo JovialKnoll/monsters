@@ -38,7 +38,7 @@ class Game(object):
         self._current_mode.update(
             self._getTime()
         )
-        self._current_mode.draw()
+        self._current_mode.draw(shared.display.screen)
         shared.display.scaleDraw()
         if self._current_mode.next_mode is not None:
             self._current_mode = self._current_mode.next_mode

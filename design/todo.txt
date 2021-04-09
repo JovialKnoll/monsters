@@ -1,11 +1,4 @@
-make it easier to make opening
-    modefight: let monsters handle animation, using lerping
-        set monster rects and directions at start of fight
-    variable frame rate (should only need to input time information into the update functions
-
-have gamemode.py track pressed mouse buttons + pressed joy buttons
-    in addition to pressed keys
-    helpful: event objects can be printed
+https://github.com/wasmerio/wasmer-python
 
 move shared convomode and fight mode stuff into new class
 	basically just

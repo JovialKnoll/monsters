@@ -5,7 +5,7 @@ from modefight import ModeFight
 from monster import Monster
 from modemenu import ModeMenu
 
-class ModeConvo0(ModeMonConvo):
+class ModeMonConvo0(ModeMonConvo):
     __slots__ = (
     )
 
@@ -38,8 +38,8 @@ class ModeConvo0(ModeMonConvo):
             self.next_mode = ModeFight(
                 shared.state.protag_mon,
                 Monster.atLevel(0),
-                ModeConvo0,
-                ModeConvo0,
+                ModeMonConvo0,
+                ModeMonConvo0,
                 ModeTest
             )
         elif index == 2:
@@ -51,4 +51,4 @@ class ModeConvo0(ModeMonConvo):
     # __init__ need not be implemented unless adding things
     # if adding things to init, should start as below
     # def __init__(self):
-    #     super(ModeConvo0, self).__init__()
+    #     super(ModeMonConvo0, self).__init__()

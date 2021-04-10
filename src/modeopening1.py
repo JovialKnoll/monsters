@@ -3,10 +3,9 @@ import pygame
 import constants
 from mode import Mode
 from monster import Monster
-from modeconvo0 import ModeConvo0
+from modemonconvo0 import ModeMonConvo0
 
-class ModeOpening(Mode):
-    # next mode: ModeConvo0()
+class ModeOpening1(Mode):
     __slots__ = (
         'left_mon',
         'left_pos',
@@ -15,12 +14,12 @@ class ModeOpening(Mode):
     )
 
     def __init__(self):
-        super(ModeOpening, self).__init__()
+        super(ModeOpening1, self).__init__()
         self.left_mon = Monster.atLevel(3)
         self.right_mon = Monster.atLevel(2)
         # higher layer = draw later = "in front"
-        self.left_mon._layer = 1
-        self.right_mon._layer = 0
+        self.left_mon.layer = 1
+        self.right_mon.layer = 0
         self.all_sprites.add(self.right_mon, self.left_mon)
         # starts at right
         self.left_mon.rect.bottomright = (constants.SCREEN_SIZE[0], constants.SCREEN_SIZE[1] - 32)
@@ -74,7 +73,7 @@ class ModeOpening(Mode):
         self.right_mon.addPosRel(Monster.Lerp, beat * 1.5, -jump * 6 - jump // 2, -jump * 2 - jump // 2)
 
     def _changeMode(self):
-        self.next_mode = ModeConvo0()
+        self.next_mode = ModeMonConvo0()
 
     def _input(self, event):
         if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):

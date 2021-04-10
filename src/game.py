@@ -3,8 +3,7 @@ import pygame
 import constants
 import shared
 from modegamemenu import ModeGameMenu
-from modeopening import ModeOpening
-#from modetest import ModeTest
+from modeopening0 import ModeOpening0
 
 class Game(object):
     __slots__ = (
@@ -20,7 +19,7 @@ class Game(object):
         self._max_framerate = max_framerate
         self._clock = pygame.time.Clock()
         # mode (must be set before running)
-        self._current_mode = ModeOpening()
+        self._current_mode = ModeOpening0()
         # test stuff
         #self._current_mode = ModeTest()
 

@@ -12,6 +12,8 @@ COLORKEY = (255, 0, 255)
 
 GRAPHICS_DIRECTORY = 'gfx'
 FONT_FILE = os.path.join(GRAPHICS_DIRECTORY, 'simple_mono.ttf')
+JK_LOGO_BLACK = os.path.join(GRAPHICS_DIRECTORY, 'jklogo_black.png')
+JK_LOGO_GREY = os.path.join(GRAPHICS_DIRECTORY, 'jklogo_grey.png')
 
 BACKGROUNDS_DIRECTORY = os.path.join(GRAPHICS_DIRECTORY, 'backgrounds')
 BLACKBOX_FILE = os.path.join(BACKGROUNDS_DIRECTORY, 'blackbox.png')

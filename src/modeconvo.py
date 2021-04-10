@@ -55,9 +55,11 @@ class ModeConvo(Mode):
     def _textMain(self):
         # return text for main section
         raise NotImplementedError(self.__class__.__name__ + "._textMain(self)")
+
     def _textButton(self, index):
         # return text for button
         raise NotImplementedError(self.__class__.__name__ + "._textButton(self, index)")
+
     def _goButton(self, index):
         # do stuff for button
         raise NotImplementedError(self.__class__.__name__ + "._goButton(self, index)")

@@ -2,7 +2,7 @@
 
 Requires Python 3 and Pygame.
 
-### How to run locally in windows:
+## How to run locally in windows:
 1. install latest python 3
 2. from command prompt or powershell, go to the `src` directory
 3. run `python.exe -m venv venv`

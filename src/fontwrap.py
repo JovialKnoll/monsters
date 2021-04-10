@@ -18,7 +18,7 @@ class FontWrap(object):
         text_size = self.font.size(text)
         surf.blit(
             self.font.render(text, antialias, color, background),
-            (dest[0] - text_size[0]//2, dest[1] - text_size[1]//2)
+            (dest[0] - text_size[0] // 2, dest[1] - text_size[1] // 2)
         )
 
     def renderWordsInside(self, width, words, antialias, color, background):
@@ -64,7 +64,7 @@ class FontWrap(object):
             imgs.append(self.renderWordsInside(width, line, antialias, color, background or constants.COLORKEY))
             height += imgs[-1].get_height()
         result = pygame.Surface((width, height)).convert(shared.display.screen)
-        dest = [0,0]
+        dest = [0, 0]
         for img in imgs:
             result.blit(img, dest)
             dest[1] += img.get_height()

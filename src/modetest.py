@@ -48,7 +48,22 @@ class ModeTest(Mode):
         # clear of old draws
         screen.fill(self.__class__.fill)
         # make new draws
-        shared.font_wrap.renderToInside(screen, (0,0), constants.SCREEN_SIZE[0]//2, self.__class__.test_text, False, constants.BLACK, constants.WHITE)
-        shared.font_wrap.renderToInside(screen, (constants.SCREEN_SIZE[0]//2,0), constants.SCREEN_SIZE[0]//2, "Lorem", False, (255,0,0))
+        shared.font_wrap.renderToInside(
+            screen,
+            (0, 0),
+            constants.SCREEN_SIZE[0]//2,
+            self.__class__.test_text,
+            False,
+            constants.BLACK,
+            constants.WHITE
+        )
+        shared.font_wrap.renderToInside(
+            screen,
+            (constants.SCREEN_SIZE[0] // 2, 0),
+            constants.SCREEN_SIZE[0] // 2,
+            "Lorem",
+            False,
+            (255, 0, 0)
+        )
         # screen.blit(shared.font_wrap.renderInside(constants.SCREEN_SIZE[0]//2, self.__class__.test_text, False, constants.BLACK, constants.WHITE), (0,0))
         # screen.blit(shared.font_wrap.renderInside(constants.SCREEN_SIZE[0]//2, "Lorem", False, (255,0,0)), (constants.SCREEN_SIZE[0]//2,0))

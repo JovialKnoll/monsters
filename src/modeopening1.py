@@ -61,7 +61,7 @@ class ModeOpening1(Mode):
         right_mon.addPosRel(Monster.Lerp, beat, jump // 2, jump // 2)
         # fire
         right_mon.addWait(beat * 2)
-        right_mon.addPosRel(Monster.Lerp, beat * 1.5, -jump * 6 - jump // 2, -jump * 2 - jump // 2)
+        right_mon.addPosRel(Monster.Lerp, beat, -jump * 6 - jump // 2, -jump * 2 - jump // 2)
 
         # higher layer = draw later = "in front"
         left_mon.layer = 1

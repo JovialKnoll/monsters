@@ -51,18 +51,18 @@ class AnimSprite(pygame.sprite.DirtySprite):
 
     def update(self, *args):
         if self.last_pos is None:
-            self.last_pos = self.rect.topleft
+            self.last_pos = self.rect.center
         # adding dt
         self.time += args[0]
         while self.anims and self.time >= self.anims[-1].time:
             done_anim = self.anims.pop()
             self.time -= done_anim.time
-            self.rect.topleft = done_anim.pos
-            self.last_pos = self.rect.topleft
+            self.rect.center = done_anim.pos
+            self.last_pos = self.rect.center
         if self.anims:
             current_anim = self.anims[-1]
             func = self.__class__.toFunc(current_anim.func)
-            self.rect.topleft = func(
+            self.rect.center = func(
                 self.last_pos,
                 current_anim.pos,
                 self.time / current_anim.time
@@ -80,7 +80,7 @@ class AnimSprite(pygame.sprite.DirtySprite):
         if self.anims:
             newPos += self.anims[0].pos
         else:
-            newPos += self.rect.topleft
+            newPos += self.rect.center
         self.addPosAbs(func, time, newPos)
 
     def addWait(self, time):

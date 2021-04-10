@@ -1,4 +1,6 @@
 1) finish opening
+    one more goofy logo?
+    looping title screen
 2) music / sound
 3) content for convos and fights (based on each other)
 4) save implementation in some modes, only show save options if implemented

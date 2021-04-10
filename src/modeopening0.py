@@ -106,7 +106,7 @@ class ModeOpening0(Mode):
                     constants.SCREEN_SIZE[1] * 7 // 16 - jk_logo.get_height() // 2,
                 )
             )
-        if self.time >= 3500 and self.step < 4:
+        if self.time >= 4250 and self.step < 4:
             self._changeMode()
             pass
 

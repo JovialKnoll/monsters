@@ -3,7 +3,7 @@ import pygame
 import constants
 from mode import Mode
 from monster import Monster
-from modemonconvo0 import ModeMonConvo0
+from modeopening3 import ModeOpening3
 
 class ModeOpening1(Mode):
 
@@ -69,7 +69,7 @@ class ModeOpening1(Mode):
         self.all_sprites.add(right_mon, left_mon)
 
     def _changeMode(self):
-        self.next_mode = ModeMonConvo0()
+        self.next_mode = ModeOpening3()
 
     def _input(self, event):
         if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):

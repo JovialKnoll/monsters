@@ -108,7 +108,6 @@ class ModeOpening0(Mode):
             )
         if self.time >= 4250 and self.step < 4:
             self._changeMode()
-            pass
 
     def _drawScreen(self, screen):
         screen.blit(self.background, (0, 0))

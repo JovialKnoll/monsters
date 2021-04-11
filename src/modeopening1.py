@@ -48,7 +48,7 @@ class ModeOpening1(Mode):
         right_mon.addPosRel(Monster.Lerp, beat // 2, jump * 2, jump * 2)
         # pause
         left_mon.addWait(150)
-        left_mon.addPosRel(Monster.Ler70p, 100, -jump, 0)
+        left_mon.addPosRel(Monster.Lerp, 100, -jump, 0)
         right_mon.addWait(beat)
         # back and forth again
         left_mon.addWait(beat * 4)

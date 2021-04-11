@@ -12,4 +12,4 @@ Requires Python 3 and Pygame.
 6. run `python main.py`
 
 - In the future, you should only need to take steps 2, 4, and 6.
-- Alternately, you can use pycharm or some other ide that will handle virtual environment for you.
+- Alternately, you can use pycharm or some other IDE that will handle virtual environment for you.

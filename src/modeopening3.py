@@ -1,3 +1,5 @@
+from collections import deque
+
 import pygame
 
 import constants
@@ -7,10 +9,18 @@ from modemonconvo0 import ModeMonConvo0
 
 class ModeOpening3(Mode):
 
+    __slots__ = (
+        'monsters'
+    )
+
     def __init__(self):
         super(ModeOpening3, self).__init__()
         # set up title display here
+        self.monsters = deque((), 3)
         # set up looping monsters here
+
+    def _addLoopMonster(self):
+        pass
 
     def _input(self, event):
         if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):

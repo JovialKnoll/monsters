@@ -13,9 +13,12 @@ class ModeOpening3(Mode):
     center_time = 1000
     transition_time = 750
     empty_time = 250
+    full_monster_wait_time = empty_time + transition_time + center_time + transition_time
+    initial_wait_time = 0
 
     __slots__ = (
-        'monsters'
+        'monsters',
+        'wait_time',
     )
 
     def __init__(self):
@@ -29,13 +32,12 @@ class ModeOpening3(Mode):
         monster.anims.popleft()
         monster.anims.popleft()
         self.monsters.append(monster)
-        wait_time = self.__class__.center_time + self.__class__.transition_time
-        self.monsters.append(self._getMonster(wait_time))
-        wait_time += self.__class__.empty_time \
-            + self.__class__.transition_time \
-            + self.__class__.center_time \
-            + self.__class__.transition_time
-        self.monsters.append(self._getMonster(wait_time))
+        self.wait_time = self.__class__.center_time + self.__class__.transition_time
+        self.monsters.append(self._getMonster(self.wait_time))
+        self.wait_time += self.__class__.full_monster_wait_time
+        self.monsters.append(self._getMonster(self.wait_time))
+        self.wait_time += self.__class__.full_monster_wait_time
+        self.__class__.initial_wait_time = self.wait_time
 
     def _getMonster(self, wait_time):
         # wait_time is how much time until the previous mon is off the screen
@@ -63,19 +65,18 @@ class ModeOpening3(Mode):
         )
         return monster
 
-    def _addLoopMonster(self, wait_time):
-        monster = self._getMonster(wait_time)
-        self.monsters[0].kill()
-        self.monsters.append(monster)
-
     def _input(self, event):
         if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
             self.next_mode = ModeMonConvo0()
 
     def _update(self, dt):
+        self.wait_time -= dt
         # every so often, set up additional looping monsters here, so we don't run out
-        # also remove old monsters from self.all_sprites
-        pass
+        if self.wait_time < self.__class__.initial_wait_time - self.__class__.full_monster_wait_time:
+            monster = self._getMonster(self.wait_time)
+            self.monsters[0].kill()
+            self.monsters.append(monster)
+            self.wait_time += self.__class__.full_monster_wait_time
 
     def _drawScreen(self, screen):
         screen.fill(constants.WHITE)

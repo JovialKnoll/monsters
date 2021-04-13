@@ -1,3 +1,4 @@
+import random
 from collections import deque
 
 import pygame
@@ -8,6 +9,10 @@ from monster import Monster
 from modemonconvo0 import ModeMonConvo0
 
 class ModeOpening3(Mode):
+    ground_level = constants.SCREEN_SIZE[1] - 32
+    center_time = 1000
+    transition_time = 750
+    empty_time = 250
 
     __slots__ = (
         'monsters'
@@ -17,10 +22,51 @@ class ModeOpening3(Mode):
         super(ModeOpening3, self).__init__()
         # set up title display here
         self.monsters = deque((), 3)
-        # set up looping monsters here
 
-    def _addLoopMonster(self):
-        pass
+        monster = self._getMonster(0)
+        # start the first one in the center
+        monster.rect.midbottom = (constants.SCREEN_SIZE[0] // 2, self.__class__.ground_level)
+        monster.anims.popleft()
+        monster.anims.popleft()
+        self.monsters.append(monster)
+        wait_time = self.__class__.center_time + self.__class__.transition_time
+        self.monsters.append(self._getMonster(wait_time))
+        wait_time += self.__class__.empty_time \
+            + self.__class__.transition_time \
+            + self.__class__.center_time \
+            + self.__class__.transition_time
+        self.monsters.append(self._getMonster(wait_time))
+
+    def _getMonster(self, wait_time):
+        # wait_time is how much time until the previous mon is off the screen
+        monster = Monster.atLevel(
+            random.randint(1, 3)
+        )
+        self.all_sprites.add(monster)
+        monster.rect.midbottom = (
+            constants.SCREEN_SIZE[0] + monster.rect.width // 2,
+            self.__class__.ground_level
+        )
+        monster.addWait(wait_time + self.__class__.empty_time)
+        monster.addPosAbs(
+            Monster.Lerp,
+            self.__class__.transition_time,
+            constants.SCREEN_SIZE[0] // 2,
+            self.__class__.ground_level - monster.rect.height // 2
+        )
+        monster.addWait(self.__class__.center_time)
+        monster.addPosAbs(
+            Monster.Lerp,
+            self.__class__.transition_time,
+            monster.rect.width // -2,
+            self.__class__.ground_level - monster.rect.height // 2
+        )
+        return monster
+
+    def _addLoopMonster(self, wait_time):
+        monster = self._getMonster(wait_time)
+        self.monsters[0].kill()
+        self.monsters.append(monster)
 
     def _input(self, event):
         if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):

@@ -6,17 +6,17 @@ from monster import Monster
 from modeopening3 import ModeOpening3
 
 class ModeOpening1(Mode):
-
     def __init__(self):
         super(ModeOpening1, self).__init__()
         left_mon = Monster.atLevel(3)
         right_mon = Monster.atLevel(2)
 
+        ground_level = constants.SCREEN_SIZE[1] - 32
         # starts at right
-        left_mon.rect.bottomright = (constants.SCREEN_SIZE[0], constants.SCREEN_SIZE[1] - 32)
+        left_mon.rect.bottomright = (constants.SCREEN_SIZE[0], ground_level)
         left_mon.setImage(True)
         # starts at left
-        right_mon.rect.bottomleft = (0, constants.SCREEN_SIZE[1] - 32)
+        right_mon.rect.bottomleft = (0, ground_level)
         # move to the positions
         beat = 250
         pause = 50

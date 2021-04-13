@@ -7,13 +7,13 @@ from modeopening1 import ModeOpening1
 from animsprite import AnimSprite
 
 class ModeOpening0(Mode):
+    logo_text = "Jovial Knoll"
+
     __slots__ = (
         'time',
         'step',
         'background',
     )
-
-    logo_text = "Jovial Knoll"
 
     def __init__(self):
         super(ModeOpening0, self).__init__()

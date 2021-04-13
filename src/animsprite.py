@@ -54,13 +54,13 @@ class AnimSprite(pygame.sprite.DirtySprite):
             self.last_pos = self.rect.center
         # adding dt
         self.time += args[0]
-        while self.anims and self.time >= self.anims[-1].time:
-            done_anim = self.anims.pop()
+        while self.anims and self.time >= self.anims[0].time:
+            done_anim = self.anims.popleft()
             self.time -= done_anim.time
             self.rect.center = done_anim.pos
             self.last_pos = self.rect.center
         if self.anims:
-            current_anim = self.anims[-1]
+            current_anim = self.anims[0]
             func = self.__class__.toFunc(current_anim.func)
             self.rect.center = func(
                 self.last_pos,
@@ -71,14 +71,14 @@ class AnimSprite(pygame.sprite.DirtySprite):
             self.time = 0
 
     def addPosAbs(self, func, time, x_or_pair, y=None):
-        self.anims.appendleft(
+        self.anims.append(
             Anim(func, time, x_or_pair, y)
         )
 
     def addPosRel(self, func, time, x_or_pair, y=None):
         newPos = Vec2d(x_or_pair, y)
         if self.anims:
-            newPos += self.anims[0].pos
+            newPos += self.anims[-1].pos
         else:
             newPos += self.rect.center
         self.addPosAbs(func, time, newPos)

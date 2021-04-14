@@ -4,12 +4,13 @@ from collections import deque
 import pygame
 
 import constants
+import shared
 from mode import Mode
 from monster import Monster
 from modemonconvo0 import ModeMonConvo0
 
 class ModeOpening3(Mode):
-    ground_level = constants.SCREEN_SIZE[1] - 32
+    ground_level = constants.SCREEN_SIZE[1] - 16
     center_time = 2500
     transition_time = 750
     empty_time = 250
@@ -20,11 +21,22 @@ class ModeOpening3(Mode):
         'monsters',
         'wait_time',
         'last_level',
+        'background',
     )
 
     def __init__(self):
         super(ModeOpening3, self).__init__()
-        # set up title display here
+        # static elements setup
+        self.background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+        self.background.fill(constants.WHITE)
+        shared.font_wrap.renderToCentered(
+            self.background,
+            (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2),
+            "press any key to start",
+            False,
+            constants.BLACK
+        )
+        # monster loop setup
         self.last_level = random.randint(1, 3)
         self.monsters = deque((), 3)
         monster = self._getMonster(0)
@@ -83,4 +95,4 @@ class ModeOpening3(Mode):
             self.wait_time += self.__class__.full_monster_wait_time
 
     def _drawScreen(self, screen):
-        screen.fill(constants.WHITE)
+        screen.blit(self.background, (0, 0))

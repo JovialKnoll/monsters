@@ -99,13 +99,13 @@ class Monster(AnimSprite):
         self.stats[self.personality.stat] += 2
 
     def setHealth(self):
-        self.stats['hpm'] = self.stats['vit']*2 + self.stats['vit']//2 + self.stats['vit']//4
+        self.stats['hpm'] = self.stats['vit'] * 2 + self.stats['vit'] // 2 + self.stats['vit'] // 4
         self.stats['hpc'] = self.stats['hpm']
 
     def _getSpritePath(self, section, group):
         part = ''
         if self.lvl > 0:
-            part = random.randint(0,2)
+            part = random.randint(0, 2)
         return os.path.join(
             constants.MONSTER_PARTS_DIRECTORY,
             '{}-{}-{}{}.png'.format(self.lvl, section, group, part)

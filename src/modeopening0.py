@@ -3,17 +3,17 @@ import pygame
 import constants
 import shared
 from mode import Mode
-from modeopening1 import ModeOpening1
+from modeopening2 import ModeOpening2
 from animsprite import AnimSprite
 
 class ModeOpening0(Mode):
+    logo_text = "Jovial Knoll"
+
     __slots__ = (
         'time',
         'step',
         'background',
     )
-
-    logo_text = "Jovial Knoll"
 
     def __init__(self):
         super(ModeOpening0, self).__init__()
@@ -55,7 +55,7 @@ class ModeOpening0(Mode):
         self.all_sprites.add(star_sprite)
 
     def _changeMode(self):
-        self.next_mode = ModeOpening1()
+        self.next_mode = ModeOpening2()
 
     def _input(self, event):
         if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):

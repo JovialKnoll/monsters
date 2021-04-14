@@ -63,7 +63,11 @@ class Mode(object):
             self.__class__.__name__ + "._drawScreen(self, screen)"
         )
 
+    def _drawPostSprites(self, screen):
+        pass
+
     def draw(self, screen):
         """All game modes can draw to the screen"""
         self._drawScreen(screen)
         self.all_sprites.draw(screen)
+        self._drawPostSprites(screen)

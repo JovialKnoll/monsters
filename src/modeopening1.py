@@ -1,11 +1,19 @@
 import pygame
 
 import constants
+import shared
 from mode import Mode
 from monster import Monster
 from modeopening3 import ModeOpening3
 
 class ModeOpening1(Mode):
+    move_time = 0
+
+    __slots__ = (
+        'total_time',
+        'fade',
+    )
+
     def __init__(self):
         super(ModeOpening1, self).__init__()
         left_mon = Monster.atLevel(3)
@@ -67,6 +75,11 @@ class ModeOpening1(Mode):
         left_mon.layer = 1
         right_mon.layer = 0
         self.all_sprites.add(right_mon, left_mon)
+        self.total_time = 0
+        self.__class__.move_time = beat * 26 + pause * 2 + 300
+        self.fade = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+        self.fade.fill(constants.WHITE)
+        self.fade.set_alpha(0)
 
     def _changeMode(self):
         self.next_mode = ModeOpening3()
@@ -76,8 +89,16 @@ class ModeOpening1(Mode):
             self._changeMode()
 
     def _update(self, dt):
-        if all(not sprite.stillAnimating() for sprite in self.all_sprites.sprites()):
+        self.total_time += dt
+        if (self.total_time >= self.__class__.move_time):
+            self.fade.set_alpha(
+                min((self.total_time - self.__class__.move_time) * 255 / 750, 255)
+            )
+        if (self.total_time >= self.__class__.move_time + 1500):
             self._changeMode()
 
     def _drawScreen(self, screen):
         screen.fill(constants.WHITE)
+
+    def _drawPostSprites(self, screen):
+        screen.blit(self.fade, (0, 0))

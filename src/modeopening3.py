@@ -10,7 +10,7 @@ from modemonconvo0 import ModeMonConvo0
 
 class ModeOpening3(Mode):
     ground_level = constants.SCREEN_SIZE[1] - 32
-    center_time = 1000
+    center_time = 2500
     transition_time = 750
     empty_time = 250
     full_monster_wait_time = empty_time + transition_time + center_time + transition_time
@@ -19,13 +19,14 @@ class ModeOpening3(Mode):
     __slots__ = (
         'monsters',
         'wait_time',
+        'last_level',
     )
 
     def __init__(self):
         super(ModeOpening3, self).__init__()
         # set up title display here
+        self.last_level = random.randint(1, 3)
         self.monsters = deque((), 3)
-
         monster = self._getMonster(0)
         # start the first one in the center
         monster.rect.midbottom = (constants.SCREEN_SIZE[0] // 2, self.__class__.ground_level)
@@ -42,8 +43,11 @@ class ModeOpening3(Mode):
     def _getMonster(self, wait_time):
         # wait_time is how much time until the previous mon is off the screen
         monster = Monster.atLevel(
-            random.randint(1, 3)
+            random.choice(
+                [i for i in range(1, 4) if i != self.last_level]
+            )
         )
+        self.last_level = monster.lvl
         self.all_sprites.add(monster)
         monster.rect.midbottom = (
             constants.SCREEN_SIZE[0] + monster.rect.width // 2,

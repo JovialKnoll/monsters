@@ -3,8 +3,8 @@ import pygame
 import constants
 import shared
 from mode import Mode
-from modeopening2 import ModeOpening2
 from animsprite import AnimSprite
+from modeopening1 import ModeOpening1
 
 class ModeOpening0(Mode):
     logo_text = "Jovial Knoll"
@@ -29,12 +29,12 @@ class ModeOpening0(Mode):
             False,
             constants.BLACK
         )
-        jk_logo = pygame.image.load(constants.JK_LOGO_BLACK).convert(shared.display.screen)
+        logo = pygame.image.load(constants.JK_LOGO_BLACK).convert(shared.display.screen)
         self.background.blit(
-            jk_logo,
+            logo,
             (
-                constants.SCREEN_SIZE[0] // 2 - jk_logo.get_width() // 2,
-                constants.SCREEN_SIZE[1] * 7 // 16 - jk_logo.get_height() // 2,
+                constants.SCREEN_SIZE[0] // 2 - logo.get_width() // 2,
+                constants.SCREEN_SIZE[1] * 7 // 16 - logo.get_height() // 2,
             )
         )
         star_sprite = AnimSprite()
@@ -55,7 +55,7 @@ class ModeOpening0(Mode):
         self.all_sprites.add(star_sprite)
 
     def _changeMode(self):
-        self.next_mode = ModeOpening2()
+        self.next_mode = ModeOpening1()
 
     def _input(self, event):
         if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
@@ -81,12 +81,12 @@ class ModeOpening0(Mode):
                 False,
                 constants.DARK_TEXT_COLOR
             )
-            jk_logo = pygame.image.load(constants.JK_LOGO_LIGHT_GREY).convert(shared.display.screen)
+            logo = pygame.image.load(constants.JK_LOGO_LIGHT_GREY).convert(shared.display.screen)
             self.background.blit(
-                jk_logo,
+                logo,
                 (
-                    constants.SCREEN_SIZE[0] // 2 - jk_logo.get_width() // 2,
-                    constants.SCREEN_SIZE[1] * 7 // 16 - jk_logo.get_height() // 2,
+                    constants.SCREEN_SIZE[0] // 2 - logo.get_width() // 2,
+                    constants.SCREEN_SIZE[1] * 7 // 16 - logo.get_height() // 2,
                 )
             )
         if self.time >= 1750 and self.step < 3:
@@ -98,15 +98,15 @@ class ModeOpening0(Mode):
                 False,
                 constants.BLACK
             )
-            jk_logo = pygame.image.load(constants.JK_LOGO_GREY).convert(shared.display.screen)
+            logo = pygame.image.load(constants.JK_LOGO_GREY).convert(shared.display.screen)
             self.background.blit(
-                jk_logo,
+                logo,
                 (
-                    constants.SCREEN_SIZE[0] // 2 - jk_logo.get_width() // 2,
-                    constants.SCREEN_SIZE[1] * 7 // 16 - jk_logo.get_height() // 2,
+                    constants.SCREEN_SIZE[0] // 2 - logo.get_width() // 2,
+                    constants.SCREEN_SIZE[1] * 7 // 16 - logo.get_height() // 2,
                 )
             )
-        if self.time >= 4250 and self.step < 4:
+        if self.time >= 4250:
             self._changeMode()
 
     def _drawScreen(self, screen):

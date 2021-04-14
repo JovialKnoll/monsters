@@ -6,7 +6,7 @@ from mode import Mode
 from monster import Monster
 from modeopening3 import ModeOpening3
 
-class ModeOpening1(Mode):
+class ModeOpening2(Mode):
     move_time = 0
 
     __slots__ = (
@@ -15,7 +15,7 @@ class ModeOpening1(Mode):
     )
 
     def __init__(self):
-        super(ModeOpening1, self).__init__()
+        super(ModeOpening2, self).__init__()
         left_mon = Monster.atLevel(3)
         right_mon = Monster.atLevel(2)
 

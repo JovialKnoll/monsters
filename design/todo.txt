@@ -1,7 +1,6 @@
 1) finish opening
-    one more goofy logo?
-    looping title screen
-        generate x mons, give then looping animations such that they'll never overlap
+    one more goofy logo screen
+    need a logo to put on the looping screen
 2) music / sound
 3) content for convos and fights (based on each other)
 4) save implementation in some modes, only show save options if implemented

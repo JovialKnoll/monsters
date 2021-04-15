@@ -7,7 +7,7 @@ from animsprite import AnimSprite
 from modeopening1 import ModeOpening1
 
 class ModeOpening0(Mode):
-    logo_text = "Jovial Knoll"
+    LOGO_TEXT = "Jovial Knoll"
 
     __slots__ = (
         'time',
@@ -25,7 +25,7 @@ class ModeOpening0(Mode):
         shared.font_wrap.renderToCentered(
             self.background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
-            self.__class__.logo_text,
+            self.__class__.LOGO_TEXT,
             False,
             constants.BLACK
         )
@@ -68,7 +68,7 @@ class ModeOpening0(Mode):
             shared.font_wrap.renderToCentered(
                 self.background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
-                self.__class__.logo_text,
+                self.__class__.LOGO_TEXT,
                 False,
                 constants.TEXT_COLOR
             )
@@ -77,7 +77,7 @@ class ModeOpening0(Mode):
             shared.font_wrap.renderToCentered(
                 self.background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
-                self.__class__.logo_text,
+                self.__class__.LOGO_TEXT,
                 False,
                 constants.DARK_TEXT_COLOR
             )
@@ -94,7 +94,7 @@ class ModeOpening0(Mode):
             shared.font_wrap.renderToCentered(
                 self.background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
-                self.__class__.logo_text,
+                self.__class__.LOGO_TEXT,
                 False,
                 constants.BLACK
             )

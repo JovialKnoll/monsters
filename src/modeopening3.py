@@ -10,11 +10,11 @@ from monster import Monster
 from modemonconvo0 import ModeMonConvo0
 
 class ModeOpening3(Mode):
-    ground_level = constants.SCREEN_SIZE[1] - 16
-    center_time = 2500
-    transition_time = 750
-    empty_time = 250
-    full_monster_wait_time = empty_time + transition_time + center_time + transition_time
+    GROUND_LEVEL = constants.SCREEN_SIZE[1] - 16
+    CENTER_TIME = 2500
+    TRANSITION_TIME = 750
+    EMPTY_TIME = 250
+    FULL_MONSTER_WAIT_TIME = EMPTY_TIME + TRANSITION_TIME + CENTER_TIME + TRANSITION_TIME
     initial_wait_time = 0
 
     __slots__ = (
@@ -41,15 +41,15 @@ class ModeOpening3(Mode):
         self.monsters = deque((), 3)
         monster = self._getMonster(0)
         # start the first one in the center
-        monster.rect.midbottom = (constants.SCREEN_SIZE[0] // 2, self.__class__.ground_level)
+        monster.rect.midbottom = (constants.SCREEN_SIZE[0] // 2, self.__class__.GROUND_LEVEL)
         monster.anims.popleft()
         monster.anims.popleft()
         self.monsters.append(monster)
-        self.wait_time = self.__class__.center_time + self.__class__.transition_time
+        self.wait_time = self.__class__.CENTER_TIME + self.__class__.TRANSITION_TIME
         self.monsters.append(self._getMonster(self.wait_time))
-        self.wait_time += self.__class__.full_monster_wait_time
+        self.wait_time += self.__class__.FULL_MONSTER_WAIT_TIME
         self.monsters.append(self._getMonster(self.wait_time))
-        self.wait_time += self.__class__.full_monster_wait_time
+        self.wait_time += self.__class__.FULL_MONSTER_WAIT_TIME
         self.__class__.initial_wait_time = self.wait_time
 
     def _getMonster(self, wait_time):
@@ -63,21 +63,21 @@ class ModeOpening3(Mode):
         self.all_sprites.add(monster)
         monster.rect.midbottom = (
             constants.SCREEN_SIZE[0] + monster.rect.width // 2,
-            self.__class__.ground_level
+            self.__class__.GROUND_LEVEL
         )
-        monster.addWait(wait_time + self.__class__.empty_time)
+        monster.addWait(wait_time + self.__class__.EMPTY_TIME)
         monster.addPosAbs(
             Monster.Lerp,
-            self.__class__.transition_time,
+            self.__class__.TRANSITION_TIME,
             constants.SCREEN_SIZE[0] // 2,
-            self.__class__.ground_level - monster.rect.height // 2
+            self.__class__.GROUND_LEVEL - monster.rect.height // 2
         )
-        monster.addWait(self.__class__.center_time)
+        monster.addWait(self.__class__.CENTER_TIME)
         monster.addPosAbs(
             Monster.Lerp,
-            self.__class__.transition_time,
+            self.__class__.TRANSITION_TIME,
             monster.rect.width // -2,
-            self.__class__.ground_level - monster.rect.height // 2
+            self.__class__.GROUND_LEVEL - monster.rect.height // 2
         )
         return monster
 
@@ -88,11 +88,11 @@ class ModeOpening3(Mode):
     def _update(self, dt):
         self.wait_time -= dt
         # every so often, set up additional looping monsters here, so we don't run out
-        if self.wait_time < self.__class__.initial_wait_time - self.__class__.full_monster_wait_time:
+        if self.wait_time < self.__class__.initial_wait_time - self.__class__.FULL_MONSTER_WAIT_TIME:
             monster = self._getMonster(self.wait_time)
             self.monsters[0].kill()
             self.monsters.append(monster)
-            self.wait_time += self.__class__.full_monster_wait_time
+            self.wait_time += self.__class__.FULL_MONSTER_WAIT_TIME
 
     def _drawScreen(self, screen):
         screen.blit(self.background, (0, 0))

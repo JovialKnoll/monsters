@@ -9,10 +9,10 @@ from modeopening2 import ModeOpening2
 from animsprite import AnimSprite
 
 class ModeOpening1(Mode):
-    logo_text = "tinsil"
-    star_waves = 3
-    star_wait = 1250
-    star_travel = 350
+    LOGO_TEXT = "tinsil"
+    STAR_WAVES = 3
+    STAR_WAIT = 1250
+    STAR_TRAVEL = 350
 
     __slots__ = (
         'time',
@@ -29,7 +29,7 @@ class ModeOpening1(Mode):
         shared.font_wrap.renderToCentered(
             self.background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8 + 8),
-            self.__class__.logo_text,
+            self.__class__.LOGO_TEXT,
             False,
             constants.BLACK
         )
@@ -45,7 +45,7 @@ class ModeOpening1(Mode):
             )
         )
         star_number = 5
-        for i in range(self.__class__.star_waves):
+        for i in range(self.__class__.STAR_WAVES):
             for j in range(star_number):
                 radius = constants.SCREEN_SIZE[0] * 5 // 8
                 angle = j * 2 / star_number * math.pi
@@ -53,7 +53,7 @@ class ModeOpening1(Mode):
                 y = constants.SCREEN_SIZE[1] // 2 - radius * math.cos(angle)
                 self.makeStar(
                     star_image,
-                    self.__class__.star_wait + i * self.__class__.star_travel,
+                    self.__class__.STAR_WAIT + i * self.__class__.STAR_TRAVEL,
                     (x, y)
                 )
 
@@ -68,7 +68,7 @@ class ModeOpening1(Mode):
         star_sprite.addWait(wait)
         star_sprite.addPosAbs(
             AnimSprite.Lerp,
-            self.__class__.star_travel,
+            self.__class__.STAR_TRAVEL,
             dest
         )
         self.all_sprites.add(star_sprite)
@@ -82,7 +82,7 @@ class ModeOpening1(Mode):
 
     def _update(self, dt):
         self.time += dt
-        if self.time >= self.__class__.star_wait * 2 + self.__class__.star_travel * self.__class__.star_waves:
+        if self.time >= self.__class__.STAR_WAIT * 2 + self.__class__.STAR_TRAVEL * self.__class__.STAR_WAVES:
             self._changeMode()
 
     def _drawScreen(self, screen):

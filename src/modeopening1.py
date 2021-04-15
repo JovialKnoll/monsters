@@ -10,6 +10,7 @@ from animsprite import AnimSprite
 
 class ModeOpening1(Mode):
     logo_text = "tinsil"
+    star_waves = 3
     star_wait = 1250
     star_travel = 350
 
@@ -43,10 +44,11 @@ class ModeOpening1(Mode):
                 star_image.get_height() // 2,
             )
         )
-        for i in range(3):
-            for j in range(5):
+        star_number = 5
+        for i in range(self.__class__.star_waves):
+            for j in range(star_number):
                 radius = constants.SCREEN_SIZE[0] * 5 // 8
-                angle = j * 2 / 5 * math.pi
+                angle = j * 2 / star_number * math.pi
                 x = constants.SCREEN_SIZE[0] // 2 + radius * math.sin(angle)
                 y = constants.SCREEN_SIZE[1] // 2 - radius * math.cos(angle)
                 self.makeStar(
@@ -80,7 +82,7 @@ class ModeOpening1(Mode):
 
     def _update(self, dt):
         self.time += dt
-        if self.time >= self.__class__.star_wait * 2 + self.__class__.star_travel * 3:
+        if self.time >= self.__class__.star_wait * 2 + self.__class__.star_travel * self.__class__.star_waves:
             self._changeMode()
 
     def _drawScreen(self, screen):

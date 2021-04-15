@@ -1,5 +1,4 @@
 1) finish opening
-    one more goofy logo screen
     need a logo to put on the looping screen
 2) music / sound
 3) content for convos and fights (based on each other)

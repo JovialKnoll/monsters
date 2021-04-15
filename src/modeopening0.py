@@ -106,7 +106,7 @@ class ModeOpening0(Mode):
                     constants.SCREEN_SIZE[1] * 7 // 16 - logo.get_height() // 2,
                 )
             )
-        if self.time >= 4250:
+        if self.time >= 4000:
             self._changeMode()
 
     def _drawScreen(self, screen):

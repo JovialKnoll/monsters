@@ -17,6 +17,7 @@ JK_LOGO_BLACK = os.path.join(GRAPHICS_DIRECTORY, 'jklogo_black.png')
 JK_LOGO_GREY = os.path.join(GRAPHICS_DIRECTORY, 'jklogo_grey.png')
 JK_LOGO_LIGHT_GREY = os.path.join(GRAPHICS_DIRECTORY, 'jklogo_light_grey.png')
 STAR = os.path.join(GRAPHICS_DIRECTORY, 'star.png')
+TIN_LOGO = os.path.join(GRAPHICS_DIRECTORY, 'tin_logo.png')
 
 BACKGROUNDS_DIRECTORY = os.path.join(GRAPHICS_DIRECTORY, 'backgrounds')
 BLACKBOX_FILE = os.path.join(BACKGROUNDS_DIRECTORY, 'blackbox.png')

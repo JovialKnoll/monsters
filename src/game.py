@@ -40,6 +40,8 @@ class Game(object):
         self._current_mode.draw(shared.display.screen)
         shared.display.scaleDraw()
         if self._current_mode.next_mode is not None:
+            if isinstance(self._current_mode, ModeGameMenu):
+                pygame.mixer.unpause()
             self._current_mode = self._current_mode.next_mode
         return shared.game_running
 
@@ -78,6 +80,7 @@ class Game(object):
         if isinstance(self._current_mode, ModeGameMenu):
             return True
         self._current_mode = ModeGameMenu(self._current_mode)
+        pygame.mixer.pause()
         return False
 
     def _getTime(self):

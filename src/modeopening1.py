@@ -12,7 +12,7 @@ class ModeOpening1(Mode):
     LOGO_TEXT = "tinsil"
     STAR_WAVES = 3
     STAR_WAIT = 1250
-    STAR_TRAVEL = 350
+    STAR_TRAVEL = 500
 
     __slots__ = (
         'time',
@@ -44,7 +44,7 @@ class ModeOpening1(Mode):
                 star_image.get_height() // 2,
             )
         )
-        star_number = 5
+        star_number = 7
         for i in range(self.__class__.STAR_WAVES):
             for j in range(star_number):
                 radius = constants.SCREEN_SIZE[0] * 5 // 8

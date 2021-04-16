@@ -13,7 +13,6 @@ class Game(object):
     )
 
     def __init__(self, max_framerate):
-        """Start and create things as needed."""
         pygame.init()
         # time
         self._max_framerate = max_framerate
@@ -24,7 +23,6 @@ class Game(object):
         #self._current_mode = ModeTest()
 
     def __del__(self):
-        """End and delete things as needed."""
         pygame.quit()
 
     def run(self):
@@ -86,6 +84,5 @@ class Game(object):
         return False
 
     def _getTime(self):
-        """Take care of time stuff."""
         pygame.display.set_caption(str(self._clock.get_fps()))# just for debugging purposes
         return self._clock.tick(self._max_framerate)

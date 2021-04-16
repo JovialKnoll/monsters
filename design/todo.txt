@@ -1,6 +1,12 @@
 1) finish opening
     need a logo to put on the looping screen
 2) music / sound
+    opening sounds
+    opening music
+    fight sounds
+    fight music
+    convo music
+    maybe more
 3) content for convos and fights (based on each other)
 4) save implementation in some modes, only show save options if implemented
     (specific to modes + shared state, no generic pickling)

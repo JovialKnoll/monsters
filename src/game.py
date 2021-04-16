@@ -42,6 +42,8 @@ class Game(object):
         if self._current_mode.next_mode is not None:
             if isinstance(self._current_mode, ModeGameMenu):
                 pygame.mixer.unpause()
+            else:
+                pygame.mixer.stop()
             self._current_mode = self._current_mode.next_mode
         return shared.game_running
 

@@ -48,7 +48,7 @@ class ModeOpening2(Mode):
         right_mon.addWait(beat)
         # slash!
         left_mon.addPosRel(Monster.Lerp, 100, -jump // 2, -jump // 3)
-        left_mon.addPosRel(Monster.Lerp, 200, jump + jump // 2, jump // 3)
+        left_mon.addPosRel(Monster.Lerp, 200, jump + jump // 2, jump // 3, sound=pygame.mixer.Sound(constants.THUNK))
         right_mon.addWait(300)
         # jump back
         left_mon.addWait(beat)

@@ -30,8 +30,10 @@ class AnimSprite(pygame.sprite.DirtySprite):
         'last_pos',
         'time',
     )
+
     def __getstate__(self):
         return (self.rect, self.anims, self.last_pos, self.time)
+
     def __setstate__(self, state):
         super(AnimSprite, self).__init__()
         self.rect, self.anims, self.last_pos, self.time = state
@@ -56,6 +58,8 @@ class AnimSprite(pygame.sprite.DirtySprite):
         self.time += args[0]
         while self.anims and self.time >= self.anims[0].time:
             done_anim = self.anims.popleft()
+            if (done_anim.sound):
+                done_anim.sound.play()
             self.time -= done_anim.time
             self.rect.center = done_anim.pos
             self.last_pos = self.rect.center
@@ -70,18 +74,18 @@ class AnimSprite(pygame.sprite.DirtySprite):
         else:
             self.time = 0
 
-    def addPosAbs(self, func, time, x_or_pair, y=None):
+    def addPosAbs(self, func, time, x_or_pair, y=None, sound=None):
         self.anims.append(
-            Anim(func, time, x_or_pair, y)
+            Anim(func, time, x_or_pair, y, sound)
         )
 
-    def addPosRel(self, func, time, x_or_pair, y=None):
+    def addPosRel(self, func, time, x_or_pair, y=None, sound=None):
         newPos = Vec2d(x_or_pair, y)
         if self.anims:
             newPos += self.anims[-1].pos
         else:
             newPos += self.rect.center
-        self.addPosAbs(func, time, newPos)
+        self.addPosAbs(func, time, newPos, sound=sound)
 
-    def addWait(self, time):
-        self.addPosRel(AnimSprite.Binary, time, 0, 0)
+    def addWait(self, time, sound=None):
+        self.addPosRel(AnimSprite.Binary, time, 0, 0, sound)

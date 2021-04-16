@@ -14,13 +14,9 @@ class Game(object):
 
     def __init__(self, max_framerate):
         pygame.init()
-        # time
         self._max_framerate = max_framerate
         self._clock = pygame.time.Clock()
-        # mode (must be set before running)
         self._current_mode = ModeOpening0()
-        # test stuff
-        #self._current_mode = ModeTest()
 
     def __del__(self):
         pygame.quit()

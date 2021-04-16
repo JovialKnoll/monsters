@@ -44,7 +44,7 @@ class Monster(AnimSprite):
 
     def __init__(self, in_stats={}):
         """Create a new monster, setting stats, etc. as needed."""
-        super(Monster, self).__init__()
+        super().__init__()
         self.lvl = 0
         # self.awr might not even need to be a thing, remove this if it ends up not mattering
         self.awr = 0# awareness, this is a thing for conversations / progress through the game

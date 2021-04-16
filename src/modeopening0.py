@@ -16,7 +16,7 @@ class ModeOpening0(Mode):
     )
 
     def __init__(self):
-        super(ModeOpening0, self).__init__()
+        super().__init__()
 
         self.time = 0
         self.step = 0

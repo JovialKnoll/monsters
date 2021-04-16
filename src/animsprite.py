@@ -39,7 +39,7 @@ class AnimSprite(pygame.sprite.DirtySprite):
         self.rect, self.anims, self.last_pos, self.time = state
 
     def __init__(self):
-        super(AnimSprite, self).__init__()
+        super().__init__()
         # dirty = 2 : always draw
         self.dirty = 2
         self.anims = deque()

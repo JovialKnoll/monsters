@@ -25,7 +25,7 @@ class ModeOpening3(Mode):
     )
 
     def __init__(self):
-        super(ModeOpening3, self).__init__()
+        super().__init__()
         # static elements setup
         self.background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
         self.background.fill(constants.WHITE)

@@ -33,7 +33,7 @@ class ModeConvo(Mode):
     )
 
     def __init__(self):
-        super(ModeConvo, self).__init__()
+        super().__init__()
 
         self.background = pygame.image.load(constants.LAYOUT_1_FILE).convert(shared.display.screen)
         self.background.set_colorkey(constants.COLORKEY)

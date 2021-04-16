@@ -24,7 +24,7 @@ class ModeGameMenu(Mode):
     )
 
     def __init__(self, previous_mode):
-        super(ModeGameMenu, self).__init__()
+        super().__init__()
         self._state = ModeGameMenu.State.Menu
         self._previous_mode = previous_mode
         self._old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)

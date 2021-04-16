@@ -15,7 +15,7 @@ class ModeOpening2(Mode):
     )
 
     def __init__(self):
-        super(ModeOpening2, self).__init__()
+        super().__init__()
         left_mon = Monster.atLevel(3)
         right_mon = Monster.atLevel(2)
 

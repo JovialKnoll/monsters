@@ -17,7 +17,7 @@ class ModeTest(Mode):
         self.all_sprites.add(shared.state.protag_mon)
 
     def __init__(self):
-        super(ModeTest, self).__init__()
+        super().__init__()
         self._createMonster()
         self.dx = 0
         self.dy = 0

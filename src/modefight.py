@@ -65,7 +65,7 @@ class ModeFight(Mode):
 
     def __init__(self, player_mon, enemy_mon, draw_mode, win_mode, lose_mode):
         """The functions passed in should return the next mode."""
-        super(ModeFight, self).__init__()
+        super().__init__()
 
         self.player_mon = player_mon
         self.enemy_mon = enemy_mon

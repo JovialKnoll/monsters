@@ -67,9 +67,12 @@ class ModeConvo(Mode):
     def _input(self, event):
         if event.type == pygame.MOUSEMOTION:
             self.__class__.boxes.posSelect(event.pos)
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
-                if self.__class__.boxes.posSelect(event.pos) is not None:
+                if self.__class__.boxes.posSelect(event.pos) is not None \
+                    and self._mouseButtonStatus(event.button) \
+                    and self.__class__.boxes.posSelect(self._mouseButtonStatus(event.button)) \
+                        == self.__class__.boxes.posSelect(event.pos):
                     self._goButton(self.__class__.boxes.select)
             elif event.button == 4:
                 self.text_rect.move_ip(0, -constants.FONT_HEIGHT)

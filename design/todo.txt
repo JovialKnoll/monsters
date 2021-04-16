@@ -1,7 +1,6 @@
 1) finish opening
     need a logo to put on the looping screen
 2) music / sound
-    opening sounds
     opening music
     fight sounds
     fight music

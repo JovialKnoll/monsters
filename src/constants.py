@@ -29,5 +29,9 @@ MONSTER_PARTS_DIRECTORY = os.path.join(GRAPHICS_DIRECTORY, 'monster-parts')
 
 SOUND_DIRECTORY = 'sfx'
 THUNK = os.path.join(SOUND_DIRECTORY, 'thunk.wav')
+SPROING = os.path.join(SOUND_DIRECTORY, 'sproing.wav')
+FSSSH = os.path.join(SOUND_DIRECTORY, 'fsssh.wav')
+BIP = os.path.join(SOUND_DIRECTORY, 'bip.wav')
+LONGSLIDE = os.path.join(SOUND_DIRECTORY, 'longslide.wav')
 
 SAVE_DIRECTORY = 'savegames'

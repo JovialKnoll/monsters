@@ -11,8 +11,8 @@ from animsprite import AnimSprite
 class ModeOpening1(Mode):
     LOGO_TEXT = "tinsil"
     STAR_WAVES = 3
-    STAR_WAIT = 1250
-    STAR_TRAVEL = 500
+    STAR_WAIT = 1000
+    STAR_TRAVEL = 350
 
     __slots__ = (
         'time',
@@ -33,6 +33,7 @@ class ModeOpening1(Mode):
             False,
             constants.BLACK
         )
+        bip = pygame.mixer.Sound(constants.BIP)
         self.logo = pygame.image.load(constants.TIN_LOGO).convert(shared.display.screen)
         self.logo.set_colorkey(constants.COLORKEY)
         star_image = pygame.image.load(constants.STAR).convert(shared.display.screen)
@@ -54,10 +55,11 @@ class ModeOpening1(Mode):
                 self.makeStar(
                     star_image,
                     self.__class__.STAR_WAIT + i * self.__class__.STAR_TRAVEL,
-                    (x, y)
+                    (x, y),
+                    bip if j == 0 else None
                 )
 
-    def makeStar(self, image, wait, dest):
+    def makeStar(self, image, wait, dest, sound):
         star_sprite = AnimSprite()
         star_sprite.image = image
         star_sprite.rect = star_sprite.image.get_rect()
@@ -65,7 +67,7 @@ class ModeOpening1(Mode):
             constants.SCREEN_SIZE[0] // 2,
             constants.SCREEN_SIZE[1] // 2,
         )
-        star_sprite.addWait(wait)
+        star_sprite.addWait(wait, sound=sound)
         star_sprite.addPosAbs(
             AnimSprite.Lerp,
             self.__class__.STAR_TRAVEL,

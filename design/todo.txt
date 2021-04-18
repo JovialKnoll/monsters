@@ -1,8 +1,11 @@
+pause time measuring, updating when moving window (maybe also when window loses focus)
+
 1) finish opening
     need a logo to put on the looping screen
 2) music / sound
     opening music
     fight sounds
+    make sounds play with particular left / right volumes instead of being centered
     fight music
     convo music
     maybe more

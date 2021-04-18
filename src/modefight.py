@@ -53,6 +53,7 @@ class ModeFight(Mode):
     enemy_pos = (262, 128)
 
     __slots__ = (
+        'thunk',
         'player_mon',
         'enemy_mon',
         'player_action',
@@ -67,6 +68,8 @@ class ModeFight(Mode):
     def __init__(self, player_mon, enemy_mon, draw_mode, win_mode, lose_mode):
         """The functions passed in should return the next mode."""
         super().__init__()
+
+        self.thunk = pygame.mixer.Sound(constants.THUNK)
 
         self.player_mon = player_mon
         self.enemy_mon = enemy_mon
@@ -99,8 +102,7 @@ class ModeFight(Mode):
 
         if self.player_action == 'Attack':
             self._setActionDisplay("I'm gonna hit 'em!")
-            # add animations here, old logic is below
-            self.player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
+            self.player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0, sound=self.thunk)
             self.player_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
         elif self.player_action == 'Defend':
             self._setActionDisplay("I'm gonna block 'em!")
@@ -113,7 +115,7 @@ class ModeFight(Mode):
             self.player_mon.addPosRel(AnimSprite.Lerp, 67, 20, 0)
 
         if self.enemy_action == 'Attack':
-            self.enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
+            self.enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0, sound=self.thunk)
             self.enemy_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
             pass
         elif self.enemy_action == 'Defend':

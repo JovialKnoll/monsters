@@ -10,6 +10,7 @@ from personality import Personality
 from skin import Skin
 from mood import Mood
 
+
 class Monster(AnimSprite):
     drv_max = 4
     lvl_max = 3
@@ -47,7 +48,8 @@ class Monster(AnimSprite):
         super().__init__()
         self.lvl = 0
         # self.awr might not even need to be a thing, remove this if it ends up not mattering
-        self.awr = 0# awareness, this is a thing for conversations / progress through the game
+        # awareness, this is a thing for conversations / progress through the game
+        self.awr = 0
         # it might make more sense to hold info for conversations flow in shared.state, but I'm not sure
         # depends on how this number interacts with monster stuff
         self.personality = Personality.random()
@@ -84,12 +86,13 @@ class Monster(AnimSprite):
         elif action == 'defend':
             attack += self.stats['atk']//2 + self.stats['def']//2
             defend += self.stats['atk']//2 + self.stats['spd'] + random.randint(0, 1)
-        else:# 'escape'
+        # 'escape'
+        else:
             attack = attack//2 + self.stats['spd']//2
             defend = defend//2 + self.stats['spd']//2
         attack = max(attack + random.randint(-1, 1) + self._drvEffect(), 0)
         defend = max(defend + random.randint(-1, 1) + self._drvEffect(), 0)
-        return (attack, defend)
+        return attack, defend
 
     def _levelStats(self):
         for stat in self.__class__.main_stats:

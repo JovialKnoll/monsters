@@ -1,3 +1,5 @@
+import abc
+
 import pygame
 
 import constants
@@ -5,6 +7,7 @@ import utility
 import shared
 from mode import Mode
 from boxes import Boxes
+
 
 class ModeConvo(Mode):
     scroll_amount_speed = 0.1
@@ -52,14 +55,17 @@ class ModeConvo(Mode):
             )
         # what else do conversations need?
 
+    @abc.abstractmethod
     def _textMain(self):
         # return text for main section
         raise NotImplementedError(self.__class__.__name__ + "._textMain(self)")
 
+    @abc.abstractmethod
     def _textButton(self, index):
         # return text for button
         raise NotImplementedError(self.__class__.__name__ + "._textButton(self, index)")
 
+    @abc.abstractmethod
     def _goButton(self, index):
         # do stuff for button
         raise NotImplementedError(self.__class__.__name__ + "._goButton(self, index)")

@@ -5,6 +5,7 @@ import pygame
 import shared
 from modemonconvo import ModeMonConvo
 
+
 class ModeMenu(ModeMonConvo):
     __slots__ = (
     )
@@ -33,6 +34,7 @@ class ModeMenu(ModeMonConvo):
             return "Time for a Checkup"
         elif index == 3:
             return "Take a Break"
+
     def _goButton(self, index):
         if index == 0:
             print("Go to a convo?")

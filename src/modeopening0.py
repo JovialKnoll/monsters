@@ -6,6 +6,7 @@ from mode import Mode
 from animsprite import AnimSprite
 from modeopening1 import ModeOpening1
 
+
 class ModeOpening0(Mode):
     LOGO_TEXT = "Jovial Knoll"
 

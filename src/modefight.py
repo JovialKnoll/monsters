@@ -10,6 +10,7 @@ from mode import Mode
 from boxes import Boxes
 from animsprite import AnimSprite
 
+
 class ModeFight(Mode):
     health_bar_length = 60
     box_choices = [
@@ -212,15 +213,17 @@ class ModeFight(Mode):
 
     def _drawScreen(self, screen):
         screen.fill(constants.WHITE)
-        screen.blit(self.__class__.background, (0,0))
+        screen.blit(self.__class__.background, (0, 0))
         if not self.action_set:
             screen.blit(self.__class__.black_box, self.__class__.boxes.getSelectRect())
 
-        player_bar_length = self.__class__.health_bar_length * self.player_mon.stats['hpc'] // self.player_mon.stats['hpm']
+        player_bar_length = self.__class__.health_bar_length \
+            * self.player_mon.stats['hpc'] // self.player_mon.stats['hpm']
         screen.fill(self.player_mon.getLightSkin(), (138, 30, player_bar_length, 10))
         screen.blit(self.__class__.health_bar, (137, 29))
 
-        enemy_bar_length = self.__class__.health_bar_length * self.enemy_mon.stats['hpc'] // self.enemy_mon.stats['hpm']
+        enemy_bar_length = self.__class__.health_bar_length \
+            * self.enemy_mon.stats['hpc'] // self.enemy_mon.stats['hpm']
         screen.fill(self.enemy_mon.getLightSkin(), (294 - enemy_bar_length, 30, enemy_bar_length, 10))
         screen.blit(self.__class__.health_bar, (233, 29))
         # maybe draw health numbers / stats / etc

@@ -1,8 +1,9 @@
+import abc
+
 import pygame
 
-import shared
 
-class Mode(object):
+class Mode(abc.ABC):
     """This is an abstract object for game modes.
     Children of this should implement _input, update, and draw.
     """
@@ -39,6 +40,7 @@ class Mode(object):
             return False
         return self.__pressed_mouse_buttons[button]
 
+    @abc.abstractmethod
     def _input(self, event):
         raise NotImplementedError(
             self.__class__.__name__ + "._input(self, event)"
@@ -58,6 +60,7 @@ class Mode(object):
         self._update(dt)
         self.all_sprites.update(dt)
 
+    @abc.abstractmethod
     def _drawScreen(self, screen):
         raise NotImplementedError(
             self.__class__.__name__ + "._drawScreen(self, screen)"

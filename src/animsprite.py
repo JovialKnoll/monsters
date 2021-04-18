@@ -6,6 +6,7 @@ import utility
 from anim import Anim
 from vec2d import Vec2d
 
+
 class AnimSprite(pygame.sprite.DirtySprite):
     Binary = 'Binary'
     Lerp = 'LERP'
@@ -21,6 +22,7 @@ class AnimSprite(pygame.sprite.DirtySprite):
         IncDecSpeed: utility.incDecSpeedLerp,
         DecIncSpeed: utility.decIncSpeedLerp,
     }
+
     @classmethod
     def toFunc(cls, func):
         return cls.funcDict.get(func, utility.lerp)
@@ -32,7 +34,7 @@ class AnimSprite(pygame.sprite.DirtySprite):
     )
 
     def __getstate__(self):
-        return (self.rect, self.anims, self.last_pos, self.time)
+        return self.rect, self.anims, self.last_pos, self.time
 
     def __setstate__(self, state):
         super(AnimSprite, self).__init__()
@@ -58,7 +60,7 @@ class AnimSprite(pygame.sprite.DirtySprite):
         self.time += args[0]
         while self.anims and self.time >= self.anims[0].time:
             done_anim = self.anims.popleft()
-            if (done_anim.sound):
+            if done_anim.sound:
                 done_anim.sound.play()
             self.time -= done_anim.time
             self.rect.center = done_anim.pos

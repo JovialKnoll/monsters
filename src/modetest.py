@@ -6,6 +6,7 @@ import shared
 from mode import Mode
 from monster import Monster
 
+
 class ModeTest(Mode):
     fill = (31, 31, 31)
     test_text = "01234567890123456789"

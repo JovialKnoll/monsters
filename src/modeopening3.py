@@ -9,6 +9,7 @@ from mode import Mode
 from monster import Monster
 from modemonconvo0 import ModeMonConvo0
 
+
 class ModeOpening3(Mode):
     GROUND_LEVEL = constants.SCREEN_SIZE[1] - 16
     CENTER_TIME = 2500

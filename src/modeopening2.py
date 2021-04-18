@@ -6,6 +6,7 @@ from mode import Mode
 from monster import Monster
 from modeopening3 import ModeOpening3
 
+
 class ModeOpening2(Mode):
     move_time = 0
 
@@ -69,7 +70,8 @@ class ModeOpening2(Mode):
         right_mon.addPosRel(Monster.Lerp, beat, jump // 2, jump // 2)
         # fire
         right_mon.addWait(beat * 2)
-        right_mon.addPosRel(Monster.Lerp, beat, -jump * 6 - jump // 2, -jump * 2 - jump // 2, sound=pygame.mixer.Sound(constants.FSSSH))
+        right_mon.addPosRel(Monster.Lerp, beat, -jump * 6 - jump // 2, -jump * 2 - jump // 2,
+            sound=pygame.mixer.Sound(constants.FSSSH))
 
         # higher layer = draw later = "in front"
         left_mon.layer = 1
@@ -90,11 +92,11 @@ class ModeOpening2(Mode):
 
     def _update(self, dt):
         self.total_time += dt
-        if (self.total_time >= self.__class__.move_time):
+        if self.total_time >= self.__class__.move_time:
             self.fade.set_alpha(
                 min((self.total_time - self.__class__.move_time) * 255 / 750, 255)
             )
-        if (self.total_time >= self.__class__.move_time + 1500):
+        if self.total_time >= self.__class__.move_time + 1500:
             self._changeMode()
 
     def _drawScreen(self, screen):

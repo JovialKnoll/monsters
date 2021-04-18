@@ -36,7 +36,7 @@ class Boxes(object):
         return None
 
     def numberSelect(self, num):
-        if num >= 0 and num < len(self.rects):
+        if 0 <= num < len(self.rects):
             self.select = num
             return self.select
         return None

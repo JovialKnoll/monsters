@@ -7,6 +7,7 @@ import constants
 import shared
 from mode import Mode
 
+
 class ModeGameMenu(Mode):
     class State(object):
         Menu, Save, Load = range(3)
@@ -79,7 +80,7 @@ class ModeGameMenu(Mode):
             if event.key == pygame.K_ESCAPE:
                 self._state = ModeGameMenu.State.Menu
             elif event.key == pygame.K_RETURN:
-            # also call on a button press
+                # also call on a button press
                 if self._save_name:
                     self._saveGame()
                     self._state = ModeGameMenu.State.Menu
@@ -100,7 +101,8 @@ class ModeGameMenu(Mode):
                 self._resetCursorBlink()
             elif event.key == pygame.K_BACKSPACE:
                 if self._cursor_position > 0:
-                    self._save_name = self._save_name[:self._cursor_position-1] + self._save_name[self._cursor_position:]
+                    self._save_name = self._save_name[:self._cursor_position-1] \
+                        + self._save_name[self._cursor_position:]
                     self._cursor_position -= 1
                 self._resetCursorBlink()
             elif (
@@ -112,7 +114,9 @@ class ModeGameMenu(Mode):
                     or (96 < event.key < 123)
                 )
             ):
-                self._save_name = self._save_name[:self._cursor_position] + char + self._save_name[self._cursor_position:]
+                self._save_name = self._save_name[:self._cursor_position]\
+                    + char\
+                    + self._save_name[self._cursor_position:]
                 self._cursor_position += 1
                 self._resetCursorBlink()
 
@@ -148,12 +152,12 @@ class ModeGameMenu(Mode):
             raise RuntimeError("error: self._state = " + str(self._state))
 
     def _drawScreen(self, screen):
-        screen.blit(self._old_screen, (0,0))
+        screen.blit(self._old_screen, (0, 0))
         if self._state is ModeGameMenu.State.Menu:
             disp_text = "Options:\n_Go Back (ESC)\n_Save (F1)\n_Load (F2)\n_Quit (F3)"
             shared.font_wrap.renderToInside(
                 screen,
-                (0,0),
+                (0, 0),
                 self.__class__.menu_width * constants.FONT_SIZE,
                 disp_text,
                 False,
@@ -169,7 +173,7 @@ class ModeGameMenu(Mode):
             disp_text += self.__class__.file_extension
             shared.font_wrap.renderToInside(
                 screen,
-                (0,0),
+                (0, 0),
                 self.__class__.menu_width * constants.FONT_SIZE,
                 disp_text,
                 False,
@@ -191,7 +195,7 @@ class ModeGameMenu(Mode):
             disp_text += self.__class__.file_extension
             shared.font_wrap.renderToInside(
                 screen,
-                (0,0),
+                (0, 0),
                 self.__class__.menu_width * constants.FONT_SIZE,
                 disp_text,
                 False,

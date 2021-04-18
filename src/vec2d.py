@@ -6,6 +6,7 @@
 import operator
 import math
 
+
 class Vec2d(object):
     """2d vector class.
     Supports vector and scalar operators,
@@ -16,7 +17,7 @@ class Vec2d(object):
         'y',
     )
     def __getstate__(self):
-        return (self.x, self.y)
+        return self.x, self.y
     def __setstate__(self, state):
         self.x, self.y = state
 
@@ -144,9 +145,9 @@ class Vec2d(object):
     def __rmod__(self, other):
         return self._r_o2(other, operator.mod)
     def __divmod__(self, other):
-        return self._o2(other, operator.divmod)
+        return self._o2(other, divmod)
     def __rdivmod__(self, other):
-        return self._r_o2(other, operator.divmod)
+        return self._r_o2(other, divmod)
 
     # Exponentation
     def __pow__(self, other):
@@ -209,7 +210,7 @@ class Vec2d(object):
             self.x*sin + self.y*cos
         )
     def get_angle(self):
-        if (self.get_length_sqrd() == 0):
+        if self.get_length_sqrd() == 0:
             return 0
         return math.degrees(math.atan2(self.y, self.x))
     def __setangle(self, angle_degrees):
@@ -256,16 +257,17 @@ class Vec2d(object):
         other_length_sqrd = other[0]**2 + other[1]**2
         projected_length_times_other_length = self.dot(other)
         return other*(projected_length_times_other_length/other_length_sqrd)
-    def interpolate_to(self, other, range):
+    def interpolate_to(self, other, mix):
         return Vec2d(
-            self.x + (other[0] - self.x)*range,
-            self.y + (other[1] - self.y)*range
+            self.x + (other[0] - self.x)*mix,
+            self.y + (other[1] - self.y)*mix
         )
     def convert_to_basis(self, x_vector, y_vector):
         return Vec2d(
             self.dot(x_vector)/x_vector.get_length_sqrd(),
             self.dot(y_vector)/y_vector.get_length_sqrd()
         )
+
 
 # Unit Testing
 if __name__ == "__main__":
@@ -275,43 +277,43 @@ if __name__ == "__main__":
         def setUp(self):
             pass
         def testCreationAndAccess(self):
-            v = Vec2d(111,222)
+            v = Vec2d(111, 222)
             self.assertTrue(v.x == 111 and v.y == 222)
             v.x = 333
             v[1] = 444
             self.assertTrue(v[0] == 333 and v[1] == 444)
         def testMath(self):
-            v = Vec2d(111,222)
-            self.assertEqual(v + 1, Vec2d(112,223))
-            self.assertTrue(v - 2 == [109,220])
-            self.assertTrue(v * 3 == (333,666))
+            v = Vec2d(111, 222)
+            self.assertEqual(v + 1, Vec2d(112, 223))
+            self.assertTrue(v - 2 == [109, 220])
+            self.assertTrue(v * 3 == (333, 666))
             self.assertTrue(v / 2.0 == Vec2d(55.5, 111))
             self.assertTrue(v / 2 == (55.5, 111))
-            self.assertTrue(v ** Vec2d(2,3) == [12321, 10941048])
+            self.assertTrue(v ** Vec2d(2, 3) == [12321, 10941048])
             self.assertTrue(v + [-11, 78] == Vec2d(100, 300))
-            self.assertTrue(v / [10,2] == [11.1,111])
+            self.assertTrue(v / [10, 2] == [11.1, 111])
         def testReverseMath(self):
-            v = Vec2d(111,222)
-            self.assertTrue(1 + v == Vec2d(112,223))
-            self.assertTrue(2 - v == [-109,-220])
-            self.assertTrue(3 * v == (333,666))
-            self.assertTrue([222,888] / v == [2,4])
-            self.assertTrue([111,222] ** Vec2d(2,3) == [12321, 10941048])
+            v = Vec2d(111, 222)
+            self.assertTrue(1 + v == Vec2d(112, 223))
+            self.assertTrue(2 - v == [-109, -220])
+            self.assertTrue(3 * v == (333, 666))
+            self.assertTrue([222, 888] / v == [2, 4])
+            self.assertTrue([111, 222] ** Vec2d(2, 3) == [12321, 10941048])
             self.assertTrue([-11, 78] + v == Vec2d(100, 300))
         def testUnary(self):
-            v = Vec2d(111,222)
+            v = Vec2d(111, 222)
             v = -v
-            self.assertTrue(v == [-111,-222])
+            self.assertTrue(v == [-111, -222])
             v = abs(v)
-            self.assertTrue(v == [111,222])
+            self.assertTrue(v == [111, 222])
         def testLength(self):
-            v = Vec2d(3,4)
+            v = Vec2d(3, 4)
             self.assertTrue(v.length == 5)
             self.assertTrue(v.get_length_sqrd() == 25)
             self.assertTrue(v.normalize_return_length() == 5)
             self.assertTrue(v.length == 1)
             v.length = 5
-            self.assertTrue(v == Vec2d(3,4))
+            self.assertTrue(v == Vec2d(3, 4))
             v2 = Vec2d(10, -2)
             self.assertTrue(v.get_distance(v2) == (v - v2).get_length())
         def testAngles(self):
@@ -329,7 +331,6 @@ if __name__ == "__main__":
             v2.rotate(300)
             self.assertAlmostEqual(v.get_angle_between(v2), -60)
             v2.rotate(v2.get_angle_between(v))
-            angle = v.get_angle_between(v2)
             self.assertAlmostEqual(v.get_angle_between(v2), 0)
         def testHighLevel(self):
             basis0 = Vec2d(5.0, 0)
@@ -340,7 +341,7 @@ if __name__ == "__main__":
             self.assertTrue(basis0.dot(basis1) == 0)
         def testCross(self):
             lhs = Vec2d(1, .5)
-            rhs = Vec2d(4,6)
+            rhs = Vec2d(4, 6)
             self.assertTrue(lhs.cross(rhs) == 4)
         def testComparison(self):
             int_vec = Vec2d(3, -2)
@@ -348,8 +349,8 @@ if __name__ == "__main__":
             zero_vec = Vec2d(0, 0)
             self.assertTrue(int_vec == flt_vec)
             self.assertTrue(int_vec != zero_vec)
-            self.assertTrue((flt_vec == zero_vec) == False)
-            self.assertTrue((flt_vec != int_vec) == False)
+            self.assertTrue((flt_vec == zero_vec) is False)
+            self.assertTrue((flt_vec != int_vec) is False)
             self.assertTrue(int_vec == (3, -2))
             self.assertTrue(int_vec != [0, 0])
             self.assertTrue(int_vec != 5)
@@ -357,7 +358,6 @@ if __name__ == "__main__":
         def testInplace(self):
             inplace_vec = Vec2d(5, 13)
             inplace_ref = inplace_vec
-            inplace_src = Vec2d(inplace_vec)
             inplace_vec *= .5
             inplace_vec += .5
             inplace_vec /= (3, 6)

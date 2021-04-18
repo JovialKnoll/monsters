@@ -8,6 +8,7 @@ from mode import Mode
 from modeopening2 import ModeOpening2
 from animsprite import AnimSprite
 
+
 class ModeOpening1(Mode):
     LOGO_TEXT = "tinsil"
     STAR_WAVES = 3

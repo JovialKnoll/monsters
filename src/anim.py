@@ -1,5 +1,6 @@
 from vec2d import Vec2d
 
+
 class Anim(object):
     __slots__ = (
         'func',
@@ -9,7 +10,7 @@ class Anim(object):
     )
 
     def __getstate__(self):
-        return (self.func, self.time, self.pos)
+        return self.func, self.time, self.pos
 
     def __setstate__(self, state):
         self.func, self.time, self.pos = state

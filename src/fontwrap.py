@@ -3,6 +3,7 @@ import pygame
 import constants
 import shared
 
+
 class FontWrap(object):
     __slots__ = (
         'font',
@@ -44,7 +45,7 @@ class FontWrap(object):
         # probably more efficient to do once?
         part_dest = [dest[0], dest[1]]
         for line in [line.split() for line in text.splitlines()]:
-            if line == []:
+            if not line:
                 line = [""]
             if background is None:
                 img = self.renderWordsInside(width, line, antialias, color, constants.COLORKEY)
@@ -59,7 +60,7 @@ class FontWrap(object):
         height = 0
         imgs = []
         for line in [line.split() for line in text.splitlines()]:
-            if line == []:
+            if not line:
                 line = [""]
             imgs.append(self.renderWordsInside(width, line, antialias, color, background or constants.COLORKEY))
             height += imgs[-1].get_height()

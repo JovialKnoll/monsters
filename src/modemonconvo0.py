@@ -5,6 +5,7 @@ from modefight import ModeFight
 from monster import Monster
 from modemenu import ModeMenu
 
+
 class ModeMonConvo0(ModeMonConvo):
     __slots__ = (
     )
@@ -20,6 +21,7 @@ class ModeMonConvo0(ModeMonConvo):
             "c\n" + \
             "d\n" + \
             "e\n"
+
     def _textButton(self, index):
         if index == 0:
             return "Go, to ModeTest!"
@@ -29,6 +31,7 @@ class ModeMonConvo0(ModeMonConvo):
             return "Content~"
         elif index == 3:
             return "Excited!"
+
     def _goButton(self, index):
         if index == 0:
             print("Button 0 was pressed.")
@@ -46,8 +49,8 @@ class ModeMonConvo0(ModeMonConvo):
             print("The main thing would be to have pressing a button set variables.")
             self.next_mode = ModeMenu()
         elif index == 3:
-            print("The other main thing would be to have pressing a button change the mode.\n" + \
-                "It could set variables and then change the mode.")
+            print("The other main thing would be to have pressing a button change the mode.\n"
+                + "It could set variables and then change the mode.")
     # __init__ need not be implemented unless adding things
     # if adding things to init, should start as below
     # def __init__(self):

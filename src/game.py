@@ -1,9 +1,9 @@
 import pygame
 
-import constants
 import shared
 from modegamemenu import ModeGameMenu
 from modeopening0 import ModeOpening0
+
 
 class Game(object):
     __slots__ = (
@@ -43,7 +43,7 @@ class Game(object):
 
     def _filterInput(self, events):
         """Take care of input that game modes should not take care of."""
-        return map(shared.display._scaleMouseInput, filter(self._stillNeedsHandling, events))
+        return map(shared.display.scaleMouseInput, filter(self._stillNeedsHandling, events))
 
     def _stillNeedsHandling(self, event):
         """If event should be handled before all others, handle it and return False, otherwise return True.
@@ -80,5 +80,6 @@ class Game(object):
         return False
 
     def _getTime(self):
-        pygame.display.set_caption(str(self._clock.get_fps()))# just for debugging purposes
+        # just for debugging purposes
+        pygame.display.set_caption(str(self._clock.get_fps()))
         return self._clock.tick(self._max_framerate)

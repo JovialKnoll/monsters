@@ -1,5 +1,6 @@
 from monster import Monster
 
+
 class State(object):
     __slots__ = (
         'protag_mon',

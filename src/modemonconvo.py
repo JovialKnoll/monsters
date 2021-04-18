@@ -1,6 +1,7 @@
 import shared
 from modeconvo import ModeConvo
 
+
 class ModeMonConvo(ModeConvo):
     __slots__ = (
     )

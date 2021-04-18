@@ -4,6 +4,7 @@ import pygame
 
 import constants
 
+
 class Display(object):
     __slots__ = (
         '_monitor_res',
@@ -82,7 +83,7 @@ class Display(object):
         self.screen = self.screen.convert(self._full_screen)
         self.is_fullscreen = True
 
-    def _scaleMouseInput(self, event):
+    def scaleMouseInput(self, event):
         """Scale mouse position for events in terms of the screen (as opposed to the display surface)."""
         if event.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONUP, pygame.MOUSEBUTTONDOWN):
             if self.is_fullscreen:

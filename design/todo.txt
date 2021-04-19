@@ -1,17 +1,20 @@
-pause time measuring, updating when moving window (maybe also when window loses focus)
-
+necessary:
 1) finish opening
     need a logo to put on the looping screen
 2) music / sound
     opening music
     fight sounds
-    make sounds play with particular left / right volumes instead of being centered
+        defend and escape sounds
     fight music
     convo music
     maybe more
+    make sounds play with particular left / right volumes instead of being centered
 3) content for convos and fights (based on each other)
 4) save implementation in some modes, only show save options if implemented
     (specific to modes + shared state, no generic pickling)
+    https://docs.python.org/3/library/pickle.html#object.__getstate__
+    saving to an existing save file name
+    make a class to handle saves?
 5) load implementation
 6) make and check settings file (main.py or game.py?)
 	window size
@@ -21,17 +24,11 @@ pause time measuring, updating when moving window (maybe also when window loses 
 7) build exes for playing without python and pygame installed
 8) https://github.com/wasmerio/wasmer-python
 
-saving the game!
-	https://docs.python.org/3/library/pickle.html#object.__getstate__
-	loading
-	saving to an existing save file name
-	buttons?
-	make a class to handle saves
-
-re-evaluate mon stats
+optional:
+1) pause time measuring, updating when moving window
+    maybe also when window loses focus
+2) re-evaluate mon stats
 	tally up results for winners for different possible distributions of stats
 	balancing that
 	maybe check that can be strategy to fight choices?
-
-lower priority:
-	(maybe) scroll slider thingy for convomode.py, click-and-drag-able
+3) scroll slider thingy for convomode.py, click-and-drag-able

@@ -54,6 +54,7 @@ class ModeFight(Mode):
 
     __slots__ = (
         'thunk',
+        'rooeee',
         'player_mon',
         'enemy_mon',
         'player_action',
@@ -70,6 +71,7 @@ class ModeFight(Mode):
         super().__init__()
 
         self.thunk = pygame.mixer.Sound(constants.THUNK)
+        self.rooeee = pygame.mixer.Sound(constants.ROOEEE)
 
         self.player_mon = player_mon
         self.enemy_mon = enemy_mon
@@ -111,6 +113,7 @@ class ModeFight(Mode):
             self.player_mon.addPosRel(AnimSprite.Lerp, 67, -4, 0)
         elif self.player_action == 'Escape':
             self._setActionDisplay("I'm gonna run away!")
+            self.player_mon.addWait(0, sound=self.rooeee)
             self.player_mon.addPosRel(AnimSprite.Lerp, 333, -20, 0)
             self.player_mon.addPosRel(AnimSprite.Lerp, 67, 20, 0)
 

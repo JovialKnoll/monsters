@@ -34,5 +34,6 @@ FSSSH = os.path.join(SOUND_DIRECTORY, 'fsssh.wav')
 BIP = os.path.join(SOUND_DIRECTORY, 'bip.wav')
 LONGSLIDE = os.path.join(SOUND_DIRECTORY, 'longslide.wav')
 ROOEEE = os.path.join(SOUND_DIRECTORY, 'rooeee.wav')
+BWOP = os.path.join(SOUND_DIRECTORY, 'bwop.wav')
 
 SAVE_DIRECTORY = 'savegames'

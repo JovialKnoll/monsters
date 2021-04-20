@@ -55,6 +55,7 @@ class ModeFight(Mode):
     __slots__ = (
         'thunk',
         'rooeee',
+        'bwop',
         'player_mon',
         'enemy_mon',
         'player_action',
@@ -72,6 +73,7 @@ class ModeFight(Mode):
 
         self.thunk = pygame.mixer.Sound(constants.THUNK)
         self.rooeee = pygame.mixer.Sound(constants.ROOEEE)
+        self.bwop = pygame.mixer.Sound(constants.BWOP)
 
         self.player_mon = player_mon
         self.enemy_mon = enemy_mon
@@ -108,7 +110,7 @@ class ModeFight(Mode):
             self.player_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
         elif self.player_action == 'Defend':
             self._setActionDisplay("I'm gonna block 'em!")
-            self.player_mon.addPosRel(AnimSprite.Lerp, 133, -8, 0)
+            self.player_mon.addPosRel(AnimSprite.Lerp, 133, -8, 0, sound=self.bwop)
             self.player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
             self.player_mon.addPosRel(AnimSprite.Lerp, 67, -4, 0)
         elif self.player_action == 'Escape':
@@ -122,7 +124,7 @@ class ModeFight(Mode):
             self.enemy_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
             pass
         elif self.enemy_action == 'Defend':
-            self.enemy_mon.addPosRel(AnimSprite.Lerp, 133, 8, 0)
+            self.enemy_mon.addPosRel(AnimSprite.Lerp, 133, 8, 0, sound=self.bwop)
             self.enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
             self.enemy_mon.addPosRel(AnimSprite.Lerp, 67, 4, 0)
             pass

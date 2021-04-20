@@ -31,4 +31,5 @@ optional:
 	tally up results for winners for different possible distributions of stats
 	balancing that
 	maybe check that can be strategy to fight choices?
-3) scroll slider thingy for convomode.py, click-and-drag-able
+3) deduplicate shared code in convo and fight modes around boxes
+4) scroll slider thingy for convomode.py, click-and-drag-able

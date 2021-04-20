@@ -51,6 +51,7 @@ class ModeFight(Mode):
     health_bar.set_colorkey(constants.COLORKEY)
     player_pos = (170, 128)
     enemy_pos = (262, 128)
+    anim_wait = 250
 
     __slots__ = (
         'thunk',
@@ -91,7 +92,7 @@ class ModeFight(Mode):
         self.action_display = deque((), 4)
         self.action_set = False
 
-        self.result_displayed = False
+        self.result_displayed = 0
 
         self.result = False
         self.result_mode = {
@@ -106,24 +107,29 @@ class ModeFight(Mode):
 
         if self.player_action == 'Attack':
             self._setActionDisplay("I'm gonna hit 'em!")
+            self.player_mon.addWait(self.__class__.anim_wait)
             self.player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0, sound=self.thunk)
             self.player_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
         elif self.player_action == 'Defend':
             self._setActionDisplay("I'm gonna block 'em!")
+            self.player_mon.addWait(self.__class__.anim_wait)
             self.player_mon.addPosRel(AnimSprite.Lerp, 133, -8, 0, sound=self.bwop)
             self.player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
             self.player_mon.addPosRel(AnimSprite.Lerp, 67, -4, 0)
         elif self.player_action == 'Escape':
             self._setActionDisplay("I'm gonna run away!")
+            self.player_mon.addWait(self.__class__.anim_wait)
             self.player_mon.addWait(0, sound=self.rooeee)
             self.player_mon.addPosRel(AnimSprite.Lerp, 333, -20, 0)
             self.player_mon.addPosRel(AnimSprite.Lerp, 67, 20, 0)
 
         if self.enemy_action == 'Attack':
+            self.enemy_mon.addWait(self.__class__.anim_wait)
             self.enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0, sound=self.thunk)
             self.enemy_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
             pass
         elif self.enemy_action == 'Defend':
+            self.enemy_mon.addWait(self.__class__.anim_wait)
             self.enemy_mon.addPosRel(AnimSprite.Lerp, 133, 8, 0, sound=self.bwop)
             self.enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
             self.enemy_mon.addPosRel(AnimSprite.Lerp, 67, 4, 0)
@@ -132,7 +138,8 @@ class ModeFight(Mode):
     def _input(self, event):
         # click forward to next mode
         if self.result:
-            if event.type in (pygame.MOUSEBUTTONDOWN, pygame.KEYDOWN):
+            if (event.type == pygame.MOUSEBUTTONUP and event.button == 1) \
+                    or (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
                 self.next_mode = self.result_mode[self.result]()
                 return
         # in the middle of action display
@@ -140,9 +147,12 @@ class ModeFight(Mode):
             return
         if event.type == pygame.MOUSEMOTION:
             self.__class__.boxes.posSelect(event.pos)
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
-                if self.__class__.boxes.posSelect(event.pos) is not None:
+                if self.__class__.boxes.posSelect(event.pos) is not None \
+                    and self._mouseButtonStatus(event.button) \
+                    and self.__class__.boxes.posSelect(self._mouseButtonStatus(event.button)) \
+                        == self.__class__.boxes.posSelect(event.pos):
                     self._buttonPress()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
@@ -186,16 +196,16 @@ class ModeFight(Mode):
 
         if self.player_mon.stats['hpc'] < 1 and self.enemy_mon.stats['hpc'] < 1:
             self.player_action = 'draw'
-            self.player_mon.addWait(250)
-            self.player_mon.addWait(250)
+            self.player_mon.addWait(500)
+            self.player_mon.addWait(500)
         elif self.enemy_mon.stats['hpc'] < 1:
             self.player_action = 'win'
-            self.player_mon.addWait(250)
-            self.player_mon.addWait(250)
+            self.player_mon.addWait(500)
+            self.player_mon.addWait(500)
         elif self.player_mon.stats['hpc'] < 1:
             self.player_action = 'lose'
-            self.player_mon.addWait(250)
-            self.player_mon.addWait(250)
+            self.player_mon.addWait(500)
+            self.player_mon.addWait(500)
         else:
             self.player_action = False
         self.enemy_action = False
@@ -211,17 +221,19 @@ class ModeFight(Mode):
             self._endStuff(self.player_mon.name + "'s out cold.")
 
     def _endStuff(self, result_display):
-        if len(self.player_mon.anims) == 1 and not self.result_displayed:
+        if len(self.player_mon.anims) > 0 and self.result_displayed < 1:
             self._setActionDisplay(result_display)
-            self.result_displayed = True
-        elif not self.player_mon.stillAnimating:
-            self._setActionDisplay("Input to continue.")
+            self.result_displayed = 1
+        elif not self.player_mon.stillAnimating() and self.result_displayed < 2:
+            self._setActionDisplay("Click or press enter to")
+            self._setActionDisplay("continue.")
+            self.result_displayed = 2
             self.result = self.player_action
 
     def _drawScreen(self, screen):
         screen.fill(constants.WHITE)
         screen.blit(self.__class__.background, (0, 0))
-        if not self.action_set:
+        if not self.action_set and self.player_action not in self.result_mode:
             screen.blit(self.__class__.black_box, self.__class__.boxes.getSelectRect())
 
         player_bar_length = self.__class__.health_bar_length \

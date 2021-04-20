@@ -3,8 +3,6 @@ necessary:
     need a logo to put on the looping screen
 2) music / sound
     opening music
-    fight sounds
-        defend and escape sounds
     fight music
     convo music
     maybe more

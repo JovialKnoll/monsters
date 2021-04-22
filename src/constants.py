@@ -36,4 +36,4 @@ LONGSLIDE = os.path.join(SOUND_DIRECTORY, 'longslide.wav')
 ROOEEE = os.path.join(SOUND_DIRECTORY, 'rooeee.wav')
 BWOP = os.path.join(SOUND_DIRECTORY, 'bwop.wav')
 
-SAVE_DIRECTORY = 'savegames'
+SAVE_DIRECTORY = 'saves'

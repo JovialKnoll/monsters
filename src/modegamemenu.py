@@ -65,9 +65,15 @@ class ModeGameMenu(Mode):
             elif event.key == pygame.K_F1:
                 self._clearSaveStuff()
                 self._state = ModeGameMenu.State.Save
+                try:
+                    self._new_save = self._previous_mode.saveMode()
+                except NotImplementedError:
+                    pass
+                    # handle case of saves not supported by this mode
             elif event.key == pygame.K_F2:
                 self._clearSaveStuff()
                 self._state = ModeGameMenu.State.Load
+                # check for any save files to load, handle case of non available
             elif event.key == pygame.K_F3:
                 shared.game_running = False
 

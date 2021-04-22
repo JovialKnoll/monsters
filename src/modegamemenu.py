@@ -153,8 +153,9 @@ class ModeGameMenu(Mode):
 
     def _drawScreen(self, screen):
         screen.blit(self._old_screen, (0, 0))
+        disp_text = "Options:\n_Go Back (ESC)\n"
         if self._state is ModeGameMenu.State.Menu:
-            disp_text = "Options:\n_Go Back (ESC)\n_Save (F1)\n_Load (F2)\n_Quit (F3)"
+            disp_text += "_Save (F1)\n_Load (F2)\n_Quit (F3)"
             shared.font_wrap.renderToInside(
                 screen,
                 (0, 0),
@@ -167,7 +168,7 @@ class ModeGameMenu(Mode):
             # center this, make bigger and buttons... maybe
             # more to come
         elif self._state is ModeGameMenu.State.Save:
-            disp_text = "Options:\n_Go Back (ESC)\n_Save (ENTER)\nType a file name:\n"
+            disp_text += "_Save (ENTER)\nType a file name:\n"
             if self._save_name:
                 disp_text += self._save_name
             disp_text += self.__class__.file_extension
@@ -191,7 +192,7 @@ class ModeGameMenu(Mode):
             # display prompt for file to save
             # display save_name in there
         elif self._state is ModeGameMenu.State.Load:
-            disp_text = "Options:\n_Go Back (ESC)\n_Load (ENTER)\nSelect a file name:\n"
+            disp_text += "_Load (ENTER)\nSelect a file name:\n"
             disp_text += self.__class__.file_extension
             shared.font_wrap.renderToInside(
                 screen,

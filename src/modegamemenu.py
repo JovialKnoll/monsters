@@ -165,8 +165,6 @@ class ModeGameMenu(Mode):
                 constants.WHITE,
                 constants.BLACK
             )
-            # center this, make bigger and buttons... maybe
-            # more to come
         elif self._state is ModeGameMenu.State.Save:
             disp_text += "_Save (ENTER)\nType a file name:\n"
             if self._save_name:
@@ -189,8 +187,6 @@ class ModeGameMenu(Mode):
                         (1, constants.FONT_HEIGHT)
                     )
                 )
-            # display prompt for file to save
-            # display save_name in there
         elif self._state is ModeGameMenu.State.Load:
             disp_text += "_Load (ENTER)\nSelect a file name:\n"
             disp_text += self.__class__.file_extension
@@ -203,7 +199,6 @@ class ModeGameMenu(Mode):
                 constants.WHITE,
                 constants.BLACK
             )
-            # draw load thingy
             pass
         else:
             raise RuntimeError("error: self._state = " + str(self._state))

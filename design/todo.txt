@@ -23,10 +23,13 @@ necessary:
 optional:
 1) pause time measuring, updating when moving window
     maybe also when window loses focus
+2) center modegamemenu visuals, buttons?
+4) make sounds play with particular left / right volumes instead of being centered
+3) deduplicate shared code in convo and fight modes around boxes
 2) re-evaluate mon stats
 	tally up results for winners for different possible distributions of stats
 	balancing that
 	maybe check that can be strategy to fight choices?
-3) deduplicate shared code in convo and fight modes around boxes
-4) make sounds play with particular left / right volumes instead of being centered
+
+
 5) scroll slider thingy for convomode.py, click-and-drag-able

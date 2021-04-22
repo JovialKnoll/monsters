@@ -5,7 +5,6 @@ import pygame
 
 class Mode(abc.ABC):
     """This is an abstract object for game modes.
-    Children of this should implement _input, update, and draw.
     """
     __slots__ = (
         'all_sprites',
@@ -20,6 +19,17 @@ class Mode(abc.ABC):
         self.__pressed_keys = set()
         self.__pressed_mouse_buttons = dict()
         self.next_mode = None
+
+    def saveMode(self):
+        raise NotImplementedError(
+            self.__class__.__name__ + ".saveMode(self)"
+        )
+
+    @classmethod
+    def loadMode(cls, saveData):
+        raise NotImplementedError(
+            cls.__name__ + ".loadMode(cls, saveData)"
+        )
 
     def __trackPressedKeys(self, event):
         if event.type == pygame.KEYDOWN:

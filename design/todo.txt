@@ -10,7 +10,6 @@ necessary:
     (specific to modes + shared state, no generic pickling)
     https://docs.python.org/3/library/pickle.html#object.__getstate__
     saving to an existing save file name
-    make a class to handle saves?
 5) load implementation
 6) make and check settings file (main.py or game.py?)
 	window size
@@ -23,13 +22,11 @@ necessary:
 optional:
 1) pause time measuring, updating when moving window
     maybe also when window loses focus
-2) center modegamemenu visuals, buttons?
-4) make sounds play with particular left / right volumes instead of being centered
-3) deduplicate shared code in convo and fight modes around boxes
-2) re-evaluate mon stats
+2) make sounds play with particular left / right volumes instead of being centered
+3) center modegamemenu visuals, buttons?
+4) deduplicate shared code in convo and fight modes around boxes
+5) re-evaluate mon stats
 	tally up results for winners for different possible distributions of stats
 	balancing that
 	maybe check that can be strategy to fight choices?
-
-
-5) scroll slider thingy for convomode.py, click-and-drag-able
+6) scroll slider thingy for convomode.py, click-and-drag-able

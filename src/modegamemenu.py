@@ -5,6 +5,7 @@ import pygame
 
 import constants
 import shared
+import save
 from mode import Mode
 
 
@@ -22,7 +23,6 @@ class ModeGameMenu(Mode):
         '_cursor_timer',
         '_save_name',
         '_cursor_position',
-        '_new_save',
         '_saves',
     )
 
@@ -33,7 +33,6 @@ class ModeGameMenu(Mode):
         self._old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
         previous_mode.draw(self._old_screen)
         self._clearSaveStuff()
-        self._new_save = False
         self._saves = ()
 
     def _resetCursorBlink(self):
@@ -45,41 +44,6 @@ class ModeGameMenu(Mode):
         self._cursor_position = 0
         self._resetCursorBlink()
 
-    def _saveGame(self):
-        """Save the game."""
-        objects = ['asd', (1, 2, 3), 123]
-        if not os.path.exists(constants.SAVE_DIRECTORY):
-            os.makedirs(constants.SAVE_DIRECTORY)
-        with open(
-            os.path.join(
-                constants.SAVE_DIRECTORY,
-                self._save_name + self.__class__.file_extension
-            ),
-            'wb'
-        ) as f:
-            pickle.dump(objects, f, pickle.HIGHEST_PROTOCOL)
-
-    @staticmethod
-    def _getSave(file):
-        # return save object from save file
-        return False
-
-    @staticmethod
-    def _getSaves():
-        if os.path.isdir(constants.SAVE_DIRECTORY):
-            return tuple(
-                save
-                for save
-                in (
-                    ModeGameMenu._getSave(file)
-                    for file
-                    in os.listdir(constants.SAVE_DIRECTORY)
-                    if os.path.isfile(file)
-                )
-                if save
-            )
-        return ()
-
     def _inputMenu(self, event):
         if event.type == pygame.QUIT:
             shared.game_running = False
@@ -89,14 +53,10 @@ class ModeGameMenu(Mode):
             elif event.key == pygame.K_F1:
                 self._clearSaveStuff()
                 self._state = ModeGameMenu.State.Save
-                try:
-                    self._new_save = self._previous_mode.saveMode()
-                except NotImplementedError:
-                    self._new_save = False
             elif event.key == pygame.K_F2:
                 self._clearSaveStuff()
                 self._state = ModeGameMenu.State.Load
-                self._saves = self._getSaves()
+                self._saves = save.getSaves()
             elif event.key == pygame.K_F3:
                 shared.game_running = False
 
@@ -109,9 +69,20 @@ class ModeGameMenu(Mode):
             if event.key == pygame.K_ESCAPE:
                 self._state = ModeGameMenu.State.Menu
             elif event.key == pygame.K_RETURN:
-                if self._save_name and self._new_save:
-                    self._saveGame()
-                    self._state = ModeGameMenu.State.Menu
+                if self._save_name and self._previous_mode.canSave():
+                    if save.willSaveOverwrite(self._save_name + self.__class__.file_extension):
+                        # handle let player know that this will overwrite
+                        # and ask for confirmation
+                        pass
+                    else:
+                        if save.saveGame(self._save_name + self.__class__.file_extension, self._previous_mode):
+                            # handle let player know that save succeeded
+                            # and prompt to leave save submenu
+                            pass
+                        else:
+                            # handle let player know that save failed
+                            # ask if try again?
+                            pass
             elif event.key == pygame.K_LEFT:
                 self._cursor_position = max(self._cursor_position - 1, 0)
                 self._resetCursorBlink()
@@ -156,6 +127,9 @@ class ModeGameMenu(Mode):
                 self._state = ModeGameMenu.State.Menu
             # check here on if len(self._saves) == 0:
             # put in scrolling to select save file? maybe typing too? alphabetized list...
+            # or just arrow keys to step through
+            # after choosing load, call out to:
+            # self._previous_mode = save.loadGame(self._saves[save_index])
             # after changing previous_mode call previous_mode.draw(self._old_screen)
 
     def _input(self, event):
@@ -196,7 +170,7 @@ class ModeGameMenu(Mode):
                 constants.BLACK
             )
         elif self._state is ModeGameMenu.State.Save:
-            if not self._new_save:
+            if not self._previous_mode.canSave():
                 disp_text += "\nYou can't save now."
             else:
                 disp_text += "_Save (ENTER)\nType a file name:\n"

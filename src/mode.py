@@ -20,6 +20,11 @@ class Mode(abc.ABC):
         self.__pressed_mouse_buttons = dict()
         self.next_mode = None
 
+    @staticmethod
+    def canSave():
+        # override this to return True iff overriding saveMode and loadMode
+        return False
+
     def saveMode(self):
         raise NotImplementedError(
             self.__class__.__name__ + ".saveMode(self)"

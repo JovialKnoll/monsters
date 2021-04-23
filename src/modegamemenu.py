@@ -22,6 +22,8 @@ class ModeGameMenu(Mode):
         '_cursor_timer',
         '_save_name',
         '_cursor_position',
+        '_new_save',
+        '_saves',
     )
 
     def __init__(self, previous_mode):
@@ -31,6 +33,8 @@ class ModeGameMenu(Mode):
         self._old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
         previous_mode.draw(self._old_screen)
         self._clearSaveStuff()
+        self._new_save = False
+        self._saves = ()
 
     def _resetCursorBlink(self):
         self._cursor_switch = True
@@ -43,7 +47,6 @@ class ModeGameMenu(Mode):
 
     def _saveGame(self):
         """Save the game."""
-        # check if current mode implements save?
         objects = ['asd', (1, 2, 3), 123]
         if not os.path.exists(constants.SAVE_DIRECTORY):
             os.makedirs(constants.SAVE_DIRECTORY)
@@ -55,6 +58,27 @@ class ModeGameMenu(Mode):
             'wb'
         ) as f:
             pickle.dump(objects, f, pickle.HIGHEST_PROTOCOL)
+
+    @staticmethod
+    def _getSave(file):
+        # return save object from save file
+        return False
+
+    @staticmethod
+    def _getSaves():
+        if os.path.isdir(constants.SAVE_DIRECTORY):
+            return tuple(
+                save
+                for save
+                in (
+                    ModeGameMenu._getSave(file)
+                    for file
+                    in os.listdir(constants.SAVE_DIRECTORY)
+                    if os.path.isfile(file)
+                )
+                if save
+            )
+        return ()
 
     def _inputMenu(self, event):
         if event.type == pygame.QUIT:
@@ -68,12 +92,11 @@ class ModeGameMenu(Mode):
                 try:
                     self._new_save = self._previous_mode.saveMode()
                 except NotImplementedError:
-                    pass
-                    # handle case of saves not supported by this mode
+                    self._new_save = False
             elif event.key == pygame.K_F2:
                 self._clearSaveStuff()
                 self._state = ModeGameMenu.State.Load
-                # check for any save files to load, handle case of non available
+                self._saves = self._getSaves()
             elif event.key == pygame.K_F3:
                 shared.game_running = False
 
@@ -86,8 +109,7 @@ class ModeGameMenu(Mode):
             if event.key == pygame.K_ESCAPE:
                 self._state = ModeGameMenu.State.Menu
             elif event.key == pygame.K_RETURN:
-                # also call on a button press
-                if self._save_name:
+                if self._save_name and self._new_save:
                     self._saveGame()
                     self._state = ModeGameMenu.State.Menu
             elif event.key == pygame.K_LEFT:
@@ -120,8 +142,8 @@ class ModeGameMenu(Mode):
                     or (96 < event.key < 123)
                 )
             ):
-                self._save_name = self._save_name[:self._cursor_position]\
-                    + char\
+                self._save_name = self._save_name[:self._cursor_position] \
+                    + char \
                     + self._save_name[self._cursor_position:]
                 self._cursor_position += 1
                 self._resetCursorBlink()
@@ -132,7 +154,9 @@ class ModeGameMenu(Mode):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 self._state = ModeGameMenu.State.Menu
+            # check here on if len(self._saves) == 0:
             # put in scrolling to select save file? maybe typing too? alphabetized list...
+            # after changing previous_mode call previous_mode.draw(self._old_screen)
 
     def _input(self, event):
         if self._state is ModeGameMenu.State.Menu:
@@ -172,10 +196,13 @@ class ModeGameMenu(Mode):
                 constants.BLACK
             )
         elif self._state is ModeGameMenu.State.Save:
-            disp_text += "_Save (ENTER)\nType a file name:\n"
-            if self._save_name:
-                disp_text += self._save_name
-            disp_text += self.__class__.file_extension
+            if not self._new_save:
+                disp_text += "\nYou can't save now."
+            else:
+                disp_text += "_Save (ENTER)\nType a file name:\n"
+                if self._save_name:
+                    disp_text += self._save_name
+                disp_text += self.__class__.file_extension
             shared.font_wrap.renderToInside(
                 screen,
                 (0, 0),
@@ -194,8 +221,11 @@ class ModeGameMenu(Mode):
                     )
                 )
         elif self._state is ModeGameMenu.State.Load:
-            disp_text += "_Load (ENTER)\nSelect a file name:\n"
-            disp_text += self.__class__.file_extension
+            if len(self._saves) == 0:
+                disp_text += "\nThere are no save files to select from."
+            else:
+                disp_text += "_Load (ENTER)\nSelect a file name:\n"
+                disp_text += self.__class__.file_extension
             shared.font_wrap.renderToInside(
                 screen,
                 (0, 0),

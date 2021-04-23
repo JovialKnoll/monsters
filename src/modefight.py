@@ -72,6 +72,9 @@ class ModeFight(Mode):
         """The functions passed in should return the next mode."""
         super().__init__()
 
+        pygame.mixer.music.load(constants.FIGHT_LOOP)
+        pygame.mixer.music.play(-1, fade_ms=1000)
+
         self.thunk = pygame.mixer.Sound(constants.THUNK)
         self.rooeee = pygame.mixer.Sound(constants.ROOEEE)
         self.bwop = pygame.mixer.Sound(constants.BWOP)
@@ -140,6 +143,8 @@ class ModeFight(Mode):
         if self.result:
             if (event.type == pygame.MOUSEBUTTONUP and event.button == 1) \
                     or (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
+                pygame.mixer.music.stop()
+                pygame.mixer.music.unload()
                 self.next_mode = self.result_mode[self.result]()
                 return
         # in the middle of action display
@@ -195,20 +200,20 @@ class ModeFight(Mode):
         self.enemy_mon.stats['hpc'] -= damage_to_enemy
 
         if self.player_mon.stats['hpc'] < 1 and self.enemy_mon.stats['hpc'] < 1:
-            self.player_action = 'draw'
-            self.player_mon.addWait(500)
-            self.player_mon.addWait(500)
+            self._setupEnd('draw')
         elif self.enemy_mon.stats['hpc'] < 1:
-            self.player_action = 'win'
-            self.player_mon.addWait(500)
-            self.player_mon.addWait(500)
+            self._setupEnd('win')
         elif self.player_mon.stats['hpc'] < 1:
-            self.player_action = 'lose'
-            self.player_mon.addWait(500)
-            self.player_mon.addWait(500)
+            self._setupEnd('lose')
         else:
             self.player_action = False
         self.enemy_action = False
+
+    def _setupEnd(self, ending):
+        self.player_action = ending
+        self.player_mon.addWait(500)
+        self.player_mon.addWait(500)
+        pygame.mixer.music.fadeout(1000)
 
     def _update(self, dt):
         if self.player_action in self.__class__.box_choices and not self.player_mon.stillAnimating():
@@ -221,7 +226,7 @@ class ModeFight(Mode):
             self._endStuff(self.player_mon.name + "'s out cold.")
 
     def _endStuff(self, result_display):
-        if len(self.player_mon.anims) > 0 and self.result_displayed < 1:
+        if len(self.player_mon.anims) < 2 and self.result_displayed < 1:
             self._setActionDisplay(result_display)
             self.result_displayed = 1
         elif not self.player_mon.stillAnimating() and self.result_displayed < 2:

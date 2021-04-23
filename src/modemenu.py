@@ -14,9 +14,9 @@ class ModeMenu(ModeMonConvo):
         mon = shared.state.protag_mon
         mon_string = "lvl: " + str(mon.lvl) + "\n"
         mon_string += "_".join(
-            [stat + ": " + str(mon.stats[stat]) + ModeMenu.getSpacing(mon.stats[stat]) for stat in mon.main_stats]
+            [stat + ": " + str(mon.stats[stat]) + self.getSpacing(mon.stats[stat]) for stat in mon.main_stats]
         )
-        mon_string += "\ndrv: " + str(mon.stats['drv']) + ModeMenu.getSpacing(mon.stats['drv'])
+        mon_string += "\ndrv: " + str(mon.stats['drv']) + self.getSpacing(mon.stats['drv'])
         mon_string += "__hp: " + str(mon.stats['hpc']) + "/" + str(mon.stats['hpm'])
         return mon.name + "\n" + mon_string.upper()
 

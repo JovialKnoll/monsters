@@ -14,7 +14,9 @@ class Mode(abc.ABC):
     )
 
     def __init__(self):
-        """All game modes must set the next mode when they are done."""
+        """All game modes must set the next mode when they are done.
+        Don't create another mode unless you are immediately assigning it to self.next_mode
+        """
         self.all_sprites = pygame.sprite.LayeredDirty()
         self.__pressed_keys = set()
         self.__pressed_mouse_buttons = dict()

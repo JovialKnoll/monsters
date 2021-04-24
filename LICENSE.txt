@@ -3,6 +3,7 @@ Except as otherwise noted:
 The MIT License
 
 Images Copyright (c) 2013 S. Forrest
+Music Copyright (c) 2020 S. Forrest
 Software Copyright (c) 2013-2021 Brett Kaplan
 Sound Effects made by Brett Kaplan with sfxr (https://www.drpetter.se/project_sfxr.html)
 

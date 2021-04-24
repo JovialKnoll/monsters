@@ -35,6 +35,7 @@ class Game(object):
         shared.display.scaleDraw()
         if self._current_mode.next_mode is not None:
             if isinstance(self._current_mode, ModeGameMenu):
+                pygame.mixer.music.unpause()
                 pygame.mixer.unpause()
             else:
                 pygame.mixer.stop()
@@ -76,6 +77,7 @@ class Game(object):
         if isinstance(self._current_mode, ModeGameMenu):
             return True
         self._current_mode = ModeGameMenu(self._current_mode)
+        pygame.mixer.music.pause()
         pygame.mixer.pause()
         return False
 

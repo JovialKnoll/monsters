@@ -32,21 +32,21 @@ def willSaveOverwrite(fileName):
 
 
 def getSaves():
-    if os.path.isdir(constants.SAVE_DIRECTORY):
-        return tuple(
-            save
-            for save
-            in (
-                _getSave(file)
-                for file
-                in _getSaveFiles()
-            )
-            if save
+    return tuple(
+        save
+        for save
+        in (
+            _getSave(file)
+            for file
+            in _getSaveFiles()
         )
-    return ()
+        if save
+    )
 
 
 def _getSaveFiles():
+    if not os.path.isdir(constants.SAVE_DIRECTORY):
+        return ()
     return (
         file
         for file

@@ -13,11 +13,13 @@ COLORKEY = (255, 0, 255)
 
 GRAPHICS_DIRECTORY = 'gfx'
 FONT = os.path.join(GRAPHICS_DIRECTORY, 'simple_mono.ttf')
-JK_LOGO_BLACK = os.path.join(GRAPHICS_DIRECTORY, 'jklogo_black.png')
-JK_LOGO_GREY = os.path.join(GRAPHICS_DIRECTORY, 'jklogo_grey.png')
-JK_LOGO_LIGHT_GREY = os.path.join(GRAPHICS_DIRECTORY, 'jklogo_light_grey.png')
-STAR = os.path.join(GRAPHICS_DIRECTORY, 'star.png')
-TIN_LOGO = os.path.join(GRAPHICS_DIRECTORY, 'tin_logo.png')
+
+LOGOS_DIRECTORY = os.path.join(GRAPHICS_DIRECTORY, 'logos')
+JK_LOGO_BLACK = os.path.join(LOGOS_DIRECTORY, 'jklogo_black.png')
+JK_LOGO_GREY = os.path.join(LOGOS_DIRECTORY, 'jklogo_grey.png')
+JK_LOGO_LIGHT_GREY = os.path.join(LOGOS_DIRECTORY, 'jklogo_light_grey.png')
+STAR = os.path.join(LOGOS_DIRECTORY, 'star.png')
+TIN_LOGO = os.path.join(LOGOS_DIRECTORY, 'tin_logo.png')
 
 BACKGROUNDS_DIRECTORY = os.path.join(GRAPHICS_DIRECTORY, 'backgrounds')
 BLACKBOX_FILE = os.path.join(BACKGROUNDS_DIRECTORY, 'blackbox.png')
@@ -35,5 +37,8 @@ BIP = os.path.join(SOUND_DIRECTORY, 'bip.wav')
 LONGSLIDE = os.path.join(SOUND_DIRECTORY, 'longslide.wav')
 ROOEEE = os.path.join(SOUND_DIRECTORY, 'rooeee.wav')
 BWOP = os.path.join(SOUND_DIRECTORY, 'bwop.wav')
+
+MUSIC_DIRECTORY = os.path.join(SOUND_DIRECTORY, 'music')
+FIGHT_LOOP = os.path.join(MUSIC_DIRECTORY, 'fight_loop.mp3')
 
 SAVE_DIRECTORY = 'savegames'

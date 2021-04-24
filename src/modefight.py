@@ -73,7 +73,7 @@ class ModeFight(Mode):
         super().__init__()
 
         pygame.mixer.music.load(constants.FIGHT_LOOP)
-        pygame.mixer.music.play(-1, fade_ms=1000)
+        pygame.mixer.music.play(-1)
 
         self.thunk = pygame.mixer.Sound(constants.THUNK)
         self.rooeee = pygame.mixer.Sound(constants.ROOEEE)

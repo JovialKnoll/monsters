@@ -24,16 +24,18 @@ class Mode(abc.ABC):
 
     @staticmethod
     def canSave():
-        # override this to return True iff overriding saveMode and loadMode
+        """Overrided this to return True, if and only if saveMode and loadMode are implemented."""
         return False
 
     def saveMode(self):
+        """Return an object represented all the information that should be saved from this mode."""
         raise NotImplementedError(
             self.__class__.__name__ + ".saveMode(self)"
         )
 
     @classmethod
     def loadMode(cls, saveData):
+        """Take in an object equivalent to the result of a call to saveMode(), and return an instance of this mode."""
         raise NotImplementedError(
             cls.__name__ + ".loadMode(cls, saveData)"
         )

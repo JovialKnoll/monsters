@@ -171,15 +171,7 @@ class ModeGameMenu(Mode):
         disp_text = "Options:\n_Go Back (ESC)\n"
         if self._state is ModeGameMenu.State.Menu:
             disp_text += "_Save (F1)\n_Load (F2)\n_Quit (F3)"
-            shared.font_wrap.renderToInside(
-                screen,
-                (0, 0),
-                self.__class__.menu_width * constants.FONT_SIZE,
-                disp_text,
-                False,
-                constants.WHITE,
-                constants.BLACK
-            )
+            self._drawText(screen, disp_text)
         elif self._state is ModeGameMenu.State.Save:
             if not self._previous_mode.canSave():
                 disp_text += "\nYou can't save now."
@@ -195,15 +187,7 @@ class ModeGameMenu(Mode):
                     disp_text += "\nSave failed.\nPress ENTER to try again, or ESC to go back."
             else:
                 disp_text += "\nSaved successfully.\nPress any key to go back."
-            shared.font_wrap.renderToInside(
-                screen,
-                (0, 0),
-                self.__class__.menu_width * constants.FONT_SIZE,
-                disp_text,
-                False,
-                constants.WHITE,
-                constants.BLACK
-            )
+            self._drawText(screen, disp_text)
             if self._cursor_switch and not self._confirm_overwrite:
                 screen.fill(
                     constants.WHITE,
@@ -218,18 +202,28 @@ class ModeGameMenu(Mode):
             elif self._loaded_save:
                 disp_text += "\nLoaded successfully.\nPress any key to go back."
             else:
-                disp_text += "_Load (ENTER)\nSelect a file (ARROW KEYS):\n"
-                # look at self._saves[MEH].file_name for display here
+                disp_text += "_Load (ENTER)\nSelect a file (ARROW KEYS):"
+                for i in range(-1, 2):
+                    this_index = self._save_index + i
+                    if not 0 <= this_index <= len(self._saves):
+                        disp_text += "\n"
+                    else:
+                        disp_text += "\n" + self._saves[this_index].file_name
+                    if i == 0:
+                        disp_text += " <"
                 disp_text += self.__class__.file_ext
-            shared.font_wrap.renderToInside(
-                screen,
-                (0, 0),
-                self.__class__.menu_width * constants.FONT_SIZE,
-                disp_text,
-                False,
-                constants.WHITE,
-                constants.BLACK
-            )
-            pass
+            self._drawText(screen, disp_text)
         else:
             raise RuntimeError("error: self._state = " + str(self._state))
+
+    @classmethod
+    def _drawText(cls, screen, disp_text):
+        shared.font_wrap.renderToInside(
+            screen,
+            (0, 0),
+            cls.menu_width * constants.FONT_SIZE,
+            disp_text,
+            False,
+            constants.WHITE,
+            constants.BLACK
+        )

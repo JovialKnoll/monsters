@@ -21,9 +21,10 @@ class ModeGameMenu(Mode):
         '_save_name',
         '_cursor_position',
         '_confirm_overwrite',
-        '_saves',
+        '_save_success',
         '_save_index',
         '_loaded_save',
+        '_saved',
     )
 
     def __init__(self, previous_mode):
@@ -43,6 +44,7 @@ class ModeGameMenu(Mode):
         self._save_name = ''
         self._cursor_position = 0
         self._confirm_overwrite = False
+        self._save_success = None
         self._saves = ()
         self._save_index = 0
         self._loaded_save = False
@@ -69,30 +71,26 @@ class ModeGameMenu(Mode):
         elif event.type == pygame.KEYDOWN:
             char = event.unicode
             length = len(self._save_name)
-            if event.key == pygame.K_ESCAPE:
+            if self._save_success:
+                self._state = ModeGameMenu.State.Menu
+            elif event.key == pygame.K_ESCAPE:
                 if self._confirm_overwrite:
                     self._confirm_overwrite = False
+                    self._save_success = None
                 else:
                     self._state = ModeGameMenu.State.Menu
             elif event.key == pygame.K_RETURN:
                 if self._save_name and self._previous_mode.canSave():
                     if Save.willOverwrite(self._save_name + self.__class__.file_ext) and not self._confirm_overwrite:
                         self._confirm_overwrite = True
-                    else:
+                    elif not self._save_success:
                         new_save = Save.getFromMode(self._save_name + self.__class__.file_ext, self._previous_mode)
-                        if new_save.save():
-                            # handle let player know that save succeeded
-                            # and prompt to leave save submenu
-                            pass
-                        else:
-                            # handle let player know that save failed
-                            # ask if try again?
-                            pass
+                        self._save_success = new_save.save()
             elif event.key == pygame.K_LEFT:
                 self._cursor_position = max(self._cursor_position - 1, 0)
                 self._resetCursorBlink()
             elif event.key == pygame.K_RIGHT:
-                self._cursor_position = min(self._cursor_position+1, length)
+                self._cursor_position = min(self._cursor_position + 1, length)
                 self._resetCursorBlink()
             elif event.key in (pygame.K_UP, pygame.K_HOME):
                 self._cursor_position = 0
@@ -101,11 +99,11 @@ class ModeGameMenu(Mode):
                 self._cursor_position = length
                 self._resetCursorBlink()
             elif event.key == pygame.K_DELETE:
-                self._save_name = self._save_name[:self._cursor_position] + self._save_name[self._cursor_position+1:]
+                self._save_name = self._save_name[:self._cursor_position] + self._save_name[self._cursor_position + 1:]
                 self._resetCursorBlink()
             elif event.key == pygame.K_BACKSPACE:
                 if self._cursor_position > 0:
-                    self._save_name = self._save_name[:self._cursor_position-1] \
+                    self._save_name = self._save_name[:self._cursor_position - 1] \
                         + self._save_name[self._cursor_position:]
                     self._cursor_position -= 1
                 self._resetCursorBlink()
@@ -185,14 +183,18 @@ class ModeGameMenu(Mode):
         elif self._state is ModeGameMenu.State.Save:
             if not self._previous_mode.canSave():
                 disp_text += "\nYou can't save now."
-            else:
+            elif not self._save_success:
                 disp_text += "_Save (ENTER)\nType a file name:\n"
                 if self._save_name:
                     disp_text += self._save_name
                 disp_text += self.__class__.file_ext
-                if self._confirm_overwrite:
+                if self._confirm_overwrite and self._save_success is None:
                     disp_text += "\nThis will overwrite an existing save file." \
                         + "\nPress ENTER again to confirm, or ESC to go back."
+                elif self._save_success is False:
+                    disp_text += "\nSave failed.\nPress ENTER to try again, or ESC to go back."
+            else:
+                disp_text += "\nSaved successfully.\nPress any key to go back."
             shared.font_wrap.renderToInside(
                 screen,
                 (0, 0),
@@ -214,7 +216,7 @@ class ModeGameMenu(Mode):
             if len(self._saves) == 0:
                 disp_text += "\nThere are no save files to select from."
             elif self._loaded_save:
-                disp_text += "\nLoaded successfully. Press any key to go back."
+                disp_text += "\nLoaded successfully.\nPress any key to go back."
             else:
                 disp_text += "_Load (ENTER)\nSelect a file (ARROW KEYS):\n"
                 # look at self._saves[MEH].file_name for display here

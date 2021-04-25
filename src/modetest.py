@@ -23,6 +23,17 @@ class ModeTest(Mode):
         self.dx = 0
         self.dy = 0
 
+    @staticmethod
+    def canSave():
+        return True
+
+    def saveMode(self):
+        return 1
+
+    @classmethod
+    def loadMode(cls, saveData):
+        return ModeTest()
+
     def _input(self, event):
         if event.type == pygame.MOUSEMOTION:
             shared.state.protag_mon.rect.midbottom = event.pos

@@ -5,8 +5,9 @@ import pygame
 import constants
 import utility
 import shared
-from mode import Mode
 from boxes import Boxes
+
+from .mode import Mode
 
 
 class ModeConvo(Mode):

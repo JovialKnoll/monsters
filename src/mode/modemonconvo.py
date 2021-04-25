@@ -1,5 +1,6 @@
 import shared
-from modeconvo import ModeConvo
+
+from .modeconvo import ModeConvo
 
 
 class ModeMonConvo(ModeConvo):

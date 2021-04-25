@@ -5,7 +5,6 @@ import pygame
 
 class Mode(abc.ABC):
     """This is an abstract object for game modes.
-    Children of this should implement _input, update, and draw.
     """
     __slots__ = (
         'all_sprites',
@@ -22,6 +21,24 @@ class Mode(abc.ABC):
         self.__pressed_keys = set()
         self.__pressed_mouse_buttons = dict()
         self.next_mode = None
+
+    @staticmethod
+    def canSave():
+        """Override this to return True, if and only if saveMode and loadMode are implemented."""
+        return False
+
+    def saveMode(self):
+        """Return an object represented all the information that should be saved from this mode."""
+        raise NotImplementedError(
+            self.__class__.__name__ + ".saveMode(self)"
+        )
+
+    @classmethod
+    def loadMode(cls, saveData):
+        """Take in an object equivalent to the result of a call to saveMode(), and return an instance of this mode."""
+        raise NotImplementedError(
+            cls.__name__ + ".loadMode(cls, saveData)"
+        )
 
     def __trackPressedKeys(self, event):
         if event.type == pygame.KEYDOWN:
@@ -76,3 +93,9 @@ class Mode(abc.ABC):
         self._drawScreen(screen)
         self.all_sprites.draw(screen)
         self._drawPostSprites(screen)
+
+    def _setNextMode(self, next_mode):
+        pygame.mixer.music.stop()
+        pygame.mixer.music.unload()
+        pygame.mixer.stop()
+        self.next_mode = next_mode

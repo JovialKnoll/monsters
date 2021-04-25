@@ -3,8 +3,9 @@ import pygame
 import constants
 import utility
 import shared
-from mode import Mode
 from monster import Monster
+
+from .mode import Mode
 
 
 class ModeTest(Mode):
@@ -22,6 +23,17 @@ class ModeTest(Mode):
         self._createMonster()
         self.dx = 0
         self.dy = 0
+
+    @staticmethod
+    def canSave():
+        return True
+
+    def saveMode(self):
+        return 1
+
+    @classmethod
+    def loadMode(cls, saveData):
+        return ModeTest()
 
     def _input(self, event):
         if event.type == pygame.MOUSEMOTION:

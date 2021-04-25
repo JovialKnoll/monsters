@@ -1,8 +1,8 @@
 import pygame
 
 import shared
-from modegamemenu import ModeGameMenu
-from modeopening0 import ModeOpening0
+from mode import ModeGameMenu
+from mode import ModeOpening0
 
 
 class Game(object):
@@ -13,13 +13,9 @@ class Game(object):
     )
 
     def __init__(self, max_framerate):
-        pygame.init()
         self._max_framerate = max_framerate
         self._clock = pygame.time.Clock()
         self._current_mode = ModeOpening0()
-
-    def __del__(self):
-        pygame.quit()
 
     def run(self):
         """Run the game, and check if the game needs to end."""
@@ -37,8 +33,6 @@ class Game(object):
             if isinstance(self._current_mode, ModeGameMenu):
                 pygame.mixer.music.unpause()
                 pygame.mixer.unpause()
-            else:
-                pygame.mixer.stop()
             self._current_mode = self._current_mode.next_mode
         return shared.game_running
 

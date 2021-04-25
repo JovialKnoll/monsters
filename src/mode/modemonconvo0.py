@@ -1,9 +1,10 @@
 import shared
-from modemonconvo import ModeMonConvo
-from modetest import ModeTest
-from modefight import ModeFight
 from monster import Monster
-from modemenu import ModeMenu
+
+from .modemonconvo import ModeMonConvo
+from .modetest import ModeTest
+from .modefight import ModeFight
+from .modemenu import ModeMenu
 
 
 class ModeMonConvo0(ModeMonConvo):
@@ -35,19 +36,21 @@ class ModeMonConvo0(ModeMonConvo):
     def _goButton(self, index):
         if index == 0:
             print("Button 0 was pressed.")
-            self.next_mode = ModeTest()
+            self._setNextMode(ModeTest())
         elif index == 1:
             print("Really anything can happen here.")
-            self.next_mode = ModeFight(
-                shared.state.protag_mon,
-                Monster.atLevel(0),
-                ModeMonConvo0,
-                ModeMonConvo0,
-                ModeTest
+            self._setNextMode(
+                ModeFight(
+                    shared.state.protag_mon,
+                    Monster.atLevel(0),
+                    ModeMonConvo0,
+                    ModeMonConvo0,
+                    ModeTest
+                )
             )
         elif index == 2:
             print("The main thing would be to have pressing a button set variables.")
-            self.next_mode = ModeMenu()
+            self._setNextMode(ModeMenu())
         elif index == 3:
             print("The other main thing would be to have pressing a button change the mode.\n"
                 + "It could set variables and then change the mode.")

@@ -137,4 +137,4 @@ ENV/
 .idea/
 
 # this project
-savegames/
+saves/

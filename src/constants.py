@@ -41,4 +41,4 @@ BWOP = os.path.join(SOUND_DIRECTORY, 'bwop.wav')
 MUSIC_DIRECTORY = os.path.join(SOUND_DIRECTORY, 'music')
 FIGHT_LOOP = os.path.join(MUSIC_DIRECTORY, 'fight_loop.mp3')
 
-SAVE_DIRECTORY = 'savegames'
+SAVE_DIRECTORY = 'saves'

@@ -5,9 +5,10 @@ import pygame
 
 import constants
 import shared
-from mode import Mode
 from monster import Monster
-from modemonconvo0 import ModeMonConvo0
+
+from .mode import Mode
+from .modemonconvo0 import ModeMonConvo0
 
 
 class ModeOpening3(Mode):
@@ -84,7 +85,7 @@ class ModeOpening3(Mode):
 
     def _input(self, event):
         if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
-            self.next_mode = ModeMonConvo0()
+            self._setNextMode(ModeMonConvo0())
 
     def _update(self, dt):
         self.wait_time -= dt

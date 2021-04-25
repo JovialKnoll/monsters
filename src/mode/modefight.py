@@ -6,9 +6,10 @@ import pygame
 import constants
 import shared
 import utility
-from mode import Mode
 from boxes import Boxes
 from animsprite import AnimSprite
+
+from .mode import Mode
 
 
 class ModeFight(Mode):
@@ -143,9 +144,7 @@ class ModeFight(Mode):
         if self.result:
             if (event.type == pygame.MOUSEBUTTONUP and event.button == 1) \
                     or (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
-                pygame.mixer.music.stop()
-                pygame.mixer.music.unload()
-                self.next_mode = self.result_mode[self.result]()
+                self._setNextMode(self.result_mode[self.result]())
                 return
         # in the middle of action display
         if self.player_action:

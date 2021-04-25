@@ -13,13 +13,9 @@ class Game(object):
     )
 
     def __init__(self, max_framerate):
-        pygame.init()
         self._max_framerate = max_framerate
         self._clock = pygame.time.Clock()
         self._current_mode = ModeOpening0()
-
-    def __del__(self):
-        pygame.quit()
 
     def run(self):
         """Run the game, and check if the game needs to end."""

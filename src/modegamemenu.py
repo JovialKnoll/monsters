@@ -1,6 +1,3 @@
-import os
-import pickle
-
 import pygame
 
 import constants
@@ -24,25 +21,29 @@ class ModeGameMenu(Mode):
         '_save_name',
         '_cursor_position',
         '_saves',
+        '_save_index',
+        '_loaded_save',
     )
 
     def __init__(self, previous_mode):
         super().__init__()
         self._state = ModeGameMenu.State.Menu
-        self._previous_mode = previous_mode
         self._old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
-        previous_mode.draw(self._old_screen)
+        self._previous_mode = previous_mode
+        self._previous_mode.draw(self._old_screen)
         self._clearSaveStuff()
-        self._saves = ()
 
     def _resetCursorBlink(self):
         self._cursor_switch = True
         self._cursor_timer = 0
 
     def _clearSaveStuff(self):
+        self._resetCursorBlink()
         self._save_name = ''
         self._cursor_position = 0
-        self._resetCursorBlink()
+        self._saves = ()
+        self._save_index = 0
+        self._loaded_save = False
 
     def _inputMenu(self, event):
         if event.type == pygame.QUIT:
@@ -75,7 +76,8 @@ class ModeGameMenu(Mode):
                         # and ask for confirmation
                         pass
                     else:
-                        if save.saveGame(self._save_name + self.__class__.file_extension, self._previous_mode):
+                        new_save = save.Save.fromMode(self._save_name + self.__class__.file_extension, self._previous_mode)
+                        if new_save.save():
                             # handle let player know that save succeeded
                             # and prompt to leave save submenu
                             pass
@@ -123,14 +125,22 @@ class ModeGameMenu(Mode):
         if event.type == pygame.QUIT:
             self._state = ModeGameMenu.State.Menu
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
+            if event.key == pygame.K_ESCAPE or self._loaded_save:
                 self._state = ModeGameMenu.State.Menu
-            # check here on if len(self._saves) == 0:
-            # put in scrolling to select save file? maybe typing too? alphabetized list...
-            # or just arrow keys to step through
-            # after choosing load, call out to:
-            # self._previous_mode = save.loadGame(self._saves[save_index])
-            # after changing previous_mode call previous_mode.draw(self._old_screen)
+            elif len(self._saves) > 0:
+                if event.key in (pygame.K_UP, pygame.K_LEFT):
+                    self._save_index -= 1
+                    self._save_index %= len(self._saves)
+                    pass
+                elif event.key in (pygame.K_DOWN, pygame.K_RIGHT):
+                    self._save_index += 1
+                    self._save_index %= len(self._saves)
+                    pass
+                elif event.key == pygame.K_RETURN:
+                    self._previous_mode = self._saves[self._save_index].load()
+                    self._previous_mode.draw(self._old_screen)
+                    self._loaded_save = True
+                    pass
 
     def _input(self, event):
         if self._state is ModeGameMenu.State.Menu:
@@ -197,8 +207,11 @@ class ModeGameMenu(Mode):
         elif self._state is ModeGameMenu.State.Load:
             if len(self._saves) == 0:
                 disp_text += "\nThere are no save files to select from."
+            elif self._loaded_save:
+                disp_text += "\nLoaded successfully. Press any key to go back."
             else:
-                disp_text += "_Load (ENTER)\nSelect a file name:\n"
+                disp_text += "_Load (ENTER)\nSelect a file (ARROW KEYS):\n"
+                # look at self._saves[MEH].file_name for display here
                 disp_text += self.__class__.file_extension
             shared.font_wrap.renderToInside(
                 screen,

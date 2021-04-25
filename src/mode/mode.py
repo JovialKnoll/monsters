@@ -24,7 +24,7 @@ class Mode(abc.ABC):
 
     @staticmethod
     def canSave():
-        """Overrided this to return True, if and only if saveMode and loadMode are implemented."""
+        """Override this to return True, if and only if saveMode and loadMode are implemented."""
         return False
 
     def saveMode(self):

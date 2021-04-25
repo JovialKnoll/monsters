@@ -2,9 +2,9 @@ import pygame
 
 import constants
 import shared
-from mode import Mode
+from .mode import Mode
 from animsprite import AnimSprite
-from modeopening1 import ModeOpening1
+from .modeopening1 import ModeOpening1
 
 
 class ModeOpening0(Mode):

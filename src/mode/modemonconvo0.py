@@ -1,9 +1,9 @@
 import shared
-from modemonconvo import ModeMonConvo
-from modetest import ModeTest
-from modefight import ModeFight
+from .modemonconvo import ModeMonConvo
+from .modetest import ModeTest
+from .modefight import ModeFight
 from monster import Monster
-from modemenu import ModeMenu
+from .modemenu import ModeMenu
 
 
 class ModeMonConvo0(ModeMonConvo):

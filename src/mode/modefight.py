@@ -6,7 +6,7 @@ import pygame
 import constants
 import shared
 import utility
-from mode import Mode
+from .mode import Mode
 from boxes import Boxes
 from animsprite import AnimSprite
 

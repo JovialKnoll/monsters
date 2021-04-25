@@ -4,8 +4,8 @@ import pygame
 
 import constants
 import shared
-from mode import Mode
-from modeopening2 import ModeOpening2
+from .mode import Mode
+from .modeopening2 import ModeOpening2
 from animsprite import AnimSprite
 
 

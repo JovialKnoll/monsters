@@ -5,9 +5,9 @@ import pygame
 
 import constants
 import shared
-from mode import Mode
+from .mode import Mode
 from monster import Monster
-from modemonconvo0 import ModeMonConvo0
+from .modemonconvo0 import ModeMonConvo0
 
 
 class ModeOpening3(Mode):

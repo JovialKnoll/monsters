@@ -3,7 +3,7 @@ import math
 import pygame
 
 import shared
-from modemonconvo import ModeMonConvo
+from .modemonconvo import ModeMonConvo
 
 
 class ModeMenu(ModeMonConvo):

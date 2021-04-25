@@ -1,8 +1,8 @@
 import pygame
 
 import shared
-from modegamemenu import ModeGameMenu
-from modeopening0 import ModeOpening0
+from mode import ModeGameMenu
+from mode import ModeOpening0
 
 
 class Game(object):

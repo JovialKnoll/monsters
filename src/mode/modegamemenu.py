@@ -3,7 +3,7 @@ import pygame
 import constants
 import shared
 from save import Save
-from mode import Mode
+from .mode import Mode
 
 
 class ModeGameMenu(Mode):
@@ -22,6 +22,7 @@ class ModeGameMenu(Mode):
         '_cursor_position',
         '_confirm_overwrite',
         '_save_success',
+        '_saves',
         '_save_index',
         '_loaded_save',
         '_saved',
@@ -61,7 +62,7 @@ class ModeGameMenu(Mode):
             elif event.key == pygame.K_F2:
                 self._clearSaveStuff()
                 self._state = ModeGameMenu.State.Load
-                self._saves = Save.getSaves()
+                self._saves = Save.getAllFromFiles()
             elif event.key == pygame.K_F3:
                 shared.game_running = False
 

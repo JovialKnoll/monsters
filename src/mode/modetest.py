@@ -3,7 +3,7 @@ import pygame
 import constants
 import utility
 import shared
-from mode import Mode
+from .mode import Mode
 from monster import Monster
 
 

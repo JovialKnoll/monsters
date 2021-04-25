@@ -20,6 +20,7 @@ class ModeGameMenu(Mode):
         '_cursor_timer',
         '_save_name',
         '_cursor_position',
+        '_confirm_overwrite',
         '_saves',
         '_save_index',
         '_loaded_save',
@@ -41,6 +42,7 @@ class ModeGameMenu(Mode):
         self._resetCursorBlink()
         self._save_name = ''
         self._cursor_position = 0
+        self._confirm_overwrite = False
         self._saves = ()
         self._save_index = 0
         self._loaded_save = False
@@ -68,13 +70,14 @@ class ModeGameMenu(Mode):
             char = event.unicode
             length = len(self._save_name)
             if event.key == pygame.K_ESCAPE:
-                self._state = ModeGameMenu.State.Menu
+                if self._confirm_overwrite:
+                    self._confirm_overwrite = False
+                else:
+                    self._state = ModeGameMenu.State.Menu
             elif event.key == pygame.K_RETURN:
                 if self._save_name and self._previous_mode.canSave():
-                    if Save.willOverwrite(self._save_name + self.__class__.file_ext):
-                        # handle let player know that this will overwrite
-                        # and ask for confirmation
-                        pass
+                    if Save.willOverwrite(self._save_name + self.__class__.file_ext) and not self._confirm_overwrite:
+                        self._confirm_overwrite = True
                     else:
                         new_save = Save.getFromMode(self._save_name + self.__class__.file_ext, self._previous_mode)
                         if new_save.save():
@@ -187,6 +190,9 @@ class ModeGameMenu(Mode):
                 if self._save_name:
                     disp_text += self._save_name
                 disp_text += self.__class__.file_ext
+                if self._confirm_overwrite:
+                    disp_text += "\nThis will overwrite an existing save file." \
+                        + "\nPress ENTER again to confirm, or ESC to go back."
             shared.font_wrap.renderToInside(
                 screen,
                 (0, 0),
@@ -196,7 +202,7 @@ class ModeGameMenu(Mode):
                 constants.WHITE,
                 constants.BLACK
             )
-            if self._cursor_switch:
+            if self._cursor_switch and not self._confirm_overwrite:
                 screen.fill(
                     constants.WHITE,
                     (

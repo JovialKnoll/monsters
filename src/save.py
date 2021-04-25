@@ -65,6 +65,7 @@ class Save(object):
         # write out information to file
         # use a try, return False if fails
         # otherwise return True
+        # this should overwrite any existing file with the same name
         pass
         # objects = ['asd', (1, 2, 3), 123]
         # if not os.path.exists(constants.SAVE_DIRECTORY):

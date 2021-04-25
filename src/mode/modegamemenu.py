@@ -190,7 +190,7 @@ class ModeGameMenu(Mode):
             else:
                 disp_text += "\nSaved successfully.\nPress any key to go back."
             self._drawText(screen, disp_text)
-            if self._cursor_switch and not self._confirm_overwrite:
+            if self._cursor_switch and not self._confirm_overwrite and self._save_success is None:
                 screen.fill(
                     constants.WHITE,
                     (

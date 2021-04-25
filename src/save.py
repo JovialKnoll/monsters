@@ -56,6 +56,7 @@ class Save(object):
         pass
 
 
+# maybe put the below functions in the class
 def willSaveOverwrite(file_name):
     return file_name in _getSaveFiles()
 

@@ -19,17 +19,47 @@ class Save(object):
         self._shared_data = shared_data
 
     @classmethod
-    def fromMode(cls, file_name, mode):
+    def getFromMode(cls, file_name, mode):
         # return Save object based on current shared and mode passed in
         # cls.(file_name, ETC, mode.saveMode, ETC)
         return False
 
     @classmethod
-    def fromFile(cls, file_name):
+    def getFromFile(cls, file_name):
         # try to open and parse file
         # return Save object, otherwise return False
         # cls.(file_name, parse out the rest)
         return False
+
+    @classmethod
+    def getAllFromFiles(cls):
+        return tuple(
+            sorted(
+                save
+                for save
+                in (
+                    cls.getFromFile(file)
+                    for file
+                    in cls._getSaveFiles()
+                )
+                if save
+            )
+        )
+
+    @classmethod
+    def willOverwrite(cls, file_name):
+        return file_name in cls._getSaveFiles()
+
+    @staticmethod
+    def _getSaveFiles():
+        if not os.path.isdir(constants.SAVE_DIRECTORY):
+            return ()
+        return (
+            file
+            for file
+            in os.listdir(constants.SAVE_DIRECTORY)
+            if os.path.isfile(file)
+        )
 
     def save(self):
         # write out information to file
@@ -54,34 +84,3 @@ class Save(object):
         # choose the right mode based on self.mode_name
         # return new mode
         pass
-
-
-# maybe put the below functions in the class
-def willSaveOverwrite(file_name):
-    return file_name in _getSaveFiles()
-
-
-def getSaves():
-    return tuple(
-        sorted(
-            save
-            for save
-            in (
-                Save.fromFile(file)
-                for file
-                in _getSaveFiles()
-            )
-            if save
-        )
-    )
-
-
-def _getSaveFiles():
-    if not os.path.isdir(constants.SAVE_DIRECTORY):
-        return ()
-    return (
-        file
-        for file
-        in os.listdir(constants.SAVE_DIRECTORY)
-        if os.path.isfile(file)
-    )

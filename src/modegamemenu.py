@@ -2,7 +2,7 @@ import pygame
 
 import constants
 import shared
-import save
+from save import Save
 from mode import Mode
 
 
@@ -10,7 +10,7 @@ class ModeGameMenu(Mode):
     class State(object):
         Menu, Save, Load = range(3)
     menu_width = 20
-    file_extension = '.sav'
+    file_ext = '.sav'
 
     __slots__ = (
         '_state',
@@ -57,7 +57,7 @@ class ModeGameMenu(Mode):
             elif event.key == pygame.K_F2:
                 self._clearSaveStuff()
                 self._state = ModeGameMenu.State.Load
-                self._saves = save.getSaves()
+                self._saves = Save.getSaves()
             elif event.key == pygame.K_F3:
                 shared.game_running = False
 
@@ -71,12 +71,12 @@ class ModeGameMenu(Mode):
                 self._state = ModeGameMenu.State.Menu
             elif event.key == pygame.K_RETURN:
                 if self._save_name and self._previous_mode.canSave():
-                    if save.willSaveOverwrite(self._save_name + self.__class__.file_extension):
+                    if Save.willOverwrite(self._save_name + self.__class__.file_ext):
                         # handle let player know that this will overwrite
                         # and ask for confirmation
                         pass
                     else:
-                        new_save = save.Save.fromMode(self._save_name + self.__class__.file_extension, self._previous_mode)
+                        new_save = Save.getFromMode(self._save_name + self.__class__.file_ext, self._previous_mode)
                         if new_save.save():
                             # handle let player know that save succeeded
                             # and prompt to leave save submenu
@@ -107,7 +107,7 @@ class ModeGameMenu(Mode):
                     self._cursor_position -= 1
                 self._resetCursorBlink()
             elif (
-                length < (self.__class__.menu_width - len(self.__class__.file_extension))
+                length < (self.__class__.menu_width - len(self.__class__.file_ext))
                 and (
                     # numbers
                     ('0' <= char <= '9')
@@ -186,7 +186,7 @@ class ModeGameMenu(Mode):
                 disp_text += "_Save (ENTER)\nType a file name:\n"
                 if self._save_name:
                     disp_text += self._save_name
-                disp_text += self.__class__.file_extension
+                disp_text += self.__class__.file_ext
             shared.font_wrap.renderToInside(
                 screen,
                 (0, 0),
@@ -212,7 +212,7 @@ class ModeGameMenu(Mode):
             else:
                 disp_text += "_Load (ENTER)\nSelect a file (ARROW KEYS):\n"
                 # look at self._saves[MEH].file_name for display here
-                disp_text += self.__class__.file_extension
+                disp_text += self.__class__.file_ext
             shared.font_wrap.renderToInside(
                 screen,
                 (0, 0),

@@ -3,8 +3,9 @@ import pygame
 import constants
 import utility
 import shared
-from .mode import Mode
 from monster import Monster
+
+from .mode import Mode
 
 
 class ModeTest(Mode):

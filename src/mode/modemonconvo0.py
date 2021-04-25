@@ -1,8 +1,9 @@
 import shared
+from monster import Monster
+
 from .modemonconvo import ModeMonConvo
 from .modetest import ModeTest
 from .modefight import ModeFight
-from monster import Monster
 from .modemenu import ModeMenu
 
 

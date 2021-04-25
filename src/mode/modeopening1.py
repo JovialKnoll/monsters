@@ -4,9 +4,10 @@ import pygame
 
 import constants
 import shared
+from animsprite import AnimSprite
+
 from .mode import Mode
 from .modeopening2 import ModeOpening2
-from animsprite import AnimSprite
 
 
 class ModeOpening1(Mode):

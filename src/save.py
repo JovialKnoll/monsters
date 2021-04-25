@@ -2,7 +2,7 @@ import os
 
 import constants
 import shared
-
+import mode
 
 class Save(object):
     __slots__ = (
@@ -19,10 +19,10 @@ class Save(object):
         self._shared_data = shared_data
 
     @classmethod
-    def getFromMode(cls, file_name, mode):
-        # return Save object based on current shared and mode passed in
-        # cls.(file_name, ETC, mode.saveMode, ETC)
-        return False
+    def getFromMode(cls, file_name, from_mode: mode.Mode):
+        # todo: shared data saving
+        shared_data = "REPLACE WITH SHARED DATA"
+        return cls.(file_name, from_mode.__name__, from_mode.saveMode(), shared_data)
 
     @classmethod
     def getFromFile(cls, file_name):

@@ -5,8 +5,9 @@ import pygame
 
 import constants
 import shared
-from .mode import Mode
 from monster import Monster
+
+from .mode import Mode
 from .modemonconvo0 import ModeMonConvo0
 
 

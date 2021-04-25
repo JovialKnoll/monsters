@@ -110,7 +110,7 @@ class ModeGameMenu(Mode):
                     self._cursor_position -= 1
                 self._resetCursorBlink()
             elif (
-                length < (self.__class__.menu_width - len(self.__class__.file_ext))
+                length < (self.__class__.menu_width - len(self.__class__.file_ext) - 1)
                 and (
                     # numbers
                     ('0' <= char <= '9')
@@ -132,12 +132,10 @@ class ModeGameMenu(Mode):
                 self._state = ModeGameMenu.State.Menu
             elif len(self._saves) > 0:
                 if event.key in (pygame.K_UP, pygame.K_LEFT):
-                    self._save_index -= 1
-                    self._save_index %= len(self._saves)
+                    self._save_index = max(self._save_index - 1, 0)
                     pass
                 elif event.key in (pygame.K_DOWN, pygame.K_RIGHT):
-                    self._save_index += 1
-                    self._save_index %= len(self._saves)
+                    self._save_index = min(self._save_index + 1, len(self._saves) - 1)
                     pass
                 elif event.key == pygame.K_RETURN:
                     self._previous_mode = self._saves[self._save_index].load()
@@ -178,7 +176,7 @@ class ModeGameMenu(Mode):
             if not self._previous_mode.canSave():
                 disp_text += "\nYou can't save now."
             elif not self._save_success:
-                disp_text += "_Save (ENTER)\nType a file name:\n"
+                disp_text += "_Save (ENTER)\nType a file name:\n>"
                 if self._save_name:
                     disp_text += self._save_name
                 disp_text += self.__class__.file_ext
@@ -194,7 +192,7 @@ class ModeGameMenu(Mode):
                 screen.fill(
                     constants.WHITE,
                     (
-                        (self._cursor_position * constants.FONT_SIZE, 4 * constants.FONT_HEIGHT),
+                        ((self._cursor_position + 1) * constants.FONT_SIZE, 4 * constants.FONT_HEIGHT),
                         (1, constants.FONT_HEIGHT)
                     )
                 )
@@ -206,14 +204,14 @@ class ModeGameMenu(Mode):
             else:
                 disp_text += "_Load (ENTER)\nSelect a file (ARROW KEYS):"
                 for i in range(-1, 2):
+                    disp_text += "\n"
                     this_index = self._save_index + i
-                    if not 0 <= this_index <= len(self._saves):
-                        disp_text += "\n"
-                    else:
-                        disp_text += "\n" + self._saves[this_index].file_name
                     if i == 0:
-                        disp_text += " <"
-                disp_text += self.__class__.file_ext
+                        disp_text += ">"
+                    else:
+                        disp_text += "_"
+                    if 0 <= this_index < len(self._saves):
+                        disp_text += self._saves[this_index].file_name
             self._drawText(screen, disp_text)
         else:
             raise RuntimeError("error: self._state = " + str(self._state))

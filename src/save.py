@@ -28,7 +28,7 @@ class Save(object):
     def getFromFile(cls, file_name):
         try:
             # todo: actually implement opening and parsing file
-            return cls(file_name, "TestMode", 1, "REPLACE WITH SHARED DATA")
+            return cls(file_name, "ModeTest", 1, "REPLACE WITH SHARED DATA")
             pass
         except IOError:
             return False
@@ -37,14 +37,17 @@ class Save(object):
     def getAllFromFiles(cls):
         return tuple(
             sorted(
-                save
-                for save
-                in (
-                    cls.getFromFile(file)
-                    for file
-                    in cls._getSaveFiles()
-                )
-                if save
+                (
+                    save
+                    for save
+                    in (
+                        cls.getFromFile(file)
+                        for file
+                        in cls._getSaveFiles()
+                    )
+                    if save
+                ),
+                key=lambda s: s.file_name
             )
         )
 

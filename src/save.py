@@ -1,5 +1,7 @@
 import os
 
+import pygame
+
 import constants
 import shared
 import mode
@@ -97,6 +99,12 @@ class Save(object):
         #    pickle.dump(objects, f, pickle.HIGHEST_PROTOCOL)
 
     def load(self):
+        pygame.mixer.music.stop()
+        pygame.mixer.music.unload()
+        pygame.mixer.stop()
         # todo: update shared state based on self.shared_data
         mode_cls = getattr(mode, self._mode_name)
-        return mode_cls.loadMode(self._mode_data)
+        new_mode = mode_cls.loadMode(self._mode_data)
+        pygame.mixer.music.pause()
+        pygame.mixer.pause()
+        return new_mode

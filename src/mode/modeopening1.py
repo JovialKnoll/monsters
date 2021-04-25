@@ -77,17 +77,14 @@ class ModeOpening1(Mode):
         )
         self.all_sprites.add(star_sprite)
 
-    def _changeMode(self):
-        self.next_mode = ModeOpening2()
-
     def _input(self, event):
         if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
-            self._changeMode()
+            self._setNextMode(ModeOpening2())
 
     def _update(self, dt):
         self.time += dt
         if self.time >= self.__class__.STAR_WAIT * 2 + self.__class__.STAR_TRAVEL * self.__class__.STAR_WAVES:
-            self._changeMode()
+            self._setNextMode(ModeOpening2())
 
     def _drawScreen(self, screen):
         screen.blit(self.background, (0, 0))

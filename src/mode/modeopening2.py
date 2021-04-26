@@ -86,7 +86,8 @@ class ModeOpening2(Mode):
 
     def _input(self, event):
         if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
-            self._setNextMode(ModeOpening3())
+            self._stopMixer()
+            self.next_mode = ModeOpening3()
 
     def _update(self, dt):
         self.total_time += dt
@@ -95,7 +96,8 @@ class ModeOpening2(Mode):
                 min((self.total_time - self.__class__.move_time) * 255 / 750, 255)
             )
         if self.total_time >= self.__class__.move_time + 1500:
-            self._setNextMode(ModeOpening3())
+            self._stopMixer()
+            self.next_mode = ModeOpening3()
 
     def _drawScreen(self, screen):
         screen.fill(constants.WHITE)

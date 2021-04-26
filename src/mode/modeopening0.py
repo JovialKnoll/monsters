@@ -58,7 +58,8 @@ class ModeOpening0(Mode):
 
     def _input(self, event):
         if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
-            self._setNextMode(ModeOpening1())
+            self._stopMixer()
+            self.next_mode = ModeOpening1()
 
     def _update(self, dt):
         self.time += dt
@@ -106,7 +107,8 @@ class ModeOpening0(Mode):
                 )
             )
         if self.time >= 4000:
-            self._setNextMode(ModeOpening1())
+            self._stopMixer()
+            self.next_mode = ModeOpening1()
 
     def _drawScreen(self, screen):
         screen.blit(self.background, (0, 0))

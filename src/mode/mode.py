@@ -94,8 +94,8 @@ class Mode(abc.ABC):
         self.all_sprites.draw(screen)
         self._drawPostSprites(screen)
 
-    def _setNextMode(self, next_mode):
+    @staticmethod
+    def _stopMixer():
         pygame.mixer.music.stop()
         pygame.mixer.music.unload()
         pygame.mixer.stop()
-        self.next_mode = next_mode

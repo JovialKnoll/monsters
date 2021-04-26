@@ -73,6 +73,7 @@ class ModeFight(Mode):
         """The functions passed in should return the next mode."""
         super().__init__()
 
+        print("start music")
         pygame.mixer.music.load(constants.FIGHT_LOOP)
         pygame.mixer.music.play(-1)
 
@@ -144,7 +145,8 @@ class ModeFight(Mode):
         if self.result:
             if (event.type == pygame.MOUSEBUTTONUP and event.button == 1) \
                     or (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
-                self._setNextMode(self.result_mode[self.result]())
+                self._stopMixer()
+                self.next_mode = self.result_mode[self.result]()
                 return
         # in the middle of action display
         if self.player_action:

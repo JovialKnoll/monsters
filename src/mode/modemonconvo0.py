@@ -36,21 +36,22 @@ class ModeMonConvo0(ModeMonConvo):
     def _goButton(self, index):
         if index == 0:
             print("Button 0 was pressed.")
-            self._setNextMode(ModeTest())
+            self._stopMixer()
+            self.next_mode = ModeTest()
         elif index == 1:
             print("Really anything can happen here.")
-            self._setNextMode(
-                ModeFight(
-                    shared.state.protag_mon,
-                    Monster.atLevel(0),
-                    ModeMonConvo0,
-                    ModeMonConvo0,
-                    ModeTest
-                )
+            self._stopMixer()
+            self.next_mode = ModeFight(
+                shared.state.protag_mon,
+                Monster.atLevel(0),
+                ModeMonConvo0,
+                ModeMonConvo0,
+                ModeTest
             )
         elif index == 2:
             print("The main thing would be to have pressing a button set variables.")
-            self._setNextMode(ModeMenu())
+            self._stopMixer()
+            self.next_mode = ModeMenu()
         elif index == 3:
             print("The other main thing would be to have pressing a button change the mode.\n"
                 + "It could set variables and then change the mode.")

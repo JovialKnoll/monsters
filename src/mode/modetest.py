@@ -29,10 +29,12 @@ class ModeTest(Mode):
         return True
 
     def saveMode(self):
+        # todo: actually return object
         return 1
 
     @classmethod
-    def loadMode(cls, saveData):
+    def loadMode(cls, save_data):
+        # todo: actually use save_data
         return ModeTest()
 
     def _input(self, event):

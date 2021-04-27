@@ -24,7 +24,7 @@ class Save(object):
     def getFromMode(cls, file_name, from_mode: mode.Mode):
         # todo: shared data saving
         shared_data = "REPLACE WITH SHARED DATA"
-        return cls(file_name, from_mode.__class__.__name__, from_mode.saveMode(), shared_data)
+        return cls(file_name, type(from_mode).__name__, from_mode.saveMode(), shared_data)
 
     @classmethod
     def getFromFile(cls, file_name):
@@ -92,7 +92,7 @@ class Save(object):
         # with open(
         #         os.path.join(
         #             constants.SAVE_DIRECTORY,
-        #             self._save_name + self.__class__.file_extension
+        #             self._save_name + self.file_extension
         #         ),
         #         'wb'
         # ) as f:

@@ -9,8 +9,8 @@ from .mode import Mode
 
 
 class ModeTest(Mode):
-    fill = (31, 31, 31)
-    test_text = "01234567890123456789"
+    FILL = (31, 31, 31)
+    TEST_TEXT = "01234567890123456789"
 
     def _createMonster(self):
         shared.state.protag_mon.kill()
@@ -61,13 +61,13 @@ class ModeTest(Mode):
 
     def _drawScreen(self, screen):
         # clear of old draws
-        screen.fill(self.__class__.fill)
+        screen.fill(self.FILL)
         # make new draws
         shared.font_wrap.renderToInside(
             screen,
             (0, 0),
             constants.SCREEN_SIZE[0]//2,
-            self.__class__.test_text,
+            self.TEST_TEXT,
             False,
             constants.BLACK,
             constants.WHITE
@@ -80,5 +80,5 @@ class ModeTest(Mode):
             False,
             (255, 0, 0)
         )
-        # screen.blit(shared.font_wrap.renderInside(constants.SCREEN_SIZE[0]//2, self.__class__.test_text, False, constants.BLACK, constants.WHITE), (0,0))
+        # screen.blit(shared.font_wrap.renderInside(constants.SCREEN_SIZE[0]//2, self.TEST_TEXT, False, constants.BLACK, constants.WHITE), (0,0))
         # screen.blit(shared.font_wrap.renderInside(constants.SCREEN_SIZE[0]//2, "Lorem", False, (255,0,0)), (constants.SCREEN_SIZE[0]//2,0))

@@ -8,85 +8,100 @@ from .mode import Mode
 
 
 class ModeGameMenu(Mode):
-    class State(object):
-        Menu, Save, Load = range(3)
-    menu_width = 20
-    file_ext = '.sav'
+    MENU_WIDTH = 20
+    FILE_EXT = '.sav'
+    SHARED_DISP_TEXT = "Options:\n_Go Back (ESC)\n"
 
     __slots__ = (
-        '_state',
         '_previous_mode',
         '_old_screen',
-        '_cursor_switch',
-        '_cursor_timer',
-        '_save_name',
-        '_cursor_position',
-        '_confirm_overwrite',
-        '_save_success',
-        '_saves',
-        '_save_index',
-        '_loaded_save',
-        '_saved',
     )
 
     def __init__(self, previous_mode):
         super().__init__()
-        self._state = ModeGameMenu.State.Menu
-        self._old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
         self._previous_mode = previous_mode
+        self._old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
         self._previous_mode.draw(self._old_screen)
-        self._clearSaveStuff()
 
-    def _resetCursorBlink(self):
-        self._cursor_switch = True
-        self._cursor_timer = 0
+    def _drawScreen(self, screen):
+        screen.blit(self._old_screen, (0, 0))
 
-    def _clearSaveStuff(self):
-        self._resetCursorBlink()
-        self._save_name = ''
-        self._cursor_position = 0
-        self._confirm_overwrite = False
-        self._save_success = None
-        self._saves = ()
-        self._save_index = 0
-        self._loaded_save = False
+    @classmethod
+    def _drawText(cls, screen, disp_text):
+        shared.font_wrap.renderToInside(
+            screen,
+            (0, 0),
+            cls.MENU_WIDTH * constants.FONT_SIZE,
+            disp_text,
+            False,
+            constants.WHITE,
+            constants.BLACK
+        )
 
-    def _inputMenu(self, event):
+
+class ModeGameMenuTop(ModeGameMenu):
+    def _input(self, event):
         if event.type == pygame.QUIT:
             shared.game_running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 self.next_mode = self._previous_mode
             elif event.key == pygame.K_F1:
-                self._clearSaveStuff()
-                self._state = ModeGameMenu.State.Save
+                self.next_mode = ModeGameMenuSave(self._previous_mode)
             elif event.key == pygame.K_F2:
-                self._clearSaveStuff()
-                self._state = ModeGameMenu.State.Load
-                self._saves = Save.getAllFromFiles()
+                self.next_mode = ModeGameMenuLoad(self._previous_mode)
             elif event.key == pygame.K_F3:
                 shared.game_running = False
 
-    def _inputSave(self, event):
+    def _drawScreen(self, screen):
+        super()._drawScreen(screen)
+        disp_text = self.SHARED_DISP_TEXT
+        disp_text += "_Save (F1)\n_Load (F2)\n_Quit (F3)"
+        self._drawText(screen, disp_text)
+
+
+class ModeGameMenuSave(ModeGameMenu):
+    __slots__ = (
+        '_save_name',
+        '_cursor_position',
+        '_confirm_overwrite',
+        '_save_success',
+        '_cursor_switch',
+        '_cursor_timer',
+    )
+
+    def __init__(self, previous_mode):
+        super().__init__(previous_mode)
+        self._save_name = ''
+        self._resetCursorBlink()
+        self._cursor_position = 0
+        self._confirm_overwrite = False
+        self._save_success = None
+
+    def _resetCursorBlink(self):
+        self._cursor_switch = True
+        self._cursor_timer = 0
+
+    def _input(self, event):
         if event.type == pygame.QUIT:
-            self._state = ModeGameMenu.State.Menu
+            self.next_mode = ModeGameMenuTop(self._previous_mode)
         elif event.type == pygame.KEYDOWN:
             char = event.unicode
             length = len(self._save_name)
             if self._save_success:
-                self._state = ModeGameMenu.State.Menu
+                self.next_mode = ModeGameMenuTop(self._previous_mode)
             elif event.key == pygame.K_ESCAPE:
                 if self._confirm_overwrite:
                     self._confirm_overwrite = False
                     self._save_success = None
                 else:
-                    self._state = ModeGameMenu.State.Menu
+                    self.next_mode = ModeGameMenuTop(self._previous_mode)
             elif event.key == pygame.K_RETURN:
                 if self._save_name and self._previous_mode.canSave():
-                    if Save.willOverwrite(self._save_name + self.__class__.file_ext) and not self._confirm_overwrite:
+                    if Save.willOverwrite(self._save_name + self.FILE_EXT) and not self._confirm_overwrite:
                         self._confirm_overwrite = True
                     elif not self._save_success:
-                        new_save = Save.getFromMode(self._save_name + self.__class__.file_ext, self._previous_mode)
+                        new_save = Save.getFromMode(self._save_name + self.FILE_EXT, self._previous_mode)
                         self._save_success = new_save.save()
             elif event.key == pygame.K_LEFT:
                 self._cursor_position = max(self._cursor_position - 1, 0)
@@ -110,7 +125,7 @@ class ModeGameMenu(Mode):
                     self._cursor_position -= 1
                 self._resetCursorBlink()
             elif (
-                length < (self.__class__.menu_width - len(self.__class__.file_ext) - 1)
+                length < (self.MENU_WIDTH - len(self.FILE_EXT) - 1)
                 and (
                     # numbers
                     ('0' <= char <= '9')
@@ -124,12 +139,59 @@ class ModeGameMenu(Mode):
                 self._cursor_position += 1
                 self._resetCursorBlink()
 
-    def _inputLoad(self, event):
+    def update(self, dt):
+        self._cursor_timer += dt
+        if self._cursor_timer >= constants.CURSOR_TIME:
+            self._cursor_switch = not self._cursor_switch
+            self._cursor_timer -= constants.CURSOR_TIME
+
+    def _drawScreen(self, screen):
+        super()._drawScreen(screen)
+        disp_text = self.SHARED_DISP_TEXT
+        if not self._previous_mode.canSave():
+            disp_text += "\nYou can't save now."
+        elif not self._save_success:
+            disp_text += "_Save (ENTER)\nType a file name:\n>"
+            if self._save_name:
+                disp_text += self._save_name
+            disp_text += self.FILE_EXT
+            if self._confirm_overwrite and self._save_success is None:
+                disp_text += "\nThis will overwrite an existing save file." \
+                    + "\nPress ENTER again to confirm, or ESC to go back."
+            elif self._save_success is False:
+                disp_text += "\nSave failed.\nPress ENTER to try again, or ESC to go back."
+        else:
+            disp_text += "\nSaved successfully.\nPress any key to go back."
+        self._drawText(screen, disp_text)
+        if self._cursor_switch and not self._confirm_overwrite and self._save_success is None:
+            screen.fill(
+                constants.WHITE,
+                (
+                    ((self._cursor_position + 1) * constants.FONT_SIZE, 4 * constants.FONT_HEIGHT),
+                    (1, constants.FONT_HEIGHT)
+                )
+            )
+
+
+class ModeGameMenuLoad(ModeGameMenu):
+    __slots__ = (
+        '_saves',
+        '_save_index',
+        '_loaded_save',
+    )
+
+    def __init__(self, previous_mode):
+        super().__init__(previous_mode)
+        self._saves = Save.getAllFromFiles()
+        self._save_index = 0
+        self._loaded_save = False
+
+    def _input(self, event):
         if event.type == pygame.QUIT:
-            self._state = ModeGameMenu.State.Menu
+            self.next_mode = ModeGameMenuTop(self._previous_mode)
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE or self._loaded_save:
-                self._state = ModeGameMenu.State.Menu
+                self.next_mode = ModeGameMenuTop(self._previous_mode)
             elif len(self._saves) > 0:
                 if event.key in (pygame.K_UP, pygame.K_LEFT):
                     self._save_index = max(self._save_index - 1, 0)
@@ -143,87 +205,22 @@ class ModeGameMenu(Mode):
                     self._loaded_save = True
                     pass
 
-    def _input(self, event):
-        if self._state is ModeGameMenu.State.Menu:
-            self._inputMenu(event)
-        elif self._state is ModeGameMenu.State.Save:
-            self._inputSave(event)
-        elif self._state is ModeGameMenu.State.Load:
-            self._inputLoad(event)
-        else:
-            raise RuntimeError("error: self._state = " + str(self._state))
-
-    def update(self, dt):
-        if self._state is ModeGameMenu.State.Menu:
-            pass
-        elif self._state is ModeGameMenu.State.Save:
-            self._cursor_timer += dt
-            if self._cursor_timer >= constants.CURSOR_TIME:
-                self._cursor_switch = not self._cursor_switch
-                self._cursor_timer -= constants.CURSOR_TIME
-        elif self._state is ModeGameMenu.State.Load:
-            pass
-        else:
-            raise RuntimeError("error: self._state = " + str(self._state))
-
     def _drawScreen(self, screen):
-        screen.blit(self._old_screen, (0, 0))
-        disp_text = "Options:\n_Go Back (ESC)\n"
-        if self._state is ModeGameMenu.State.Menu:
-            disp_text += "_Save (F1)\n_Load (F2)\n_Quit (F3)"
-            self._drawText(screen, disp_text)
-        elif self._state is ModeGameMenu.State.Save:
-            if not self._previous_mode.canSave():
-                disp_text += "\nYou can't save now."
-            elif not self._save_success:
-                disp_text += "_Save (ENTER)\nType a file name:\n>"
-                if self._save_name:
-                    disp_text += self._save_name
-                disp_text += self.__class__.file_ext
-                if self._confirm_overwrite and self._save_success is None:
-                    disp_text += "\nThis will overwrite an existing save file." \
-                        + "\nPress ENTER again to confirm, or ESC to go back."
-                elif self._save_success is False:
-                    disp_text += "\nSave failed.\nPress ENTER to try again, or ESC to go back."
-            else:
-                disp_text += "\nSaved successfully.\nPress any key to go back."
-            self._drawText(screen, disp_text)
-            if self._cursor_switch and not self._confirm_overwrite and self._save_success is None:
-                screen.fill(
-                    constants.WHITE,
-                    (
-                        ((self._cursor_position + 1) * constants.FONT_SIZE, 4 * constants.FONT_HEIGHT),
-                        (1, constants.FONT_HEIGHT)
-                    )
-                )
-        elif self._state is ModeGameMenu.State.Load:
-            if len(self._saves) == 0:
-                disp_text += "\nThere are no save files to select from."
-            elif self._loaded_save:
-                disp_text += "\nLoaded successfully.\nPress any key to go back."
-            else:
-                disp_text += "_Load (ENTER)\nSelect a file (ARROW KEYS):"
-                for i in range(-1, 2):
-                    disp_text += "\n"
-                    this_index = self._save_index + i
-                    if i == 0:
-                        disp_text += ">"
-                    else:
-                        disp_text += "_"
-                    if 0 <= this_index < len(self._saves):
-                        disp_text += self._saves[this_index].file_name
-            self._drawText(screen, disp_text)
+        super()._drawScreen(screen)
+        disp_text = self.SHARED_DISP_TEXT
+        if len(self._saves) == 0:
+            disp_text += "\nThere are no save files to select from."
+        elif self._loaded_save:
+            disp_text += "\nLoaded successfully.\nPress any key to go back."
         else:
-            raise RuntimeError("error: self._state = " + str(self._state))
-
-    @classmethod
-    def _drawText(cls, screen, disp_text):
-        shared.font_wrap.renderToInside(
-            screen,
-            (0, 0),
-            cls.menu_width * constants.FONT_SIZE,
-            disp_text,
-            False,
-            constants.WHITE,
-            constants.BLACK
-        )
+            disp_text += "_Load (ENTER)\nSelect a file (ARROW KEYS):"
+            for i in range(-1, 2):
+                disp_text += "\n"
+                this_index = self._save_index + i
+                if i == 0:
+                    disp_text += ">"
+                else:
+                    disp_text += "_"
+                if 0 <= this_index < len(self._saves):
+                    disp_text += self._saves[this_index].file_name
+        self._drawText(screen, disp_text)

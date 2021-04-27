@@ -43,9 +43,9 @@ class Boxes(object):
 
     def textStart(self, index):
         return (
-            self.rects[index].x + self.__class__.TEXT_MARGIN,
-            self.rects[index].y + self.__class__.TEXT_MARGIN,
+            self.rects[index].x + self.TEXT_MARGIN,
+            self.rects[index].y + self.TEXT_MARGIN,
         )
 
     def textWidth(self, index):
-        return self.rects[index].w - (self.__class__.TEXT_MARGIN * 2)
+        return self.rects[index].w - (self.TEXT_MARGIN * 2)

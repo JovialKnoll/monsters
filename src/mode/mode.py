@@ -30,7 +30,7 @@ class Mode(abc.ABC):
     def saveMode(self):
         """Return an object represented all the information that should be saved from this mode."""
         raise NotImplementedError(
-            self.__class__.__name__ + ".saveMode(self)"
+            type(self).__name__ + ".saveMode(self)"
         )
 
     @classmethod
@@ -62,7 +62,7 @@ class Mode(abc.ABC):
     @abc.abstractmethod
     def _input(self, event):
         raise NotImplementedError(
-            self.__class__.__name__ + "._input(self, event)"
+            type(self).__name__ + "._input(self, event)"
         )
 
     def input_events(self, event_list):
@@ -82,7 +82,7 @@ class Mode(abc.ABC):
     @abc.abstractmethod
     def _drawScreen(self, screen):
         raise NotImplementedError(
-            self.__class__.__name__ + "._drawScreen(self, screen)"
+            type(self).__name__ + "._drawScreen(self, screen)"
         )
 
     def _drawPostSprites(self, screen):

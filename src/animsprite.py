@@ -67,7 +67,7 @@ class AnimSprite(pygame.sprite.DirtySprite):
             self.last_pos = self.rect.center
         if self.anims:
             current_anim = self.anims[0]
-            func = self.__class__.toFunc(current_anim.func)
+            func = self.toFunc(current_anim.func)
             self.rect.center = func(
                 self.last_pos,
                 current_anim.pos,

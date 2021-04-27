@@ -11,7 +11,7 @@ from .mode import Mode
 
 
 class ModeConvo(Mode):
-    scroll_amount_speed = 0.1
+    SCROLL_AMOUNT_SPEED = 0.1
     boxes = Boxes(
         (
             pygame.Rect(8, 88, 88, 36),
@@ -45,11 +45,11 @@ class ModeConvo(Mode):
         self.text_rect = pygame.Rect(0, 0, 288, 48)
         self.text_scroll = 0
         self.surf_text = shared.font_wrap.renderInside(288, self._textMain(), False, constants.TEXT_COLOR)
-        for index, rect in enumerate(self.__class__.boxes.rects):
+        for index, rect in enumerate(type(self).boxes.rects):
             shared.font_wrap.renderToInside(
                 self.background,
-                self.__class__.boxes.textStart(index),
-                self.__class__.boxes.textWidth(index),
+                self.boxes.textStart(index),
+                self.boxes.textWidth(index),
                 self._textButton(index),
                 False,
                 constants.TEXT_COLOR
@@ -59,42 +59,42 @@ class ModeConvo(Mode):
     @abc.abstractmethod
     def _textMain(self):
         # return text for main section
-        raise NotImplementedError(self.__class__.__name__ + "._textMain(self)")
+        raise NotImplementedError(type(self).__name__ + "._textMain(self)")
 
     @abc.abstractmethod
     def _textButton(self, index):
         # return text for button
-        raise NotImplementedError(self.__class__.__name__ + "._textButton(self, index)")
+        raise NotImplementedError(type(self).__name__ + "._textButton(self, index)")
 
     @abc.abstractmethod
     def _goButton(self, index):
         # do stuff for button
-        raise NotImplementedError(self.__class__.__name__ + "._goButton(self, index)")
+        raise NotImplementedError(type(self).__name__ + "._goButton(self, index)")
 
     def _input(self, event):
         if event.type == pygame.MOUSEMOTION:
-            self.__class__.boxes.posSelect(event.pos)
+            self.boxes.posSelect(event.pos)
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
-                if self.__class__.boxes.posSelect(event.pos) is not None \
+                if self.boxes.posSelect(event.pos) is not None \
                     and self._mouseButtonStatus(event.button) \
-                    and self.__class__.boxes.posSelect(self._mouseButtonStatus(event.button)) \
-                        == self.__class__.boxes.posSelect(event.pos):
-                    self._goButton(self.__class__.boxes.select)
+                    and self.boxes.posSelect(self._mouseButtonStatus(event.button)) \
+                        == self.boxes.posSelect(event.pos):
+                    self._goButton(self.boxes.select)
             elif event.button == 4:
                 self.text_rect.move_ip(0, -constants.FONT_HEIGHT)
             elif event.button == 5:
                 self.text_rect.move_ip(0, constants.FONT_HEIGHT)
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
-                self._goButton(self.__class__.boxes.select)
+                self._goButton(self.boxes.select)
             else:
-                self.__class__.boxes.keySelect(event.key)
+                self.boxes.keySelect(event.key)
 
     def update(self, dt):
         self.text_scroll, text_scroll_int = utility.getIntMovement(
             self.text_scroll,
-            (self._keyStatus(pygame.K_DOWN) - self._keyStatus(pygame.K_UP)) * self.__class__.scroll_amount_speed,
+            (self._keyStatus(pygame.K_DOWN) - self._keyStatus(pygame.K_UP)) * self.SCROLL_AMOUNT_SPEED,
             dt
         )
         self.text_rect.move_ip(0, text_scroll_int)
@@ -104,4 +104,4 @@ class ModeConvo(Mode):
         screen.fill(constants.WHITE)
         screen.blit(self.background, (0, 0))
         screen.blit(self.surf_text, (16, 16), self.text_rect)
-        screen.blit(self.__class__.black_box, self.__class__.boxes.getSelectRect())
+        screen.blit(self.black_box, self.boxes.getSelectRect())

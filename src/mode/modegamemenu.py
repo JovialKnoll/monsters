@@ -54,6 +54,7 @@ class ModeGameMenuTop(ModeGameMenu):
                 shared.game_running = False
 
     def _drawScreen(self, screen):
+
         super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
         disp_text += "_Save (F1)\n_Load (F2)\n_Quit (F3)"

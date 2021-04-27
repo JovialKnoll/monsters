@@ -12,15 +12,15 @@ from mood import Mood
 
 
 class Monster(AnimSprite):
-    drv_max = 4
-    lvl_max = 3
-    main_stats = (
+    DRV_MAX = 4
+    LVL_MAX = 3
+    MAIN_STATS = (
         'atk',
         'def',
         'spd',
         'vit',
     )
-    body_sections = (
+    BODY_SECTIONS = (
         'tail',
         'body',
         'head',
@@ -58,8 +58,8 @@ class Monster(AnimSprite):
         # access the SkinTone with self.skin[self.lvl]
         self.mood = Mood.Neutral# mood might only be changed by and do stuff during battles / convos? maybe
 
-        self.stats = {x: 2 for x in self.__class__.main_stats}
-        self.stats['drv'] = self.__class__.drv_max//2
+        self.stats = {x: 2 for x in self.MAIN_STATS}
+        self.stats['drv'] = self.DRV_MAX//2
         self._levelStats()
         self.stats.update(in_stats)
         self.setHealth()
@@ -71,10 +71,10 @@ class Monster(AnimSprite):
         self.setImage()
 
     def fightStart(self):
-        self.stats['drv'] = max(min(self.stats['drv'] + self.mood.drvChange, self.__class__.drv_max), 0)
+        self.stats['drv'] = max(min(self.stats['drv'] + self.mood.drvChange, self.DRV_MAX), 0)
 
     def _drvEffect(self):
-        return self.stats['drv'] - self.__class__.drv_max + 1
+        return self.stats['drv'] - self.DRV_MAX + 1
 
     def fightHit(self, action):
         # todo: make speed affect more things
@@ -95,9 +95,9 @@ class Monster(AnimSprite):
         return attack, defend
 
     def _levelStats(self):
-        for stat in self.__class__.main_stats:
+        for stat in self.MAIN_STATS:
             self.stats[stat] += 2
-        for stat in random.sample(self.__class__.main_stats, 2):
+        for stat in random.sample(self.MAIN_STATS, 2):
             self.stats[stat] += 1
         self.stats[self.personality.stat] += 2
 
@@ -116,7 +116,7 @@ class Monster(AnimSprite):
 
     def _setSpritePaths(self):
         self.sprite_paths = tuple(
-            self._getSpritePath(self.__class__.body_sections[i], self.sprite_groups[i]) for i in range(5)
+            self._getSpritePath(self.BODY_SECTIONS[i], self.sprite_groups[i]) for i in range(5)
         )
         if self.lvl == 0:
             self.sprite_paths = self.sprite_paths[1:4]
@@ -153,7 +153,7 @@ class Monster(AnimSprite):
 
     def levelUp(self):
         """Level up a monster, setting stats, etc. as needed."""
-        if self.lvl >= self.__class__.lvl_max:
+        if self.lvl >= self.LVL_MAX:
             return False
         self.lvl += 1
         self._levelStats()
@@ -167,6 +167,6 @@ class Monster(AnimSprite):
     def atLevel(cls, in_lvl, in_stats={}):
         """Create a new monster at a given level not above the maximum level, setting stats, etc. as needed."""
         new_mon = cls(in_stats)
-        for n in range(min(in_lvl, cls.lvl_max)):
+        for n in range(min(in_lvl, cls.LVL_MAX)):
             new_mon.levelUp()
         return new_mon

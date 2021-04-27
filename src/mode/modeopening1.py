@@ -31,7 +31,7 @@ class ModeOpening1(Mode):
         shared.font_wrap.renderToCentered(
             self.background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8 + 8),
-            self.__class__.LOGO_TEXT,
+            self.LOGO_TEXT,
             False,
             constants.BLACK
         )
@@ -48,7 +48,7 @@ class ModeOpening1(Mode):
             )
         )
         star_number = 7
-        for i in range(self.__class__.STAR_WAVES):
+        for i in range(self.STAR_WAVES):
             for j in range(star_number):
                 radius = constants.SCREEN_SIZE[0] * 5 // 8
                 angle = j * 2 / star_number * math.pi
@@ -56,7 +56,7 @@ class ModeOpening1(Mode):
                 y = constants.SCREEN_SIZE[1] // 2 - radius * math.cos(angle)
                 self.makeStar(
                     star_image,
-                    self.__class__.STAR_WAIT + i * self.__class__.STAR_TRAVEL,
+                    self.STAR_WAIT + i * self.STAR_TRAVEL,
                     (x, y),
                     bip if j == 0 else None
                 )
@@ -72,7 +72,7 @@ class ModeOpening1(Mode):
         star_sprite.addWait(wait, sound=sound)
         star_sprite.addPosAbs(
             AnimSprite.Lerp,
-            self.__class__.STAR_TRAVEL,
+            self.STAR_TRAVEL,
             dest
         )
         self.all_sprites.add(star_sprite)
@@ -84,7 +84,7 @@ class ModeOpening1(Mode):
 
     def _update(self, dt):
         self.time += dt
-        if self.time >= self.__class__.STAR_WAIT * 2 + self.__class__.STAR_TRAVEL * self.__class__.STAR_WAVES:
+        if self.time >= self.STAR_WAIT * 2 + self.STAR_TRAVEL * self.STAR_WAVES:
             self._stopMixer()
             self.next_mode = ModeOpening2()
 

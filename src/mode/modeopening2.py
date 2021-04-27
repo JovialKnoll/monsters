@@ -9,11 +9,10 @@ from .modeopening3 import ModeOpening3
 
 
 class ModeOpening2(Mode):
-    move_time = 0
-
     __slots__ = (
         'total_time',
         'fade',
+        'move_time',
     )
 
     def __init__(self):
@@ -79,7 +78,7 @@ class ModeOpening2(Mode):
         right_mon.layer = 0
         self.all_sprites.add(right_mon, left_mon)
         self.total_time = 0
-        self.__class__.move_time = beat * 28 + pause * 2 + 300
+        self.move_time = beat * 28 + pause * 2 + 300
         self.fade = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
         self.fade.fill(constants.WHITE)
         self.fade.set_alpha(0)
@@ -91,11 +90,11 @@ class ModeOpening2(Mode):
 
     def _update(self, dt):
         self.total_time += dt
-        if self.total_time >= self.__class__.move_time:
+        if self.total_time >= self.move_time:
             self.fade.set_alpha(
-                min((self.total_time - self.__class__.move_time) * 255 / 750, 255)
+                min((self.total_time - self.move_time) * 255 / 750, 255)
             )
-        if self.total_time >= self.__class__.move_time + 1500:
+        if self.total_time >= self.move_time + 1500:
             self._stopMixer()
             self.next_mode = ModeOpening3()
 

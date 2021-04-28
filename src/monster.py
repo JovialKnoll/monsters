@@ -59,7 +59,7 @@ class Monster(AnimSprite):
         self.mood = Mood.Neutral# mood might only be changed by and do stuff during battles / convos? maybe
 
         self.stats = {x: 2 for x in self.MAIN_STATS}
-        self.stats['drv'] = self.DRV_MAX//2
+        self.stats['drv'] = self.DRV_MAX // 2
         self._levelStats()
         self.stats.update(in_stats)
         self.setHealth()
@@ -81,15 +81,15 @@ class Monster(AnimSprite):
         attack = self.stats['atk']
         defend = self.stats['def']
         if action == 'attack':
-            attack += self.stats['atk']//2 + self.stats['spd'] + random.randint(0, 1)
-            defend += self.stats['def']//2 + self.stats['atk']//2
+            attack += self.stats['atk'] // 2 + self.stats['spd'] + random.randint(0, 1)
+            defend += self.stats['def'] // 2 + self.stats['atk'] // 2
         elif action == 'defend':
-            attack += self.stats['atk']//2 + self.stats['def']//2
-            defend += self.stats['atk']//2 + self.stats['spd'] + random.randint(0, 1)
+            attack += self.stats['atk'] // 2 + self.stats['def'] // 2
+            defend += self.stats['atk'] // 2 + self.stats['spd'] + random.randint(0, 1)
         # 'escape'
         else:
-            attack = attack//2 + self.stats['spd']//2
-            defend = defend//2 + self.stats['spd']//2
+            attack = attack // 2 + self.stats['spd'] // 2
+            defend = defend // 2 + self.stats['spd'] // 2
         attack = max(attack + random.randint(-1, 1) + self._drvEffect(), 0)
         defend = max(defend + random.randint(-1, 1) + self._drvEffect(), 0)
         return attack, defend

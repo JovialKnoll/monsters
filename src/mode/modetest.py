@@ -49,12 +49,12 @@ class ModeTest(Mode):
     def update(self, dt):
         self.dx, dx_int = utility.getIntMovement(
             self.dx,
-            (self._keyStatus(pygame.K_RIGHT) - self._keyStatus(pygame.K_LEFT)) * .1,
+            (pygame.key.get_pressed()[pygame.K_RIGHT] - pygame.key.get_pressed()[pygame.K_LEFT]) * .1,
             dt
         )
         self.dy, dy_int = utility.getIntMovement(
             self.dy,
-            (self._keyStatus(pygame.K_DOWN) - self._keyStatus(pygame.K_UP)) * .1,
+            (pygame.key.get_pressed()[pygame.K_DOWN] - pygame.key.get_pressed()[pygame.K_UP]) * .1,
             dt
         )
         shared.state.protag_mon.rect.move_ip(dx_int, dy_int)

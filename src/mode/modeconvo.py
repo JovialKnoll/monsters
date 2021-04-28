@@ -94,7 +94,7 @@ class ModeConvo(Mode):
     def update(self, dt):
         self.text_scroll, text_scroll_int = utility.getIntMovement(
             self.text_scroll,
-            (self._keyStatus(pygame.K_DOWN) - self._keyStatus(pygame.K_UP)) * self.SCROLL_AMOUNT_SPEED,
+            (pygame.key.get_pressed()[pygame.K_DOWN] - pygame.key.get_pressed()[pygame.K_UP]) * self.SCROLL_AMOUNT_SPEED,
             dt
         )
         self.text_rect.move_ip(0, text_scroll_int)

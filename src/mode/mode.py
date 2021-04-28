@@ -8,7 +8,6 @@ class Mode(abc.ABC):
     """
     __slots__ = (
         'all_sprites',
-        '__pressed_keys',
         '__pressed_mouse_buttons',
         'next_mode',
     )
@@ -18,7 +17,6 @@ class Mode(abc.ABC):
         Don't create another mode unless you are immediately assigning it to self.next_mode
         """
         self.all_sprites = pygame.sprite.LayeredDirty()
-        self.__pressed_keys = set()
         self.__pressed_mouse_buttons = dict()
         self.next_mode = None
 
@@ -40,19 +38,12 @@ class Mode(abc.ABC):
             cls.__name__ + ".loadMode(cls, saveData)"
         )
 
-    def __trackPressedKeys(self, event):
-        if event.type == pygame.KEYDOWN:
-            self.__pressed_keys.add(event.key)
-        elif event.type == pygame.KEYUP:
-            self.__pressed_keys.discard(event.key)
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+    def __trackMouseButton(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
             self.__pressed_mouse_buttons[event.button] = event.pos
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button in self.__pressed_mouse_buttons:
                 del self.__pressed_mouse_buttons[event.button]
-
-    def _keyStatus(self, key):
-        return key in self.__pressed_keys
 
     def _mouseButtonStatus(self, button):
         if button not in self.__pressed_mouse_buttons:
@@ -69,7 +60,7 @@ class Mode(abc.ABC):
         """All game modes can take in events."""
         for event in event_list:
             self._input(event)
-            self.__trackPressedKeys(event)
+            self.__trackMouseButton(event)
 
     def _update(self, dt):
         pass

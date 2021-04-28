@@ -17,11 +17,20 @@ class ModeGameMenu(Mode):
         '_old_screen',
     )
 
-    def __init__(self, previous_mode):
+    def __init__(self, previous_mode, old_screen=None):
         super().__init__()
         self._previous_mode = previous_mode
-        self._old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
-        self._previous_mode.draw(self._old_screen)
+        if old_screen is None:
+            old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+            self._previous_mode.draw(old_screen)
+            old_screen = pygame.transform.smoothscale(
+                pygame.transform.smoothscale(
+                    old_screen,
+                    (constants.SCREEN_SIZE[0] * 4 // 5, constants.SCREEN_SIZE[1] * 4 // 5)
+                ),
+                constants.SCREEN_SIZE
+            )
+        self._old_screen = old_screen
 
     def _drawScreen(self, screen):
         screen.blit(self._old_screen, (0, 0))
@@ -47,9 +56,9 @@ class ModeGameMenuTop(ModeGameMenu):
             if event.key == pygame.K_ESCAPE:
                 self.next_mode = self._previous_mode
             elif event.key == pygame.K_F1:
-                self.next_mode = ModeGameMenuSave(self._previous_mode)
+                self.next_mode = ModeGameMenuSave(self._previous_mode, self._old_screen)
             elif event.key == pygame.K_F2:
-                self.next_mode = ModeGameMenuLoad(self._previous_mode)
+                self.next_mode = ModeGameMenuLoad(self._previous_mode, self._old_screen)
             elif event.key == pygame.K_F3:
                 shared.game_running = False
 
@@ -70,8 +79,8 @@ class ModeGameMenuSave(ModeGameMenu):
         '_cursor_timer',
     )
 
-    def __init__(self, previous_mode):
-        super().__init__(previous_mode)
+    def __init__(self, previous_mode, old_screen=None):
+        super().__init__(previous_mode, old_screen)
         self._save_name = ''
         self._resetCursorBlink()
         self._cursor_position = 0
@@ -84,18 +93,18 @@ class ModeGameMenuSave(ModeGameMenu):
 
     def _input(self, event):
         if event.type == pygame.QUIT:
-            self.next_mode = ModeGameMenuTop(self._previous_mode)
+            self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
         elif event.type == pygame.KEYDOWN:
             char = event.unicode
             length = len(self._save_name)
             if self._save_success:
-                self.next_mode = ModeGameMenuTop(self._previous_mode)
+                self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
             elif event.key == pygame.K_ESCAPE:
                 if self._confirm_overwrite:
                     self._confirm_overwrite = False
                     self._save_success = None
                 else:
-                    self.next_mode = ModeGameMenuTop(self._previous_mode)
+                    self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
             elif event.key == pygame.K_RETURN:
                 if self._save_name and self._previous_mode.canSave():
                     if Save.willOverwrite(self._save_name + self.FILE_EXT) and not self._confirm_overwrite:
@@ -180,18 +189,18 @@ class ModeGameMenuLoad(ModeGameMenu):
         '_loaded_save',
     )
 
-    def __init__(self, previous_mode):
-        super().__init__(previous_mode)
+    def __init__(self, previous_mode, old_screen=None):
+        super().__init__(previous_mode, old_screen)
         self._saves = Save.getAllFromFiles()
         self._save_index = 0
         self._loaded_save = False
 
     def _input(self, event):
         if event.type == pygame.QUIT:
-            self.next_mode = ModeGameMenuTop(self._previous_mode)
+            self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE or self._loaded_save:
-                self.next_mode = ModeGameMenuTop(self._previous_mode)
+                self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
             elif len(self._saves) > 0:
                 if event.key in (pygame.K_UP, pygame.K_LEFT):
                     self._save_index = max(self._save_index - 1, 0)

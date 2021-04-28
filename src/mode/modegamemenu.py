@@ -26,7 +26,7 @@ class ModeGameMenu(Mode):
             old_screen = pygame.transform.smoothscale(
                 pygame.transform.smoothscale(
                     old_screen,
-                    (constants.SCREEN_SIZE[0] * 11 // 20, constants.SCREEN_SIZE[1] * 11 // 20)
+                    (constants.SCREEN_SIZE[0] * 4 // 5, constants.SCREEN_SIZE[1] * 4 // 5)
                 ),
                 constants.SCREEN_SIZE
             )

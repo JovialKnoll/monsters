@@ -39,6 +39,6 @@ ROOEEE = os.path.join(SOUND_DIRECTORY, 'rooeee.wav')
 BWOP = os.path.join(SOUND_DIRECTORY, 'bwop.wav')
 
 MUSIC_DIRECTORY = os.path.join(SOUND_DIRECTORY, 'music')
-FIGHT_LOOP = os.path.join(MUSIC_DIRECTORY, 'fight_loop.mp3')
+FIGHT_LOOP = os.path.join(MUSIC_DIRECTORY, 'fight_loop.ogg')
 
 SAVE_DIRECTORY = 'saves'

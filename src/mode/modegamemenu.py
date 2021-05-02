@@ -3,6 +3,7 @@ import pygame
 import constants
 import shared
 from save import Save
+from saveable import Saveable
 
 from .mode import Mode
 
@@ -106,7 +107,7 @@ class ModeGameMenuSave(ModeGameMenu):
                 else:
                     self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
             elif event.key == pygame.K_RETURN:
-                if self._save_name and self._previous_mode.canSave():
+                if self._save_name and isinstance(self._previous_mode, Saveable):
                     if Save.willOverwrite(self._save_name + self.FILE_EXT) and not self._confirm_overwrite:
                         self._confirm_overwrite = True
                     elif not self._save_success:
@@ -157,7 +158,7 @@ class ModeGameMenuSave(ModeGameMenu):
     def _drawScreen(self, screen):
         super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
-        if not self._previous_mode.canSave():
+        if not isinstance(self._previous_mode, Saveable):
             disp_text += "\nYou can't save now."
         elif not self._save_success:
             disp_text += "_Save (ENTER)\nType a file name:\n>"

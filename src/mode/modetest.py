@@ -5,10 +5,11 @@ import utility
 import shared
 from monster import Monster
 
+from saveable import Saveable
 from .mode import Mode
 
 
-class ModeTest(Mode):
+class ModeTest(Mode, Saveable):
     FILL = (31, 31, 31)
     TEST_TEXT = "01234567890123456789"
 
@@ -24,10 +25,6 @@ class ModeTest(Mode):
         self.dx = 0
         self.dy = 0
 
-    @staticmethod
-    def canSave():
-        return True
-
     def saveMode(self):
         # todo: actually return object
         return 1
@@ -35,7 +32,7 @@ class ModeTest(Mode):
     @classmethod
     def loadMode(cls, save_data):
         # todo: actually use save_data
-        return ModeTest()
+        return cls()
 
     def _input(self, event):
         if event.type == pygame.MOUSEMOTION:

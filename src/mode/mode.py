@@ -20,24 +20,6 @@ class Mode(abc.ABC):
         self.__pressed_mouse_buttons = dict()
         self.next_mode = None
 
-    @staticmethod
-    def canSave():
-        """Override this to return True, if and only if saveMode and loadMode are implemented."""
-        return False
-
-    def saveMode(self):
-        """Return an object represented all the information that should be saved from this mode."""
-        raise NotImplementedError(
-            type(self).__name__ + ".saveMode(self)"
-        )
-
-    @classmethod
-    def loadMode(cls, saveData):
-        """Take in an object equivalent to the result of a call to saveMode(), and return an instance of this mode."""
-        raise NotImplementedError(
-            cls.__name__ + ".loadMode(cls, saveData)"
-        )
-
     def __trackMouseButton(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.__pressed_mouse_buttons[event.button] = event.pos

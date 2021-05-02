@@ -9,7 +9,7 @@ class Saveable(abc.ABC):
         )
 
     @classmethod
-    def loadMode(cls, saveData):
+    def load(cls, saveData):
         """Take in an object equivalent to the result of a call to saveMode(), and return an instance of this mode."""
         raise NotImplementedError(
             cls.__name__ + ".loadMode(cls, saveData)"

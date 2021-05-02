@@ -25,12 +25,12 @@ class ModeTest(Mode, Saveable):
         self.dx = 0
         self.dy = 0
 
-    def saveMode(self):
+    def save(self):
         # todo: actually return object
         return 1
 
     @classmethod
-    def loadMode(cls, save_data):
+    def load(cls, save_data):
         # todo: actually use save_data
         return cls()
 

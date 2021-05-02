@@ -5,6 +5,7 @@ import pygame
 import constants
 import shared
 import mode
+from state import State
 
 class Save(object):
     __slots__ = (
@@ -22,9 +23,7 @@ class Save(object):
 
     @classmethod
     def getFromMode(cls, file_name, from_mode: mode.Mode):
-        # todo: shared data saving
-        shared_data = "REPLACE WITH SHARED DATA"
-        return cls(file_name, type(from_mode).__name__, from_mode.saveMode(), shared_data)
+        return cls(file_name, type(from_mode).__name__, from_mode.save(), shared.state.save())
 
     @classmethod
     def getFromFile(cls, file_name):
@@ -102,9 +101,9 @@ class Save(object):
         pygame.mixer.music.stop()
         pygame.mixer.music.unload()
         pygame.mixer.stop()
-        # todo: update shared state based on self.shared_data
+        shared.state = State.load(self._shared_data)
         mode_cls = getattr(mode, self._mode_name)
-        new_mode = mode_cls.loadMode(self._mode_data)
+        new_mode = mode_cls.load(self._mode_data)
         pygame.mixer.music.pause()
         pygame.mixer.pause()
         return new_mode

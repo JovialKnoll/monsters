@@ -22,16 +22,20 @@ class ModeGameMenu(Mode):
         super().__init__()
         self._previous_mode = previous_mode
         if old_screen is None:
-            old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
-            self._previous_mode.draw(old_screen)
-            old_screen = pygame.transform.smoothscale(
-                pygame.transform.smoothscale(
-                    old_screen,
-                    (constants.SCREEN_SIZE[0] * 4 // 5, constants.SCREEN_SIZE[1] * 4 // 5)
-                ),
-                constants.SCREEN_SIZE
-            )
+            old_screen = self._getOldScreen()
         self._old_screen = old_screen
+
+    def _getOldScreen(self):
+        old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+        self._previous_mode.draw(old_screen)
+        old_screen = pygame.transform.smoothscale(
+            pygame.transform.smoothscale(
+                old_screen,
+                (constants.SCREEN_SIZE[0] * 4 // 5, constants.SCREEN_SIZE[1] * 4 // 5)
+            ),
+            constants.SCREEN_SIZE
+        )
+        return old_screen
 
     def _drawScreen(self, screen):
         screen.blit(self._old_screen, (0, 0))
@@ -211,7 +215,7 @@ class ModeGameMenuLoad(ModeGameMenu):
                     pass
                 elif event.key == pygame.K_RETURN:
                     self._previous_mode = self._saves[self._save_index].load()
-                    self._previous_mode.draw(self._old_screen)
+                    self._old_screen = self._getOldScreen()
                     self._loaded_save = True
                     pass
 

@@ -48,16 +48,15 @@ class Save(object):
                     )
                     if save
                 ),
-                key=lambda s: s.file_name
+                key=lambda s: (s.file_name.lower(), s.file_name)
             )
         )
 
     @classmethod
     def willOverwrite(cls, file_name):
-        for f in cls._getSaveFiles():
-            print(f)
-        print(file_name)
-        return file_name in cls._getSaveFiles()
+        return os.path.exists(
+            os.path.join(constants.SAVE_DIRECTORY, file_name)
+        )
 
     @staticmethod
     def _getSaveFiles():

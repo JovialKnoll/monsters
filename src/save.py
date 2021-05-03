@@ -7,6 +7,7 @@ import constants
 import shared
 import mode
 from state import State
+from saveable import Saveable
 
 class Save(object):
     __slots__ = (
@@ -70,7 +71,7 @@ class Save(object):
             return False
 
     @classmethod
-    def getFromMode(cls, file_name, from_mode: mode.Mode):
+    def getFromMode(cls, file_name, from_mode: Saveable):
         return cls(file_name, type(from_mode).__name__, from_mode.save(), shared.state.save())
 
     def save(self):

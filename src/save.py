@@ -1,4 +1,5 @@
 import os
+import json
 
 import pygame
 
@@ -22,17 +23,23 @@ class Save(object):
         self._shared_data = shared_data
 
     @classmethod
-    def getFromMode(cls, file_name, from_mode: mode.Mode):
-        return cls(file_name, type(from_mode).__name__, from_mode.save(), shared.state.save())
+    def willOverwrite(cls, file_name):
+        return os.path.exists(
+            os.path.join(constants.SAVE_DIRECTORY, file_name)
+        )
 
-    @classmethod
-    def getFromFile(cls, file_name):
-        try:
-            # todo: actually implement opening and parsing file
-            return cls(file_name, "ModeTest", 1, "REPLACE WITH SHARED DATA")
-            pass
-        except IOError:
-            return False
+    @staticmethod
+    def _getSaveFiles():
+        if not os.path.isdir(constants.SAVE_DIRECTORY):
+            return ()
+        return (
+            file_name
+            for file_name
+            in os.listdir(constants.SAVE_DIRECTORY)
+            if os.path.isfile(
+                os.path.join(constants.SAVE_DIRECTORY, file_name)
+            )
+        )
 
     @classmethod
     def getAllFromFiles(cls):
@@ -53,48 +60,36 @@ class Save(object):
         )
 
     @classmethod
-    def willOverwrite(cls, file_name):
-        return os.path.exists(
-            os.path.join(constants.SAVE_DIRECTORY, file_name)
-        )
+    def getFromFile(cls, file_name):
+        file_path = os.path.join(constants.SAVE_DIRECTORY, file_name)
+        try:
+            with open(file_path, 'r') as file:
+                save_object = json.load(file)
+                return cls(file_name, save_object['mode_name'], save_object['mode_data'], save_object['shared_data'])
+        except (IOError, json.decoder.JSONDecodeError):
+            return False
 
-    @staticmethod
-    def _getSaveFiles():
-        if not os.path.isdir(constants.SAVE_DIRECTORY):
-            return ()
-        return (
-            file_name
-            for file_name
-            in os.listdir(constants.SAVE_DIRECTORY)
-            if os.path.isfile(
-                os.path.join(constants.SAVE_DIRECTORY, file_name)
-            )
-        )
+    @classmethod
+    def getFromMode(cls, file_name, from_mode: mode.Mode):
+        return cls(file_name, type(from_mode).__name__, from_mode.save(), shared.state.save())
 
     def save(self):
         try:
             os.mkdir(constants.SAVE_DIRECTORY)
         except FileExistsError:
             pass
+        save_object = {
+            'mode_name': self._mode_name,
+            'mode_data': self._mode_data,
+            'shared_data': self._shared_data,
+        }
+        file_path = os.path.join(constants.SAVE_DIRECTORY, self.file_name)
         try:
-            file_path = os.path.join(constants.SAVE_DIRECTORY, self.file_name)
             with open(file_path, 'w') as file:
-                # todo: actually write out information
-                print("REPLACE WITH ACTUAL WRITING TO FILE", file=file)
+                json.dump(save_object, file)
             return True
         except IOError:
             return False
-        # objects = ['asd', (1, 2, 3), 123]
-        # if not os.path.exists(constants.SAVE_DIRECTORY):
-        #     os.makedirs(constants.SAVE_DIRECTORY)
-        # with open(
-        #         os.path.join(
-        #             constants.SAVE_DIRECTORY,
-        #             self._save_name + self.file_extension
-        #         ),
-        #         'wb'
-        # ) as f:
-        #    pickle.dump(objects, f, pickle.HIGHEST_PROTOCOL)
 
     def load(self):
         pygame.mixer.music.stop()

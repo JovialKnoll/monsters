@@ -1,7 +1,10 @@
 import os
 
+import pygame
+
 SCREEN_CAPTION = "Monsters and Stuff"
 SCREEN_SIZE = (320, 180)
+SCREEN_RECT = pygame.Rect((0, 0), SCREEN_SIZE)
 CURSOR_TIME = 500
 FONT_SIZE = 8
 FONT_HEIGHT = 10

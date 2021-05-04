@@ -13,33 +13,34 @@ class ModeTest(Mode, Saveable):
     FILL = (31, 31, 31)
     TEST_TEXT = "01234567890123456789"
 
-    def _createMonster(self):
-        shared.state.protag_mon.kill()
-        shared.state.protag_mon = Monster()
-        shared.state.protag_mon.rect.midbottom = (160, 122)
-        self.all_sprites.add(shared.state.protag_mon)
-
     def __init__(self):
         super().__init__()
-        self._createMonster()
+        if not constants.SCREEN_RECT.colliderect(shared.state.protag_mon.rect):
+            shared.state.protag_mon.rect.midbottom = (160, 122)
+        self.all_sprites.add(shared.state.protag_mon)
         self.dx = 0
         self.dy = 0
 
     def save(self):
-        # todo: actually return object
-        return 1
+        return {
+            'dx': self.dx,
+            'dy': self.dy,
+        }
 
     @classmethod
     def load(cls, save_data):
-        # todo: actually use save_data
-        return cls()
+        new_obj = cls()
+        new_obj.dx = save_data['dx']
+        new_obj.dy = save_data['dy']
+        return new_obj
 
     def _input(self, event):
-        if event.type == pygame.MOUSEMOTION:
-            shared.state.protag_mon.rect.midbottom = event.pos
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                self._createMonster()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_k:
+                shared.state.protag_mon.kill()
+                shared.state.protag_mon = Monster()
+                shared.state.protag_mon.rect.midbottom = (160, 122)
+                self.all_sprites.add(shared.state.protag_mon)
             elif event.key == pygame.K_l:
                 shared.state.protag_mon.levelUp()
 

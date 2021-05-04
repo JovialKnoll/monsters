@@ -9,9 +9,10 @@ from animsprite import AnimSprite
 from personality import Personality
 from skin import Skin
 from mood import Mood
+from saveable import Saveable
 
 
-class Monster(AnimSprite):
+class Monster(AnimSprite, Saveable):
     DRV_MAX = 4
     LVL_MAX = 3
     MAIN_STATS = (
@@ -69,6 +70,15 @@ class Monster(AnimSprite):
         self._setSpritePaths()
         self._setSprites()
         self.setImage()
+
+    def save(self):
+        # todo: actually return object
+        return 1
+
+    @classmethod
+    def load(cls, save_data):
+        # todo: actually use save_data
+        return cls()
 
     def fightStart(self):
         self.stats['drv'] = max(min(self.stats['drv'] + self.mood.drvChange, self.DRV_MAX), 0)

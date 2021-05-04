@@ -7,10 +7,6 @@ necessary:
 3) content for convos and fights (based on each other)
     make system for convo modes to move through entire conversation in single mode
 4) save implementation in some modes
-    first implement rest of Save class
-    (specific to modes + shared state, no generic pickling)
-    https://docs.python.org/3/library/pickle.html#object.__getstate__
-5) load implementation
 6) make and check settings file (main.py or game.py?)
 	window size
 	fullscreen

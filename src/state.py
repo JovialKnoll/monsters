@@ -10,10 +10,12 @@ class State(object):
         self.protag_mon = Monster()
 
     def save(self):
-        # todo: actually return object
-        return 1
+        return {
+            'protag_mon': self.protag_mon.save()
+        }
 
     @classmethod
     def load(cls, save_data):
-        # todo: actually use save_data
-        return cls()
+        new_state = cls()
+        new_state.protag_mon = Monster.load(save_data['protag_mon'])
+        return new_state

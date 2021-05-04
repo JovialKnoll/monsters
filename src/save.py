@@ -23,8 +23,8 @@ class Save(object):
         self._mode_data = mode_data
         self._shared_data = shared_data
 
-    @classmethod
-    def willOverwrite(cls, file_name):
+    @staticmethod
+    def willOverwrite(file_name):
         return os.path.exists(
             os.path.join(constants.SAVE_DIRECTORY, file_name)
         )

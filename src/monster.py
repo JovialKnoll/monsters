@@ -72,13 +72,17 @@ class Monster(AnimSprite, Saveable):
         self.setImage()
 
     def save(self):
-        # todo: actually return object
-        return 1
+        return {
+            "props": "values"
+        }
 
     @classmethod
     def load(cls, save_data):
+        new_obj = cls()
         # todo: actually use save_data
-        return cls()
+        # new_obj.prop1 = Object.load(save_data['prop1'])
+        # new_obj.prop2 = save_data['prop2']
+        return new_obj
 
     def fightStart(self):
         self.stats['drv'] = max(min(self.stats['drv'] + self.mood.drvChange, self.DRV_MAX), 0)

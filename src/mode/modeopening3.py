@@ -12,7 +12,7 @@ from .modemonconvo0 import ModeMonConvo0
 
 
 class ModeOpening3(Mode):
-    GROUND_LEVEL = constants.SCREEN_SIZE[1] - 16
+    GROUND_LEVEL = constants.SCREEN_SIZE[1] - 8
     CENTER_TIME = 2500
     TRANSITION_TIME = 750
     EMPTY_TIME = 250
@@ -33,15 +33,23 @@ class ModeOpening3(Mode):
         self.background.fill(constants.WHITE)
         shared.font_wrap.renderToCentered(
             self.background,
-            (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2),
+            (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2 + 4),
             "press any key to start",
             False,
             constants.BLACK
         )
+        logo = pygame.image.load(constants.CHIKKAI_LOGO).convert(shared.display.screen)
+        self.background.blit(
+            logo,
+            (
+                constants.SCREEN_SIZE[0] // 2 - logo.get_width() // 2,
+                constants.SCREEN_SIZE[1] // 4 - logo.get_height() // 2,
+            )
+        )
         # monster loop setup
-        self.last_level = random.randint(1, 3)
+        self.last_level = 3
         self.monsters = deque((), 3)
-        monster = self._getMonster(0)
+        monster = self._getMonster(0, 3)
         # start the first one in the center
         monster.rect.midbottom = (constants.SCREEN_SIZE[0] // 2, self.GROUND_LEVEL)
         monster.anims.popleft()
@@ -54,14 +62,14 @@ class ModeOpening3(Mode):
         self.wait_time += self.FULL_MONSTER_WAIT_TIME
         self.initial_wait_time = self.wait_time
 
-    def _getMonster(self, wait_time):
+    def _getMonster(self, wait_time, level=None):
         # wait_time is how much time until the previous mon is off the screen
-        monster = Monster.atLevel(
-            random.choice(
+        if level is None:
+            level = random.choice(
                 [i for i in range(1, 4) if i != self.last_level]
             )
-        )
-        self.last_level = monster.lvl
+        monster = Monster.atLevel(level)
+        self.last_level = level
         self.all_sprites.add(monster)
         monster.rect.midbottom = (
             constants.SCREEN_SIZE[0] + monster.rect.width // 2,

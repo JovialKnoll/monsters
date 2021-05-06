@@ -1,6 +1,4 @@
 necessary:
-1) finish opening
-    need a logo to put on the looping screen
 2) music / sound
     convo music
     opening music

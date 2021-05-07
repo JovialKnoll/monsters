@@ -10,11 +10,8 @@ class SkinTone(Saveable):
         self.light = pygame.Color(in_light[0], in_light[1], in_light[2])
 
     def save(self):
-        return {
-            'dark': (self.dark.r, self.dark.g, self.dark.b),
-            'light': (self.light.r, self.light.g, self.light.b),
-        }
+        return (self.dark.r, self.dark.g, self.dark.b), (self.light.r, self.light.g, self.light.b)
 
     @classmethod
     def load(cls, save_data):
-        return cls(save_data['dark'], save_data['light'])
+        return cls(*save_data)

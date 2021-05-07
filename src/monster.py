@@ -72,16 +72,35 @@ class Monster(AnimSprite, Saveable):
         self.setImage()
 
     def save(self):
+        # todo: implement save and load for AnimSprite (+DirtySprite +Sprite) and call those here
         return {
-            "props": "values"
+            'lvl': self.lvl,
+            'awr': self.awr,
+            'personality': type(self.personality).__name__,
+            'name': self.name,
+            'skin': self.skin,
+            'mood': type(self.mood).__name__,
+            'stats': self.stats,
+            'sprite_groups': self.sprite_groups,
+            'sprite_paths': self.sprite_paths,
+            'facing_right': self.facing_right,
         }
 
     @classmethod
     def load(cls, save_data):
         new_obj = cls()
-        # todo: actually use save_data
-        # new_obj.prop1 = Object.load(save_data['prop1'])
-        # new_obj.prop2 = save_data['prop2']
+        new_obj.lvl = save_data['lvl']
+        new_obj.awr = save_data['awr']
+        new_obj.personality = getattr(Personality, save_data['personality'])
+        new_obj.name = save_data['name']
+        new_obj.skin = save_data['skin']
+        new_obj.mood = getattr(Mood, save_data['mood'])
+        new_obj.stats = save_data['stats']
+        new_obj.sprite_groups = save_data['sprite_groups']
+        new_obj.sprite_paths = save_data['sprite_paths']
+        new_obj._setSprites()
+        new_obj.setImage(save_data['facing_right'])
+
         return new_obj
 
     def fightStart(self):

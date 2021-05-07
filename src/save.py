@@ -5,9 +5,10 @@ import pygame
 
 import constants
 import shared
+import saveable
 import mode
 from state import State
-from saveable import Saveable
+
 
 class Save(object):
     __slots__ = (
@@ -65,13 +66,13 @@ class Save(object):
         file_path = os.path.join(constants.SAVE_DIRECTORY, file_name)
         try:
             with open(file_path, 'r') as file:
-                save_object = json.load(file)
+                save_object = json.load(file, object_hook=saveable.decode_saveable)
                 return cls(file_name, save_object['mode_name'], save_object['mode_data'], save_object['shared_data'])
         except (IOError, json.decoder.JSONDecodeError):
             return False
 
     @classmethod
-    def getFromMode(cls, file_name, from_mode: Saveable):
+    def getFromMode(cls, file_name, from_mode: saveable.Saveable):
         return cls(file_name, type(from_mode).__name__, from_mode.save(), shared.state.save())
 
     def save(self):
@@ -87,7 +88,7 @@ class Save(object):
         file_path = os.path.join(constants.SAVE_DIRECTORY, self.file_name)
         try:
             with open(file_path, 'w') as file:
-                json.dump(save_object, file)
+                json.dump(save_object, file, cls=saveable.SaveableJSONEncoder)
             return True
         except IOError:
             return False

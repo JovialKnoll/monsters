@@ -80,7 +80,7 @@ class Monster(AnimSprite, Saveable):
             'awr': self.awr,
             'personality': self.personality.__name__,
             'name': self.name,
-            'skin': tuple(s.save() for s in self.skin),
+            'skin': self.skin,
             'mood': self.mood.__name__,
             'stats': self.stats,
             'sprite_groups': self.sprite_groups,
@@ -95,7 +95,7 @@ class Monster(AnimSprite, Saveable):
         new_obj.awr = save_data['awr']
         new_obj.personality = getattr(Personality, save_data['personality'])
         new_obj.name = save_data['name']
-        new_obj.skin = tuple(SkinTone.load(s) for s in save_data['skin'])
+        new_obj.skin = save_data['skin']
         new_obj.mood = getattr(Mood, save_data['mood'])
         new_obj.stats = save_data['stats']
         new_obj.sprite_groups = save_data['sprite_groups']

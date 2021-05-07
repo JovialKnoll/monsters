@@ -8,6 +8,7 @@ import shared
 from animsprite import AnimSprite
 from personality import Personality
 from skin import Skin
+from skintone import SkinTone
 from mood import Mood
 from saveable import Saveable
 
@@ -73,13 +74,14 @@ class Monster(AnimSprite, Saveable):
 
     def save(self):
         # todo: implement save and load for AnimSprite (+DirtySprite +Sprite) and call those here
+        # also get rid of __getstate__ and __setstate__ functions in project
         return {
             'lvl': self.lvl,
             'awr': self.awr,
-            'personality': type(self.personality).__name__,
+            'personality': self.personality.__name__,
             'name': self.name,
-            'skin': self.skin,
-            'mood': type(self.mood).__name__,
+            'skin': tuple(s.save() for s in self.skin),
+            'mood': self.mood.__name__,
             'stats': self.stats,
             'sprite_groups': self.sprite_groups,
             'sprite_paths': self.sprite_paths,
@@ -93,7 +95,7 @@ class Monster(AnimSprite, Saveable):
         new_obj.awr = save_data['awr']
         new_obj.personality = getattr(Personality, save_data['personality'])
         new_obj.name = save_data['name']
-        new_obj.skin = save_data['skin']
+        new_obj.skin = tuple(SkinTone.load(s) for s in save_data['skin'])
         new_obj.mood = getattr(Mood, save_data['mood'])
         new_obj.stats = save_data['stats']
         new_obj.sprite_groups = save_data['sprite_groups']

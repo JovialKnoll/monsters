@@ -21,42 +21,51 @@ class Saveable(abc.ABC):
         )
 
 
+KEY_COLLECTION = 'COLLECTION'
+COLLECTION_DEQUE = 'DEQUE'
+KEY_ELEMENTS = 'ELEMENTS'
+KEY_MAXLEN = 'MAXLEN'
+KEY_MODULE = 'MODULE'
+KEY_CLASS = 'CLASS'
+KEY_SAVEABLE = 'SAVEABLE'
+
+
 class SaveableJSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, deque):
             return {
-                'COLLECTION': 'DEQUE',
-                'ELEMENTS': list(o),
-                'MAXLEN': o.maxlen,
+                KEY_COLLECTION: COLLECTION_DEQUE,
+                KEY_ELEMENTS: list(o),
+                KEY_MAXLEN: o.maxlen,
             }
         elif isinstance(o, type):
             return {
-                'MODULE': o.__module__,
-                'CLASS': o.__qualname__,
+                KEY_MODULE: o.__module__,
+                KEY_CLASS: o.__qualname__,
             }
         elif isinstance(o, Saveable):
             return {
-                'MODULE': type(o).__module__,
-                'CLASS': type(o).__qualname__,
-                'SAVEABLE': o.save(),
+                KEY_MODULE: type(o).__module__,
+                KEY_CLASS: type(o).__qualname__,
+                KEY_SAVEABLE: o.save(),
             }
         return super().default(o)
 
 
 def _getClass(dct: dict):
-    attr = sys.modules[dct['MODULE']]
-    for name in dct['CLASS'].split('.'):
+    attr = sys.modules[dct[KEY_MODULE]]
+    for name in dct[KEY_CLASS].split('.'):
         attr = getattr(attr, name)
     return attr
 
 
 def decodeSaveable(dct: dict):
-    if 'COLLECTION' in dct:
-        if dct['COLLECTION'] == 'DEQUE':
-            return deque(dct['ELEMENTS'], dct['MAXLEN'])
-    elif {'MODULE', 'CLASS'} == dct.keys():
+    if KEY_COLLECTION in dct:
+        if dct[KEY_COLLECTION] == COLLECTION_DEQUE:
+            return deque(dct[KEY_ELEMENTS], dct[KEY_MAXLEN])
+    elif {KEY_MODULE, KEY_CLASS} == dct.keys():
         return _getClass(dct)
-    elif {'MODULE', 'CLASS', 'SAVEABLE'} == dct.keys():
+    elif {KEY_MODULE, KEY_CLASS, KEY_SAVEABLE} == dct.keys():
         saveable_class = _getClass(dct)
-        return saveable_class.load(dct['SAVEABLE'])
+        return saveable_class.load(dct[KEY_SAVEABLE])
     return dct

@@ -11,8 +11,9 @@ class Game(object):
         '_current_mode',
     )
 
-    def __init__(self, max_framerate):
-        self._max_framerate = max_framerate
+    def __init__(self):
+        # grab the below from an ini file in the future
+        self._max_framerate = 170
         self._clock = pygame.time.Clock()
         self._current_mode = mode.ModeOpening0()
 
@@ -33,6 +34,9 @@ class Game(object):
                 pygame.mixer.music.unpause()
                 pygame.mixer.unpause()
             self._current_mode = self._current_mode.next_mode
+        if not shared.game_running:
+            #todo: save out to config.ini
+            pass
         return shared.game_running
 
     def _filterInput(self, events):

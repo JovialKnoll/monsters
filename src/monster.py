@@ -78,10 +78,10 @@ class Monster(AnimSprite, Saveable):
         return {
             'lvl': self.lvl,
             'awr': self.awr,
-            'personality': self.personality.__name__,
+            'personality': self.personality,
             'name': self.name,
             'skin': self.skin,
-            'mood': self.mood.__name__,
+            'mood': self.mood,
             'stats': self.stats,
             'sprite_groups': self.sprite_groups,
             'sprite_paths': self.sprite_paths,
@@ -93,10 +93,10 @@ class Monster(AnimSprite, Saveable):
         new_obj = cls()
         new_obj.lvl = save_data['lvl']
         new_obj.awr = save_data['awr']
-        new_obj.personality = getattr(Personality, save_data['personality'])
+        new_obj.personality = save_data['personality']
         new_obj.name = save_data['name']
         new_obj.skin = save_data['skin']
-        new_obj.mood = getattr(Mood, save_data['mood'])
+        new_obj.mood = save_data['mood']
         new_obj.stats = save_data['stats']
         new_obj.sprite_groups = save_data['sprite_groups']
         new_obj.sprite_paths = save_data['sprite_paths']

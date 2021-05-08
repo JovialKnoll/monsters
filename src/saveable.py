@@ -7,7 +7,7 @@ class Saveable(abc.ABC):
     def jsonSave(self):
         return {
             'MODULE': type(self).__module__,
-            'CLASS': type(self).__name__,
+            'CLASS': type(self).__qualname__,
             'SAVEABLE': self.save(),
         }
 
@@ -29,13 +29,28 @@ class Saveable(abc.ABC):
 
 class SaveableJSONEncoder(json.JSONEncoder):
     def default(self, o):
+        if isinstance(o, type):
+            return {
+                'MODULE': o.__module__,
+                'CLASS': o.__qualname__,
+            }
+            pass
         if isinstance(o, Saveable):
             return o.jsonSave()
         return super().default(o)
 
 
-def decode_saveable(dct: dict):
+def _getClass(dct: dict):
+    attr = sys.modules[dct['MODULE']]
+    for name in dct['CLASS'].split('.'):
+        attr = getattr(attr, name)
+    return attr
+
+
+def decodeSaveable(dct: dict):
+    if {'MODULE', 'CLASS'} == dct.keys():
+        return _getClass(dct)
     if {'MODULE', 'CLASS', 'SAVEABLE'} == dct.keys():
-        saveable_class = getattr(sys.modules[dct['MODULE']], dct['CLASS'])
+        saveable_class = _getClass(dct)
         return saveable_class.load(dct['SAVEABLE'])
     return dct

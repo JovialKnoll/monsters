@@ -66,7 +66,7 @@ class Save(object):
         file_path = os.path.join(constants.SAVE_DIRECTORY, file_name)
         try:
             with open(file_path, 'r') as file:
-                save_object = json.load(file, object_hook=saveable.decode_saveable)
+                save_object = json.load(file, object_hook=saveable.decodeSaveable)
                 return cls(file_name, save_object['mode_name'], save_object['mode_data'], save_object['shared_data'])
         except (IOError, json.decoder.JSONDecodeError):
             return False

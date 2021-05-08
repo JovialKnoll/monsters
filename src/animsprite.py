@@ -45,7 +45,7 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
     def save(self):
         return {
             'rect_topleft': self.rect.topleft,
-            'anims': list(self.anims),
+            'anims': self.anims,
             'last_pos': self.last_pos,
             'time': self.time,
         }
@@ -54,7 +54,7 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
     def load(cls, save_data):
         new_obj = cls()
         new_obj.rect.topleft = save_data['rect_topleft']
-        new_obj.anims = deque(save_data['anims'])
+        new_obj.anims = save_data['anims']
         new_obj.last_pos = save_data['last_pos']
         new_obj.time = save_data['time']
         return new_obj

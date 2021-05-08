@@ -1,16 +1,10 @@
 import sys
 import abc
 import json
+from collections import deque
 
 
 class Saveable(abc.ABC):
-    def jsonSave(self):
-        return {
-            'MODULE': type(self).__module__,
-            'CLASS': type(self).__qualname__,
-            'SAVEABLE': self.save(),
-        }
-
     @abc.abstractmethod
     def save(self):
         """Return an object represented all the information that should be saved from this mode."""
@@ -29,14 +23,23 @@ class Saveable(abc.ABC):
 
 class SaveableJSONEncoder(json.JSONEncoder):
     def default(self, o):
-        if isinstance(o, type):
+        if isinstance(o, deque):
+            return {
+                'COLLECTION': 'DEQUE',
+                'ELEMENTS': list(o),
+                'MAXLEN': o.maxlen,
+            }
+        elif isinstance(o, type):
             return {
                 'MODULE': o.__module__,
                 'CLASS': o.__qualname__,
             }
-            pass
-        if isinstance(o, Saveable):
-            return o.jsonSave()
+        elif isinstance(o, Saveable):
+            return {
+                'MODULE': type(o).__module__,
+                'CLASS': type(o).__qualname__,
+                'SAVEABLE': o.save(),
+            }
         return super().default(o)
 
 
@@ -48,9 +51,12 @@ def _getClass(dct: dict):
 
 
 def decodeSaveable(dct: dict):
-    if {'MODULE', 'CLASS'} == dct.keys():
+    if 'COLLECTION' in dct:
+        if dct['COLLECTION'] == 'DEQUE':
+            return deque(dct['ELEMENTS'], dct['MAXLEN'])
+    elif {'MODULE', 'CLASS'} == dct.keys():
         return _getClass(dct)
-    if {'MODULE', 'CLASS', 'SAVEABLE'} == dct.keys():
+    elif {'MODULE', 'CLASS', 'SAVEABLE'} == dct.keys():
         saveable_class = _getClass(dct)
         return saveable_class.load(dct['SAVEABLE'])
     return dct

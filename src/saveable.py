@@ -7,7 +7,7 @@ from collections import deque
 class Saveable(abc.ABC):
     @abc.abstractmethod
     def save(self):
-        """Return an object represented all the information that should be saved from this mode."""
+        """Return a serializable object representing all the information that should be saved from this object."""
         raise NotImplementedError(
             type(self).__name__ + ".saveMode(self)"
         )
@@ -15,7 +15,7 @@ class Saveable(abc.ABC):
     @classmethod
     @abc.abstractmethod
     def load(cls, save_data):
-        """Take in an object equivalent to the result of a call to saveMode(), and return an instance of this mode."""
+        """Take in an object (the result of a call to save()), and return an instance of this object."""
         raise NotImplementedError(
             cls.__name__ + ".loadMode(cls, saveData)"
         )

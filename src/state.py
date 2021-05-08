@@ -11,11 +11,11 @@ class State(object):
 
     def save(self):
         return {
-            'protag_mon': self.protag_mon.save(),
+            'protag_mon': self.protag_mon,
         }
 
     @classmethod
     def load(cls, save_data):
         new_obj = cls()
-        new_obj.protag_mon = Monster.load(save_data['protag_mon'])
+        new_obj.protag_mon = save_data['protag_mon']
         return new_obj

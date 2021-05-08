@@ -6,8 +6,10 @@
 import operator
 import math
 
+from saveable import Saveable
 
-class Vec2d(object):
+
+class Vec2d(Saveable):
     """2d vector class.
     Supports vector and scalar operators,
     and also provides high level functions.
@@ -28,6 +30,12 @@ class Vec2d(object):
         else:
             self.x = x_or_pair
             self.y = y
+
+    def save(self):
+        return self.__getstate__()
+
+    def load(cls, save_data):
+        return cls(*save_data)
 
     # List stuff
     def __len__(self):

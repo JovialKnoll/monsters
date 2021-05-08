@@ -12,7 +12,7 @@ from mood import Mood
 from saveable import Saveable
 
 
-class Monster(AnimSprite, Saveable):
+class Monster(AnimSprite):
     DRV_MAX = 4
     LVL_MAX = 3
     MAIN_STATS = (
@@ -73,15 +73,40 @@ class Monster(AnimSprite, Saveable):
 
     def save(self):
         return {
-            "props": "values"
+            'super': super().save(),
+            'lvl': self.lvl,
+            'awr': self.awr,
+            'personality': self.personality,
+            'name': self.name,
+            'skin': self.skin,
+            'mood': self.mood,
+            'stats': self.stats,
+            'sprite_groups': self.sprite_groups,
+            'sprite_paths': self.sprite_paths,
+            'facing_right': self.facing_right,
         }
 
     @classmethod
     def load(cls, save_data):
         new_obj = cls()
-        # todo: actually use save_data
-        # new_obj.prop1 = Object.load(save_data['prop1'])
-        # new_obj.prop2 = save_data['prop2']
+        new_obj.lvl = save_data['lvl']
+        new_obj.awr = save_data['awr']
+        new_obj.personality = save_data['personality']
+        new_obj.name = save_data['name']
+        new_obj.skin = save_data['skin']
+        new_obj.mood = save_data['mood']
+        new_obj.stats = save_data['stats']
+        new_obj.sprite_groups = save_data['sprite_groups']
+        new_obj.sprite_paths = save_data['sprite_paths']
+        new_obj._setSprites()
+        new_obj.setImage(save_data['facing_right'])
+
+        super_obj = super().load(save_data['super'])
+        new_obj.rect.topleft = super_obj.rect.topleft
+        new_obj.anims = super_obj.anims
+        new_obj.last_pos = super_obj.last_pos
+        new_obj.time = super_obj.time
+
         return new_obj
 
     def fightStart(self):

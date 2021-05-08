@@ -1,5 +1,6 @@
 import pygame
 
+import constants
 import shared
 import mode
 
@@ -12,8 +13,7 @@ class Game(object):
     )
 
     def __init__(self):
-        # grab the below from an ini file in the future
-        self._max_framerate = 170
+        self._max_framerate = shared.config.getint(constants.CONFIG_SECTION, constants.CONFIG_MAX_FRAMERATE)
         self._clock = pygame.time.Clock()
         self._current_mode = mode.ModeOpening0()
 

@@ -5,9 +5,10 @@ import pygame
 import utility
 from anim import Anim
 from vec2d import Vec2d
+from saveable import Saveable
 
 
-class AnimSprite(pygame.sprite.DirtySprite):
+class AnimSprite(pygame.sprite.DirtySprite, Saveable):
     Binary = 'Binary'
     Lerp = 'LERP'
     IncSpeed = 'INC'
@@ -33,13 +34,6 @@ class AnimSprite(pygame.sprite.DirtySprite):
         'time',
     )
 
-    def __getstate__(self):
-        return self.rect, self.anims, self.last_pos, self.time
-
-    def __setstate__(self, state):
-        super(AnimSprite, self).__init__()
-        self.rect, self.anims, self.last_pos, self.time = state
-
     def __init__(self):
         super().__init__()
         # dirty = 2 : always draw
@@ -47,6 +41,23 @@ class AnimSprite(pygame.sprite.DirtySprite):
         self.anims = deque()
         self.last_pos = None
         self.time = 0
+
+    def save(self):
+        return {
+            'rect_topleft': self.rect.topleft,
+            'anims': list(self.anims),
+            'last_pos': self.last_pos,
+            'time': self.time,
+        }
+
+    @classmethod
+    def load(cls, save_data):
+        new_obj = cls()
+        new_obj.rect.topleft = save_data['rect_topleft']
+        new_obj.anims = deque(save_data['anims'])
+        new_obj.last_pos = save_data['last_pos']
+        new_obj.time = save_data['time']
+        return new_obj
 
     def stillAnimating(self):
         if self.anims:

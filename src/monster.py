@@ -8,12 +8,11 @@ import shared
 from animsprite import AnimSprite
 from personality import Personality
 from skin import Skin
-from skintone import SkinTone
 from mood import Mood
 from saveable import Saveable
 
 
-class Monster(AnimSprite, Saveable):
+class Monster(AnimSprite):
     DRV_MAX = 4
     LVL_MAX = 3
     MAIN_STATS = (
@@ -73,9 +72,8 @@ class Monster(AnimSprite, Saveable):
         self.setImage()
 
     def save(self):
-        # todo: implement save and load for AnimSprite (+DirtySprite +Sprite) and call those here
-        # also get rid of __getstate__ and __setstate__ functions in project
         return {
+            'super': super().save(),
             'lvl': self.lvl,
             'awr': self.awr,
             'personality': self.personality,
@@ -102,6 +100,12 @@ class Monster(AnimSprite, Saveable):
         new_obj.sprite_paths = save_data['sprite_paths']
         new_obj._setSprites()
         new_obj.setImage(save_data['facing_right'])
+
+        super_obj = super().load(save_data['super'])
+        new_obj.rect.topleft = super_obj.rect.topleft
+        new_obj.anims = super_obj.anims
+        new_obj.last_pos = super_obj.last_pos
+        new_obj.time = super_obj.time
 
         return new_obj
 

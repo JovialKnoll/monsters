@@ -22,12 +22,13 @@ class Display(object):
     def __init__(self):
         pygame.init()
         pygame.display.set_caption(constants.SCREEN_CAPTION)
-        # set window icon here
-        # replace with a custom mouse icon or get rid of it?
+        # todo: set window icon here
+        # todo: replace with a custom mouse icon or get rid of it?
         # pygame.mouse.set_visible(False)
+        display_info = pygame.display.Info()
         self._monitor_res = (
-            pygame.display.Info().current_w,
-            pygame.display.Info().current_h,
+            display_info.current_w,
+            display_info.current_h,
         )
         self.upscale_max = min(
             self._monitor_res[0] // constants.SCREEN_SIZE[0],

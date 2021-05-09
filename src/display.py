@@ -8,12 +8,12 @@ import constants
 class Display(object):
     __slots__ = (
         '_monitor_res',
-        'upscale_max',
+        '_upscale_max',
         '_disp_res_max',
-        'fullscreen_offset',
-        'upscale',
+        '_fullscreen_offset',
+        '_upscale',
         '_disp_res',
-        'is_fullscreen',
+        '_is_fullscreen',
         '_disp_screen',
         '_full_screen',
         'screen',
@@ -30,32 +30,32 @@ class Display(object):
             display_info.current_w,
             display_info.current_h,
         )
-        self.upscale_max = min(
+        self._upscale_max = min(
             self._monitor_res[0] // constants.SCREEN_SIZE[0],
             self._monitor_res[1] // constants.SCREEN_SIZE[1]
         )
         self._disp_res_max = (
-            constants.SCREEN_SIZE[0] * self.upscale_max,
-            constants.SCREEN_SIZE[1] * self.upscale_max,
+            constants.SCREEN_SIZE[0] * self._upscale_max,
+            constants.SCREEN_SIZE[1] * self._upscale_max,
         )
-        self.fullscreen_offset = (
+        self._fullscreen_offset = (
             (self._monitor_res[0] - self._disp_res_max[0]) // 2,
             (self._monitor_res[1] - self._disp_res_max[1]) // 2,
         )
-        self.upscale = self.upscale_max - 1
+        self._upscale = self._upscale_max - 1
         self._full_screen = pygame.Surface(self._disp_res_max)
         self.screen = pygame.Surface(constants.SCREEN_SIZE)
-        self.screenSet(0)
+        self._scaleWindow()
 
-    def screenSet(self, scale_change):
+    def _scaleWindow(self, scale_change=0):
         """Set the window to a new scale."""
-        new_upscale = self.upscale + scale_change
-        if new_upscale < 1 or new_upscale > self.upscale_max:
+        new_upscale = self._upscale + scale_change
+        if new_upscale < 1 or new_upscale > self._upscale_max:
             return
-        self.upscale = new_upscale
+        self._upscale = new_upscale
         self._disp_res = (
-            constants.SCREEN_SIZE[0] * self.upscale,
-            constants.SCREEN_SIZE[1] * self.upscale,
+            constants.SCREEN_SIZE[0] * self._upscale,
+            constants.SCREEN_SIZE[1] * self._upscale,
         )
         # center window
         os.environ['SDL_VIDEO_WINDOW_POS'] = "{},{}".format(
@@ -69,10 +69,16 @@ class Display(object):
             pygame.DOUBLEBUF
         )
         self.screen = self.screen.convert(self._disp_screen)
-        self.is_fullscreen = False
+        self._is_fullscreen = False
 
-    def screenSetFullscreen(self):
-        """Set the window to fullscreen."""
+    def changeScale(self, scale_change):
+        if not self._is_fullscreen:
+            self._scaleWindow(scale_change)
+
+    def toggleFullscreen(self):
+        if self._is_fullscreen:
+            self._scaleWindow()
+            return
         pygame.display.quit()
         pygame.display.init()
         self._disp_screen = pygame.display.set_mode(
@@ -82,23 +88,23 @@ class Display(object):
         # needs a separate full screen in case the largest full-multiple scale-up doesn't fit
         self._full_screen = self._full_screen.convert(self._disp_screen)
         self.screen = self.screen.convert(self._full_screen)
-        self.is_fullscreen = True
+        self._is_fullscreen = True
 
     def scaleMouseInput(self, event):
         """Scale mouse position for events in terms of the screen (as opposed to the display surface)."""
         if event.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONUP, pygame.MOUSEBUTTONDOWN):
-            if self.is_fullscreen:
+            if self._is_fullscreen:
                 event_dict = {
                     'pos': (
-                        (event.pos[0] - self.fullscreen_offset[0]) // self.upscale_max,
-                        (event.pos[1] - self.fullscreen_offset[1]) // self.upscale_max,
+                        (event.pos[0] - self._fullscreen_offset[0]) // self._upscale_max,
+                        (event.pos[1] - self._fullscreen_offset[1]) // self._upscale_max,
                     )
                 }
             else:
                 event_dict = {
                     'pos': (
-                        event.pos[0] // self.upscale,
-                        event.pos[1] // self.upscale,
+                        event.pos[0] // self._upscale,
+                        event.pos[1] // self._upscale,
                     )
                 }
             if event.type == pygame.MOUSEMOTION:
@@ -111,9 +117,9 @@ class Display(object):
 
     def scaleDraw(self):
         """Scale screen onto display surface, then flip the display."""
-        if self.is_fullscreen:
+        if self._is_fullscreen:
             pygame.transform.scale(self.screen, self._disp_res_max, self._full_screen)
-            self._disp_screen.blit(self._full_screen, self.fullscreen_offset)
+            self._disp_screen.blit(self._full_screen, self._fullscreen_offset)
         else:
             pygame.transform.scale(self.screen, self._disp_res, self._disp_screen)
         pygame.display.flip()

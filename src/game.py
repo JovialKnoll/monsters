@@ -54,18 +54,13 @@ class Game(object):
                 return self._handleQuit()
             # window re-sizing stuff
             elif event.key in (pygame.K_PAGEUP, pygame.K_PERIOD):
-                if not shared.display.is_fullscreen:
-                    shared.display.screenSet(1)
+                shared.display.changeScale(1)
                 return False
             elif event.key in (pygame.K_PAGEDOWN, pygame.K_COMMA):
-                if not shared.display.is_fullscreen:
-                    shared.display.screenSet(-1)
+                shared.display.changeScale(-1)
                 return False
             elif event.key in (pygame.K_F11, pygame.K_TAB):
-                if shared.display.is_fullscreen:
-                    shared.display.screenSet(0)
-                else:
-                    shared.display.screenSetFullscreen()
+                shared.display.toggleFullscreen()
                 return False
         return True
 

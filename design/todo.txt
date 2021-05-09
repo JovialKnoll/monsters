@@ -4,13 +4,8 @@ necessary:
     opening music
 2) content for convos and fights (based on each other)
     make system for convo modes to move through entire conversation in single mode
-3) make and check settings file (main.py or game.py?)
-	window size
-	fullscreen
-	max framerate
-	etc
-4) build exes for playing without python and pygame installed
-5) https://github.com/wasmerio/wasmer-python
+3) build exes for playing without python and pygame installed
+4) https://github.com/wasmerio/wasmer-python
 
 optional:
 1) pause time measuring, updating when moving window

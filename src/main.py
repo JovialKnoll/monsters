@@ -8,17 +8,14 @@ from game import Game
 
 
 def main():
-    pygame.init()
-    # grab the below from an ini file in the future
-    max_framerate = 170
-    game = Game(max_framerate)
+    game = Game()
     while game.run():
         pass
     del game
-    pygame.quit()
 
 
+pygame.init()
 if __name__ == "__main__":
     main()
-
+pygame.quit()
 sys.exit()

@@ -1,9 +1,10 @@
+import configparser
+
 import pygame
 
+import constants
 import shared
-from mode import ModeGameMenu
-from mode import ModeGameMenuTop
-from mode import ModeOpening0
+import mode
 
 
 class Game(object):
@@ -13,10 +14,10 @@ class Game(object):
         '_current_mode',
     )
 
-    def __init__(self, max_framerate):
-        self._max_framerate = max_framerate
+    def __init__(self):
+        self._max_framerate = shared.config.getint(constants.CONFIG_SECTION, constants.CONFIG_MAX_FRAMERATE)
         self._clock = pygame.time.Clock()
-        self._current_mode = ModeOpening0()
+        self._current_mode = mode.ModeOpening0()
 
     def run(self):
         """Run the game, and check if the game needs to end."""
@@ -31,10 +32,12 @@ class Game(object):
         self._current_mode.draw(shared.display.screen)
         shared.display.scaleDraw()
         if self._current_mode.next_mode is not None:
-            if not isinstance(self._current_mode.next_mode, ModeGameMenu):
+            if not isinstance(self._current_mode.next_mode, mode.ModeGameMenu):
                 pygame.mixer.music.unpause()
                 pygame.mixer.unpause()
             self._current_mode = self._current_mode.next_mode
+        if not shared.game_running:
+            self._saveConfig()
         return shared.game_running
 
     def _filterInput(self, events):
@@ -52,26 +55,21 @@ class Game(object):
                 return self._handleQuit()
             # window re-sizing stuff
             elif event.key in (pygame.K_PAGEUP, pygame.K_PERIOD):
-                if not shared.display.is_fullscreen:
-                    shared.display.screenSet(1)
+                shared.display.changeScale(1)
                 return False
             elif event.key in (pygame.K_PAGEDOWN, pygame.K_COMMA):
-                if not shared.display.is_fullscreen:
-                    shared.display.screenSet(-1)
+                shared.display.changeScale(-1)
                 return False
             elif event.key in (pygame.K_F11, pygame.K_TAB):
-                if shared.display.is_fullscreen:
-                    shared.display.screenSet(0)
-                else:
-                    shared.display.screenSetFullscreen()
+                shared.display.toggleFullscreen()
                 return False
         return True
 
     def _handleQuit(self):
-        # pass quit events forward to the ModeGameMenu, but not to other events
-        if isinstance(self._current_mode, ModeGameMenu):
+        # pass quit events forward to the mode.ModeGameMenu, but not to other events
+        if isinstance(self._current_mode, mode.ModeGameMenu):
             return True
-        self._current_mode = ModeGameMenuTop(self._current_mode)
+        self._current_mode = mode.ModeGameMenuTop(self._current_mode)
         pygame.mixer.music.pause()
         pygame.mixer.pause()
         return False
@@ -80,3 +78,11 @@ class Game(object):
         # just for debugging purposes
         pygame.display.set_caption(str(self._clock.get_fps()))
         return self._clock.tick(self._max_framerate)
+
+    def _saveConfig(self):
+        current_config = configparser.ConfigParser()
+        current_config.add_section(constants.CONFIG_SECTION)
+        for key in constants.CONFIG_DEFAULTS.keys():
+            current_config[constants.CONFIG_SECTION][key] = shared.config.get(constants.CONFIG_SECTION, key)
+        with open(constants.CONFIG_FILE, 'w') as file:
+            current_config.write(file, space_around_delimiters=False)

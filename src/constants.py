@@ -2,7 +2,7 @@ import os
 
 import pygame
 
-SCREEN_CAPTION = "Monsters and Stuff"
+SCREEN_CAPTION = "CHIKKAI!"
 SCREEN_SIZE = (320, 180)
 SCREEN_RECT = pygame.Rect((0, 0), SCREEN_SIZE)
 CURSOR_TIME = 500
@@ -46,3 +46,14 @@ MUSIC_DIRECTORY = os.path.join(SOUND_DIRECTORY, 'music')
 FIGHT_LOOP = os.path.join(MUSIC_DIRECTORY, 'fight_loop.ogg')
 
 SAVE_DIRECTORY = 'saves'
+
+CONFIG_FILE = 'config.ini'
+CONFIG_SECTION = 'Game'
+CONFIG_MAX_FRAMERATE = 'MaxFramerate'
+CONFIG_FULLSCREEN = 'Fullscreen'
+CONFIG_SCREEN_SCALE = 'ScreenScale'
+CONFIG_DEFAULTS = {
+    CONFIG_MAX_FRAMERATE: 60,
+    CONFIG_FULLSCREEN: False,
+    CONFIG_SCREEN_SCALE: 4,
+}

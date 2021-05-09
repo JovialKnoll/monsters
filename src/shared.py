@@ -1,9 +1,14 @@
+import configparser
+
 import constants
-from display import Display
 from fontwrap import FontWrap
+from display import Display
 from state import State
 
-game_running = True
-display = Display()
+config = configparser.ConfigParser(constants.CONFIG_DEFAULTS)
+config.add_section(constants.CONFIG_SECTION)
+config.read(constants.CONFIG_FILE)
 font_wrap = FontWrap(constants.FONT, constants.FONT_SIZE)
+display = Display()
 state = State()
+game_running = True

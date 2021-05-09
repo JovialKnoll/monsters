@@ -35,8 +35,8 @@ class Game(object):
                 pygame.mixer.unpause()
             self._current_mode = self._current_mode.next_mode
         if not shared.game_running:
-            #todo: save out to config.ini
-            pass
+            with open(constants.CONFIG_FILE, 'w') as file:
+                shared.config.write(file, space_around_delimiters=False)
         return shared.game_running
 
     def _filterInput(self, events):

@@ -46,7 +46,7 @@ class Display(object):
         self._is_fullscreen = shared.config.getboolean(constants.CONFIG_SECTION, constants.CONFIG_FULLSCREEN)
         self._upscale = shared.config.getint(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE)
         self._upscale = max(min(self._upscale, self._upscale_max), 0)
-        shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, self._upscale)
+        shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, str(self._upscale))
         self._full_screen = pygame.Surface(self._disp_res_max)
         self.screen = pygame.Surface(constants.SCREEN_SIZE)
         if self._is_fullscreen:
@@ -60,7 +60,7 @@ class Display(object):
         if new_upscale < 1 or new_upscale > self._upscale_max:
             return
         self._upscale = new_upscale
-        shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, self._upscale)
+        shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, str(self._upscale))
         self._disp_res = (
             constants.SCREEN_SIZE[0] * self._upscale,
             constants.SCREEN_SIZE[1] * self._upscale,
@@ -100,7 +100,7 @@ class Display(object):
             self._scaleWindow()
         else:
             self._setFullscreen()
-        shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_FULLSCREEN, self._is_fullscreen)
+        shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_FULLSCREEN, str(self._is_fullscreen))
 
     def scaleMouseInput(self, event):
         """Scale mouse position for events in terms of the screen (as opposed to the display surface)."""

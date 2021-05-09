@@ -1,3 +1,5 @@
+import configparser
+
 import pygame
 
 import constants
@@ -17,6 +19,15 @@ class Game(object):
         self._clock = pygame.time.Clock()
         self._current_mode = mode.ModeOpening0()
 
+    def _saveConfig(self):
+        current_config = configparser.ConfigParser()
+        for section, settings in constants.CONFIG_DEFAULTS.items():
+            current_config[section] = {}
+            for key in settings.keys():
+                current_config[section][key] = shared.config[section][key]
+        with open(constants.CONFIG_FILE, 'w') as file:
+            current_config.write(file, space_around_delimiters=False)
+
     def run(self):
         """Run the game, and check if the game needs to end."""
         if not self._current_mode:
@@ -35,8 +46,7 @@ class Game(object):
                 pygame.mixer.unpause()
             self._current_mode = self._current_mode.next_mode
         if not shared.game_running:
-            with open(constants.CONFIG_FILE, 'w') as file:
-                shared.config.write(file, space_around_delimiters=False)
+            self._saveConfig()
         return shared.game_running
 
     def _filterInput(self, events):

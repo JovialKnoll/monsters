@@ -45,16 +45,26 @@ class ModeTest(Mode, Saveable):
                 shared.state.protag_mon.levelUp()
 
     def update(self, dt):
+        pressed_keys = pygame.key.get_pressed()
+        x_movement = pressed_keys[pygame.K_RIGHT] - pressed_keys[pygame.K_LEFT]
+        y_movement = pressed_keys[pygame.K_DOWN] - pressed_keys[pygame.K_UP]
+
         self.dx, dx_int = utility.getIntMovement(
             self.dx,
-            (pygame.key.get_pressed()[pygame.K_RIGHT] - pygame.key.get_pressed()[pygame.K_LEFT]) * .1,
+            x_movement * .1,
             dt
         )
         self.dy, dy_int = utility.getIntMovement(
             self.dy,
-            (pygame.key.get_pressed()[pygame.K_DOWN] - pygame.key.get_pressed()[pygame.K_UP]) * .1,
+            y_movement * .1,
             dt
         )
+
+        if x_movement == 0:
+            self.dx = 0
+        if y_movement == 0:
+            self.dy = 0
+
         shared.state.protag_mon.rect.move_ip(dx_int, dy_int)
 
     def _drawScreen(self, screen):

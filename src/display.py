@@ -3,6 +3,7 @@ import os
 import pygame
 
 import constants
+import shared
 
 
 class Display(object):
@@ -42,7 +43,9 @@ class Display(object):
             (self._monitor_res[0] - self._disp_res_max[0]) // 2,
             (self._monitor_res[1] - self._disp_res_max[1]) // 2,
         )
-        self._upscale = self._upscale_max - 1
+        self._is_fullscreen = shared.config.getboolean(constants.CONFIG_SECTION, constants.CONFIG_FULLSCREEN)
+        self._upscale = shared.config.getint(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE)
+        self._upscale = max(min(self._upscale, self._upscale_max), 0)
         self._full_screen = pygame.Surface(self._disp_res_max)
         self.screen = pygame.Surface(constants.SCREEN_SIZE)
         self._scaleWindow()

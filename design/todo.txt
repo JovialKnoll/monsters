@@ -9,7 +9,9 @@ necessary:
 
 optional:
 1) pause time measuring, updating when moving window
+    pause sound playback too
     maybe also when window loses focus
+    might be best to just go to pause menu on moving window or losing focus
 2) make sounds play with particular left / right volumes instead of being centered
 3) center modegamemenu visuals, buttons?
 4) deduplicate shared code in convo and fight modes around boxes

@@ -19,15 +19,6 @@ class Game(object):
         self._clock = pygame.time.Clock()
         self._current_mode = mode.ModeOpening0()
 
-    def _saveConfig(self):
-        current_config = configparser.ConfigParser()
-        for section, settings in constants.CONFIG_DEFAULTS.items():
-            current_config[section] = {}
-            for key in settings.keys():
-                current_config[section][key] = shared.config[section][key]
-        with open(constants.CONFIG_FILE, 'w') as file:
-            current_config.write(file, space_around_delimiters=False)
-
     def run(self):
         """Run the game, and check if the game needs to end."""
         if not self._current_mode:
@@ -87,3 +78,12 @@ class Game(object):
         # just for debugging purposes
         pygame.display.set_caption(str(self._clock.get_fps()))
         return self._clock.tick(self._max_framerate)
+
+    def _saveConfig(self):
+        current_config = configparser.ConfigParser()
+        for section, settings in constants.CONFIG_DEFAULTS.items():
+            current_config[section] = {}
+            for key in settings.keys():
+                current_config[section][key] = shared.config[section][key]
+        with open(constants.CONFIG_FILE, 'w') as file:
+            current_config.write(file, space_around_delimiters=False)

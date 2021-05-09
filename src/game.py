@@ -81,9 +81,8 @@ class Game(object):
 
     def _saveConfig(self):
         current_config = configparser.ConfigParser()
-        for section, settings in constants.CONFIG_DEFAULTS.items():
-            current_config[section] = {}
-            for key in settings.keys():
-                current_config[section][key] = shared.config[section][key]
+        current_config.add_section(constants.CONFIG_SECTION)
+        for key in constants.CONFIG_DEFAULTS.keys():
+            current_config[constants.CONFIG_SECTION][key] = shared.config.get(constants.CONFIG_SECTION, key)
         with open(constants.CONFIG_FILE, 'w') as file:
             current_config.write(file, space_around_delimiters=False)

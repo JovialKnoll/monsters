@@ -37,7 +37,8 @@ class Game(object):
                 pygame.mixer.unpause()
             self._current_mode = self._current_mode.next_mode
         if not shared.game_running:
-            self._saveConfig()
+            with open(constants.CONFIG_FILE, 'w') as file:
+                shared.config.write(file, space_around_delimiters=False)
         return shared.game_running
 
     def _filterInput(self, events):
@@ -78,11 +79,3 @@ class Game(object):
         # just for debugging purposes
         pygame.display.set_caption(str(self._clock.get_fps()))
         return self._clock.tick(self._max_framerate)
-
-    def _saveConfig(self):
-        current_config = configparser.ConfigParser()
-        current_config.add_section(constants.CONFIG_SECTION)
-        for key in constants.CONFIG_DEFAULTS.keys():
-            current_config[constants.CONFIG_SECTION][key] = shared.config.get(constants.CONFIG_SECTION, key)
-        with open(constants.CONFIG_FILE, 'w') as file:
-            current_config.write(file, space_around_delimiters=False)

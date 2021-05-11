@@ -1,4 +1,4 @@
-# Monsters and Stuff
+# CHIKKAI! Tiny Kaijus
 
 Requires Python 3 and Pygame.
 

@@ -49,11 +49,11 @@ class Game(object):
         """If event should be handled before all others, handle it and return False, otherwise return True.
         As an example, game-ending or display-changing events should be handled before all others.
         """
-        if event.type == pygame.QUIT:
-            return self._handleQuit()
+        if event.type in (pygame.QUIT, pygame.WINDOWFOCUSLOST, pygame.WINDOWMINIMIZED, pygame.WINDOWMOVED):
+            return self._handlePauseMenu()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                return self._handleQuit()
+                return self._handlePauseMenu()
             # window re-sizing stuff
             elif event.key in (pygame.K_PAGEUP, pygame.K_PERIOD):
                 shared.display.changeScale(1)
@@ -66,7 +66,7 @@ class Game(object):
                 return False
         return True
 
-    def _handleQuit(self):
+    def _handlePauseMenu(self):
         # pass quit events forward to the mode.ModeGameMenu, but not to other events
         if isinstance(self._current_mode, mode.ModeGameMenu):
             return True

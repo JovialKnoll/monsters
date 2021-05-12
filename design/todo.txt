@@ -16,3 +16,4 @@ optional:
 	balancing that
 	maybe check that can be strategy to fight choices?
 5) scroll slider thingy for convomode.py, click-and-drag-able
+6) replace WAVs with OGGs

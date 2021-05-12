@@ -6,6 +6,7 @@ necessary:
     make system for convo modes to move through entire conversation in single mode
 3) https://github.com/wasmerio/wasmer-python
 4) building for linux and osx
+    try github actions
 
 optional:
 1) make sounds play with particular left / right volumes instead of being centered

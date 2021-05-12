@@ -22,7 +22,9 @@ elif __file__:
     _location = __file__
 SRC_DIRECTORY = os.path.dirname(_location)
 
-GRAPHICS_DIRECTORY = os.path.join(SRC_DIRECTORY, 'gfx')
+ASSETS_DIRECTORY = os.path.join(SRC_DIRECTORY, 'assets')
+
+GRAPHICS_DIRECTORY = os.path.join(ASSETS_DIRECTORY, 'gfx')
 FONT = os.path.join(GRAPHICS_DIRECTORY, 'simple_mono.ttf')
 
 LOGOS_DIRECTORY = os.path.join(GRAPHICS_DIRECTORY, 'logos')
@@ -41,7 +43,7 @@ LAYOUT_2_FILE = os.path.join(BACKGROUNDS_DIRECTORY, 'layout2boxes.png')
 
 MONSTER_PARTS_DIRECTORY = os.path.join(GRAPHICS_DIRECTORY, 'monster-parts')
 
-SOUND_DIRECTORY = os.path.join(SRC_DIRECTORY, 'sfx')
+SOUND_DIRECTORY = os.path.join(ASSETS_DIRECTORY, 'sfx')
 THUNK = os.path.join(SOUND_DIRECTORY, 'thunk.wav')
 SPROING = os.path.join(SOUND_DIRECTORY, 'sproing.wav')
 FSSSH = os.path.join(SOUND_DIRECTORY, 'fsssh.wav')

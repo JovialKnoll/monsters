@@ -137,5 +137,8 @@ ENV/
 .idea/
 
 # this project
+build/
+dist/
 saves/
+.spec
 config.ini

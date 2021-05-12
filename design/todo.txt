@@ -4,15 +4,17 @@ necessary:
     opening music
 2) content for convos and fights (based on each other)
     make system for convo modes to move through entire conversation in single mode
-3) build exes for playing without python and pygame installed
-4) https://github.com/wasmerio/wasmer-python
+3) https://github.com/wasmerio/wasmer-python
 
 optional:
 1) make sounds play with particular left / right volumes instead of being centered
-2) center modegamemenu visuals, buttons?
-3) deduplicate shared code in convo and fight modes around boxes
-4) re-evaluate mon stats
+2) fix issue: changing window size pauses game
+    maybe just move window size and fullscreen sdjustments into pause menu
+3) center modegamemenu visuals, buttons?
+4) deduplicate shared code in convo and fight modes around boxes
+5) re-evaluate mon stats
 	tally up results for winners for different possible distributions of stats
 	balancing that
 	maybe check that can be strategy to fight choices?
-5) scroll slider thingy for convomode.py, click-and-drag-able
+6) scroll slider thingy for convomode.py, click-and-drag-able
+7) replace WAVs with OGGs

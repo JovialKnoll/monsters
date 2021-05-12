@@ -1,3 +1,4 @@
+import sys
 import os
 
 import pygame
@@ -14,7 +15,16 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 COLORKEY = (255, 0, 255)
 
-GRAPHICS_DIRECTORY = 'gfx'
+_location = '.'
+if getattr(sys, 'frozen', False):
+    _location = sys.executable
+elif __file__:
+    _location = __file__
+SRC_DIRECTORY = os.path.dirname(_location)
+
+ASSETS_DIRECTORY = os.path.join(SRC_DIRECTORY, 'assets')
+
+GRAPHICS_DIRECTORY = os.path.join(ASSETS_DIRECTORY, 'gfx')
 FONT = os.path.join(GRAPHICS_DIRECTORY, 'simple_mono.ttf')
 
 LOGOS_DIRECTORY = os.path.join(GRAPHICS_DIRECTORY, 'logos')
@@ -33,7 +43,7 @@ LAYOUT_2_FILE = os.path.join(BACKGROUNDS_DIRECTORY, 'layout2boxes.png')
 
 MONSTER_PARTS_DIRECTORY = os.path.join(GRAPHICS_DIRECTORY, 'monster-parts')
 
-SOUND_DIRECTORY = 'sfx'
+SOUND_DIRECTORY = os.path.join(ASSETS_DIRECTORY, 'sfx')
 THUNK = os.path.join(SOUND_DIRECTORY, 'thunk.wav')
 SPROING = os.path.join(SOUND_DIRECTORY, 'sproing.wav')
 FSSSH = os.path.join(SOUND_DIRECTORY, 'fsssh.wav')
@@ -45,9 +55,9 @@ BWOP = os.path.join(SOUND_DIRECTORY, 'bwop.wav')
 MUSIC_DIRECTORY = os.path.join(SOUND_DIRECTORY, 'music')
 FIGHT_LOOP = os.path.join(MUSIC_DIRECTORY, 'fight_loop.ogg')
 
-SAVE_DIRECTORY = 'saves'
+SAVE_DIRECTORY = os.path.join(SRC_DIRECTORY, 'saves')
 
-CONFIG_FILE = 'config.ini'
+CONFIG_FILE = os.path.join(SRC_DIRECTORY, 'config.ini')
 CONFIG_SECTION = 'Game'
 CONFIG_MAX_FRAMERATE = 'MaxFramerate'
 CONFIG_FULLSCREEN = 'Fullscreen'

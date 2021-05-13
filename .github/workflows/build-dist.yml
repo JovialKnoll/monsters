@@ -2,7 +2,7 @@ name: build-dist
 on:
   push:
     branches:
-      master
+      release
 jobs:
   build:
     strategy:
@@ -14,16 +14,17 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.9'
+          python-version: '3.x'
       - name: Install dependencies
         run: pip install -r src/requirements.txt
-      - name: Setup pyinstaller
+      - name: Install pyinstaller
         run: pip install pyinstaller
-      - name: Run build
-        run: |
-          pyinstaller --clean -ywF --name chikkai src/main.py
-          pyinstaller -y chikkai.spec
-          cp -r src/assets dist/assets
+      - name: Create spec file
+        run: pyinstaller --clean -ywF --name chikkai src/main.py
+      - name: Build exe
+        run: pyinstaller -y chikkai.spec
+      - name: Copy in assets
+        run: cp -r src/assets dist/assets
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:

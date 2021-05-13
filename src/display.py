@@ -21,7 +21,6 @@ class Display(object):
     )
 
     def __init__(self):
-        pygame.init()
         pygame.display.set_caption(constants.SCREEN_CAPTION)
         # todo: set window icon here
         # todo: replace with a custom mouse icon or get rid of it?

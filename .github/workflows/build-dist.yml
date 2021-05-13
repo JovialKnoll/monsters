@@ -10,7 +10,6 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - run: echo ${{ env.name }}
       - uses: actions/checkout@v2
       - name: Set up Python
         uses: actions/setup-python@v2

@@ -1,0 +1,25 @@
+name: learn-github-actions
+on: [push]
+jobs:
+  build-windows-dist:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Install dependencies
+        run: pip install -r src/requirements.txt
+      - name: Run build
+        run: |
+          pip install pyinstaller
+          pyinstaller --clean -ywF --name chikkai src/main.py
+          pyinstaller -y chikkai.spec
+          cp -r src/assets dist/assets
+      - name: Upload build
+        uses: actions/upload-artifact@v2
+        with:
+          name: chikkai-build
+          path: src/dist/
+          if-no-files-found: error

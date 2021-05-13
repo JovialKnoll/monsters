@@ -16,15 +16,10 @@ jobs:
           pip install pyinstaller
           pyinstaller --clean -ywF --name chikkai src/main.py
           pyinstaller -y chikkai.spec
-          ls
-          ls dist
-          ls src/assets
           cp -r src/assets dist/assets
-          ls dist
-          ls dist/assets
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:
           name: chikkai-build
-          path: src/dist/
+          path: dist/
           if-no-files-found: error

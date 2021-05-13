@@ -53,12 +53,8 @@ class Display(object):
         else:
             self._scaleWindow()
 
-    def _scaleWindow(self, scale_change=0):
+    def _scaleWindow(self):
         """Set the window to a new scale."""
-        new_upscale = self._upscale + scale_change
-        if new_upscale < 1 or new_upscale > self._upscale_max:
-            return
-        self._upscale = new_upscale
         shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, str(self._upscale))
         self._disp_res = (
             constants.SCREEN_SIZE[0] * self._upscale,
@@ -69,7 +65,6 @@ class Display(object):
             (self._monitor_res[0] - self._disp_res[0]) // 2,
             (self._monitor_res[1] - self._disp_res[1]) // 2
         )
-        pygame.display.quit()
         pygame.display.init()
         self._disp_screen = pygame.display.set_mode(
             self._disp_res,
@@ -80,10 +75,14 @@ class Display(object):
 
     def changeScale(self, scale_change):
         if not self._is_fullscreen:
-            self._scaleWindow(scale_change)
+            new_upscale = self._upscale + scale_change
+            if new_upscale < 1 or new_upscale > self._upscale_max:
+                return
+            self._upscale = new_upscale
+            pygame.display.quit()
+            self._scaleWindow()
 
     def _setFullscreen(self):
-        pygame.display.quit()
         pygame.display.init()
         self._disp_screen = pygame.display.set_mode(
             self._monitor_res,
@@ -95,6 +94,7 @@ class Display(object):
         self._is_fullscreen = True
 
     def toggleFullscreen(self):
+        pygame.display.quit()
         if self._is_fullscreen:
             self._scaleWindow()
         else:

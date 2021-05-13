@@ -13,5 +13,5 @@ pyinstaller -y chikkai.spec
 cp -r src/assets dist/assets
 # cleanup
 deactivate
-#rm -r build
-#rm chikkai.spec
+rm -r build
+rm chikkai.spec

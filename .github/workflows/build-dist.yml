@@ -1,19 +1,26 @@
 name: build-dist
-on: [push]
+on:
+  push:
+    branches:
+      master
 jobs:
-  build-windows-dist:
-    runs-on: windows-latest
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3
+      - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'
+          python-version: '3.9'
       - name: Install dependencies
         run: pip install -r src/requirements.txt
+      - name: Setup pyinstaller
+        run: pip install pyinstaller
       - name: Run build
         run: |
-          pip install pyinstaller
           pyinstaller --clean -ywF --name chikkai src/main.py
           pyinstaller -y chikkai.spec
           cp -r src/assets dist/assets

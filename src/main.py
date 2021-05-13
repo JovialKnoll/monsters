@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+import faulthandler
+faulthandler.enable()
+
 import sys
 
 import pygame

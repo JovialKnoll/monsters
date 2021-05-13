@@ -10,6 +10,7 @@ jobs:
         os: [windows-latest, ubuntu-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
+      - run: echo ${{ env.name }}
       - uses: actions/checkout@v2
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -27,6 +28,6 @@ jobs:
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:
-          name: chikkai-build
+          name: chikkai-build ${{ env.name }}
           path: dist/
           if-no-files-found: error

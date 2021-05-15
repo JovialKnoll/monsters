@@ -50,6 +50,8 @@ class Game(object):
         As an example, game-ending or display-changing events should be handled before all others.
         """
         if event.type in (pygame.QUIT, pygame.WINDOWFOCUSLOST, pygame.WINDOWMINIMIZED, pygame.WINDOWMOVED):
+            print(event.type)
+            print(event)
             return self._handlePauseMenu()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:

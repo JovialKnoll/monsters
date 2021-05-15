@@ -8,14 +8,13 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        python-version: [3.6, 3.9]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: '3.x'
       - name: Install dependencies
         run: pip install -r src/requirements.txt
       - name: Install pyinstaller
@@ -26,9 +25,9 @@ jobs:
         run: pyinstaller -y chikkai.spec
       - name: Copy in assets
         run: cp -r src/assets dist/assets
-      - name: MacOS cleanup
-        if: startsWith(matrix.os, 'macos') && false
-        run: rm -rf dist/chikkai.app/
+#      - name: MacOS cleanup
+#        if: startsWith(matrix.os, 'macos')
+#        run: rm -rf dist/chikkai.app/
       - name: Unix setup
         if: startsWith(matrix.os, 'windows') != true
         run: |
@@ -41,6 +40,6 @@ jobs:
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:
-          name: chikkai-build-${{ matrix.os }}-python-${{ matrix.python-version }}
+          name: chikkai-build-${{ matrix.os }}
           path: dist/
           if-no-files-found: error

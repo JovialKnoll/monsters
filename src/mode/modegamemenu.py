@@ -253,11 +253,17 @@ class ModeGameMenuOptions(ModeGameMenu):
                 shared.display.changeScale(-1)
             elif event.key in (pygame.K_UP, pygame.K_RIGHT, pygame.K_PAGEUP):
                 shared.display.changeScale(1)
-            elif event.key in (pygame.K_F, pygame.K_F11):
+            elif event.key in (pygame.K_f, pygame.K_F11):
                 shared.display.toggleFullscreen()
 
     def _drawScreen(self, screen):
         super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
-        disp_text += "_Save (F1)\n_Load (F2)\n_Options (F3)\n_Quit (F4)"
+        disp_text += f"_Change upscaling (ARROW KEYS): {shared.display.upscale}" \
+                     f"\n_Toggle fullscreen (F): {self.getTickBox(shared.display.is_fullscreen)}"
         self._drawText(screen, disp_text)
+
+    @staticmethod
+    def getTickBox(value: bool):
+        inside = "X" if value else "_"
+        return f"[{inside}]"

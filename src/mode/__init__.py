@@ -4,6 +4,7 @@ from .modegamemenu import ModeGameMenu
 from .modegamemenu import ModeGameMenuTop
 from .modegamemenu import ModeGameMenuSave
 from .modegamemenu import ModeGameMenuLoad
+from .modegamemenu import ModeGameMenuOptions
 
 from .modeopening0 import ModeOpening0
 from .modeopening1 import ModeOpening1

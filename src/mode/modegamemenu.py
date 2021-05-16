@@ -11,7 +11,7 @@ from .mode import Mode
 class ModeGameMenu(Mode):
     MENU_WIDTH = 20
     FILE_EXT = '.sav'
-    SHARED_DISP_TEXT = "Options:\n_Go Back (ESC)\n"
+    SHARED_DISP_TEXT = "Options:\nESC) Go Back\n"
 
     __slots__ = (
         '_previous_mode',
@@ -65,12 +65,14 @@ class ModeGameMenuTop(ModeGameMenu):
             elif event.key == pygame.K_F2:
                 self.next_mode = ModeGameMenuLoad(self._previous_mode, self._old_screen)
             elif event.key == pygame.K_F3:
+                self.next_mode = ModeGameMenuOptions(self._previous_mode, self._old_screen)
+            elif event.key == pygame.K_F4:
                 shared.game_running = False
 
     def _drawScreen(self, screen):
         super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
-        disp_text += "_Save (F1)\n_Load (F2)\n_Quit (F3)"
+        disp_text += "F1) Save\nF2) Load\nF3) Options\nF4) Quit"
         self._drawText(screen, disp_text)
 
 
@@ -165,7 +167,7 @@ class ModeGameMenuSave(ModeGameMenu):
         if not isinstance(self._previous_mode, Saveable):
             disp_text += "\nYou can't save now."
         elif not self._save_success:
-            disp_text += "_Save (ENTER)\nType a file name:\n>"
+            disp_text += "ENTER) Save\nType a file name:\n>"
             if self._save_name:
                 disp_text += self._save_name
             disp_text += self.FILE_EXT
@@ -227,7 +229,7 @@ class ModeGameMenuLoad(ModeGameMenu):
         elif self._loaded_save:
             disp_text += "\nLoaded successfully.\nPress any key to go back."
         else:
-            disp_text += "_Load (ENTER)\nSelect a file (ARROW KEYS):"
+            disp_text += "ENTER) Load\nARROW KEYS) Select a file:"
             for i in range(-1, 2):
                 disp_text += "\n"
                 this_index = self._save_index + i
@@ -238,3 +240,30 @@ class ModeGameMenuLoad(ModeGameMenu):
                 if 0 <= this_index < len(self._saves):
                     disp_text += self._saves[this_index].file_name
         self._drawText(screen, disp_text)
+
+
+class ModeGameMenuOptions(ModeGameMenu):
+    def _input(self, event):
+        if event.type == pygame.QUIT:
+            self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
+            elif event.key in (pygame.K_DOWN, pygame.K_LEFT, pygame.K_PAGEDOWN, pygame.K_MINUS):
+                shared.display.changeScale(-1)
+            elif event.key in (pygame.K_UP, pygame.K_RIGHT, pygame.K_PAGEUP, pygame.K_EQUALS):
+                shared.display.changeScale(1)
+            elif event.key in (pygame.K_f, pygame.K_F11):
+                shared.display.toggleFullscreen()
+
+    def _drawScreen(self, screen):
+        super()._drawScreen(screen)
+        disp_text = self.SHARED_DISP_TEXT
+        disp_text += f"UP/DOWN) Change upscaling: {shared.display.upscale}" \
+                     f"\nF) Toggle fullscreen: {self.getTickBox(shared.display.is_fullscreen)}"
+        self._drawText(screen, disp_text)
+
+    @staticmethod
+    def getTickBox(value: bool):
+        inside = "X" if value else "_"
+        return f"[{inside}]"

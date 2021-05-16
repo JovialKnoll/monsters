@@ -8,8 +8,7 @@ necessary:
 
 optional:
 1) make sounds play with particular left / right volumes instead of being centered
-2) fix issue: changing window size pauses game
-    maybe just move window size and fullscreen sdjustments into pause menu
+2) let players set arbitrary scale while in fullscreen
 3) center modegamemenu visuals, buttons?
 4) deduplicate shared code in convo and fight modes around boxes
 5) re-evaluate mon stats

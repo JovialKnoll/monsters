@@ -65,12 +65,14 @@ class ModeGameMenuTop(ModeGameMenu):
             elif event.key == pygame.K_F2:
                 self.next_mode = ModeGameMenuLoad(self._previous_mode, self._old_screen)
             elif event.key == pygame.K_F3:
+                self.next_mode = ModeGameMenuOptions(self._previous_mode, self._old_screen)
+            elif event.key == pygame.K_F4:
                 shared.game_running = False
 
     def _drawScreen(self, screen):
         super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
-        disp_text += "_Save (F1)\n_Load (F2)\n_Quit (F3)"
+        disp_text += "_Save (F1)\n_Load (F2)\n_Options (F3)\n_Quit (F4)"
         self._drawText(screen, disp_text)
 
 
@@ -237,4 +239,25 @@ class ModeGameMenuLoad(ModeGameMenu):
                     disp_text += "_"
                 if 0 <= this_index < len(self._saves):
                     disp_text += self._saves[this_index].file_name
+        self._drawText(screen, disp_text)
+
+
+class ModeGameMenuOptions(ModeGameMenu):
+    def _input(self, event):
+        if event.type == pygame.QUIT:
+            self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
+            elif event.key in (pygame.K_DOWN, pygame.K_LEFT, pygame.K_PAGEDOWN):
+                shared.display.changeScale(-1)
+            elif event.key in (pygame.K_UP, pygame.K_RIGHT, pygame.K_PAGEUP):
+                shared.display.changeScale(1)
+            elif event.key in (pygame.K_F, pygame.K_F11):
+                shared.display.toggleFullscreen()
+
+    def _drawScreen(self, screen):
+        super()._drawScreen(screen)
+        disp_text = self.SHARED_DISP_TEXT
+        disp_text += "_Save (F1)\n_Load (F2)\n_Options (F3)\n_Quit (F4)"
         self._drawText(screen, disp_text)

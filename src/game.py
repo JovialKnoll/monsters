@@ -12,12 +12,14 @@ class Game(object):
         '_max_framerate',
         '_clock',
         '_current_mode',
+        '_is_first_loop'
     )
 
     def __init__(self):
         self._max_framerate = shared.config.getint(constants.CONFIG_SECTION, constants.CONFIG_MAX_FRAMERATE)
         self._clock = pygame.time.Clock()
         self._current_mode = mode.ModeOpening0()
+        self._is_first_loop = True
 
     def run(self):
         """Run the game, and check if the game needs to end."""
@@ -39,6 +41,7 @@ class Game(object):
         if not shared.game_running:
             with open(constants.CONFIG_FILE, 'w') as file:
                 shared.config.write(file, space_around_delimiters=False)
+        self._is_first_loop = False
         return shared.game_running
 
     def _filterInput(self, events):
@@ -49,8 +52,11 @@ class Game(object):
         """If event should be handled before all others, handle it and return False, otherwise return True.
         As an example, game-ending or display-changing events should be handled before all others.
         """
-        if event.type in (pygame.QUIT, pygame.WINDOWFOCUSLOST, pygame.WINDOWMINIMIZED, pygame.WINDOWMOVED):
+        if event.type in (pygame.QUIT, pygame.WINDOWFOCUSLOST, pygame.WINDOWMINIMIZED):
             return self._handlePauseMenu()
+        elif event.type == pygame.WINDOWMOVED:
+            if not self._is_first_loop:
+                return self._handlePauseMenu()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 return self._handlePauseMenu()

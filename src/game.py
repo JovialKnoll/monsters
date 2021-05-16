@@ -60,16 +60,6 @@ class Game(object):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 return self._handlePauseMenu()
-            # window re-sizing stuff
-            elif event.key in (pygame.K_PAGEUP, pygame.K_PERIOD):
-                shared.display.changeScale(1)
-                return False
-            elif event.key in (pygame.K_PAGEDOWN, pygame.K_COMMA):
-                shared.display.changeScale(-1)
-                return False
-            elif event.key in (pygame.K_F11, pygame.K_TAB):
-                shared.display.toggleFullscreen()
-                return False
         return True
 
     def _handlePauseMenu(self):

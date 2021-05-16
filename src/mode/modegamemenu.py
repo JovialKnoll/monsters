@@ -11,7 +11,7 @@ from .mode import Mode
 class ModeGameMenu(Mode):
     MENU_WIDTH = 20
     FILE_EXT = '.sav'
-    SHARED_DISP_TEXT = "Options:\n_Go Back (ESC)\n"
+    SHARED_DISP_TEXT = "Options:\nESC) Go Back\n"
 
     __slots__ = (
         '_previous_mode',
@@ -72,7 +72,7 @@ class ModeGameMenuTop(ModeGameMenu):
     def _drawScreen(self, screen):
         super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
-        disp_text += "_Save (F1)\n_Load (F2)\n_Options (F3)\n_Quit (F4)"
+        disp_text += "F1) Save\nF2) Load\nF3) Options\nF4) Quit"
         self._drawText(screen, disp_text)
 
 
@@ -167,7 +167,7 @@ class ModeGameMenuSave(ModeGameMenu):
         if not isinstance(self._previous_mode, Saveable):
             disp_text += "\nYou can't save now."
         elif not self._save_success:
-            disp_text += "_Save (ENTER)\nType a file name:\n>"
+            disp_text += "ENTER) Save\nType a file name:\n>"
             if self._save_name:
                 disp_text += self._save_name
             disp_text += self.FILE_EXT
@@ -229,7 +229,7 @@ class ModeGameMenuLoad(ModeGameMenu):
         elif self._loaded_save:
             disp_text += "\nLoaded successfully.\nPress any key to go back."
         else:
-            disp_text += "_Load (ENTER)\nSelect a file (ARROW KEYS):"
+            disp_text += "ENTER) Load\nARROW KEYS) Select a file:"
             for i in range(-1, 2):
                 disp_text += "\n"
                 this_index = self._save_index + i
@@ -259,8 +259,8 @@ class ModeGameMenuOptions(ModeGameMenu):
     def _drawScreen(self, screen):
         super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
-        disp_text += f"_Change upscaling (ARROW KEYS): {shared.display.upscale}" \
-                     f"\n_Toggle fullscreen (F): {self.getTickBox(shared.display.is_fullscreen)}"
+        disp_text += f"UP/DOWN) Change upscaling: {shared.display.upscale}" \
+                     f"\nF) Toggle fullscreen: {self.getTickBox(shared.display.is_fullscreen)}"
         self._drawText(screen, disp_text)
 
     @staticmethod

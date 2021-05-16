@@ -44,7 +44,7 @@ class Display(object):
         )
         self.is_fullscreen = shared.config.getboolean(constants.CONFIG_SECTION, constants.CONFIG_FULLSCREEN)
         self.upscale = shared.config.getint(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE)
-        self.upscale = max(min(self.upscale, self.upscale_max), 0)
+        self.upscale = max(min(self.upscale, self._upscale_max), 0)
         shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, str(self.upscale))
         self._full_screen = pygame.Surface(self._disp_res_max)
         self.screen = pygame.Surface(constants.SCREEN_SIZE)
@@ -76,7 +76,7 @@ class Display(object):
     def changeScale(self, scale_change):
         if not self.is_fullscreen:
             new_upscale = self.upscale + scale_change
-            if new_upscale < 1 or new_upscale > self.upscale_max:
+            if new_upscale < 1 or new_upscale > self._upscale_max:
                 return
             self.upscale = new_upscale
             pygame.display.quit()

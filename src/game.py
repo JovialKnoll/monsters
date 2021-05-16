@@ -12,17 +12,22 @@ class Game(object):
         '_max_framerate',
         '_clock',
         '_current_mode',
+        'first_loop'
     )
 
     def __init__(self):
         self._max_framerate = shared.config.getint(constants.CONFIG_SECTION, constants.CONFIG_MAX_FRAMERATE)
         self._clock = pygame.time.Clock()
         self._current_mode = mode.ModeOpening0()
+        self.first_loop = True
 
     def run(self):
         """Run the game, and check if the game needs to end."""
         if not self._current_mode:
             raise RuntimeError("error: no current mode")
+        if self.first_loop:
+            print("start of first loop")
+            self.first_loop = False
         self._current_mode.input_events(
             self._filterInput(pygame.event.get())
         )

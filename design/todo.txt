@@ -17,3 +17,4 @@ optional:
 	maybe check that can be strategy to fight choices?
 6) scroll slider thingy for convomode.py, click-and-drag-able
 7) replace WAVs with OGGs
+8) make visual option for different upscaler(s)

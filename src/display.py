@@ -47,6 +47,15 @@ class Display(object):
             self._monitor_res[1] // constants.SCREEN_SIZE[1]
         )
 
+    def changeScale(self, scale_change):
+        if not self.is_fullscreen:
+            new_upscale = self.upscale + scale_change
+            if new_upscale < 1 or new_upscale > self._upscale_max:
+                return
+            self.upscale = new_upscale
+            pygame.display.quit()
+            self._scaleWindow()
+
     def _scaleWindow(self):
         """Set the window to a new scale."""
         shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, str(self.upscale))
@@ -68,14 +77,13 @@ class Display(object):
         self.screen = self.screen.convert(self._disp_screen)
         self.is_fullscreen = False
 
-    def changeScale(self, scale_change):
-        if not self.is_fullscreen:
-            new_upscale = self.upscale + scale_change
-            if new_upscale < 1 or new_upscale > self._upscale_max:
-                return
-            self.upscale = new_upscale
-            pygame.display.quit()
+    def toggleFullscreen(self):
+        pygame.display.quit()
+        if self.is_fullscreen:
             self._scaleWindow()
+        else:
+            self._setFullscreen()
+        shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_FULLSCREEN, str(self.is_fullscreen))
 
     def _setFullscreen(self):
         pygame.display.init()
@@ -93,22 +101,14 @@ class Display(object):
         self.screen = self.screen.convert(self._full_screen)
         self.is_fullscreen = True
 
-    def toggleFullscreen(self):
-        pygame.display.quit()
-        if self.is_fullscreen:
-            self._scaleWindow()
-        else:
-            self._setFullscreen()
-        shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_FULLSCREEN, str(self.is_fullscreen))
-
     def scaleMouseInput(self, event):
         """Scale mouse position for events in terms of the screen (as opposed to the display surface)."""
         if event.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONUP, pygame.MOUSEBUTTONDOWN):
             if self.is_fullscreen:
                 event_dict = {
                     'pos': (
-                        (event.pos[0] - self._fullscreen_offset[0]) // self._upscale_max,
-                        (event.pos[1] - self._fullscreen_offset[1]) // self._upscale_max,
+                        (event.pos[0] - self._fullscreen_offset[0]) // self.upscale,
+                        (event.pos[1] - self._fullscreen_offset[1]) // self.upscale,
                     )
                 }
             else:
@@ -119,7 +119,10 @@ class Display(object):
                     )
                 }
             if event.type == pygame.MOUSEMOTION:
-                event_dict['rel'] = event.rel
+                event_dict['rel'] = (
+                    event.rel[0] // self.upscale,
+                    event.rel[1] // self.upscale,
+                )
                 event_dict['buttons'] = event.buttons
             else:
                 event_dict['button'] = event.button

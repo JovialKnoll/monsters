@@ -10,13 +10,13 @@ class Display(object):
     __slots__ = (
         '_monitor_res',
         '_upscale_max',
-        'screen',
         'is_fullscreen',
         'upscale',
         '_disp_res',
+        'screen',
         '_fullscreen_offset',
-        '_disp_screen',
         '_full_screen',
+        '_disp_screen',
     )
 
     def __init__(self):
@@ -24,14 +24,16 @@ class Display(object):
         self.is_fullscreen = shared.config.getboolean(constants.CONFIG_SECTION, constants.CONFIG_FULLSCREEN)
         self.upscale = shared.config.getint(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE)
         self.upscale = max(min(self.upscale, self._upscale_max), 0)
-        shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, str(self.upscale))
-        self.screen = pygame.Surface(constants.SCREEN_SIZE)
         self._scaleDisp()
+        self.screen = pygame.Surface(constants.SCREEN_SIZE)
+        self._fullscreen_offset = None
+        self._full_screen = None
         if self.is_fullscreen:
             self._setFullscreen()
         else:
             self._setWindowed()
         self.screen = self.screen.convert(self._disp_screen)
+        shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, str(self.upscale))
 
     def _setupDisplay(self):
         pygame.display.set_caption(constants.SCREEN_CAPTION)
@@ -53,13 +55,13 @@ class Display(object):
         if new_upscale < 1 or new_upscale > self._upscale_max:
             return
         self.upscale = new_upscale
-        pygame.display.quit()
-        pygame.display.init()
-        self._setupDisplay()
         self._scaleDisp()
         if self.is_fullscreen:
             self._setFullscreen()
         else:
+            pygame.display.quit()
+            pygame.display.init()
+            self._setupDisplay()
             self._setWindowed()
         self.screen = self.screen.convert(self._disp_screen)
         shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, str(self.upscale))
@@ -100,10 +102,13 @@ class Display(object):
             (self._monitor_res[0] - self._disp_res[0]) // 2,
             (self._monitor_res[1] - self._disp_res[1]) // 2,
         )
-        self._full_screen = pygame.display.set_mode(
-            self._monitor_res,
-            pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
-        )
+        if self._full_screen is None:
+            self._full_screen = pygame.display.set_mode(
+                self._monitor_res,
+                pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
+            )
+        else:
+            self._full_screen.fill(constants.BLACK)
         self._disp_screen = pygame.Surface(self._disp_res).convert(self._full_screen)
 
     def scaleMouseInput(self, event):

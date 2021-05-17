@@ -57,7 +57,7 @@ class Display(object):
 
     def _scaleWindow(self):
         """Set the window to a new scale."""
-        shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, str(self.upscale))
+
         self._disp_res = (
             constants.SCREEN_SIZE[0] * self.upscale,
             constants.SCREEN_SIZE[1] * self.upscale,
@@ -75,41 +75,43 @@ class Display(object):
         )
         self.screen = self.screen.convert(self._disp_screen)
         self.is_fullscreen = False
+        shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, str(self.upscale))
 
     def toggleFullscreen(self):
+        self.is_fullscreen = not self.is_fullscreen
         pygame.display.quit()
+        pygame.display.init()
+        self._setupDisplay()
         if self.is_fullscreen:
-            self._setWindowed()
-        else:
             self._setFullscreen()
+        else:
+            self._setWindowed()
+        self.screen = self.screen.convert(self._disp_screen)
         shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_FULLSCREEN, str(self.is_fullscreen))
 
     def _setWindowed(self):
-        pygame.display.init()
-        self._setupDisplay()
+        # center window
+        os.environ['SDL_VIDEO_WINDOW_POS'] = "{},{}".format(
+            (self._monitor_res[0] - self._disp_res[0]) // 2,
+            (self._monitor_res[1] - self._disp_res[1]) // 2
+        )
         self._fullscreen_offset = None
+        self._full_screen = None
         self._disp_screen = pygame.display.set_mode(
             self._disp_res,
             pygame.DOUBLEBUF
         )
-        self.screen = self.screen.convert(self._disp_screen)
-        self.is_fullscreen = False
 
     def _setFullscreen(self):
-        pygame.display.init()
-        self._setupDisplay()
         self._fullscreen_offset = (
             (self._monitor_res[0] - self._disp_res[0]) // 2,
             (self._monitor_res[1] - self._disp_res[1]) // 2,
         )
-        # needs a separate full screen in case the largest full-multiple scale-up doesn't fit
         self._full_screen = pygame.display.set_mode(
             self._monitor_res,
             pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
         )
-        self._disp_screen = self._disp_screen.convert(self._full_screen)
-        self.screen = self.screen.convert(self._disp_screen)
-        self.is_fullscreen = True
+        self._disp_screen = pygame.Surface(self._disp_res).convert(self._full_screen)
 
     def scaleMouseInput(self, event):
         """Scale mouse position for events in terms of the screen (as opposed to the display surface)."""

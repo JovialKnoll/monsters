@@ -21,6 +21,18 @@ class Display(object):
     )
 
     def __init__(self):
+        self._setupDisplay()
+        self.is_fullscreen = shared.config.getboolean(constants.CONFIG_SECTION, constants.CONFIG_FULLSCREEN)
+        self.upscale = shared.config.getint(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE)
+        self.upscale = max(min(self.upscale, self._upscale_max), 0)
+        shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, str(self.upscale))
+        self.screen = pygame.Surface(constants.SCREEN_SIZE)
+        if self.is_fullscreen:
+            self._setFullscreen()
+        else:
+            self._scaleWindow()
+
+    def _setupDisplay(self):
         pygame.display.set_caption(constants.SCREEN_CAPTION)
         # todo: set window icon here
         # todo: replace with a custom mouse icon or get rid of it?
@@ -34,24 +46,6 @@ class Display(object):
             self._monitor_res[0] // constants.SCREEN_SIZE[0],
             self._monitor_res[1] // constants.SCREEN_SIZE[1]
         )
-        self._disp_res_max = (
-            constants.SCREEN_SIZE[0] * self._upscale_max,
-            constants.SCREEN_SIZE[1] * self._upscale_max,
-        )
-        self._fullscreen_offset = (
-            (self._monitor_res[0] - self._disp_res_max[0]) // 2,
-            (self._monitor_res[1] - self._disp_res_max[1]) // 2,
-        )
-        self.is_fullscreen = shared.config.getboolean(constants.CONFIG_SECTION, constants.CONFIG_FULLSCREEN)
-        self.upscale = shared.config.getint(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE)
-        self.upscale = max(min(self.upscale, self._upscale_max), 0)
-        shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, str(self.upscale))
-        self._full_screen = pygame.Surface(self._disp_res_max)
-        self.screen = pygame.Surface(constants.SCREEN_SIZE)
-        if self.is_fullscreen:
-            self._setFullscreen()
-        else:
-            self._scaleWindow()
 
     def _scaleWindow(self):
         """Set the window to a new scale."""
@@ -66,6 +60,7 @@ class Display(object):
             (self._monitor_res[1] - self._disp_res[1]) // 2
         )
         pygame.display.init()
+        self._setupDisplay()
         self._disp_screen = pygame.display.set_mode(
             self._disp_res,
             pygame.DOUBLEBUF
@@ -84,9 +79,14 @@ class Display(object):
 
     def _setFullscreen(self):
         pygame.display.init()
+        self._setupDisplay()
         self._disp_screen = pygame.display.set_mode(
             self._monitor_res,
             pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
+        )
+        self._fullscreen_offset = (
+            (self._monitor_res[0] - self._disp_res_max[0]) // 2,
+            (self._monitor_res[1] - self._disp_res_max[1]) // 2,
         )
         # needs a separate full screen in case the largest full-multiple scale-up doesn't fit
         self._full_screen = self._full_screen.convert(self._disp_screen)

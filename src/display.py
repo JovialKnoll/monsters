@@ -10,14 +10,13 @@ class Display(object):
     __slots__ = (
         '_monitor_res',
         '_upscale_max',
-        '_disp_res_max',
-        '_fullscreen_offset',
+        'screen',
+        'is_fullscreen',
         'upscale',
         '_disp_res',
-        'is_fullscreen',
+        '_fullscreen_offset',
         '_disp_screen',
         '_full_screen',
-        'screen',
     )
 
     def __init__(self):
@@ -80,25 +79,36 @@ class Display(object):
     def toggleFullscreen(self):
         pygame.display.quit()
         if self.is_fullscreen:
-            self._scaleWindow()
+            self._setWindowed()
         else:
             self._setFullscreen()
         shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_FULLSCREEN, str(self.is_fullscreen))
 
+    def _setWindowed(self):
+        pygame.display.init()
+        self._setupDisplay()
+        self._fullscreen_offset = None
+        self._disp_screen = pygame.display.set_mode(
+            self._disp_res,
+            pygame.DOUBLEBUF
+        )
+        self.screen = self.screen.convert(self._disp_screen)
+        self.is_fullscreen = False
+
     def _setFullscreen(self):
         pygame.display.init()
         self._setupDisplay()
-        self._disp_screen = pygame.display.set_mode(
+        self._fullscreen_offset = (
+            (self._monitor_res[0] - self._disp_res[0]) // 2,
+            (self._monitor_res[1] - self._disp_res[1]) // 2,
+        )
+        # needs a separate full screen in case the largest full-multiple scale-up doesn't fit
+        self._full_screen = pygame.display.set_mode(
             self._monitor_res,
             pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
         )
-        self._fullscreen_offset = (
-            (self._monitor_res[0] - self._disp_res_max[0]) // 2,
-            (self._monitor_res[1] - self._disp_res_max[1]) // 2,
-        )
-        # needs a separate full screen in case the largest full-multiple scale-up doesn't fit
-        self._full_screen = self._full_screen.convert(self._disp_screen)
-        self.screen = self.screen.convert(self._full_screen)
+        self._disp_screen = self._disp_screen.convert(self._full_screen)
+        self.screen = self.screen.convert(self._disp_screen)
         self.is_fullscreen = True
 
     def scaleMouseInput(self, event):
@@ -131,9 +141,7 @@ class Display(object):
 
     def scaleDraw(self):
         """Scale screen onto display surface, then flip the display."""
+        pygame.transform.scale(self.screen, self._disp_res, self._disp_screen)
         if self.is_fullscreen:
-            pygame.transform.scale(self.screen, self._disp_res_max, self._full_screen)
-            self._disp_screen.blit(self._full_screen, self._fullscreen_offset)
-        else:
-            pygame.transform.scale(self.screen, self._disp_res, self._disp_screen)
+            self._full_screen.blit(self._disp_screen, self._fullscreen_offset)
         pygame.display.flip()

@@ -1,4 +1,4 @@
-name: build-dist
+name: build
 on:
   push:
     branches:

@@ -255,6 +255,9 @@ class ModeGameMenuOptions(ModeGameMenu):
                 shared.display.changeScale(1)
             elif event.key in (pygame.K_f, pygame.K_F11):
                 shared.display.toggleFullscreen()
+            elif '1' <= event.unicode <= '9':
+                target_scale = int(event.unicode)
+                shared.display.setScale(target_scale)
 
     def _drawScreen(self, screen):
         super()._drawScreen(screen)

@@ -1,3 +1,5 @@
+from abc import ABC
+
 import pygame
 
 import constants
@@ -8,9 +10,8 @@ from saveable import Saveable
 from .mode import Mode
 
 
-class ModeGameMenu(Mode):
+class ModeGameMenu(Mode, ABC):
     MENU_WIDTH = 20
-    FILE_EXT = '.sav'
     SHARED_DISP_TEXT = "Options:\nESC) Go Back\n"
 
     __slots__ = (
@@ -77,6 +78,8 @@ class ModeGameMenuTop(ModeGameMenu):
 
 
 class ModeGameMenuSave(ModeGameMenu):
+    FILE_EXT = '.sav'
+
     __slots__ = (
         '_save_name',
         '_cursor_position',

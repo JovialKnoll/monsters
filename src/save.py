@@ -18,7 +18,7 @@ class Save(object):
         '_shared_data',
     )
 
-    def __init__(self, file_name, mode_name, mode_data, shared_data):
+    def __init__(self, file_name: str, mode_name: str, mode_data, shared_data):
         self.file_name = file_name
         self._mode_name = mode_name
         self._mode_data = mode_data

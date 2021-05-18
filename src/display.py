@@ -51,10 +51,17 @@ class Display(object):
         )
 
     def changeScale(self, scale_change):
-        new_upscale = self.upscale + scale_change
-        if new_upscale < 1 or new_upscale > self._upscale_max:
+        new_scale = self.upscale + scale_change
+        if new_scale < 1 or new_scale > self._upscale_max:
             return
-        self.upscale = new_upscale
+        self._alterScale(new_scale)
+
+    def setScale(self, target_scale):
+        new_scale = min(target_scale, self._upscale_max)
+        self._alterScale(new_scale)
+
+    def _alterScale(self, new_scale):
+        self.upscale = new_scale
         self._scaleDisp()
         if self.is_fullscreen:
             self._setFullscreen()

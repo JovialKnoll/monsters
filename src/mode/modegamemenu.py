@@ -262,8 +262,8 @@ class ModeGameMenuOptions(ModeGameMenu):
     def _drawScreen(self, screen):
         super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
-        disp_text += f"UP/DOWN) Change upscaling: {shared.display.upscale}" \
-                     f"\nF) Toggle fullscreen: {self.getTickBox(shared.display.is_fullscreen)}"
+        disp_text += f"ARROWS) Upscaling: {shared.display.upscale}" \
+                     f"\nF) Fullscreen: {self.getTickBox(shared.display.is_fullscreen)}"
         self._drawText(screen, disp_text)
 
     @staticmethod

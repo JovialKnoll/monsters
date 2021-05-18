@@ -44,10 +44,10 @@ class Mode(abc.ABC):
             self._input(event)
             self.__trackMouseButton(event)
 
-    def _update(self, dt):
+    def _update(self, dt: int):
         pass
 
-    def update(self, dt):
+    def update(self, dt: int):
         """All game modes can update."""
         self._update(dt)
         self.all_sprites.update(dt)

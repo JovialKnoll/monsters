@@ -44,13 +44,14 @@ class Game(object):
         self._is_first_loop = False
         return shared.game_running
 
-    def _filterInput(self, events):
+    def _filterInput(self, events: list[pygame.event.Event]):
         """Take care of input that game modes should not take care of."""
-        return map(shared.display.scaleMouseInput, filter(self._stillNeedsHandling, events))
+        return filter(self._stillNeedsHandling, map(shared.display.scaleMouseInput, events))
 
-    def _stillNeedsHandling(self, event):
+    def _stillNeedsHandling(self, event: pygame.event.Event):
         """If event should be handled before all others, handle it and return False, otherwise return True.
         As an example, game-ending or display-changing events should be handled before all others.
+        Also filter out bad mouse events here.
         """
         if event.type in (pygame.QUIT, pygame.WINDOWFOCUSLOST, pygame.WINDOWMINIMIZED):
             return self._handlePauseMenu()
@@ -60,6 +61,14 @@ class Game(object):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 return self._handlePauseMenu()
+        elif event.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONUP, pygame.MOUSEBUTTONDOWN) \
+                and (
+                event.pos[0] < 0
+                or event.pos[1] < 0
+                or event.pos[0] >= constants.SCREEN_SIZE[0]
+                or event.pos[1] >= constants.SCREEN_SIZE[1]
+        ):
+            return False
         return True
 
     def _handlePauseMenu(self):

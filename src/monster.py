@@ -9,7 +9,6 @@ from animsprite import AnimSprite
 from personality import Personality
 from skin import Skin
 from mood import Mood
-from saveable import Saveable
 
 
 class Monster(AnimSprite):

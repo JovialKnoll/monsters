@@ -25,7 +25,7 @@ class Save(object):
         self._shared_data = shared_data
 
     @staticmethod
-    def willOverwrite(file_name):
+    def willOverwrite(file_name: str):
         return os.path.exists(
             os.path.join(constants.SAVE_DIRECTORY, file_name)
         )
@@ -62,7 +62,7 @@ class Save(object):
         )
 
     @classmethod
-    def getFromFile(cls, file_name):
+    def getFromFile(cls, file_name: str):
         file_path = os.path.join(constants.SAVE_DIRECTORY, file_name)
         try:
             with open(file_path, 'r') as file:
@@ -72,7 +72,7 @@ class Save(object):
             return False
 
     @classmethod
-    def getFromMode(cls, file_name, from_mode: saveable.Saveable):
+    def getFromMode(cls, file_name: str, from_mode: saveable.Saveable):
         return cls(file_name, type(from_mode).__name__, from_mode.save(), shared.state.save())
 
     def save(self):

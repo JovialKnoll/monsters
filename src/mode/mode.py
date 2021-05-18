@@ -20,48 +20,48 @@ class Mode(abc.ABC):
         self.__pressed_mouse_buttons = dict()
         self.next_mode = None
 
-    def __trackMouseButton(self, event):
+    def __trackMouseButton(self, event: pygame.event.Event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.__pressed_mouse_buttons[event.button] = event.pos
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button in self.__pressed_mouse_buttons:
                 del self.__pressed_mouse_buttons[event.button]
 
-    def _mouseButtonStatus(self, button):
+    def _mouseButtonStatus(self, button: int):
         if button not in self.__pressed_mouse_buttons:
             return False
         return self.__pressed_mouse_buttons[button]
 
     @abc.abstractmethod
-    def _input(self, event):
+    def _input(self, event: pygame.event.Event):
         raise NotImplementedError(
             type(self).__name__ + "._input(self, event)"
         )
 
-    def input_events(self, event_list):
+    def input_events(self, events: list[pygame.event.Event]):
         """All game modes can take in events."""
-        for event in event_list:
+        for event in events:
             self._input(event)
             self.__trackMouseButton(event)
 
-    def _update(self, dt):
+    def _update(self, dt: int):
         pass
 
-    def update(self, dt):
+    def update(self, dt: int):
         """All game modes can update."""
         self._update(dt)
         self.all_sprites.update(dt)
 
     @abc.abstractmethod
-    def _drawScreen(self, screen):
+    def _drawScreen(self, screen: pygame.surface.Surface):
         raise NotImplementedError(
             type(self).__name__ + "._drawScreen(self, screen)"
         )
 
-    def _drawPostSprites(self, screen):
+    def _drawPostSprites(self, screen: pygame.surface.Surface):
         pass
 
-    def draw(self, screen):
+    def draw(self, screen: pygame.surface.Surface):
         """All game modes can draw to the screen"""
         self._drawScreen(screen)
         self.all_sprites.draw(screen)

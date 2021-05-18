@@ -1,3 +1,6 @@
+import pygame
+
+
 class Boxes(object):
     TEXT_MARGIN = 8
 
@@ -8,16 +11,16 @@ class Boxes(object):
         'select',
     )
 
-    def __init__(self, rects, backKeys, forwardKeys):
+    def __init__(self, rects: tuple[pygame.Rect, ...], back_keys, forward_keys):
         self.rects = rects
-        self._backKeys = set(backKeys)
-        self._forwardKeys = set(forwardKeys)
+        self._backKeys = set(back_keys)
+        self._forwardKeys = set(forward_keys)
         self.select = 0
 
     def getSelectRect(self):
         return self.rects[self.select]
 
-    def changeSelect(self, change):
+    def changeSelect(self, change: int):
         self.select += change
         self.select %= len(self.rects)
         return self.select
@@ -28,24 +31,24 @@ class Boxes(object):
         elif key in self._forwardKeys:
             return self.changeSelect(1)
 
-    def posSelect(self, pos):
+    def posSelect(self, pos: tuple[int]):
         for index, rect in enumerate(self.rects):
             if rect.collidepoint(pos):
                 self.select = index
                 return self.select
         return None
 
-    def numberSelect(self, num):
+    def numberSelect(self, num: int):
         if 0 <= num < len(self.rects):
             self.select = num
             return self.select
         return None
 
-    def textStart(self, index):
+    def textStart(self, index: int):
         return (
             self.rects[index].x + self.TEXT_MARGIN,
             self.rects[index].y + self.TEXT_MARGIN,
         )
 
-    def textWidth(self, index):
+    def textWidth(self, index: int):
         return self.rects[index].w - (self.TEXT_MARGIN * 2)

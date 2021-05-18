@@ -60,19 +60,19 @@ class ModeGameMenuTop(ModeGameMenu):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 self.next_mode = self._previous_mode
-            elif event.key == pygame.K_F1:
+            elif event.key == pygame.K_1:
                 self.next_mode = ModeGameMenuSave(self._previous_mode, self._old_screen)
-            elif event.key == pygame.K_F2:
+            elif event.key == pygame.K_2:
                 self.next_mode = ModeGameMenuLoad(self._previous_mode, self._old_screen)
-            elif event.key == pygame.K_F3:
+            elif event.key == pygame.K_3:
                 self.next_mode = ModeGameMenuOptions(self._previous_mode, self._old_screen)
-            elif event.key == pygame.K_F4:
+            elif event.key == pygame.K_4:
                 shared.game_running = False
 
     def _drawScreen(self, screen):
         super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
-        disp_text += "F1) Save\nF2) Load\nF3) Options\nF4) Quit"
+        disp_text += "1) Save\n2) Load\n3) Options\n4) Quit"
         self._drawText(screen, disp_text)
 
 
@@ -255,6 +255,9 @@ class ModeGameMenuOptions(ModeGameMenu):
                 shared.display.changeScale(1)
             elif event.key in (pygame.K_f, pygame.K_F11):
                 shared.display.toggleFullscreen()
+            elif '1' <= event.unicode <= '9':
+                target_scale = int(event.unicode)
+                shared.display.setScale(target_scale)
 
     def _drawScreen(self, screen):
         super()._drawScreen(screen)

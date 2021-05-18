@@ -14,5 +14,4 @@ optional:
 	tally up results for winners for different possible distributions of stats
 	balancing that
 	maybe check that can be strategy to fight choices?
-5) scroll slider thingy for convomode.py, click-and-drag-able
-6) replace WAVs with OGGs
+5) replace WAVs with OGGs

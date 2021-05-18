@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd ..
+source src/venv/bin/activate
+python src/main.py
+deactivate

@@ -62,12 +62,12 @@ class ModeConvo(Mode):
         raise NotImplementedError(type(self).__name__ + "._textMain(self)")
 
     @abc.abstractmethod
-    def _textButton(self, index):
+    def _textButton(self, index: int):
         # return text for button
         raise NotImplementedError(type(self).__name__ + "._textButton(self, index)")
 
     @abc.abstractmethod
-    def _goButton(self, index):
+    def _goButton(self, index: int):
         # do stuff for button
         raise NotImplementedError(type(self).__name__ + "._goButton(self, index)")
 

@@ -21,7 +21,7 @@ class ModeMenu(ModeMonConvo):
         return mon.name + "\n" + mon_string.upper()
 
     @staticmethod
-    def getSpacing(stat_num):
+    def getSpacing(stat_num: int):
         return (2 - math.ceil(math.log10(stat_num))) * "_"
 
     def _textButton(self, index):

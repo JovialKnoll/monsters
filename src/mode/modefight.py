@@ -8,6 +8,7 @@ import shared
 import utility
 from boxes import Boxes
 from animsprite import AnimSprite
+from monster import Monster
 
 from .mode import Mode
 
@@ -69,7 +70,7 @@ class ModeFight(Mode):
         'result_mode',
     )
 
-    def __init__(self, player_mon, enemy_mon, draw_mode, win_mode, lose_mode):
+    def __init__(self, player_mon: Monster, enemy_mon: Monster, draw_mode: Mode, win_mode: Mode, lose_mode: Mode):
         """The functions passed in should return the next mode."""
         super().__init__()
 
@@ -170,7 +171,7 @@ class ModeFight(Mode):
             else:
                 self.boxes.keySelect(event.key)
 
-    def _setActionDisplay(self, text):
+    def _setActionDisplay(self, text: str):
         self.action_display.appendleft(shared.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR))
         self.action_set = not self.action_set
 
@@ -210,7 +211,7 @@ class ModeFight(Mode):
             self.player_action = False
         self.enemy_action = False
 
-    def _setupEnd(self, ending):
+    def _setupEnd(self, ending: str):
         self.player_action = ending
         self.player_mon.addWait(500)
         self.player_mon.addWait(500)
@@ -226,7 +227,7 @@ class ModeFight(Mode):
         elif self.player_action == 'lose':
             self._endStuff(self.player_mon.name + "'s out cold.")
 
-    def _endStuff(self, result_display):
+    def _endStuff(self, result_display: str):
         if len(self.player_mon.anims) < 2 and self.result_displayed < 1:
             self._setActionDisplay(result_display)
             self.result_displayed = 1

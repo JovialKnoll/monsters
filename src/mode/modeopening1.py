@@ -54,14 +54,14 @@ class ModeOpening1(Mode):
                 angle = j * 2 / star_number * math.pi
                 x = constants.SCREEN_SIZE[0] // 2 + radius * math.sin(angle)
                 y = constants.SCREEN_SIZE[1] // 2 - radius * math.cos(angle)
-                self.makeStar(
+                self._makeStar(
                     star_image,
                     self.STAR_WAIT + i * self.STAR_TRAVEL,
                     (x, y),
                     bip if j == 0 else None
                 )
 
-    def makeStar(self, image, wait, dest, sound):
+    def _makeStar(self, image: pygame.Surface, wait: int, dest: tuple[int, int], sound):
         star_sprite = AnimSprite()
         star_sprite.image = image
         star_sprite.rect = star_sprite.image.get_rect()

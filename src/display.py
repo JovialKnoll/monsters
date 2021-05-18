@@ -50,17 +50,17 @@ class Display(object):
             self._monitor_res[1] // constants.SCREEN_SIZE[1]
         )
 
-    def changeScale(self, scale_change):
+    def changeScale(self, scale_change: int):
         new_scale = self.upscale + scale_change
         if new_scale < 1 or new_scale > self._upscale_max:
             return
         self._alterScale(new_scale)
 
-    def setScale(self, target_scale):
+    def setScale(self, target_scale: int):
         new_scale = min(target_scale, self._upscale_max)
         self._alterScale(new_scale)
 
-    def _alterScale(self, new_scale):
+    def _alterScale(self, new_scale: int):
         self.upscale = new_scale
         self._scaleDisp()
         if self.is_fullscreen:
@@ -118,7 +118,7 @@ class Display(object):
             self._full_screen.fill(constants.BLACK)
         self._disp_screen = pygame.Surface(self._disp_res).convert(self._full_screen)
 
-    def scaleMouseInput(self, event):
+    def scaleMouseInput(self, event: pygame.event.Event):
         """Scale mouse position for events in terms of the screen (as opposed to the display surface)."""
         if event.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONUP, pygame.MOUSEBUTTONDOWN):
             if self.is_fullscreen:

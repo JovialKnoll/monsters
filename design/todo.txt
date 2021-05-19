@@ -2,9 +2,9 @@ necessary:
 1) music / sound
     convo music
     opening music
-2) content for convos and fights (based on each other)
+2) introduction to monster mode
+3) content for convos and fights (based on each other)
     make system for convo modes to move through entire conversation in single mode
-3) https://github.com/wasmerio/wasmer-python
 
 optional:
 1) make sounds play with particular left / right volumes instead of being centered

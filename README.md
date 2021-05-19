@@ -2,14 +2,31 @@
 
 Requires Python 3 and Pygame.
 
-## How to run locally in windows:
+## How to setup virtual environment in windows:
 1. install latest python 3
-2. from command prompt or powershell, go to the `src` directory
-3. run `python.exe -m venv venv`
+2. open up command prompt or powershell in the `src` directory
+4. run `python.exe -m venv venv`
     - you can replace `python.exe` with the full path to the appropriate file if it's not in your path
-4. run `venv\Scripts\activate`
-5. run `pip install -r requirements.txt`
-6. run `python main.py`
+5. run `venv\Scripts\activate`
+6. run `pip install -r requirements.txt`
 
-- In the future, you should only need to take steps 2, 4, and 6.
 - Alternately, you can use pycharm or some other IDE that will handle virtual environment for you.
+
+## How to run in windows:
+1. setup virtual environment first
+2. run `run_windows.ps1` from the `scripts` directory
+
+## How to build in windows:
+1. setup virtual environment first
+2. run `build_windows.ps1` from the `scripts` directory
+
+## How to setup virtual environment in linux:
+1. run `setup_linux` from the `scripts` directory
+
+## How to run in linux:
+1. setup virtual environment first
+2. run `run_linux` from the `scripts` directory
+
+## How to build in linux:
+1. setup virtual environment first
+2. run `build_linux` from the `scripts` directory

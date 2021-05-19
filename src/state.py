@@ -7,7 +7,7 @@ class State(object):
     )
 
     def __init__(self):
-        self.protag_mon = Monster()
+        self.protag_mon = None
 
     def save(self):
         return {

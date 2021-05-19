@@ -11,7 +11,8 @@ from .mode import Mode
 
 
 class ModeGameMenu(Mode, ABC):
-    MENU_WIDTH = 20
+    MENU_CHAR_WIDTH = 20
+    MENU_WIDTH = MENU_CHAR_WIDTH * constants.FONT_SIZE
     SHARED_DISP_TEXT = "Options:\nESC) Go Back\n"
 
     __slots__ = (
@@ -46,7 +47,7 @@ class ModeGameMenu(Mode, ABC):
         shared.font_wrap.renderToInside(
             screen,
             (0, 0),
-            cls.MENU_WIDTH * constants.FONT_SIZE,
+            cls.MENU_WIDTH,
             disp_text,
             False,
             constants.WHITE,
@@ -144,7 +145,7 @@ class ModeGameMenuSave(ModeGameMenu):
                     self._cursor_position -= 1
                 self._resetCursorBlink()
             elif (
-                length < (self.MENU_WIDTH - len(self.FILE_EXT) - 1)
+                length < (self.MENU_CHAR_WIDTH - len(self.FILE_EXT) - 1)
                 and (
                     # numbers
                     ('0' <= char <= '9')

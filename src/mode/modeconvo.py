@@ -38,10 +38,11 @@ class ModeConvo(Mode):
 
     def __init__(self):
         super().__init__()
-
         self.background = pygame.image.load(constants.LAYOUT_1_FILE).convert(shared.display.screen)
         self.background.set_colorkey(constants.COLORKEY)
-        # mainly, make the surfaces based on the text for view and buttons, fitting some criteria
+        self._renderText()
+
+    def _renderText(self):
         self.text_rect = pygame.Rect(0, 0, 288, 48)
         self.text_scroll = 0
         self.surf_text = shared.font_wrap.renderInside(288, self._textMain(), False, constants.TEXT_COLOR)
@@ -54,7 +55,6 @@ class ModeConvo(Mode):
                 False,
                 constants.TEXT_COLOR
             )
-        # what else do conversations need?
 
     @abc.abstractmethod
     def _textMain(self):

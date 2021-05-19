@@ -1,4 +1,4 @@
-import configparser
+import typing
 
 import pygame
 
@@ -44,7 +44,7 @@ class Game(object):
         self._is_first_loop = False
         return shared.game_running
 
-    def _filterInput(self, events: list[pygame.event.Event]):
+    def _filterInput(self, events: typing.Iterable[pygame.event.Event]):
         """Take care of input that game modes should not take care of."""
         return filter(self._stillNeedsHandling, map(shared.display.scaleMouseInput, events))
 

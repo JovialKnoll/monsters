@@ -88,5 +88,3 @@ class ModeTest(Mode, Saveable):
             False,
             (255, 0, 0)
         )
-        # screen.blit(shared.font_wrap.renderInside(constants.SCREEN_SIZE[0]//2, self.TEST_TEXT, False, constants.BLACK, constants.WHITE), (0,0))
-        # screen.blit(shared.font_wrap.renderInside(constants.SCREEN_SIZE[0]//2, "Lorem", False, (255,0,0)), (constants.SCREEN_SIZE[0]//2,0))

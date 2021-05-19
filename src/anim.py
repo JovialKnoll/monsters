@@ -22,5 +22,6 @@ class Anim(Saveable):
         # or don't save when there are pending Anims
         return self.func, self.time, self.pos
 
+    @classmethod
     def load(cls, save_data):
         return cls(*save_data)

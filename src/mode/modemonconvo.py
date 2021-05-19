@@ -1,9 +1,11 @@
+from abc import ABC
+
 import shared
 
 from .modeconvo import ModeConvo
 
 
-class ModeMonConvo(ModeConvo):
+class ModeMonConvo(ModeConvo, ABC):
     __slots__ = (
     )
 

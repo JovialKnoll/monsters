@@ -92,9 +92,10 @@ class ModeConvo(Mode):
                 self.boxes.keySelect(event.key)
 
     def update(self, dt):
+        pressed_keys = pygame.key.get_pressed()
         self.text_scroll, text_scroll_int = utility.getIntMovement(
             self.text_scroll,
-            (pygame.key.get_pressed()[pygame.K_DOWN] - pygame.key.get_pressed()[pygame.K_UP]) * self.SCROLL_AMOUNT_SPEED,
+            (pressed_keys[pygame.K_DOWN] - pressed_keys[pygame.K_UP]) * self.SCROLL_AMOUNT_SPEED,
             dt
         )
         self.text_rect.move_ip(0, text_scroll_int)

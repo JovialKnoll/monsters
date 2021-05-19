@@ -56,7 +56,8 @@ class Monster(AnimSprite):
         self.name = Personality.generateName(self.personality)
         self.skin = Skin.random(self.personality)
         # access the SkinTone with self.skin[self.lvl]
-        self.mood = Mood.Neutral# mood might only be changed by and do stuff during battles / convos? maybe
+        self.mood = Mood.Neutral
+        # mood might only be changed by and do stuff during battles / convos? maybe
 
         self.stats = {x: 2 for x in self.MAIN_STATS}
         self.stats['drv'] = self.DRV_MAX // 2

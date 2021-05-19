@@ -34,6 +34,7 @@ class Vec2d(Saveable):
     def save(self):
         return self.__getstate__()
 
+    @classmethod
     def load(cls, save_data):
         return cls(*save_data)
 

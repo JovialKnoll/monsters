@@ -8,10 +8,9 @@ necessary:
 
 optional:
 1) make sounds play with particular left / right volumes instead of being centered
-2) center modegamemenu visuals, buttons?
-3) deduplicate shared code in convo and fight modes around boxes
-4) re-evaluate mon stats
+2) deduplicate shared code in convo and fight modes around boxes
+3) re-evaluate mon stats
 	tally up results for winners for different possible distributions of stats
 	balancing that
 	maybe check that can be strategy to fight choices?
-5) replace WAVs with OGGs
+4) replace WAVs with OGGs

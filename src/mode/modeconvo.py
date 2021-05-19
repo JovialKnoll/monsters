@@ -34,18 +34,20 @@ class ModeConvo(Mode):
         'text_rect',
         'text_scroll',
         'surf_text',
+        'convo_key',
     )
 
-    def __init__(self):
+    def __init__(self, convo_key=None):
         super().__init__()
-        self.background = pygame.image.load(constants.LAYOUT_1_FILE).convert(shared.display.screen)
-        self.background.set_colorkey(constants.COLORKEY)
+        self.convo_key = convo_key
         self._renderText()
 
     def _renderText(self):
         self.text_rect = pygame.Rect(0, 0, 288, 48)
         self.text_scroll = 0
         self.surf_text = shared.font_wrap.renderInside(288, self._textMain(), False, constants.TEXT_COLOR)
+        self.background = pygame.image.load(constants.LAYOUT_1_FILE).convert(shared.display.screen)
+        self.background.set_colorkey(constants.COLORKEY)
         for index, rect in enumerate(type(self).boxes.rects):
             shared.font_wrap.renderToInside(
                 self.background,

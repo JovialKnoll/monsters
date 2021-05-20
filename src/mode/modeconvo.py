@@ -75,17 +75,13 @@ class ModeConvo(Mode):
         # do stuff for button
         raise NotImplementedError(type(self).__name__ + "._goButton(self, index)")
 
-    def _goButtonIfRead(self, index: int):
-        if not self.read_text:
-            return
-        self._goButton(index)
-
     def _input(self, event):
         if event.type == pygame.MOUSEMOTION:
             self.boxes.posSelect(event.pos)
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
-                if self.boxes.posSelect(event.pos) is not None \
+                if self.read_text \
+                    and self.boxes.posSelect(event.pos) is not None \
                     and self._mouseButtonStatus(event.button) \
                     and self.boxes.posSelect(self._mouseButtonStatus(event.button)) \
                         == self.boxes.posSelect(event.pos):
@@ -94,9 +90,9 @@ class ModeConvo(Mode):
                 self.text_rect.move_ip(0, -constants.FONT_HEIGHT)
             elif event.button == 5:
                 self.text_rect.move_ip(0, constants.FONT_HEIGHT)
-        elif event.type == pygame.KEYDOWN:
+        elif event.type == pygame.KEYDOWN and self.read_text:
             if event.key == pygame.K_RETURN:
-                self._goButtonIfRead(self.boxes.select)
+                self._goButton(self.boxes.select)
             else:
                 self.boxes.keySelect(event.key)
 
@@ -116,4 +112,5 @@ class ModeConvo(Mode):
         screen.fill(constants.WHITE)
         screen.blit(self.background, (0, 0))
         screen.blit(self.surf_text, (16, 16), self.text_rect)
-        screen.blit(self.black_box, self.boxes.getSelectRect())
+        if self.read_text:
+            screen.blit(self.black_box, self.boxes.getSelectRect())

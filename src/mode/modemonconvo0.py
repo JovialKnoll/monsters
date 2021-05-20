@@ -12,16 +12,16 @@ class ModeMonConvo0(ModeMonConvo):
     )
 
     def _textMain(self):
-        return "Scrolling is enabled!\n" + \
-            "Try pressing the arrow keys!\n" + \
-            "Up and down to scroll, left and right to select.\n" + \
-            "This is the test conversation section.\n" + \
-            "How do you feel about that?\n" + \
-            "a\n" + \
-            "b\n" + \
-            "c\n" + \
-            "d\n" + \
-            "e\n"
+        return "Scrolling is enabled!" \
+            + "\nTry pressing the arrow keys!" \
+            + "\nUp and down to scroll, left and right to select." \
+            + "\nThis is the test conversation section." \
+            + "\nHow do you feel about that?" \
+            + "\na" + \
+            + "\nb" + \
+            + "\nc" + \
+            + "\nd" + \
+            + "\ne"
 
     def _textButton(self, index):
         if index == 0:

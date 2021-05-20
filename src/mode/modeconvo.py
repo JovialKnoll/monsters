@@ -30,6 +30,7 @@ class ModeConvo(Mode):
     black_box.set_colorkey(constants.COLORKEY)
 
     __slots__ = (
+        'read_text',
         'background',
         'text_rect',
         'text_scroll',
@@ -43,6 +44,7 @@ class ModeConvo(Mode):
         self._renderText()
 
     def _renderText(self):
+        self.read_text = False
         self.text_rect = pygame.Rect(0, 0, 288, 48)
         self.text_scroll = 0
         self.surf_text = shared.font_wrap.renderInside(288, self._textMain(), False, constants.TEXT_COLOR)
@@ -73,6 +75,11 @@ class ModeConvo(Mode):
         # do stuff for button
         raise NotImplementedError(type(self).__name__ + "._goButton(self, index)")
 
+    def _goButtonIfRead(self, index: int):
+        if not self.read_text:
+            return
+        self._goButton(index)
+
     def _input(self, event):
         if event.type == pygame.MOUSEMOTION:
             self.boxes.posSelect(event.pos)
@@ -82,14 +89,14 @@ class ModeConvo(Mode):
                     and self._mouseButtonStatus(event.button) \
                     and self.boxes.posSelect(self._mouseButtonStatus(event.button)) \
                         == self.boxes.posSelect(event.pos):
-                    self._goButton(self.boxes.select)
+                    self._goButtonIfRead(self.boxes.select)
             elif event.button == 4:
                 self.text_rect.move_ip(0, -constants.FONT_HEIGHT)
             elif event.button == 5:
                 self.text_rect.move_ip(0, constants.FONT_HEIGHT)
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
-                self._goButton(self.boxes.select)
+                self._goButtonIfRead(self.boxes.select)
             else:
                 self.boxes.keySelect(event.key)
 
@@ -102,6 +109,8 @@ class ModeConvo(Mode):
         )
         self.text_rect.move_ip(0, text_scroll_int)
         self.text_rect.clamp_ip(self.surf_text.get_rect())
+        if self.text_rect.bottom >= self.surf_text.get_rect().bottom:
+            self.read_text = True
 
     def _drawScreen(self, screen):
         screen.fill(constants.WHITE)

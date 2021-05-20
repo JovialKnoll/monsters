@@ -17,10 +17,10 @@ class ModeMonConvo0(ModeMonConvo):
             + "\nUp and down to scroll, left and right to select." \
             + "\nThis is the test conversation section." \
             + "\nHow do you feel about that?" \
-            + "\na" + \
-            + "\nb" + \
-            + "\nc" + \
-            + "\nd" + \
+            + "\na" \
+            + "\nb" \
+            + "\nc" \
+            + "\nd" \
             + "\ne"
 
     def _textButton(self, index):

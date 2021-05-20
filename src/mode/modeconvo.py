@@ -85,7 +85,7 @@ class ModeConvo(Mode):
                     and self._mouseButtonStatus(event.button) \
                     and self.boxes.posSelect(self._mouseButtonStatus(event.button)) \
                         == self.boxes.posSelect(event.pos):
-                    self._goButtonIfRead(self.boxes.select)
+                    self._goButton(self.boxes.select)
             elif event.button == 4:
                 self.text_rect.move_ip(0, -constants.FONT_HEIGHT)
             elif event.button == 5:

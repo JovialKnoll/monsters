@@ -7,10 +7,11 @@ import utility
 import shared
 from boxes import Boxes
 
+from saveable import Saveable
 from .mode import Mode
 
 
-class ModeConvo(Mode):
+class ModeConvo(Mode, Saveable, abc.ABC):
     SCROLL_AMOUNT_SPEED = 0.1
     boxes = Boxes(
         (
@@ -42,6 +43,16 @@ class ModeConvo(Mode):
         super().__init__()
         self.convo_key = convo_key
         self._renderText()
+
+    def save(self):
+        return self.convo_key
+
+    @classmethod
+    def load(cls, save_data):
+        new_obj = cls()
+        new_obj.convo_key = save_data
+        new_obj._renderText()
+        return new_obj
 
     def _renderText(self):
         self.read_text = False

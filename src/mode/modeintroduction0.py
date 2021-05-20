@@ -18,17 +18,14 @@ class ModeIntroduction0(ModeConvo):
                    + "\n\nWe're always trying to get more participants for the human-monster mentorship program" \
                    + " so it really means a lot."
         elif self.convo_key == 1:
-            return "second text"
+            return "Now I know some of you have been here before," \
+                   + " but I can see at least a few new faces among us." \
+                   + "\n\nSo, I'm going to go ahead and give the program overview before we get started."
         else:
             return "third text"
 
     def _textButton(self, index):
-        if self.convo_key == 0:
-            return "continue"
-        elif self.convo_key == 1:
-            return "Yup"
-        else:
-            return "I Agree"
+        return "continue"
 
     def _goButton(self, index):
         if self.convo_key < 2:

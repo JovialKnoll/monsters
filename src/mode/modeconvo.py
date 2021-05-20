@@ -7,10 +7,11 @@ import utility
 import shared
 from boxes import Boxes
 
+from saveable import Saveable
 from .mode import Mode
 
 
-class ModeConvo(Mode):
+class ModeConvo(Mode, Saveable, abc.ABC):
     SCROLL_AMOUNT_SPEED = 0.1
     boxes = Boxes(
         (
@@ -30,21 +31,36 @@ class ModeConvo(Mode):
     black_box.set_colorkey(constants.COLORKEY)
 
     __slots__ = (
+        'read_text',
         'background',
         'text_rect',
         'text_scroll',
         'surf_text',
+        'convo_key',
     )
 
-    def __init__(self):
+    def __init__(self, convo_key=None):
         super().__init__()
+        self.convo_key = convo_key
+        self._renderText()
 
-        self.background = pygame.image.load(constants.LAYOUT_1_FILE).convert(shared.display.screen)
-        self.background.set_colorkey(constants.COLORKEY)
-        # mainly, make the surfaces based on the text for view and buttons, fitting some criteria
+    def save(self):
+        return self.convo_key
+
+    @classmethod
+    def load(cls, save_data):
+        new_obj = cls()
+        new_obj.convo_key = save_data
+        new_obj._renderText()
+        return new_obj
+
+    def _renderText(self):
+        self.read_text = False
         self.text_rect = pygame.Rect(0, 0, 288, 48)
         self.text_scroll = 0
         self.surf_text = shared.font_wrap.renderInside(288, self._textMain(), False, constants.TEXT_COLOR)
+        self.background = pygame.image.load(constants.LAYOUT_1_FILE).convert(shared.display.screen)
+        self.background.set_colorkey(constants.COLORKEY)
         for index, rect in enumerate(type(self).boxes.rects):
             shared.font_wrap.renderToInside(
                 self.background,
@@ -54,7 +70,6 @@ class ModeConvo(Mode):
                 False,
                 constants.TEXT_COLOR
             )
-        # what else do conversations need?
 
     @abc.abstractmethod
     def _textMain(self):
@@ -76,7 +91,8 @@ class ModeConvo(Mode):
             self.boxes.posSelect(event.pos)
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
-                if self.boxes.posSelect(event.pos) is not None \
+                if self.read_text \
+                    and self.boxes.posSelect(event.pos) is not None \
                     and self._mouseButtonStatus(event.button) \
                     and self.boxes.posSelect(self._mouseButtonStatus(event.button)) \
                         == self.boxes.posSelect(event.pos):
@@ -85,7 +101,7 @@ class ModeConvo(Mode):
                 self.text_rect.move_ip(0, -constants.FONT_HEIGHT)
             elif event.button == 5:
                 self.text_rect.move_ip(0, constants.FONT_HEIGHT)
-        elif event.type == pygame.KEYDOWN:
+        elif event.type == pygame.KEYDOWN and self.read_text:
             if event.key == pygame.K_RETURN:
                 self._goButton(self.boxes.select)
             else:
@@ -100,9 +116,12 @@ class ModeConvo(Mode):
         )
         self.text_rect.move_ip(0, text_scroll_int)
         self.text_rect.clamp_ip(self.surf_text.get_rect())
+        if self.text_rect.bottom >= self.surf_text.get_rect().bottom:
+            self.read_text = True
 
     def _drawScreen(self, screen):
         screen.fill(constants.WHITE)
         screen.blit(self.background, (0, 0))
         screen.blit(self.surf_text, (16, 16), self.text_rect)
-        screen.blit(self.black_box, self.boxes.getSelectRect())
+        if self.read_text:
+            screen.blit(self.black_box, self.boxes.getSelectRect())

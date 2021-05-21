@@ -5,6 +5,8 @@ necessary:
 2) introduction to monster mode
 3) content for convos and fights (based on each other)
     make system for convo modes to move through entire conversation in single mode
+4) try to make cleaner directory later
+    https://stackoverflow.com/questions/19579979/pyinstaller-changing-dll-and-pyd-output-location
 
 optional:
 1) make sounds play with particular left / right volumes instead of being centered

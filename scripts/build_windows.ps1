@@ -7,11 +7,12 @@ src/venv/Scripts/activate
 pip install pyinstaller
 # create spec file
 # --icon ICON_FILE
-pyinstaller --clean -ywF --name chikkai src/main.py
+# --onefile
+pyinstaller --clean -yw --name chikkai src/main.py
 # build exe
 pyinstaller -y chikkai.spec
 # copy in assets
-cp -r src/assets dist/assets
+cp -r src/assets dist/chikkai/assets
 # cleanup
 deactivate
 rm -r build

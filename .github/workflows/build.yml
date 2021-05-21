@@ -21,11 +21,11 @@ jobs:
       - name: Install pyinstaller
         run: pip install pyinstaller
       - name: Create spec file
-        run: pyinstaller --clean -ywF --name chikkai src/main.py
+        run: pyinstaller --clean -yw --name chikkai src/main.py
       - name: Build exe
         run: pyinstaller -y chikkai.spec
       - name: Copy in assets
-        run: cp -r src/assets dist/assets
+        run: cp -r src/assets dist/chikkai/assets
 #      - name: MacOS cleanup
 #        if: startsWith(matrix.os, 'macos')
 #        run: rm -rf dist/chikkai.app/

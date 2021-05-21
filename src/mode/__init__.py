@@ -3,9 +3,6 @@ from .modeconvo import ModeConvo
 from .modefight import ModeFight
 from .modegamemenu import ModeGameMenu
 from .modegamemenu import ModeGameMenuTop
-from .modegamemenu import ModeGameMenuSave
-from .modegamemenu import ModeGameMenuLoad
-from .modegamemenu import ModeGameMenuOptions
 from .modeintroduction0 import ModeIntroduction0
 from .modemenu import ModeMenu
 from .modemonconvo import ModeMonConvo

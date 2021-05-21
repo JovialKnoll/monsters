@@ -20,7 +20,7 @@ class ModeIntroduction0(ModeConvo):
         elif self.convo_key == 1:
             return "Now I know some of you have been here before," \
                    + " but I can see at least a few new faces among us." \
-                   + "\n\nSo, I'm going to go ahead and give the program overview before we get started."
+                   + "\n\nSo, I'll go ahead and give the program overview before we get started."
         else:
             return "third text"
 

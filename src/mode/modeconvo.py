@@ -49,9 +49,7 @@ class ModeConvo(Mode, Saveable, abc.ABC):
 
     @classmethod
     def load(cls, save_data):
-        new_obj = cls()
-        new_obj.convo_key = save_data
-        new_obj._renderText()
+        new_obj = cls(save_data)
         return new_obj
 
     def _renderText(self):

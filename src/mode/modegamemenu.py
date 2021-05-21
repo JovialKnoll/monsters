@@ -220,7 +220,10 @@ class ModeGameMenuLoad(ModeGameMenu):
                     self._save_index = min(self._save_index + 1, len(self._saves) - 1)
                     pass
                 elif event.key == pygame.K_RETURN:
+                    self._stopMixer()
                     self._previous_mode = self._saves[self._save_index].load()
+                    pygame.mixer.music.pause()
+                    pygame.mixer.pause()
                     self._old_screen = self._getOldScreen()
                     self._loaded_save = True
                     pass

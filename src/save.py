@@ -1,8 +1,6 @@
 import os
 import json
 
-import pygame
-
 import constants
 import shared
 import saveable
@@ -94,12 +92,7 @@ class Save(object):
             return False
 
     def load(self):
-        pygame.mixer.music.stop()
-        pygame.mixer.music.unload()
-        pygame.mixer.stop()
         shared.state = State.load(self._shared_data)
         mode_cls = getattr(mode, self._mode_name)
         new_mode = mode_cls.load(self._mode_data)
-        pygame.mixer.music.pause()
-        pygame.mixer.pause()
         return new_mode

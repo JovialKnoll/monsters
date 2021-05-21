@@ -1,3 +1,5 @@
+import os
+import csv
 import abc
 
 import pygame
@@ -39,10 +41,23 @@ class ModeConvo(Mode, Saveable, abc.ABC):
         '_convo_key',
     )
 
-    def __init__(self, convo_key=None):
+    def __init__(self, convo_key="0"):
         super().__init__()
+
         self._convo_key = convo_key
         self._renderText()
+
+    @classmethod
+    def getScript(cls):
+        script_file = os.path.join(
+            constants.CONVO_DIRECTORY,
+            cls.__name__.lower() + ".csv"
+        )
+        with open(script_file) as script:
+            script_reader = csv.reader(script)
+            # read into dictionary of script class
+            # (make script class)
+            # first key is always "0"
 
     def save(self):
         return self._convo_key
@@ -59,7 +74,7 @@ class ModeConvo(Mode, Saveable, abc.ABC):
         self._surf_text = shared.font_wrap.renderInside(288, self._textMain(), False, constants.TEXT_COLOR)
         self._background = pygame.image.load(constants.LAYOUT_1_FILE).convert(shared.display.screen)
         self._background.set_colorkey(constants.COLORKEY)
-        for index, rect in enumerate(type(self).boxes.rects):
+        for index, rect in enumerate(self.boxes.rects):
             shared.font_wrap.renderToInside(
                 self._background,
                 self.boxes.textStart(index),

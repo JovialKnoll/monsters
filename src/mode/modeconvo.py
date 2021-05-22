@@ -69,12 +69,20 @@ class ModeConvo(Mode, Saveable):
         new_obj = cls(save_data)
         return new_obj
 
+    def _handleLoad(self):
+        """This function will handle any special case logic for loading.
+        This is called after loading in the next (or initial) convo part but before rendering it.
+        This is called before any button specific logic.
+        """
+        pass
+
     def _loadText(self):
         convo_part = self._convo_dict[self._convo_key]
         # copy so that alterations don't affect basis
         self._style = copy.copy(convo_part.style)
         self._text = convo_part.text
         self._buttons = copy.copy(convo_part.buttons)
+        self._handleLoad()
 
     def _resetPosition(self):
         self._read_text = False
@@ -104,6 +112,7 @@ class ModeConvo(Mode, Saveable):
     def _handleButton(self, prev_convo_key: str, index: int):
         """This function will handle any special case logic for clicking a button.
         This is called after loading in the next convo part but before rendering it.
+        If this button leads to another mode, this is called before that.
         """
         pass
 
@@ -114,7 +123,7 @@ class ModeConvo(Mode, Saveable):
             self._convo_key = button.key
             self._loadText()
             self._handleButton(prev_convo_key, index)
-            if (self._convo_key != prev_convo_key):
+            if self._convo_key != prev_convo_key:
                 self._resetPosition()
             self._renderText()
         else:

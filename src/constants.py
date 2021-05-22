@@ -55,6 +55,9 @@ BWOP = os.path.join(SOUND_DIRECTORY, 'bwop.wav')
 MUSIC_DIRECTORY = os.path.join(SOUND_DIRECTORY, 'music')
 FIGHT_LOOP = os.path.join(MUSIC_DIRECTORY, 'fight_loop.ogg')
 
+TEXT_DIRECTORY = os.path.join(ASSETS_DIRECTORY, 'text')
+CONVO_DIRECTORY = os.path.join(TEXT_DIRECTORY, 'convos')
+
 SAVE_DIRECTORY = os.path.join(SRC_DIRECTORY, 'saves')
 
 CONFIG_FILE = os.path.join(SRC_DIRECTORY, 'config.ini')

@@ -20,20 +20,22 @@ class Boxes(object):
     def getSelectRect(self):
         return self.rects[self.select]
 
-    def changeSelect(self, change: int):
-        self.select += change
-        self.select %= len(self.rects)
+    def keySelect(self, key, selectable_buttons=None):
+        if key in self._backKeys:
+            self.select -= 1
+        elif key in self._forwardKeys:
+            self.select += 1
+        if selectable_buttons is None:
+            self.select %= len(self.rects)
+        else:
+            self.select %= selectable_buttons
         return self.select
 
-    def keySelect(self, key):
-        if key in self._backKeys:
-            return self.changeSelect(-1)
-        elif key in self._forwardKeys:
-            return self.changeSelect(1)
-
-    def posSelect(self, pos: tuple[int]):
+    def posSelect(self, pos: tuple[int], selectable_buttons=None):
         for index, rect in enumerate(self.rects):
-            if rect.collidepoint(pos):
+            if index >= selectable_buttons:
+                return None
+            elif rect.collidepoint(pos):
                 self.select = index
                 return self.select
         return None

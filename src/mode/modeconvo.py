@@ -33,15 +33,16 @@ class ModeConvo(Mode, Saveable):
     black_box.set_colorkey(constants.COLORKEY)
 
     __slots__ = (
+        '_convo_key',
+        '_convo_dict',
+        '_style',
+        '_text',
+        '_buttons',
         '_read_text',
-        '_background',
         '_text_rect',
         '_text_scroll',
         '_surf_text',
-        '_convo_key',
-        '_convo_dict',
-        '_text',
-        '_buttons',
+        '_background',
     )
 
     def __init__(self, convo_key: str = '0'):
@@ -69,17 +70,20 @@ class ModeConvo(Mode, Saveable):
 
     def _loadText(self):
         convo_part = self._convo_dict[self._convo_key]
-        # handle convo_part.style here
+        # copy so that alterations don't affect basis
+        self._style = copy.copy(convo_part.style)
         self._text = convo_part.text
-        # copying buttons in case there is dynamic changes to their text
         self._buttons = copy.copy(convo_part.buttons)
-        for button in self._buttons:
-            print("buttonn:" + button.text)
 
     def _renderText(self):
         self._read_text = False
         self._text_rect = pygame.Rect(0, 0, 288, 48)
         self._text_scroll = 0
+        self.all_sprites.empty()
+        for tag in self._style:
+            if tag == "MONSTER":
+                shared.state.protag_mon.rect.center = (160, 128)
+                self.all_sprites.add(shared.state.protag_mon)
         self._surf_text = shared.font_wrap.renderInside(288, self._text, False, constants.TEXT_COLOR)
         self._background = pygame.image.load(constants.LAYOUT_1_FILE).convert(shared.display.screen)
         self._background.set_colorkey(constants.COLORKEY)

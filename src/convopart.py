@@ -27,7 +27,7 @@ class ConvoPart(object):
         'buttons',
     )
 
-    def __init__(self, style: str, text: str, buttons: list[ConvoButton]):
+    def __init__(self, style: set[str], text: str, buttons: list[ConvoButton]):
         self.style = style
         self.text = text
         self.buttons = buttons
@@ -42,7 +42,7 @@ class ConvoPart(object):
                 key = next(row_iter)
                 if key in convo_dict:
                     raise ValueError(f"The convo file {convo_file} has a duplicate row key {key}.")
-                style = next(row_iter)
+                style = {tag.strip() for tag in next(row_iter).split('|')}
                 text = bytes(next(row_iter), 'utf-8').decode('unicode_escape')
                 buttons = []
                 try:

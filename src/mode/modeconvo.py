@@ -105,7 +105,6 @@ class ModeConvo(Mode, Saveable):
         pass
 
     def _selectButton(self, index: int):
-        print(f"{type(self).__name__}, {self._convo_key}, {index}")
         button = self._buttons[index]
         prev_convo_key = self._convo_key
         if button.key in self._convo_dict:
@@ -119,8 +118,9 @@ class ModeConvo(Mode, Saveable):
                 self._handleButton(prev_convo_key, index)
                 self._stopMixer()
                 self.next_mode = next_mode()
-            raise ValueError(f"The convo mode {type(self).__name__}, at key {self._convo_key},"
-                             f"has a button that doesn't lead to anything: {index}")
+            else:
+                raise ValueError(f"The convo mode {type(self).__name__}, at key {self._convo_key},"
+                                 f"has a button that doesn't lead to anything: {index}")
 
     def _input(self, event):
         if event.type == pygame.MOUSEMOTION:

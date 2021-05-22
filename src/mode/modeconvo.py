@@ -1,6 +1,5 @@
 import os
-import csv
-import abc
+import copy
 
 import pygame
 
@@ -8,12 +7,13 @@ import constants
 import utility
 import shared
 from boxes import Boxes
+from convopart import ConvoPart
 
 from saveable import Saveable
 from .mode import Mode
 
 
-class ModeConvo(Mode, Saveable, abc.ABC):
+class ModeConvo(Mode, Saveable):
     SCROLL_AMOUNT_SPEED = 0.1
     boxes = Boxes(
         (
@@ -39,25 +39,25 @@ class ModeConvo(Mode, Saveable, abc.ABC):
         '_text_scroll',
         '_surf_text',
         '_convo_key',
+        '_convo_dict',
+        '_text',
+        '_buttons',
     )
 
-    def __init__(self, convo_key="0"):
+    def __init__(self, convo_key: str = '0'):
         super().__init__()
-
         self._convo_key = convo_key
+        self._convo_dict = self._getScript()
+        self._loadText()
         self._renderText()
 
     @classmethod
-    def getScript(cls):
-        script_file = os.path.join(
+    def _getScript(cls):
+        convo_file = os.path.join(
             constants.CONVO_DIRECTORY,
             cls.__name__.lower() + ".csv"
         )
-        with open(script_file) as script:
-            script_reader = csv.reader(script)
-            # read into dictionary of script class
-            # (make script class)
-            # first key is always "0"
+        return ConvoPart.getConvoDict(convo_file)
 
     def save(self):
         return self._convo_key
@@ -67,58 +67,74 @@ class ModeConvo(Mode, Saveable, abc.ABC):
         new_obj = cls(save_data)
         return new_obj
 
+    def _loadText(self):
+        convo_part = self._convo_dict[self._convo_key]
+        # handle convo_part.style here
+        self._text = convo_part.text
+        # copying buttons in case there is dynamic changes to their text
+        self._buttons = copy.copy(convo_part.buttons)
+        for button in self._buttons:
+            print("buttonn:" + button.text)
+
     def _renderText(self):
         self._read_text = False
         self._text_rect = pygame.Rect(0, 0, 288, 48)
         self._text_scroll = 0
-        self._surf_text = shared.font_wrap.renderInside(288, self._textMain(), False, constants.TEXT_COLOR)
+        self._surf_text = shared.font_wrap.renderInside(288, self._text, False, constants.TEXT_COLOR)
         self._background = pygame.image.load(constants.LAYOUT_1_FILE).convert(shared.display.screen)
         self._background.set_colorkey(constants.COLORKEY)
-        for index, rect in enumerate(self.boxes.rects):
+        for index, button in enumerate(self._buttons):
             shared.font_wrap.renderToInside(
                 self._background,
                 self.boxes.textStart(index),
                 self.boxes.textWidth(index),
-                self._textButton(index),
+                button.text,
                 False,
                 constants.TEXT_COLOR
             )
+        self.boxes.select = 0
 
-    @abc.abstractmethod
-    def _textMain(self):
-        # return text for main section
-        raise NotImplementedError(type(self).__name__ + "._textMain(self)")
+    def _handleButton(self, prev_convo_key: str, index: int):
+        """This function will handle any special case logic for clicking a button.
+        This is called after loading in the next convo part but before rendering it.
+        """
+        pass
 
-    @abc.abstractmethod
-    def _textButton(self, index: int):
-        # return text for button
-        raise NotImplementedError(type(self).__name__ + "._textButton(self, index)")
-
-    @abc.abstractmethod
-    def _goButton(self, index: int):
-        # do stuff for button
-        raise NotImplementedError(type(self).__name__ + "._goButton(self, index)")
+    def _selectButton(self, index: int):
+        button = self._buttons[index]
+        if button.key in self._convo_dict:
+            prev_convo_key = self._convo_key
+            self._convo_key = button.key
+            self._loadText()
+            self._handleButton(prev_convo_key, index)
+            self._renderText()
+        else:
+            next_mode = button.getNextMode()
+            if next_mode:
+                self.next_mode = next_mode
+            raise ValueError(f"The convo mode {type(self).__name__}, at key {self._convo_key},"
+                             f"has a button that doesn't lead to anything: {index}")
 
     def _input(self, event):
         if event.type == pygame.MOUSEMOTION:
-            self.boxes.posSelect(event.pos)
+            self.boxes.posSelect(event.pos, len(self._buttons))
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 if self._read_text \
-                    and self.boxes.posSelect(event.pos) is not None \
+                    and self.boxes.posSelect(event.pos, len(self._buttons)) is not None \
                     and self._mouseButtonStatus(event.button) \
-                    and self.boxes.posSelect(self._mouseButtonStatus(event.button)) \
-                        == self.boxes.posSelect(event.pos):
-                    self._goButton(self.boxes.select)
+                    and self.boxes.posSelect(self._mouseButtonStatus(event.button), len(self._buttons)) \
+                        == self.boxes.posSelect(event.pos, len(self._buttons)):
+                    self._selectButton(self.boxes.select)
             elif event.button == 4:
                 self._text_rect.move_ip(0, -constants.FONT_HEIGHT)
             elif event.button == 5:
                 self._text_rect.move_ip(0, constants.FONT_HEIGHT)
         elif event.type == pygame.KEYDOWN and self._read_text:
             if event.key == pygame.K_RETURN:
-                self._goButton(self.boxes.select)
+                self._selectButton(self.boxes.select)
             else:
-                self.boxes.keySelect(event.key)
+                self.boxes.keySelect(event.key, len(self._buttons))
 
     def update(self, dt):
         pressed_keys = pygame.key.get_pressed()

@@ -50,6 +50,7 @@ class ModeConvo(Mode, Saveable):
         self._convo_key = convo_key
         self._convo_dict = self._getScript()
         self._loadText()
+        self._resetPosition()
         self._renderText()
 
     @classmethod
@@ -75,10 +76,13 @@ class ModeConvo(Mode, Saveable):
         self._text = convo_part.text
         self._buttons = copy.copy(convo_part.buttons)
 
-    def _renderText(self):
+    def _resetPosition(self):
         self._read_text = False
         self._text_rect = pygame.Rect(0, 0, 288, 48)
         self._text_scroll = 0
+        self.boxes.select = 0
+
+    def _renderText(self):
         self.all_sprites.empty()
         for tag in self._style:
             if tag == "MONSTER":
@@ -96,7 +100,6 @@ class ModeConvo(Mode, Saveable):
                 False,
                 constants.TEXT_COLOR
             )
-        self.boxes.select = 0
 
     def _handleButton(self, prev_convo_key: str, index: int):
         """This function will handle any special case logic for clicking a button.
@@ -111,6 +114,8 @@ class ModeConvo(Mode, Saveable):
             self._convo_key = button.key
             self._loadText()
             self._handleButton(prev_convo_key, index)
+            if (self._convo_key != prev_convo_key):
+                self._resetPosition()
             self._renderText()
         else:
             next_mode = button.getNextMode()

@@ -3,10 +3,10 @@ import math
 import pygame
 
 import shared
-from .modemonconvo import ModeMonConvo
+from .modeconvo import ModeConvo
 
 
-class ModeMenu(ModeMonConvo):
+class ModeMenu(ModeConvo):
     __slots__ = (
     )
 

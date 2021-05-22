@@ -33,7 +33,7 @@ class Boxes(object):
 
     def posSelect(self, pos: tuple[int], selectable_buttons=None):
         for index, rect in enumerate(self.rects):
-            if index >= selectable_buttons:
+            if selectable_buttons and index >= selectable_buttons:
                 return None
             elif rect.collidepoint(pos):
                 self.select = index

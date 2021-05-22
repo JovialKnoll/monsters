@@ -74,7 +74,6 @@ class ModeFight(Mode):
         """The functions passed in should return the next mode."""
         super().__init__()
 
-        print("start music")
         pygame.mixer.music.load(constants.FIGHT_LOOP)
         pygame.mixer.music.play(-1)
 

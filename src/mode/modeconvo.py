@@ -102,8 +102,8 @@ class ModeConvo(Mode, Saveable):
 
     def _selectButton(self, index: int):
         button = self._buttons[index]
+        prev_convo_key = self._convo_key
         if button.key in self._convo_dict:
-            prev_convo_key = self._convo_key
             self._convo_key = button.key
             self._loadText()
             self._handleButton(prev_convo_key, index)
@@ -111,6 +111,8 @@ class ModeConvo(Mode, Saveable):
         else:
             next_mode = button.getNextMode()
             if next_mode:
+                self._handleButton(prev_convo_key, index)
+                self._stopMixer()
                 self.next_mode = next_mode
             raise ValueError(f"The convo mode {type(self).__name__}, at key {self._convo_key},"
                              f"has a button that doesn't lead to anything: {index}")

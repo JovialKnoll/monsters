@@ -3,7 +3,6 @@ necessary:
     convo music
     opening music
 2) introduction to monster mode
-    conversation text in csv
 3) content for convos and fights (based on each other)
     make system for convo modes to move through entire conversation in single mode
 4) try to make cleaner directory later

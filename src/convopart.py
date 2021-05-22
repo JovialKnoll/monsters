@@ -17,7 +17,7 @@ class ConvoButton(object):
         if hasattr(mode, self.key):
             mode_cls = getattr(mode, self.key)
             # currently only handling modes that can be created with no arguments
-            return mode_cls()
+            return mode_cls
         return None
 
 class ConvoPart(object):

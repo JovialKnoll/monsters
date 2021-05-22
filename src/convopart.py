@@ -43,7 +43,7 @@ class ConvoPart(object):
                 if key in convo_dict:
                     raise ValueError(f"The convo file {convo_file} has a duplicate row key {key}.")
                 style = {tag.strip() for tag in next(row_iter).split('|')}
-                text = bytes(next(row_iter), 'utf-8').decode('unicode_escape')
+                text = next(row_iter)
                 buttons = []
                 try:
                     for i in range(len(mode.ModeConvo.boxes.rects)):

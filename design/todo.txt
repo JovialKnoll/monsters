@@ -5,14 +5,17 @@ necessary:
 2) introduction to monster mode
 3) content for convos and fights (based on each other)
     make system for convo modes to move through entire conversation in single mode
-4) try to make cleaner directory later
+4) linux bugs:
+    fullscreen breaks (probably using unsupported flags, add a check for which flags can be used
+    holding down a button seems to activate keydown event multiple times
+        check if need to explicitly disallow with pygame.key.set_repeat or something
+5) try to make cleaner directory later
     https://stackoverflow.com/questions/19579979/pyinstaller-changing-dll-and-pyd-output-location
-
 optional:
 1) make sounds play with particular left / right volumes instead of being centered
 2) deduplicate shared code in convo and fight modes around boxes
 3) re-evaluate mon stats
-	tally up results for winners for different possible distributions of stats
-	balancing that
-	maybe check that can be strategy to fight choices?
+    tally up results for winners for different possible distributions of stats
+    balancing that
+    maybe check that can be strategy to fight choices?
 4) replace WAVs with OGGs

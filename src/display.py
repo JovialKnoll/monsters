@@ -10,6 +10,8 @@ class Display(object):
     __slots__ = (
         '_monitor_res',
         '_upscale_max',
+        '_windowed_flags',
+        '_fullscreen_flags',
         'is_fullscreen',
         'upscale',
         '_disp_res',
@@ -49,6 +51,20 @@ class Display(object):
             self._monitor_res[0] // constants.SCREEN_SIZE[0],
             self._monitor_res[1] // constants.SCREEN_SIZE[1]
         )
+        max_disp_res = (
+            constants.SCREEN_SIZE[0] * self._upscale_max,
+            constants.SCREEN_SIZE[1] * self._upscale_max,
+        )
+        self._windowed_flags = 0
+        if pygame.display.mode_ok(max_disp_res, pygame.DOUBLEBUF):
+            self._windowed_flags = pygame.DOUBLEBUF
+        self._fullscreen_flags = 0
+        if pygame.display.mode_ok(self._monitor_res, pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE):
+            self._fullscreen_flags = pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
+        elif pygame.display.mode_ok(self._monitor_res, pygame.FULLSCREEN | pygame.DOUBLEBUF):
+            self._fullscreen_flags = pygame.FULLSCREEN | pygame.DOUBLEBUF
+        elif pygame.display.mode_ok(self._monitor_res, pygame.FULLSCREEN):
+            self._fullscreen_flags = pygame.FULLSCREEN
 
     def changeScale(self, scale_change: int):
         new_scale = self.upscale + scale_change
@@ -101,7 +117,7 @@ class Display(object):
         self._full_screen = None
         self._disp_screen = pygame.display.set_mode(
             self._disp_res,
-            pygame.DOUBLEBUF
+            self._windowed_flags
         )
 
     def _setFullscreen(self):
@@ -112,7 +128,7 @@ class Display(object):
         if self._full_screen is None:
             self._full_screen = pygame.display.set_mode(
                 self._monitor_res,
-                pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
+                self._fullscreen_flags
             )
         else:
             self._full_screen.fill(constants.BLACK)

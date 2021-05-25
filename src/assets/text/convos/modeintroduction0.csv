@@ -1,14 +1,23 @@
 0,,"First off: thank you so much for volunteering!
 
-We're always trying to get more participants for the human-monster mentorship program so it really means a lot.",>,1
+We're always trying to get more participants for the human-monster mentorship program so it really means a lot.",>,1,,,,,,
 1,,"Now I know some of you have been here before, but I can see at least a few new faces among us.
 
-So, I'll go ahead and give the program overview before we get started.",>,2
-2,,"Basically, while there is a long history of human-monster collaboration, many towns have started formalized programs in the last few years.",>,3
+So, I'll go ahead and give the program overview before we get started.",>,2,,,,,,
+2,,"Basically, while there is a long history of human-monstor collaboration, many towns, like ours, have started formalized programs in the last few years.",>,3,,,,,,
 3,,"Our program has two main goals:
 
 One: To help maintain relations between humans and monsters.
-Two: To help young monsters figure out who they want to be and how they want to fit into society, while taking their needs into account.",>,4
-4,,"This is not, as some say, merely a ""fight club"" for ""training monsters to punch each other"".",>,5
-5,,"Monster adolescence necessarily involves plenty of fighting, but this is an important part of their culture and at no point are they in actual danger.",>,6
-6,,"Also, while you will be providing advice and coaching, we hope that you will be, not merely a ""trainer"", but a friend to your assigned monster.",>,ModeMonConvo0
+Two: To help young monsters figure out who they want to be and how they want to fit into society, while taking their needs into account.",>,4,,,,,,
+4,,"This is not, as some say, merely a ""fight club"" for ""training monsters to punch each other"".",>,5,,,,,,
+5,,"Monster adolescence necessarily involves plenty of fighting, but this is an important part of their culture and at no point are they in actual danger.",>,6,,,,,,
+6,,"Also, while you will be providing advice and coaching, we hope that you will be, not merely a ""trainer"", but a friend to your assigned monster.",>,7,,,,,,
+7,,"You're only expected to spend time with your assigned monster until they reach adulthood, but it's our hope that most participants in this program will form lifelong friendships, and still check in on your monster from time to time after the program ends.",>,8,,,,,,
+8,,"Now, were there any questions?",Yes,8a,No,8b,,,,
+8a,,"Great, what's your question?",Question A,9a,Question B,9b,Question C,9c,Question D,9d
+8b,,"No? Let's move on to introductions, then.",>,ModeMonConvo0,,,,,,
+9a,,Answer A,>,10,,,,,,
+9b,,Answer B,>,10,,,,,,
+9c,,Answer C,>,10,,,,,,
+9d,,Answer D,>,10,,,,,,
+10,,Did you have any other questions?,Yes,8a,No,8b,,,,

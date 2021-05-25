@@ -6,9 +6,10 @@ necessary:
 3) content for convos and fights (based on each other)
     make system for convo modes to move through entire conversation in single mode
 4) linux bugs:
-    fullscreen breaks (probably using unsupported flags, add a check for which flags can be used
     holding down a button seems to activate keydown event multiple times
         check if need to explicitly disallow with pygame.key.set_repeat or something
+    fullscreen breaks
+        seems to be an actual pygame bug, either wait for a fix, help, or workaround
 5) try to make cleaner directory later
     https://stackoverflow.com/questions/19579979/pyinstaller-changing-dll-and-pyd-output-location
 optional:

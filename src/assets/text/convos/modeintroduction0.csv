@@ -14,7 +14,7 @@ Two: To help young monsters figure out who they want to be and how they want to 
 6,,"Also, while you will be providing advice and coaching, we hope that you will be, not merely a ""trainer"", but a friend to your assigned monster.",>,7,,,,,,
 7,,"You're only expected to spend time with your assigned monster until they reach adulthood, but it's our hope that most participants in this program will form lifelong friendships, and still check in on your monster from time to time after the program ends.",>,8,,,,,,
 8,,"Now, were there any questions?",Yes,8a,No,11,,,,
-8a,,"Great, what's your question?",Do we need to feed them?,9a,Can they hurt us?,9b,Why have human mentors?,9c,Why do they fight?,9d
+8a,,What would you like to know?,Do we need to feed them?,9a,Can they hurt us?,9b,Why have human mentors?,9c,Why do they fight?,9d
 9a,,"Nope, monsters barely need to eat, and are quite adept at hunting and foraging from a young age.",>,10,,,,,,
 9b,,"Young monsters aren't much larger than a small dog, and they've all been told to be on their best behavior.",>,10,,,,,,
 9c,,"Adult monsters traditionally don't provide much instruction to young monsters, and with the demands of modern society it's more important than ever that young monsters learn to work with humans. There's also a culture exchange element. We hope that our human participants will also find this program informative.",>,10,,,,,,

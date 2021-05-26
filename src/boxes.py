@@ -2,7 +2,7 @@ import pygame
 
 
 class Boxes(object):
-    TEXT_MARGIN = 8
+    TEXT_MARGIN = 4
 
     __slots__ = (
         'rects',

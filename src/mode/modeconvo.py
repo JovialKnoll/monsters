@@ -86,7 +86,7 @@ class ModeConvo(Mode, Saveable):
 
     def _resetPosition(self):
         self._read_text = False
-        self._text_rect = pygame.Rect(0, 0, 288, 48)
+        self._text_rect = pygame.Rect(0, 0, 296, 56)
         self._text_scroll = 0
         self.boxes.select = 0
 
@@ -96,7 +96,7 @@ class ModeConvo(Mode, Saveable):
             if tag == "MONSTER":
                 shared.state.protag_mon.rect.center = (160, 128)
                 self.all_sprites.add(shared.state.protag_mon)
-        self._surf_text = shared.font_wrap.renderInside(288, self._text, False, constants.TEXT_COLOR)
+        self._surf_text = shared.font_wrap.renderInside(296, self._text, False, constants.TEXT_COLOR)
         self._background = pygame.image.load(constants.LAYOUT_1_FILE).convert(shared.display.screen)
         self._background.set_colorkey(constants.COLORKEY)
         for index, button in enumerate(self._buttons):
@@ -172,6 +172,6 @@ class ModeConvo(Mode, Saveable):
     def _drawScreen(self, screen):
         screen.fill(constants.WHITE)
         screen.blit(self._background, (0, 0))
-        screen.blit(self._surf_text, (16, 16), self._text_rect)
+        screen.blit(self._surf_text, (12, 12), self._text_rect)
         if self._read_text:
             screen.blit(self.black_box, self.boxes.getSelectRect())

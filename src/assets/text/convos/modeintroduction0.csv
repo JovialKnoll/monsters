@@ -14,7 +14,7 @@ Two: To help young monsters figure out who they want to be and how they want to 
 6,,"Also, while you will be providing advice and coaching, we hope that you will be, not merely a ""trainer"", but a friend to your assigned monster.",>,7,,,,,,
 7,,"You're only expected to spend time with your assigned monster until they reach adulthood, but it's our hope that most participants in this program will form lifelong friendships, and still check in on your monster from time to time after the program ends.",>,8,,,,,,
 8,,"Now, were there any questions?",Yes,8a,No,11,,,,
-8a,,"Great, what's your question?",Question A,9a,Question B,9b,Question C,9c,Question D,9d
+8a,,"Great, what's your question?",Do we need to feed them?,9a,Can they hurt us?,9b,Why have human mentors?,9c,Why do they fight?,9d
 9a,,Answer A,>,10,,,,,,
 9b,,Answer B,>,10,,,,,,
 9c,,Answer C,>,10,,,,,,

@@ -15,9 +15,9 @@ Two: To help young monsters figure out who they want to be and how they want to 
 7,,"You're only expected to spend time with your assigned monster until they reach adulthood, but it's our hope that most participants in this program will form lifelong friendships, and still check in on your monster from time to time after the program ends.",>,8,,,,,,
 8,,"Now, were there any questions?",Yes,8a,No,11,,,,
 8a,,"Great, what's your question?",Do we need to feed them?,9a,Can they hurt us?,9b,Why have human mentors?,9c,Why do they fight?,9d
-9a,,Answer A,>,10,,,,,,
-9b,,Answer B,>,10,,,,,,
-9c,,Answer C,>,10,,,,,,
-9d,,Answer D,>,10,,,,,,
+9a,,"Nope, monsters barely need to eat, and a quite adept at hunting and foraging from a young age.",>,10,,,,,,
+9b,,"Young monsters aren't much larger than a small dog, and they've all been told to be on their best behavior.",>,10,,,,,,
+9c,,"Adult monsters traditionally don't provide much instruction to young monsters, and with the demands of modern society it's more important than ever that young monsters learn to work with humans. There's also a culture exchange element. We hope that our human participants will also find this program informative.",>,10,,,,,,
+9d,,"Why do humans sleep? We have some ideas, but ultimately it boils down to ""they have to"". This is not just a cultural value, but actually important for their health.",>,10,,,,,,
 10,,Did you have any other questions?,Yes,8a,No,11,,,,
 11,,"No? Let's move on to introductions, then.",>,ModeMonConvo0,,,,,,

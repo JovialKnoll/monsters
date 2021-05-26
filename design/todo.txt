@@ -3,7 +3,6 @@ necessary:
     convo music
     opening music
 2) content for convos and fights
-    introduction to game / setting
     first convo with monster
     first fight
 3) replace WAVs with OGGs

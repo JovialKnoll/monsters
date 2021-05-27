@@ -76,11 +76,16 @@ class ModeConvo(Mode, Saveable):
         """
         pass
 
+    def _getTextReplace(self):
+        return {
+            'MONSTER_NAME': shared.state.protag_mon.name,
+        }
+
     def _loadText(self):
         convo_part = self._convo_dict[self._convo_key]
         # copy so that alterations don't affect basis
         self._style = copy.copy(convo_part.style)
-        self._text = convo_part.text
+        self._text = convo_part.text.format(**self._getTextReplace())
         self._buttons = copy.copy(convo_part.buttons)
         self._handleLoad()
 
@@ -91,11 +96,7 @@ class ModeConvo(Mode, Saveable):
         self.boxes.select = 0
 
     def _renderText(self):
-        self.all_sprites.empty()
-        for tag in self._style:
-            if tag == "MONSTER":
-                shared.state.protag_mon.rect.center = (160, 128)
-                self.all_sprites.add(shared.state.protag_mon)
+        self._handleTags()
         self._surf_text = shared.font_wrap.renderInside(296, self._text, False, constants.TEXT_COLOR)
         self._background = pygame.image.load(constants.LAYOUT_1_FILE).convert(shared.display.screen)
         self._background.set_colorkey(constants.COLORKEY)
@@ -108,6 +109,15 @@ class ModeConvo(Mode, Saveable):
                 False,
                 constants.TEXT_COLOR
             )
+
+    def _handleTags(self):
+        self.all_sprites.empty()
+        for tag in self._style:
+            if tag == "MONSTER":
+                shared.state.protag_mon.rect.center = (160, 128)
+                self.all_sprites.add(shared.state.protag_mon)
+            elif tag == "STOP_MUSIC":
+                self._stopMixer()
 
     def _handleButton(self, prev_convo_key: str, index: int):
         """This function will handle any special case logic for clicking a button.

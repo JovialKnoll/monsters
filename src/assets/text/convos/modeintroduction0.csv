@@ -20,4 +20,9 @@ Two: To help young monsters figure out who they want to be and how they want to 
 9c,,"Adult monsters traditionally don't provide much instruction to young monsters, and with the demands of modern society it's more important than ever that young monsters learn to work with humans. There's a culture exchange element too, and we hope that our human participants will also find this program informative.",>,10,,,,,,
 9d,,"Why do humans sleep? We have some ideas, but ultimately it boils down to ""they have to"". This is not just a cultural value, but actually important for their health.",>,10,,,,,,
 10,,Did you have any other questions?,Yes,8a,No,11,,,,
-11,,"No? Let's move on to introductions, then.",>,ModeMonConvo0,,,,,,
+11,,"No? Let's move on to introductions, then.",>,12,,,,,,
+12,,"Okay, so your monster's name is... {MONSTER_NAME}.
+
+{MONSTER_NAME}, where are you?
+Oh, there you are!",>,13,,,,,,
+13,MONSTER,Hi.,>,ModeMonConvo0,,,,,,

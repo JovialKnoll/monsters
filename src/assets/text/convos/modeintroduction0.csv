@@ -24,5 +24,6 @@ Two: To help young monsters figure out who they want to be and how they want to 
 12,,"Okay, so your monster's name is... {MONSTER_NAME}.
 
 {MONSTER_NAME}, where are you?
+
 Oh, there you are!",>,13,,,,,,
 13,MONSTER,Hi.,>,ModeMonConvo0,,,,,,

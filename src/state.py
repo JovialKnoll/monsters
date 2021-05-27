@@ -7,7 +7,8 @@ class State(object):
     )
 
     def __init__(self):
-        self.protag_mon = None
+        # start with a random monster
+        self.protag_mon = Monster()
 
     def save(self):
         return {

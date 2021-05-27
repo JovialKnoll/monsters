@@ -91,11 +91,7 @@ class ModeConvo(Mode, Saveable):
         self.boxes.select = 0
 
     def _renderText(self):
-        self.all_sprites.empty()
-        for tag in self._style:
-            if tag == "MONSTER":
-                shared.state.protag_mon.rect.center = (160, 128)
-                self.all_sprites.add(shared.state.protag_mon)
+        self._handleTags()
         self._surf_text = shared.font_wrap.renderInside(296, self._text, False, constants.TEXT_COLOR)
         self._background = pygame.image.load(constants.LAYOUT_1_FILE).convert(shared.display.screen)
         self._background.set_colorkey(constants.COLORKEY)
@@ -108,6 +104,13 @@ class ModeConvo(Mode, Saveable):
                 False,
                 constants.TEXT_COLOR
             )
+
+    def _handleTags(self):
+        self.all_sprites.empty()
+        for tag in self._style:
+            if tag == "MONSTER":
+                shared.state.protag_mon.rect.center = (160, 128)
+                self.all_sprites.add(shared.state.protag_mon)
 
     def _handleButton(self, prev_convo_key: str, index: int):
         """This function will handle any special case logic for clicking a button.

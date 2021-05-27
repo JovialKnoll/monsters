@@ -18,9 +18,10 @@ necessary:
 
 optional:
 1) get rid of button outline for unused buttons (ConvoMode)
-2) make sounds play with particular left / right volumes instead of being centered
-3) deduplicate shared code in convo and fight modes around boxes
-4) re-evaluate mon stats
+2) transition / fade options for convos?
+3) make sounds play with particular left / right volumes instead of being centered
+4) deduplicate shared code in convo and fight modes around boxes
+5) re-evaluate mon stats
     tally up results for winners for different possible distributions of stats
     balancing that
     maybe check that there can be strategy to fight choices?

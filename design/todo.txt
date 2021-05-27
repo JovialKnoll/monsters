@@ -4,6 +4,7 @@ necessary:
     opening music
 2) content for convos and fights
     first convo with monster
+    outline for plot
     first fight
 3) replace WAVs with OGGs
 4) linux bugs:
@@ -16,9 +17,10 @@ necessary:
 
 
 optional:
-1) make sounds play with particular left / right volumes instead of being centered
-2) deduplicate shared code in convo and fight modes around boxes
-3) re-evaluate mon stats
+1) get rid of button outline for unused buttons (ConvoMode)
+2) make sounds play with particular left / right volumes instead of being centered
+3) deduplicate shared code in convo and fight modes around boxes
+4) re-evaluate mon stats
     tally up results for winners for different possible distributions of stats
     balancing that
     maybe check that there can be strategy to fight choices?

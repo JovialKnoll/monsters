@@ -1,6 +1,3 @@
-import shared
-from monster import Monster
-
 from .modeconvo import ModeConvo
 
 

@@ -109,6 +109,8 @@ class ModeConvo(Mode, Saveable):
                 False,
                 constants.TEXT_COLOR
             )
+        for index in range(len(self._buttons), 4):
+            self._background.fill(constants.WHITE, self.boxes.rects[index])
 
     def _handleTags(self):
         self.all_sprites.empty()

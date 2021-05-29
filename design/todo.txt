@@ -1,25 +1,25 @@
 necessary:
-1) music / sound
+* music / sound
     convo music
     opening music
-2) content for convos and fights
+* content for convos and fights
     first convo with monster
     outline for plot
     first fight
-3) replace WAVs with OGGs
-4) linux bugs:
+* replace WAVs with OGGs
+* linux bugs:
     holding down a button seems to activate keydown event multiple times
         check if need to explicitly disallow with pygame.key.set_repeat or something
     fullscreen breaks
         seems to be an actual pygame bug, either wait for a fix, help, or workaround
-5) try to make cleaner directory later
+* try to make cleaner directory later
     https://stackoverflow.com/questions/19579979/pyinstaller-changing-dll-and-pyd-output-location
 
 
 optional:
-1) make sounds play with particular left / right volumes instead of being centered
-2) deduplicate shared code in convo and fight modes around boxes
-3) re-evaluate mon stats
+* make sounds play with particular left / right volumes instead of being centered
+* deduplicate shared code in convo and fight modes around boxes
+* re-evaluate mon stats
     tally up results for winners for different possible distributions of stats
     balancing that
     maybe check that there can be strategy to fight choices?

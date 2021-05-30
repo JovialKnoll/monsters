@@ -6,56 +6,41 @@ import pygame
 import constants
 import shared
 import utility
-from boxes import Boxes
 from animsprite import AnimSprite
 from monster import Monster
 
 from .mode import Mode
+from .modebuttons import ModeButtons
 
 
-class ModeFight(Mode):
-    HEALTH_BAR_LENGTH = 60
-    BOX_CHOICES = [
+class ModeFight(ModeButtons):
+    buttons = (
+        pygame.Rect(24, 24, 88, 36),
+        pygame.Rect(24, 76, 88, 36),
+        pygame.Rect(24, 128, 88, 36),
+    )
+    _back_keys = {
+        pygame.K_UP,
+        pygame.K_LEFT,
+    }
+    _forward_keys = {
+        pygame.K_DOWN,
+        pygame.K_RIGHT,
+    }
+    _health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert(shared.display.screen)
+    _health_bar.set_colorkey(constants.COLORKEY)
+    _PLAYER_POS = (170, 128)
+    _ENEMY_POS = (262, 128)
+    _ANIM_WAIT = 250
+    _HEALTH_BAR_LENGTH = 60
+    _BOX_CHOICES = [
         "Attack",
         "Defend",
         "Escape",
     ]
-    boxes = Boxes(
-        (
-            pygame.Rect(24, 24, 88, 36),
-            pygame.Rect(24, 76, 88, 36),
-            pygame.Rect(24, 128, 88, 36),
-        ),
-        (
-            pygame.K_UP,
-            pygame.K_LEFT,
-        ),
-        (
-            pygame.K_DOWN,
-            pygame.K_RIGHT,
-        )
-    )
-    background = pygame.image.load(constants.LAYOUT_2_FILE)
-    for index, choice in enumerate(BOX_CHOICES):
-        shared.font_wrap.renderToInside(
-            background,
-            boxes.textStart(index),
-            boxes.textWidth(index),
-            choice,
-            False,
-            constants.TEXT_COLOR
-        )
-    background = background.convert(shared.display.screen)
-    background.set_colorkey(constants.COLORKEY)
-    black_box = pygame.image.load(constants.BLACKBOX_FILE).convert(shared.display.screen)
-    black_box.set_colorkey(constants.COLORKEY)
-    health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert(shared.display.screen)
-    health_bar.set_colorkey(constants.COLORKEY)
-    player_pos = (170, 128)
-    enemy_pos = (262, 128)
-    anim_wait = 250
 
     __slots__ = (
+        'background',
         'thunk',
         'rooeee',
         'bwop',
@@ -74,6 +59,19 @@ class ModeFight(Mode):
         """The functions passed in should return the next mode."""
         super().__init__()
 
+        self.background = pygame.image.load(constants.LAYOUT_2_FILE)
+        for index, choice in enumerate(self._BOX_CHOICES):
+            shared.font_wrap.renderToInside(
+                self.background,
+                self.textStart(index),
+                self.textWidth(index),
+                choice,
+                False,
+                constants.TEXT_COLOR
+            )
+        self.background = self.background.convert(shared.display.screen)
+        self.background.set_colorkey(constants.COLORKEY)
+
         pygame.mixer.music.load(constants.FIGHT_LOOP)
         pygame.mixer.music.play(-1)
 
@@ -87,8 +85,10 @@ class ModeFight(Mode):
         self.player_mon.fightStart()
         self.player_mon.setImage(True)
 
-        self.player_mon.rect.midbottom = self.player_pos
-        self.enemy_mon.rect.midbottom = self.enemy_pos
+        print(self.player_mon.rect.midbottom)
+        self.player_mon.rect.midbottom = self._PLAYER_POS
+        print(self.player_mon.rect.midbottom)
+        self.enemy_mon.rect.midbottom = self._ENEMY_POS
         self.all_sprites.add(self.player_mon, self.enemy_mon)
 
         self.player_action = False
@@ -107,34 +107,35 @@ class ModeFight(Mode):
         }
 
     def _buttonPress(self):
-        self.player_action = self.BOX_CHOICES[self.boxes.select]
+        print(self.player_mon.rect.midbottom)
+        self.player_action = self._BOX_CHOICES[self._selected_button]
         self.enemy_action = random.choice(('Attack', 'Defend'))
 
         if self.player_action == 'Attack':
             self._setActionDisplay("I'm gonna hit 'em!")
-            self.player_mon.addWait(self.anim_wait)
+            self.player_mon.addWait(self._ANIM_WAIT)
             self.player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0, sound=self.thunk)
             self.player_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
         elif self.player_action == 'Defend':
             self._setActionDisplay("I'm gonna block 'em!")
-            self.player_mon.addWait(self.anim_wait)
+            self.player_mon.addWait(self._ANIM_WAIT)
             self.player_mon.addPosRel(AnimSprite.Lerp, 133, -8, 0, sound=self.bwop)
             self.player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
             self.player_mon.addPosRel(AnimSprite.Lerp, 67, -4, 0)
         elif self.player_action == 'Escape':
             self._setActionDisplay("I'm gonna run away!")
-            self.player_mon.addWait(self.anim_wait)
+            self.player_mon.addWait(self._ANIM_WAIT)
             self.player_mon.addWait(0, sound=self.rooeee)
             self.player_mon.addPosRel(AnimSprite.Lerp, 333, -20, 0)
             self.player_mon.addPosRel(AnimSprite.Lerp, 67, 20, 0)
 
         if self.enemy_action == 'Attack':
-            self.enemy_mon.addWait(self.anim_wait)
+            self.enemy_mon.addWait(self._ANIM_WAIT)
             self.enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0, sound=self.thunk)
             self.enemy_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
             pass
         elif self.enemy_action == 'Defend':
-            self.enemy_mon.addWait(self.anim_wait)
+            self.enemy_mon.addWait(self._ANIM_WAIT)
             self.enemy_mon.addPosRel(AnimSprite.Lerp, 133, 8, 0, sound=self.bwop)
             self.enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
             self.enemy_mon.addPosRel(AnimSprite.Lerp, 67, 4, 0)
@@ -152,13 +153,13 @@ class ModeFight(Mode):
         if self.player_action:
             return
         if event.type == pygame.MOUSEMOTION:
-            self.boxes.posSelect(event.pos)
+            self.posSelect(event.pos)
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
-                if self.boxes.posSelect(event.pos) is not None \
+                if self.posSelect(event.pos) is not None \
                     and self._mouseButtonStatus(event.button) \
-                    and self.boxes.posSelect(self._mouseButtonStatus(event.button)) \
-                        == self.boxes.posSelect(event.pos):
+                    and self.posSelect(self._mouseButtonStatus(event.button)) \
+                        == self.posSelect(event.pos):
                     self._buttonPress()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
@@ -168,7 +169,7 @@ class ModeFight(Mode):
                 print("player_mon.stats = " + str(self.player_mon.stats))
                 print("enemy_mon.stats = " + str(self.enemy_mon.stats))
             else:
-                self.boxes.keySelect(event.key)
+                self.keySelect(event.key)
 
     def _setActionDisplay(self, text: str):
         self.action_display.appendleft(shared.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR))
@@ -217,7 +218,7 @@ class ModeFight(Mode):
         pygame.mixer.music.fadeout(1000)
 
     def _update(self, dt):
-        if self.player_action in self.BOX_CHOICES and not self.player_mon.stillAnimating():
+        if self.player_action in self._BOX_CHOICES and not self.player_mon.stillAnimating():
             self._playerActionDone()
         elif self.player_action == 'draw':
             self._endStuff("They're both out cold.")
@@ -240,17 +241,17 @@ class ModeFight(Mode):
         screen.fill(constants.WHITE)
         screen.blit(self.background, (0, 0))
         if not self.action_set and self.player_action not in self.result_mode:
-            screen.blit(self.black_box, self.boxes.getSelectRect())
+            self.drawSelected(screen)
 
-        player_bar_length = self.HEALTH_BAR_LENGTH \
+        player_bar_length = self._HEALTH_BAR_LENGTH \
             * self.player_mon.stats['hpc'] // self.player_mon.stats['hpm']
         screen.fill(self.player_mon.getLightSkin(), (138, 30, player_bar_length, 10))
-        screen.blit(self.health_bar, (137, 29))
+        screen.blit(self._health_bar, (137, 29))
 
-        enemy_bar_length = self.HEALTH_BAR_LENGTH \
+        enemy_bar_length = self._HEALTH_BAR_LENGTH \
             * self.enemy_mon.stats['hpc'] // self.enemy_mon.stats['hpm']
         screen.fill(self.enemy_mon.getLightSkin(), (294 - enemy_bar_length, 30, enemy_bar_length, 10))
-        screen.blit(self.health_bar, (233, 29))
+        screen.blit(self._health_bar, (233, 29))
         # maybe draw health numbers / stats / etc
         for index, line in enumerate(self.action_display):
             screen.blit(line, (120, 166 - constants.FONT_HEIGHT * index))

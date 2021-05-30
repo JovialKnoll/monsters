@@ -6,44 +6,43 @@ import pygame
 import constants
 import utility
 import shared
-from boxes import Boxes
 from convopart import ConvoPart
 
 from saveable import Saveable
-from .mode import Mode
+from .modebuttons import ModeButtons
 
 
-class ModeConvo(Mode, Saveable):
-    SCROLL_AMOUNT_SPEED = 0.1
-    boxes = Boxes(
-        (
-            pygame.Rect(8, 88, 88, 36),
-            pygame.Rect(224, 88, 88, 36),
-            pygame.Rect(8, 132, 88, 36),
-            pygame.Rect(224, 132, 88, 36),
-        ),
-        (
-            pygame.K_LEFT,
-        ),
-        (
-            pygame.K_RIGHT,
-        ),
+class ModeConvo(ModeButtons, Saveable):
+    buttons = (
+        pygame.Rect(8, 88, 88, 36),
+        pygame.Rect(224, 88, 88, 36),
+        pygame.Rect(8, 132, 88, 36),
+        pygame.Rect(224, 132, 88, 36),
     )
-    black_box = pygame.image.load(constants.BLACKBOX_FILE).convert(shared.display.screen)
-    black_box.set_colorkey(constants.COLORKEY)
+    _back_keys = {
+        pygame.K_LEFT,
+    }
+    _forward_keys = {
+        pygame.K_RIGHT,
+    }
+    SCROLL_AMOUNT_SPEED = 0.1
 
     __slots__ = (
         '_convo_key',
         '_convo_dict',
         '_style',
         '_text',
-        '_buttons',
+        '_choices',
         '_read_text',
         '_text_rect',
         '_text_scroll',
         '_surf_text',
         '_background',
     )
+
+    def keySelect(self, key):
+        super().keySelect(key)
+        self._selected_button %= len(self._choices)
 
     def __init__(self, convo_key: str = '0'):
         super().__init__()
@@ -86,31 +85,31 @@ class ModeConvo(Mode, Saveable):
         # copy so that alterations don't affect basis
         self._style = copy.copy(convo_part.style)
         self._text = convo_part.text.format(**self._getTextReplace())
-        self._buttons = copy.copy(convo_part.buttons)
+        self._choices = copy.copy(convo_part.choices)
         self._handleLoad()
 
     def _resetPosition(self):
         self._read_text = False
         self._text_rect = pygame.Rect(0, 0, 296, 56)
         self._text_scroll = 0
-        self.boxes.select = 0
+        self._selected_button = 0
 
     def _renderText(self):
         self._handleTags()
         self._surf_text = shared.font_wrap.renderInside(296, self._text, False, constants.TEXT_COLOR)
         self._background = pygame.image.load(constants.LAYOUT_1_FILE).convert(shared.display.screen)
         self._background.set_colorkey(constants.COLORKEY)
-        for index, button in enumerate(self._buttons):
+        for index, button in enumerate(self._choices):
             shared.font_wrap.renderToInside(
                 self._background,
-                self.boxes.textStart(index),
-                self.boxes.textWidth(index),
+                self.textStart(index),
+                self.textWidth(index),
                 button.text,
                 False,
                 constants.TEXT_COLOR
             )
-        for index in range(len(self._buttons), 4):
-            self._background.fill(constants.WHITE, self.boxes.rects[index])
+        for index in range(len(self._choices), 4):
+            self._background.fill(constants.WHITE, self.buttons[index])
 
     def _handleTags(self):
         self.all_sprites.empty()
@@ -129,7 +128,7 @@ class ModeConvo(Mode, Saveable):
         pass
 
     def _selectButton(self, index: int):
-        button = self._buttons[index]
+        button = self._choices[index]
         prev_convo_key = self._convo_key
         if button.key in self._convo_dict:
             self._convo_key = button.key
@@ -150,24 +149,24 @@ class ModeConvo(Mode, Saveable):
 
     def _input(self, event):
         if event.type == pygame.MOUSEMOTION:
-            self.boxes.posSelect(event.pos, len(self._buttons))
+            self.posSelect(event.pos, len(self._choices))
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 if self._read_text \
-                    and self.boxes.posSelect(event.pos, len(self._buttons)) is not None \
+                    and self.posSelect(event.pos, len(self._choices)) is not None \
                     and self._mouseButtonStatus(event.button) \
-                    and self.boxes.posSelect(self._mouseButtonStatus(event.button), len(self._buttons)) \
-                        == self.boxes.posSelect(event.pos, len(self._buttons)):
-                    self._selectButton(self.boxes.select)
+                    and self.posSelect(self._mouseButtonStatus(event.button), len(self._choices)) \
+                        == self.posSelect(event.pos, len(self._choices)):
+                    self._selectButton(self._selected_button)
             elif event.button == 4:
                 self._text_rect.move_ip(0, -constants.FONT_HEIGHT)
             elif event.button == 5:
                 self._text_rect.move_ip(0, constants.FONT_HEIGHT)
         elif event.type == pygame.KEYDOWN and self._read_text:
             if event.key == pygame.K_RETURN:
-                self._selectButton(self.boxes.select)
+                self._selectButton(self._selected_button)
             else:
-                self.boxes.keySelect(event.key, len(self._buttons))
+                self.keySelect(event.key)
 
     def update(self, dt):
         pressed_keys = pygame.key.get_pressed()
@@ -186,4 +185,4 @@ class ModeConvo(Mode, Saveable):
         screen.blit(self._background, (0, 0))
         screen.blit(self._surf_text, (12, 12), self._text_rect)
         if self._read_text:
-            screen.blit(self.black_box, self.boxes.getSelectRect())
+            self.drawSelected(screen)

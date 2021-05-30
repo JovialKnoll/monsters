@@ -31,3 +31,4 @@ class ModeMenu(ModeConvo):
             print("Something?")
         elif index == 3:
             pygame.event.post(pygame.event.Event(pygame.QUIT, {}))
+        return False

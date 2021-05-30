@@ -85,9 +85,7 @@ class ModeFight(ModeButtons):
         self.player_mon.fightStart()
         self.player_mon.setImage(True)
 
-        print(self.player_mon.rect.midbottom)
         self.player_mon.rect.midbottom = self._PLAYER_POS
-        print(self.player_mon.rect.midbottom)
         self.enemy_mon.rect.midbottom = self._ENEMY_POS
         self.all_sprites.add(self.player_mon, self.enemy_mon)
 

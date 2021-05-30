@@ -34,9 +34,11 @@ class Game(object):
         self._current_mode.draw(shared.display.screen)
         shared.display.scaleDraw()
         if self._current_mode.next_mode is not None:
-            if not isinstance(self._current_mode.next_mode, mode.ModeGameMenu):
+            if isinstance(self._current_mode, mode.ModeGameMenu) \
+                    and not isinstance(self._current_mode.next_mode, mode.ModeGameMenu):
                 pygame.mixer.music.unpause()
                 pygame.mixer.unpause()
+            self._current_mode.all_sprites.empty()
             self._current_mode = self._current_mode.next_mode
         if not shared.game_running:
             with open(constants.CONFIG_FILE, 'w') as file:

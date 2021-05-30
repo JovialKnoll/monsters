@@ -124,8 +124,9 @@ class ModeConvo(ModeButtons, Saveable):
         """This function will handle any special case logic for clicking a button.
         This is called after loading in the next convo part but before rendering it.
         If this button leads to another mode, this is called before that.
+        Should return True if moving to a new mode, False otherwise.
         """
-        pass
+        return False
 
     def _selectButton(self, index: int):
         button = self._choices[index]
@@ -133,10 +134,11 @@ class ModeConvo(ModeButtons, Saveable):
         if button.key in self._convo_dict:
             self._convo_key = button.key
             self._loadText()
-            self._handleButton(prev_convo_key, index)
-            if self._convo_key != prev_convo_key:
-                self._resetPosition()
-            self._renderText()
+            changing_mode = self._handleButton(prev_convo_key, index)
+            if not changing_mode:
+                if self._convo_key != prev_convo_key:
+                    self._resetPosition()
+                self._renderText()
         else:
             next_mode = button.getNextMode()
             if next_mode:

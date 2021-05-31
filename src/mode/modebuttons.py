@@ -24,7 +24,7 @@ class ModeButtons(Mode, abc.ABC):
         super().__init__()
         self._selected_button = 0
 
-    def drawSelected(self, screen):
+    def drawSelected(self, screen: pygame.surface):
         screen.blit(self._black_box, self.buttons[self._selected_button])
 
     def keySelect(self, key):
@@ -34,14 +34,17 @@ class ModeButtons(Mode, abc.ABC):
             self._selected_button += 1
         self._selected_button %= len(self.buttons)
 
-    def posSelect(self, pos: tuple[int], selectable_buttons=None):
-        # replace selectable_buttons nonsense with overridden function
+    def posSelectButton(self, pos: tuple[int, int], index: int, rect: pygame.rect):
+        if rect.collidepoint(pos):
+            self._selected_button = index
+            return self._selected_button
+        return None
+
+    def posSelect(self, pos: tuple[int, int]):
         for index, rect in enumerate(self.buttons):
-            if selectable_buttons and index >= selectable_buttons:
-                return None
-            elif rect.collidepoint(pos):
-                self._selected_button = index
-                return self._selected_button
+            selected_button = self.posSelectButton(pos, index, rect)
+            if selected_button is not None:
+                return selected_button
         return None
 
     @classmethod
@@ -75,15 +78,3 @@ class ModeButtons(Mode, abc.ABC):
     #             self._selectButton(self.boxes.select)
     #         else:
     #             self.boxes.keySelect(event.key, len(self._buttons))
-    #
-    # def _update(self, dt):
-    #     pressed_keys = pygame.key.get_pressed()
-    #     self._text_scroll, text_scroll_int = utility.getIntMovement(
-    #         self._text_scroll,
-    #         (pressed_keys[pygame.K_DOWN] - pressed_keys[pygame.K_UP]) * self.SCROLL_AMOUNT_SPEED,
-    #         dt
-    #     )
-    #     self._text_rect.move_ip(0, text_scroll_int)
-    #     self._text_rect.clamp_ip(self._surf_text.get_rect())
-    #     if self._text_rect.bottom >= self._surf_text.get_rect().bottom:
-    #         self._read_text = True

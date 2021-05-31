@@ -154,6 +154,7 @@ class ModeFight(ModeButtons):
         # in the middle of action display
         if self._player_action:
             return
+        # selecting action
         if event.type == pygame.MOUSEMOTION:
             self.posSelect(event.pos)
         elif event.type == pygame.MOUSEBUTTONUP:

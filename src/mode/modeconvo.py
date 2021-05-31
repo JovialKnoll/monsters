@@ -46,6 +46,11 @@ class ModeConvo(ModeButtons, Saveable):
         super().keySelect(key)
         self._selected_button %= len(self._choices)
 
+    def posSelectButton(self, pos: tuple[int, int], index: int, rect: pygame.rect):
+        if index >= len(self._choices):
+            return None
+        return super().posSelectButton(pos, index, rect)
+
     def __init__(self, convo_key: str = '0'):
         super().__init__()
         self._convo_key = convo_key
@@ -153,14 +158,14 @@ class ModeConvo(ModeButtons, Saveable):
 
     def _input(self, event):
         if event.type == pygame.MOUSEMOTION:
-            self.posSelect(event.pos, len(self._choices))
+            self.posSelect(event.pos)
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 if self._read_text \
-                    and self.posSelect(event.pos, len(self._choices)) is not None \
+                    and self.posSelect(event.pos) is not None \
                     and self._mouseButtonStatus(event.button) \
-                    and self.posSelect(self._mouseButtonStatus(event.button), len(self._choices)) \
-                        == self.posSelect(event.pos, len(self._choices)):
+                    and self.posSelect(self._mouseButtonStatus(event.button)) \
+                        == self.posSelect(event.pos):
                     self._selectButton(self._selected_button)
             elif event.button == 4:
                 self._text_rect.move_ip(0, -constants.FONT_HEIGHT)

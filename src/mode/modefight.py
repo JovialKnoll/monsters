@@ -109,7 +109,6 @@ class ModeFight(ModeButtons):
         }
 
     def _buttonPress(self):
-        print(self._player_mon.rect.midbottom)
         self._player_action = self._BOX_CHOICES[self._selected_button]
         self._enemy_action = random.choice(('Attack', 'Defend'))
 
@@ -135,13 +134,11 @@ class ModeFight(ModeButtons):
             self._enemy_mon.addWait(self._ANIM_WAIT)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0, sound=self._thunk)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
-            pass
         elif self._enemy_action == 'Defend':
             self._enemy_mon.addWait(self._ANIM_WAIT)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 133, 8, 0, sound=self._bwop)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 67, 4, 0)
-            pass
 
     def _input(self, event):
         # click forward to next mode
@@ -154,25 +151,12 @@ class ModeFight(ModeButtons):
         # in the middle of action display
         if self._player_action:
             return
-        # selecting action
-        if event.type == pygame.MOUSEMOTION:
-            self._posSelect(event.pos)
-        elif event.type == pygame.MOUSEBUTTONUP:
-            if event.button == 1:
-                if self._posSelect(event.pos) is not None \
-                    and self._mouseButtonStatus(event.button) \
-                    and self._posSelect(self._mouseButtonStatus(event.button)) \
-                        == self._posSelect(event.pos):
-                    self._buttonPress()
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
-                self._buttonPress()
-            # testing stuff, remove later
-            elif event.key == pygame.K_t:
+        super()._input(event)
+        # testing stuff, remove later
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_t:
                 print("_player_mon.stats = " + str(self._player_mon.stats))
                 print("_enemy_mon.stats = " + str(self._enemy_mon.stats))
-            else:
-                self._keySelect(event.key)
 
     def _setActionDisplay(self, text: str):
         self._action_display.appendleft(shared.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR))
@@ -181,8 +165,6 @@ class ModeFight(ModeButtons):
     def _playerActionDone(self):
         player_attack_defend = self._player_mon.fightHit(self._player_action)
         enemy_attack_defend = self._enemy_mon.fightHit(self._enemy_action)
-        # print "player_attack_defend = " + str(player_attack_defend)
-        # print "enemy_attack_defend  = " + str(enemy_attack_defend)
         damage_to_player = utility.reduceNumber(
             max(
                 0,

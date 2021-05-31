@@ -58,23 +58,25 @@ class ModeButtons(Mode, abc.ABC):
     def _textWidth(cls, index: int):
         return cls.buttons[index].w - (cls._TEXT_MARGIN * 2)
 
-    # def _input(self, event):
-    #     if event.type == pygame.MOUSEMOTION:
-    #         self.boxes._posSelect(event.pos)
-    #     elif event.type == pygame.MOUSEBUTTONUP:
-    #         if event.button == 1:
-    #             if self._read_text \
-    #                 and self.boxes._posSelect(event.pos) is not None \
-    #                 and self._mouseButtonStatus(event.button) \
-    #                 and self.boxes._posSelect(self._mouseButtonStatus(event.button)) \
-    #                     == self.boxes._posSelect(event.pos):
-    #                 self._selectButton(self.boxes.select)
-    #         elif event.button == 4:
-    #             self._text_rect.move_ip(0, -constants.FONT_HEIGHT)
-    #         elif event.button == 5:
-    #             self._text_rect.move_ip(0, constants.FONT_HEIGHT)
-    #     elif event.type == pygame.KEYDOWN and self._read_text:
-    #         if event.key == pygame.K_RETURN:
-    #             self._selectButton(self.boxes.select)
-    #         else:
-    #             self.boxes.keySelect(event.key, len(self._buttons))
+    @abc.abstractmethod
+    def _buttonPress(self):
+        raise NotImplementedError(
+            type(self).__name__ + "._buttonPress(self)"
+        )
+
+    def _input(self, event):
+        # using this for button selection and pressing
+        if event.type == pygame.MOUSEMOTION:
+            self._posSelect(event.pos)
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                if self._posSelect(event.pos) is not None \
+                    and self._mouseButtonStatus(event.button) \
+                    and self._posSelect(self._mouseButtonStatus(event.button)) \
+                        == self._posSelect(event.pos):
+                    self._buttonPress()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                self._buttonPress()
+            else:
+                self._keySelect(event.key)

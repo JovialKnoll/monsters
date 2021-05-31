@@ -159,24 +159,12 @@ class ModeConvo(ModeButtons, Saveable):
                                  f"has a button that doesn't lead to anything: {self._selected_button}")
 
     def _input(self, event):
-        if event.type == pygame.MOUSEMOTION:
-            self._posSelect(event.pos)
-        elif event.type == pygame.MOUSEBUTTONUP:
-            if event.button == 1:
-                if self._posSelect(event.pos) is not None \
-                    and self._mouseButtonStatus(event.button) \
-                    and self._posSelect(self._mouseButtonStatus(event.button)) \
-                        == self._posSelect(event.pos):
-                    self._buttonPress()
-            elif event.button == 4:
+        if event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 4:
                 self._text_rect.move_ip(0, -constants.FONT_HEIGHT)
             elif event.button == 5:
                 self._text_rect.move_ip(0, constants.FONT_HEIGHT)
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
-                self._buttonPress()
-            else:
-                self._keySelect(event.key)
+        super()._input(event)
 
     @staticmethod
     def _getScrollDirection():

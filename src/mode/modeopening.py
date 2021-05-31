@@ -13,6 +13,10 @@ class ModeOpening(Mode, abc.ABC):
         )
 
     def _input(self, event):
-        if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
+        if event.type == pygame.KEYDOWN \
+            or (
+                event.type == pygame.MOUSEBUTTONUP
+                and event.button == 1
+                ):
             self._stopMixer()
             self._switchMode()

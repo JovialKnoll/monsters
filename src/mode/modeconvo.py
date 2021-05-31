@@ -42,14 +42,14 @@ class ModeConvo(ModeButtons, Saveable):
         '_background',
     )
 
-    def keySelect(self, key):
-        super().keySelect(key)
+    def _keySelect(self, key):
+        super()._keySelect(key)
         self._selected_button %= len(self._choices)
 
-    def posSelectButton(self, pos: tuple[int, int], index: int, rect: pygame.rect):
+    def _posSelectButton(self, pos: tuple[int, int], index: int, rect: pygame.rect):
         if index >= len(self._choices):
             return None
-        return super().posSelectButton(pos, index, rect)
+        return super()._posSelectButton(pos, index, rect)
 
     def __init__(self, convo_key: str = '0'):
         super().__init__()
@@ -109,8 +109,8 @@ class ModeConvo(ModeButtons, Saveable):
         for index, button in enumerate(self._choices):
             shared.font_wrap.renderToInside(
                 self._background,
-                self.textStart(index),
-                self.textWidth(index),
+                self._textStart(index),
+                self._textWidth(index),
                 button.text,
                 False,
                 constants.TEXT_COLOR
@@ -158,14 +158,14 @@ class ModeConvo(ModeButtons, Saveable):
 
     def _input(self, event):
         if event.type == pygame.MOUSEMOTION:
-            self.posSelect(event.pos)
+            self._posSelect(event.pos)
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 if self._read_text \
-                    and self.posSelect(event.pos) is not None \
+                    and self._posSelect(event.pos) is not None \
                     and self._mouseButtonStatus(event.button) \
-                    and self.posSelect(self._mouseButtonStatus(event.button)) \
-                        == self.posSelect(event.pos):
+                    and self._posSelect(self._mouseButtonStatus(event.button)) \
+                        == self._posSelect(event.pos):
                     self._selectButton(self._selected_button)
             elif event.button == 4:
                 self._text_rect.move_ip(0, -constants.FONT_HEIGHT)
@@ -175,7 +175,7 @@ class ModeConvo(ModeButtons, Saveable):
             if event.key == pygame.K_RETURN:
                 self._selectButton(self._selected_button)
             else:
-                self.keySelect(event.key)
+                self._keySelect(event.key)
 
     @staticmethod
     def _getScrollDirection():
@@ -199,4 +199,4 @@ class ModeConvo(ModeButtons, Saveable):
         screen.blit(self._background, (0, 0))
         screen.blit(self._surf_text, (12, 12), self._text_rect)
         if self._read_text:
-            self.drawSelected(screen)
+            self._drawSelected(screen)

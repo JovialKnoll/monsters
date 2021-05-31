@@ -67,8 +67,8 @@ class ModeFight(ModeButtons):
         for index, choice in enumerate(self._BOX_CHOICES):
             shared.font_wrap.renderToInside(
                 self._background,
-                self.textStart(index),
-                self.textWidth(index),
+                self._textStart(index),
+                self._textWidth(index),
                 choice,
                 False,
                 constants.TEXT_COLOR
@@ -156,13 +156,13 @@ class ModeFight(ModeButtons):
             return
         # selecting action
         if event.type == pygame.MOUSEMOTION:
-            self.posSelect(event.pos)
+            self._posSelect(event.pos)
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
-                if self.posSelect(event.pos) is not None \
+                if self._posSelect(event.pos) is not None \
                     and self._mouseButtonStatus(event.button) \
-                    and self.posSelect(self._mouseButtonStatus(event.button)) \
-                        == self.posSelect(event.pos):
+                    and self._posSelect(self._mouseButtonStatus(event.button)) \
+                        == self._posSelect(event.pos):
                     self._buttonPress()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
@@ -172,7 +172,7 @@ class ModeFight(ModeButtons):
                 print("_player_mon.stats = " + str(self._player_mon.stats))
                 print("_enemy_mon.stats = " + str(self._enemy_mon.stats))
             else:
-                self.keySelect(event.key)
+                self._keySelect(event.key)
 
     def _setActionDisplay(self, text: str):
         self._action_display.appendleft(shared.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR))
@@ -244,7 +244,7 @@ class ModeFight(ModeButtons):
         screen.fill(constants.WHITE)
         screen.blit(self._background, (0, 0))
         if not self._action_set and self._player_action not in self._result_mode:
-            self.drawSelected(screen)
+            self._drawSelected(screen)
 
         player_bar_length = self._HEALTH_BAR_LENGTH \
             * self._player_mon.stats['hpc'] // self._player_mon.stats['hpm']

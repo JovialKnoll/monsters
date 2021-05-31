@@ -24,50 +24,50 @@ class ModeButtons(Mode, abc.ABC):
         super().__init__()
         self._selected_button = 0
 
-    def drawSelected(self, screen: pygame.surface):
+    def _drawSelected(self, screen: pygame.surface):
         screen.blit(self._black_box, self.buttons[self._selected_button])
 
-    def keySelect(self, key):
+    def _keySelect(self, key):
         if key in self._back_keys:
             self._selected_button -= 1
         elif key in self._forward_keys:
             self._selected_button += 1
         self._selected_button %= len(self.buttons)
 
-    def posSelectButton(self, pos: tuple[int, int], index: int, rect: pygame.rect):
+    def _posSelectButton(self, pos: tuple[int, int], index: int, rect: pygame.rect):
         if rect.collidepoint(pos):
             self._selected_button = index
             return self._selected_button
         return None
 
-    def posSelect(self, pos: tuple[int, int]):
+    def _posSelect(self, pos: tuple[int, int]):
         for index, rect in enumerate(self.buttons):
-            selected_button = self.posSelectButton(pos, index, rect)
+            selected_button = self._posSelectButton(pos, index, rect)
             if selected_button is not None:
                 return selected_button
         return None
 
     @classmethod
-    def textStart(cls, index: int):
+    def _textStart(cls, index: int):
         return (
             cls.buttons[index].x + cls._TEXT_MARGIN,
             cls.buttons[index].y + cls._TEXT_MARGIN,
         )
 
     @classmethod
-    def textWidth(cls, index: int):
+    def _textWidth(cls, index: int):
         return cls.buttons[index].w - (cls._TEXT_MARGIN * 2)
 
     # def _input(self, event):
     #     if event.type == pygame.MOUSEMOTION:
-    #         self.boxes.posSelect(event.pos, len(self._buttons))
+    #         self.boxes._posSelect(event.pos)
     #     elif event.type == pygame.MOUSEBUTTONUP:
     #         if event.button == 1:
     #             if self._read_text \
-    #                 and self.boxes.posSelect(event.pos, len(self._buttons)) is not None \
+    #                 and self.boxes._posSelect(event.pos) is not None \
     #                 and self._mouseButtonStatus(event.button) \
-    #                 and self.boxes.posSelect(self._mouseButtonStatus(event.button), len(self._buttons)) \
-    #                     == self.boxes.posSelect(event.pos, len(self._buttons)):
+    #                 and self.boxes._posSelect(self._mouseButtonStatus(event.button)) \
+    #                     == self.boxes._posSelect(event.pos):
     #                 self._selectButton(self.boxes.select)
     #         elif event.button == 4:
     #             self._text_rect.move_ip(0, -constants.FONT_HEIGHT)

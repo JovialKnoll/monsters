@@ -3,7 +3,7 @@ import csv
 import mode
 
 
-class ConvoButton(object):
+class ConvoChoice(object):
     __slots__ = (
         'text',
         'key',
@@ -20,17 +20,18 @@ class ConvoButton(object):
             return mode_cls
         return None
 
+
 class ConvoPart(object):
     __slots__ = (
         'style',
         'text',
-        'buttons',
+        'choices',
     )
 
-    def __init__(self, style: set[str], text: str, buttons: list[ConvoButton]):
+    def __init__(self, style: set[str], text: str, choices: list[ConvoChoice]):
         self.style = style
         self.text = text
-        self.buttons = buttons
+        self.choices = choices
 
     @staticmethod
     def getConvoDict(convo_file: str):
@@ -44,18 +45,18 @@ class ConvoPart(object):
                     raise ValueError(f"The convo file {convo_file} has a duplicate row key {key}.")
                 style = {tag.strip() for tag in next(row_iter).upper().split('|')}
                 text = next(row_iter)
-                buttons = []
+                choices = []
                 try:
-                    for i in range(len(mode.ModeConvo.boxes.rects)):
-                        button_text = next(row_iter)
-                        button_key = next(row_iter)
-                        if button_key:
-                            button = ConvoButton(button_text, button_key)
-                            buttons.append(button)
+                    for i in range(len(mode.ModeConvo.buttons)):
+                        choice_text = next(row_iter)
+                        choice_key = next(row_iter)
+                        if choice_key:
+                            choice = ConvoChoice(choice_text, choice_key)
+                            choices.append(choice)
                 except StopIteration:
                     pass
-                if not buttons:
-                    raise ValueError(f"The convo file {convo_file} has no buttons in the row with key {key}.")
-                convo_part = ConvoPart(style, text, buttons)
+                if not choices:
+                    raise ValueError(f"The convo file {convo_file} has no choices in the row with key {key}.")
+                convo_part = ConvoPart(style, text, choices)
                 convo_dict[key] = convo_part
         return convo_dict

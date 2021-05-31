@@ -1,4 +1,5 @@
 import abc
+import typing
 
 import pygame
 
@@ -38,6 +39,7 @@ class Mode(abc.ABC):
             type(self).__name__ + "._input(self, event)"
         )
 
+    @typing.final
     def input_events(self, events: list[pygame.event.Event]):
         """All game modes can take in events."""
         for event in events:
@@ -47,6 +49,7 @@ class Mode(abc.ABC):
     def _update(self, dt: int):
         pass
 
+    @typing.final
     def update(self, dt: int):
         """All game modes can update."""
         self._update(dt)
@@ -61,6 +64,7 @@ class Mode(abc.ABC):
     def _drawPostSprites(self, screen: pygame.surface.Surface):
         pass
 
+    @typing.final
     def draw(self, screen: pygame.surface.Surface):
         """All game modes can draw to the screen"""
         self._drawScreen(screen)

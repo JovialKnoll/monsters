@@ -76,7 +76,7 @@ class ModeButtons(Mode, abc.ABC):
     #         else:
     #             self.boxes.keySelect(event.key, len(self._buttons))
     #
-    # def update(self, dt):
+    # def _update(self, dt):
     #     pressed_keys = pygame.key.get_pressed()
     #     self._text_scroll, text_scroll_int = utility.getIntMovement(
     #         self._text_scroll,
@@ -87,10 +87,3 @@ class ModeButtons(Mode, abc.ABC):
     #     self._text_rect.clamp_ip(self._surf_text.get_rect())
     #     if self._text_rect.bottom >= self._surf_text.get_rect().bottom:
     #         self._read_text = True
-    #
-    # def _drawScreen(self, screen):
-    #     screen.fill(constants.WHITE)
-    #     screen.blit(self._background, (0, 0))
-    #     screen.blit(self._surf_text, (12, 12), self._text_rect)
-    #     if self._read_text:
-    #         screen.blit(self.black_box, self.boxes.getSelectRect())

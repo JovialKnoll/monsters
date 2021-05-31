@@ -44,7 +44,7 @@ class ModeTest(Mode, Saveable):
             elif event.key == pygame.K_l:
                 shared.state.protag_mon.levelUp()
 
-    def update(self, dt):
+    def _update(self, dt):
         pressed_keys = pygame.key.get_pressed()
         x_movement = pressed_keys[pygame.K_RIGHT] - pressed_keys[pygame.K_LEFT]
         y_movement = pressed_keys[pygame.K_DOWN] - pressed_keys[pygame.K_UP]

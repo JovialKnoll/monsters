@@ -178,7 +178,7 @@ class ModeConvo(ModeButtons, Saveable):
         return (pressed_keys[pygame.K_DOWN] or pressed_keys[pygame.K_s]) \
             - (pressed_keys[pygame.K_UP] or pressed_keys[pygame.K_w])
 
-    def update(self, dt):
+    def _update(self, dt):
         self._text_scroll, text_scroll_int = utility.getIntMovement(
             self._text_scroll,
             self._getScrollDirection() * self.SCROLL_AMOUNT_SPEED,

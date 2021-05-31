@@ -159,7 +159,7 @@ class ModeGameMenuSave(ModeGameMenu):
                 self._cursor_position += 1
                 self._resetCursorBlink()
 
-    def update(self, dt):
+    def _update(self, dt):
         self._cursor_timer += dt
         if self._cursor_timer >= constants.CURSOR_TIME:
             self._cursor_switch = not self._cursor_switch

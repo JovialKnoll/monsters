@@ -4,11 +4,11 @@ import constants
 import shared
 from animsprite import AnimSprite
 
-from .mode import Mode
+from .modeopening import ModeOpening
 from .modeopening1 import ModeOpening1
 
 
-class ModeOpening0(Mode):
+class ModeOpening0(ModeOpening):
     LOGO_TEXT = "Jovial Knoll"
 
     __slots__ = (
@@ -56,10 +56,8 @@ class ModeOpening0(Mode):
         )
         self.all_sprites.add(star_sprite)
 
-    def _input(self, event):
-        if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
-            self._stopMixer()
-            self.next_mode = ModeOpening1()
+    def _switchMode(self):
+        self.next_mode = ModeOpening1()
 
     def _update(self, dt):
         self.time += dt
@@ -108,7 +106,7 @@ class ModeOpening0(Mode):
             )
         if self.time >= 4000:
             self._stopMixer()
-            self.next_mode = ModeOpening1()
+            self._switchMode()
 
     def _drawScreen(self, screen):
         screen.blit(self.background, (0, 0))

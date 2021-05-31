@@ -6,11 +6,11 @@ import constants
 import shared
 from animsprite import AnimSprite
 
-from .mode import Mode
+from .modeopening import ModeOpening
 from .modeopening2 import ModeOpening2
 
 
-class ModeOpening1(Mode):
+class ModeOpening1(ModeOpening):
     LOGO_TEXT = "tinsil"
     STAR_WAVES = 3
     STAR_WAIT = 1000
@@ -77,16 +77,14 @@ class ModeOpening1(Mode):
         )
         self.all_sprites.add(star_sprite)
 
-    def _input(self, event):
-        if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
-            self._stopMixer()
-            self.next_mode = ModeOpening2()
+    def _switchMode(self):
+        self.next_mode = ModeOpening2()
 
     def _update(self, dt):
         self.time += dt
         if self.time >= self.STAR_WAIT * 2 + self.STAR_TRAVEL * self.STAR_WAVES:
             self._stopMixer()
-            self.next_mode = ModeOpening2()
+            self._switchMode()
 
     def _drawScreen(self, screen):
         screen.blit(self.background, (0, 0))

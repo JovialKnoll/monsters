@@ -4,11 +4,11 @@ import constants
 import shared
 from monster import Monster
 
-from .mode import Mode
+from .modeopening import ModeOpening
 from .modeopening3 import ModeOpening3
 
 
-class ModeOpening2(Mode):
+class ModeOpening2(ModeOpening):
     __slots__ = (
         'time',
         'fade',
@@ -83,10 +83,8 @@ class ModeOpening2(Mode):
         self.fade.fill(constants.WHITE)
         self.fade.set_alpha(0)
 
-    def _input(self, event):
-        if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
-            self._stopMixer()
-            self.next_mode = ModeOpening3()
+    def _switchMode(self):
+        self.next_mode = ModeOpening3()
 
     def _update(self, dt):
         self.time += dt
@@ -96,7 +94,7 @@ class ModeOpening2(Mode):
             )
         if self.time >= self.move_time + 1500:
             self._stopMixer()
-            self.next_mode = ModeOpening3()
+            self._switchMode()
 
     def _drawScreen(self, screen):
         screen.fill(constants.WHITE)

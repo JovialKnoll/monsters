@@ -21,9 +21,11 @@ class ModeConvo(ModeButtons, Saveable):
     )
     _back_keys = {
         pygame.K_LEFT,
+        pygame.K_a,
     }
     _forward_keys = {
         pygame.K_RIGHT,
+        pygame.K_d,
     }
     SCROLL_AMOUNT_SPEED = 0.1
 
@@ -170,11 +172,16 @@ class ModeConvo(ModeButtons, Saveable):
             else:
                 self.keySelect(event.key)
 
-    def update(self, dt):
+    @staticmethod
+    def _getScrollDirection():
         pressed_keys = pygame.key.get_pressed()
+        return (pressed_keys[pygame.K_DOWN] or pressed_keys[pygame.K_s]) \
+            - (pressed_keys[pygame.K_UP] or pressed_keys[pygame.K_w])
+
+    def update(self, dt):
         self._text_scroll, text_scroll_int = utility.getIntMovement(
             self._text_scroll,
-            (pressed_keys[pygame.K_DOWN] - pressed_keys[pygame.K_UP]) * self.SCROLL_AMOUNT_SPEED,
+            self._getScrollDirection() * self.SCROLL_AMOUNT_SPEED,
             dt
         )
         self._text_rect.move_ip(0, text_scroll_int)

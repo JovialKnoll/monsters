@@ -22,10 +22,14 @@ class ModeFight(ModeButtons):
     _back_keys = {
         pygame.K_UP,
         pygame.K_LEFT,
+        pygame.K_w,
+        pygame.K_a,
     }
     _forward_keys = {
         pygame.K_DOWN,
         pygame.K_RIGHT,
+        pygame.K_s,
+        pygame.K_d,
     }
     _health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert(shared.display.screen)
     _health_bar.set_colorkey(constants.COLORKEY)

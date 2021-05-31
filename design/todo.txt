@@ -17,6 +17,7 @@ necessary:
 
 
 optional:
+* move shared logic for modeopening, also don't let mouse scroll proceed
 * make sounds play with particular left / right volumes instead of being centered
 * re-evaluate mon stats
     tally up results for winners for different possible distributions of stats

@@ -1,4 +1,5 @@
 from .mode import Mode
+from .modebuttons import ModeButtons
 from .modeconvo import ModeConvo
 from .modefight import ModeFight
 from .modegamemenu import ModeGameMenu

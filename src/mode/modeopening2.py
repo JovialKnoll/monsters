@@ -4,13 +4,13 @@ import constants
 import shared
 from monster import Monster
 
-from .mode import Mode
+from .modeopening import ModeOpening
 from .modeopening3 import ModeOpening3
 
 
-class ModeOpening2(Mode):
+class ModeOpening2(ModeOpening):
     __slots__ = (
-        'total_time',
+        'time',
         'fade',
         'move_time',
     )
@@ -77,26 +77,24 @@ class ModeOpening2(Mode):
         left_mon.layer = 1
         right_mon.layer = 0
         self.all_sprites.add(right_mon, left_mon)
-        self.total_time = 0
+        self.time = 0
         self.move_time = beat * 28 + pause * 2 + 300
         self.fade = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
         self.fade.fill(constants.WHITE)
         self.fade.set_alpha(0)
 
-    def _input(self, event):
-        if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
-            self._stopMixer()
-            self.next_mode = ModeOpening3()
+    def _switchMode(self):
+        self.next_mode = ModeOpening3()
 
     def _update(self, dt):
-        self.total_time += dt
-        if self.total_time >= self.move_time:
+        self.time += dt
+        if self.time >= self.move_time:
             self.fade.set_alpha(
-                min((self.total_time - self.move_time) * 255 // 750, 255)
+                min((self.time - self.move_time) * 255 // 750, 255)
             )
-        if self.total_time >= self.move_time + 1500:
+        if self.time >= self.move_time + 1500:
             self._stopMixer()
-            self.next_mode = ModeOpening3()
+            self._switchMode()
 
     def _drawScreen(self, screen):
         screen.fill(constants.WHITE)

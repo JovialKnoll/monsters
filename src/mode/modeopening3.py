@@ -7,11 +7,11 @@ import constants
 import shared
 from monster import Monster
 
-from .mode import Mode
+from .modeopening import ModeOpening
 from .modeintroduction0 import ModeIntroduction0
 
 
-class ModeOpening3(Mode):
+class ModeOpening3(ModeOpening):
     GROUND_LEVEL = constants.SCREEN_SIZE[1] - 8
     CENTER_TIME = 2500
     TRANSITION_TIME = 750
@@ -91,10 +91,8 @@ class ModeOpening3(Mode):
         )
         return monster
 
-    def _input(self, event):
-        if event.type in (pygame.KEYDOWN, pygame.MOUSEBUTTONDOWN):
-            self._stopMixer()
-            self.next_mode = ModeIntroduction0()
+    def _switchMode(self):
+        self.next_mode = ModeIntroduction0()
 
     def _update(self, dt):
         self.wait_time -= dt

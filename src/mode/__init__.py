@@ -7,6 +7,7 @@ from .modegamemenu import ModeGameMenuTop
 from .modeintroduction0 import ModeIntroduction0
 from .modemenu import ModeMenu
 from .modemonconvo0 import ModeMonConvo0
+from .modeopening import ModeOpening
 from .modeopening0 import ModeOpening0
 from .modeopening1 import ModeOpening1
 from .modeopening2 import ModeOpening2

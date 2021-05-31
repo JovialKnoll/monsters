@@ -85,6 +85,7 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
                 self.time / current_anim.time
             )
         else:
+            self.last_pos = None
             self.time = 0
 
     def addPosAbs(self, func, time, x_or_pair, y=None, sound=None):

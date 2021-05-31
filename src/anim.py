@@ -10,7 +10,7 @@ class Anim(Saveable):
         'sound',
     )
 
-    def __init__(self, func, time, x_or_pair, y=None, sound=None):
+    def __init__(self, func: str, time: int, x_or_pair, y=None, sound=None):
         self.func = func
         self.time = time
         self.pos = Vec2d(x_or_pair, y)

@@ -135,13 +135,15 @@ class ModeConvo(ModeButtons, Saveable):
         """
         return False
 
-    def _selectButton(self, index: int):
-        button = self._choices[index]
+    def _buttonPress(self):
+        if not self._read_text:
+            return
+        button = self._choices[self._selected_button]
         prev_convo_key = self._convo_key
         if button.key in self._convo_dict:
             self._convo_key = button.key
             self._loadText()
-            changing_mode = self._handleButton(prev_convo_key, index)
+            changing_mode = self._handleButton(prev_convo_key, self._selected_button)
             if not changing_mode:
                 if self._convo_key != prev_convo_key:
                     self._resetPosition()
@@ -149,31 +151,30 @@ class ModeConvo(ModeButtons, Saveable):
         else:
             next_mode = button.getNextMode()
             if next_mode:
-                self._handleButton(prev_convo_key, index)
+                self._handleButton(prev_convo_key, self._selected_button)
                 self._stopMixer()
                 self.next_mode = next_mode()
             else:
                 raise ValueError(f"The convo mode {type(self).__name__}, at key {self._convo_key},"
-                                 f"has a button that doesn't lead to anything: {index}")
+                                 f"has a button that doesn't lead to anything: {self._selected_button}")
 
     def _input(self, event):
         if event.type == pygame.MOUSEMOTION:
             self._posSelect(event.pos)
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
-                if self._read_text \
-                    and self._posSelect(event.pos) is not None \
+                if self._posSelect(event.pos) is not None \
                     and self._mouseButtonStatus(event.button) \
                     and self._posSelect(self._mouseButtonStatus(event.button)) \
                         == self._posSelect(event.pos):
-                    self._selectButton(self._selected_button)
+                    self._buttonPress()
             elif event.button == 4:
                 self._text_rect.move_ip(0, -constants.FONT_HEIGHT)
             elif event.button == 5:
                 self._text_rect.move_ip(0, constants.FONT_HEIGHT)
-        elif event.type == pygame.KEYDOWN and self._read_text:
+        elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
-                self._selectButton(self._selected_button)
+                self._buttonPress()
             else:
                 self._keySelect(event.key)
 

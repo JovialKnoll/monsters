@@ -144,6 +144,9 @@ class ModeConvo(ModeButtons, Saveable):
             self._convo_key = button.key
             self._loadText()
             changing_mode = self._handleButton(prev_convo_key, self._selected_button)
+            if changing_mode is None:
+                raise ValueError(f"The convo mode {type(self).__name__} has a _handleButton function"
+                                 f" that can return None. This should return either True or False.")
             if not changing_mode:
                 if self._convo_key != prev_convo_key:
                     self._resetPosition()
@@ -156,7 +159,7 @@ class ModeConvo(ModeButtons, Saveable):
                 self.next_mode = next_mode()
             else:
                 raise ValueError(f"The convo mode {type(self).__name__}, at key {self._convo_key},"
-                                 f"has a button that doesn't lead to anything: {self._selected_button}")
+                                 f" has a button that doesn't lead to anything: {self._selected_button}")
 
     def _input(self, event):
         if event.type == pygame.MOUSEBUTTONUP:

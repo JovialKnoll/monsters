@@ -250,13 +250,6 @@ class ModeGameMenuLoad(ModeGameMenu):
 
 
 class ModeGameMenuOptions(ModeGameMenu):
-    __slots__ = (
-        '_held_keys',
-    )
-
-    def __init__(self, previous_mode, old_screen=None):
-        super().__init__(previous_mode, old_screen)
-
     def _input(self, event):
         if event.type == pygame.QUIT:
             self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)

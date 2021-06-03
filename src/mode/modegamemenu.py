@@ -250,12 +250,27 @@ class ModeGameMenuLoad(ModeGameMenu):
 
 
 class ModeGameMenuOptions(ModeGameMenu):
+    __slots__ = (
+        '_held_keys',
+    )
+
+    def __init__(self, previous_mode, old_screen=None):
+        super().__init__(previous_mode, old_screen)
+        self._held_keys = set()
+
     def _input(self, event):
         if event.type == pygame.QUIT:
             self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
+        elif event.type == pygame.KEYUP:
+            print(event.key)
+            self._held_keys.discard(event.key)
         elif event.type == pygame.KEYDOWN:
+            if event.key in self._held_keys:
+                return
+            self._held_keys.add(event.key)
             if event.key == pygame.K_ESCAPE:
                 self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
+                return
             elif event.key in (pygame.K_DOWN, pygame.K_LEFT, pygame.K_PAGEDOWN, pygame.K_MINUS):
                 shared.display.changeScale(-1)
             elif event.key in (pygame.K_UP, pygame.K_RIGHT, pygame.K_PAGEUP, pygame.K_EQUALS):
@@ -265,6 +280,10 @@ class ModeGameMenuOptions(ModeGameMenu):
             elif '1' <= event.unicode <= '9':
                 target_scale = int(event.unicode)
                 shared.display.setScale(target_scale)
+            pygame.event.clear()
+
+    def _update(self, dt):
+        pass
 
     def _drawScreen(self, screen):
         super()._drawScreen(screen)

@@ -74,6 +74,8 @@ class Display(object):
 
     def setScale(self, target_scale: int):
         new_scale = min(target_scale, self._upscale_max)
+        if new_scale == self.upscale:
+            return
         self._alterScale(new_scale)
 
     def _alterScale(self, new_scale: int):
@@ -87,7 +89,6 @@ class Display(object):
             self._setupDisplay()
             self._setWindowed()
         self.screen = self.screen.convert(self._disp_screen)
-        pygame.event.clear()
         shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, str(self.upscale))
 
     def _scaleDisp(self):
@@ -106,7 +107,6 @@ class Display(object):
         else:
             self._setWindowed()
         self.screen = self.screen.convert(self._disp_screen)
-        pygame.event.clear()
         shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_FULLSCREEN, str(self.is_fullscreen))
 
     def _setWindowed(self):

@@ -8,8 +8,6 @@ necessary:
     first fight
 * replace WAVs with OGGs
 * linux bugs:
-    holding down a button seems to activate keydown event multiple times
-        check if need to explicitly disallow with pygame.key.set_repeat or something
     fullscreen breaks
         seems to be an actual pygame bug, either wait for a fix, help, or workaround
 * try to make cleaner directory later

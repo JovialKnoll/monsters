@@ -253,15 +253,24 @@ class ModeGameMenuOptions(ModeGameMenu):
     def _input(self, event):
         if event.type == pygame.QUIT:
             self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
+        elif event.type == pygame.KEYUP:
+            if event.key in (
+                    pygame.K_DOWN, pygame.K_s,
+                    pygame.K_LEFT, pygame.K_a,
+                    pygame.K_PAGEDOWN, pygame.K_MINUS,
+            ):
+                shared.display.changeScale(-1)
+            elif event.key in (
+                    pygame.K_UP, pygame.K_w,
+                    pygame.K_RIGHT, pygame.K_d,
+                    pygame.K_PAGEUP, pygame.K_EQUALS,
+            ):
+                shared.display.changeScale(1)
+            elif event.key in (pygame.K_f, pygame.K_F11,):
+                shared.display.toggleFullscreen()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
-            elif event.key in (pygame.K_DOWN, pygame.K_LEFT, pygame.K_PAGEDOWN, pygame.K_MINUS):
-                shared.display.changeScale(-1)
-            elif event.key in (pygame.K_UP, pygame.K_RIGHT, pygame.K_PAGEUP, pygame.K_EQUALS):
-                shared.display.changeScale(1)
-            elif event.key in (pygame.K_f, pygame.K_F11):
-                shared.display.toggleFullscreen()
             elif '1' <= event.unicode <= '9':
                 target_scale = int(event.unicode)
                 shared.display.setScale(target_scale)

@@ -74,6 +74,8 @@ class Display(object):
 
     def setScale(self, target_scale: int):
         new_scale = min(target_scale, self._upscale_max)
+        if new_scale == self.upscale:
+            return
         self._alterScale(new_scale)
 
     def _alterScale(self, new_scale: int):

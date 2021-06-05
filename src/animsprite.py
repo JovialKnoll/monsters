@@ -88,18 +88,18 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
             self.last_pos = None
             self.time = 0
 
-    def addPosAbs(self, func, time, x_or_pair, y=None, sound=None):
+    def addPosAbs(self, func, time, x_or_pair, y=None, sound=None, positional_sound=False):
         self.anims.append(
-            Anim(func, time, x_or_pair, y, sound)
+            Anim(func, time, x_or_pair, y, sound, positional_sound)
         )
 
-    def addPosRel(self, func, time, x_or_pair, y=None, sound=None):
+    def addPosRel(self, func, time, x_or_pair, y=None, sound=None, positional_sound=False):
         newPos = Vec2d(x_or_pair, y)
         if self.anims:
             newPos += self.anims[-1].pos
         else:
             newPos += self.rect.center
-        self.addPosAbs(func, time, newPos, sound=sound)
+        self.addPosAbs(func, time, newPos, sound=sound, positional_sound=positional_sound)
 
-    def addWait(self, time, sound=None):
-        self.addPosRel(AnimSprite.Binary, time, 0, 0, sound)
+    def addWait(self, time, sound=None, positional_sound=False):
+        self.addPosRel(AnimSprite.Binary, time, 0, 0, sound, positional_sound)

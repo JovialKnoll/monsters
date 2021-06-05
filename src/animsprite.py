@@ -2,6 +2,7 @@ from collections import deque
 
 import pygame
 
+import constants
 import utility
 from anim import Anim
 from vec2d import Vec2d
@@ -87,6 +88,10 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
         else:
             self.last_pos = None
             self.time = 0
+        # take care of positional audio here
+        pos = min(max(self.rect.centerx / constants.SCREEN_SIZE[0], 0), 1)
+        channel_l = .75 - (pos * .5)
+        channel_r = .25 + (pos * .5)
 
     def addPosAbs(self, func, time, x_or_pair, y=None, sound=None, positional_sound=False):
         self.anims.append(

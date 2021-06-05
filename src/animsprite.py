@@ -91,7 +91,6 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
         else:
             self.last_pos = None
             self.time = 0
-        # take care of positional audio here
         if self.positional_sound:
             pos = min(max(self.rect.centerx / constants.SCREEN_SIZE[0], 0), 1)
             channel_l = .75 - (pos * .5)

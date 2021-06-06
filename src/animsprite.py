@@ -93,8 +93,9 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
             self.time = 0
         if self.positional_sound:
             pos = min(max(self.rect.centerx / constants.SCREEN_SIZE[0], 0), 1)
-            channel_l = .75 - (pos * .5)
-            channel_r = .25 + (pos * .5)
+            channel_l = .75 - (pos * .5)  # .75 to .25
+            channel_r = 1 - channel_l  # .25 to .75
+            
 
     def addPosAbs(self, func, time, x_or_pair, y=None, sound=None, positional_sound=False):
         self.anims.append(

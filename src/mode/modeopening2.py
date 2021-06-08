@@ -77,7 +77,7 @@ class ModeOpening2(ModeOpening):
         # fire
         right_mon.addWait(beat * 2)
         right_mon.addPosRel(Monster.Lerp, beat, -jump * 6 - jump // 2, -jump * 2 - jump // 2,
-                            sound=pygame.mixer.Sound(constants.FSSSH), positional_sound=True)
+                            sound=pygame.mixer.Sound(constants.FSSSH))
 
         # higher layer = draw later = "in front"
         left_mon.layer = 1

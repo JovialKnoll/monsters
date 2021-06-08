@@ -2,6 +2,7 @@ from collections import deque
 
 import pygame
 
+import constants
 import utility
 from anim import Anim
 from vec2d import Vec2d
@@ -32,6 +33,8 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
         'anims',
         'last_pos',
         'time',
+        'positional_sound',
+        'sound_channel',
     )
 
     def __init__(self):
@@ -41,6 +44,8 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
         self.anims = deque()
         self.last_pos = None
         self.time = 0
+        self.positional_sound = False
+        self.sound_channel = None
 
     def save(self):
         return {
@@ -71,11 +76,14 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
         self.time += args[0]
         while self.anims and self.time >= self.anims[0].time:
             done_anim = self.anims.popleft()
-            if done_anim.sound:
-                done_anim.sound.play()
             self.time -= done_anim.time
             self.rect.center = done_anim.pos
             self.last_pos = self.rect.center
+            if done_anim.sound:
+                self.positional_sound = done_anim.positional_sound
+                channel = done_anim.sound.play()
+                if self.positional_sound:
+                    self.sound_channel = channel
         if self.anims:
             current_anim = self.anims[0]
             func = self.toFunc(current_anim.func)
@@ -87,19 +95,32 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
         else:
             self.last_pos = None
             self.time = 0
+        if self.positional_sound:
+            if self.sound_channel.get_busy():
+                pos = min(max(self.rect.centerx / constants.SCREEN_SIZE[0], 0), 1)
+                channel_l = self.boundChannelVolume(utility.cos_curve(pos))
+                channel_r = self.boundChannelVolume(utility.sin_curve(pos))
+                self.sound_channel.set_volume(channel_l, channel_r)
+            else:
+                self.positional_sound = False
+                self.sound_channel = None
 
-    def addPosAbs(self, func, time, x_or_pair, y=None, sound=None):
+    @staticmethod
+    def boundChannelVolume(volume):
+        return .2 + (volume * .8)
+
+    def addPosAbs(self, func, time, x_or_pair, y=None, sound=None, positional_sound=False):
         self.anims.append(
-            Anim(func, time, x_or_pair, y, sound)
+            Anim(func, time, x_or_pair, y, sound, positional_sound)
         )
 
-    def addPosRel(self, func, time, x_or_pair, y=None, sound=None):
+    def addPosRel(self, func, time, x_or_pair, y=None, sound=None, positional_sound=False):
         newPos = Vec2d(x_or_pair, y)
         if self.anims:
             newPos += self.anims[-1].pos
         else:
             newPos += self.rect.center
-        self.addPosAbs(func, time, newPos, sound=sound)
+        self.addPosAbs(func, time, newPos, sound=sound, positional_sound=positional_sound)
 
-    def addWait(self, time, sound=None):
-        self.addPosRel(AnimSprite.Binary, time, 0, 0, sound)
+    def addWait(self, time, sound=None, positional_sound=False):
+        self.addPosRel(AnimSprite.Binary, time, 0, 0, sound, positional_sound)

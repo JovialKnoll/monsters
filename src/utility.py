@@ -1,4 +1,5 @@
 import random
+import math
 
 
 def getIntMovement(tracking, vel, dt):
@@ -14,6 +15,16 @@ def reduceNumber(number, divisor):
     if random.random() < (mod / divisor):
         result += 1
     return result
+
+
+def sin_curve(number):
+    return math.sin(number * math.pi / 2)
+
+
+def cos_curve(number):
+    if number == 1:
+        return 0
+    return math.cos(number * math.pi / 2)
 
 
 def binary(start, end, mix):

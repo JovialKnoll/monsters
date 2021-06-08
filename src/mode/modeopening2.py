@@ -31,17 +31,20 @@ class ModeOpening2(ModeOpening):
         beat = 250
         pause = 50
         left_mon.addPosRel(Monster.Lerp, beat * 6, -constants.SCREEN_SIZE[0] // 2, 0)
-        right_mon.addPosRel(Monster.Lerp, beat * 6, constants.SCREEN_SIZE[0] // 2, 0, sound=sproing)
+        right_mon.addPosRel(Monster.Lerp, beat * 6, constants.SCREEN_SIZE[0] // 2, 0,
+                            sound=sproing, positional_sound=True)
         # back and forth
         left_mon.addWait(beat * 8 + pause * 2)
         jump = right_mon.rect.width // 8
         right_mon.addPosRel(Monster.Lerp, beat, jump, -jump)
-        right_mon.addPosRel(Monster.Lerp, beat, jump, jump, sound=sproing)
+        right_mon.addPosRel(Monster.Lerp, beat, jump, jump,
+                            sound=sproing, positional_sound=True)
         right_mon.addPosRel(Monster.Lerp, beat, -jump, -jump)
         right_mon.addPosRel(Monster.Lerp, beat, -jump, jump)
-        right_mon.addWait(pause, sound=sproing)
+        right_mon.addWait(pause, sound=sproing, positional_sound=True)
         right_mon.addPosRel(Monster.Lerp, beat, jump, -jump)
-        right_mon.addPosRel(Monster.Lerp, beat, jump, jump, sound=sproing)
+        right_mon.addPosRel(Monster.Lerp, beat, jump, jump,
+                            sound=sproing, positional_sound=True)
         right_mon.addPosRel(Monster.Lerp, beat, -jump, -jump)
         right_mon.addPosRel(Monster.Lerp, beat, -jump, jump)
         right_mon.addWait(pause)
@@ -50,7 +53,8 @@ class ModeOpening2(ModeOpening):
         right_mon.addWait(beat)
         # slash!
         left_mon.addPosRel(Monster.Lerp, 100, -jump // 2, -jump // 3)
-        left_mon.addPosRel(Monster.Lerp, 200, jump + jump // 2, jump // 3, sound=pygame.mixer.Sound(constants.THUNK))
+        left_mon.addPosRel(Monster.Lerp, 200, jump + jump // 2, jump // 3,
+                           sound=pygame.mixer.Sound(constants.THUNK), positional_sound=True)
         right_mon.addWait(300)
         # jump back
         left_mon.addWait(beat)
@@ -59,10 +63,12 @@ class ModeOpening2(ModeOpening):
         # pause
         left_mon.addWait(150)
         left_mon.addPosRel(Monster.Lerp, 100, -jump, 0)
-        right_mon.addWait(beat * 3, sound=sproing)
+        right_mon.addWait(beat * 3,
+                          sound=sproing, positional_sound=True)
         # back and forth again
         right_mon.addPosRel(Monster.Lerp, beat, -jump, -jump * 2)
-        right_mon.addPosRel(Monster.Lerp, beat, -jump, jump * 2, sound=sproing)
+        right_mon.addPosRel(Monster.Lerp, beat, -jump, jump * 2,
+                            sound=sproing, positional_sound=True)
         right_mon.addPosRel(Monster.Lerp, beat, jump, -jump * 2)
         right_mon.addPosRel(Monster.Lerp, beat, jump, jump * 2)
         # charge

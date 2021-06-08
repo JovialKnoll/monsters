@@ -115,28 +115,32 @@ class ModeFight(ModeButtons):
         if self._player_action == 'Attack':
             self._setActionDisplay("I'm gonna hit 'em!")
             self._player_mon.addWait(self._ANIM_WAIT)
-            self._player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0, sound=self._thunk)
+            self._player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0,
+                                       sound=self._thunk, positional_sound=True)
             self._player_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
         elif self._player_action == 'Defend':
             self._setActionDisplay("I'm gonna block 'em!")
             self._player_mon.addWait(self._ANIM_WAIT)
-            self._player_mon.addPosRel(AnimSprite.Lerp, 133, -8, 0, sound=self._bwop)
+            self._player_mon.addPosRel(AnimSprite.Lerp, 133, -8, 0,
+                                       sound=self._bwop, positional_sound=True)
             self._player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
             self._player_mon.addPosRel(AnimSprite.Lerp, 67, -4, 0)
         elif self._player_action == 'Escape':
             self._setActionDisplay("I'm gonna run away!")
             self._player_mon.addWait(self._ANIM_WAIT)
-            self._player_mon.addWait(0, sound=self._rooeee)
+            self._player_mon.addWait(0, sound=self._rooeee, positional_sound=True)
             self._player_mon.addPosRel(AnimSprite.Lerp, 333, -20, 0)
             self._player_mon.addPosRel(AnimSprite.Lerp, 67, 20, 0)
 
         if self._enemy_action == 'Attack':
             self._enemy_mon.addWait(self._ANIM_WAIT)
-            self._enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0, sound=self._thunk)
+            self._enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0,
+                                      sound=self._thunk, positional_sound=True)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
         elif self._enemy_action == 'Defend':
             self._enemy_mon.addWait(self._ANIM_WAIT)
-            self._enemy_mon.addPosRel(AnimSprite.Lerp, 133, 8, 0, sound=self._bwop)
+            self._enemy_mon.addPosRel(AnimSprite.Lerp, 133, 8, 0,
+                                      sound=self._bwop, positional_sound=True)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 67, 4, 0)
 

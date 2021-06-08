@@ -100,7 +100,6 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
                 pos = min(max(self.rect.centerx / constants.SCREEN_SIZE[0], 0), 1)
                 channel_l = .8 - (pos * .6)  # .8 to .2
                 channel_r = 1 - channel_l  # .2 to .8
-                print(f"L:{channel_l}, R:{channel_r}")
                 self.sound_channel.set_volume(channel_l, channel_r)
             else:
                 self.positional_sound = False

@@ -34,6 +34,7 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
         'last_pos',
         'time',
         'positional_sound',
+        'sound_channel',
     )
 
     def __init__(self):
@@ -44,6 +45,7 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
         self.last_pos = None
         self.time = 0
         self.positional_sound = False
+        self.sound_channel = None
 
     def save(self):
         return {
@@ -79,7 +81,9 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
             self.last_pos = self.rect.center
             if done_anim.sound:
                 self.positional_sound = done_anim.positional_sound
-                done_anim.sound.play()
+                channel = done_anim.sound.play()
+                if self.positional_sound:
+                    self.sound_channel = channel
         if self.anims:
             current_anim = self.anims[0]
             func = self.toFunc(current_anim.func)
@@ -92,10 +96,15 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
             self.last_pos = None
             self.time = 0
         if self.positional_sound:
-            pos = min(max(self.rect.centerx / constants.SCREEN_SIZE[0], 0), 1)
-            channel_l = .75 - (pos * .5)  # .75 to .25
-            channel_r = 1 - channel_l  # .25 to .75
-            
+            if self.sound_channel.get_busy():
+                pos = min(max(self.rect.centerx / constants.SCREEN_SIZE[0], 0), 1)
+                channel_l = .75 - (pos * .5)  # .75 to .25
+                channel_r = 1 - channel_l  # .25 to .75
+                print(f"L:{channel_l}, R:{channel_r}")
+                self.sound_channel.set_volume(channel_l, channel_r)
+            else:
+                self.positional_sound = False
+                self.sound_channel = None
 
     def addPosAbs(self, func, time, x_or_pair, y=None, sound=None, positional_sound=False):
         self.anims.append(

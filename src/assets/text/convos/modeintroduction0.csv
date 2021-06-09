@@ -1,4 +1,4 @@
-0,,"First off: thank you so much for volunteering!
+0,START_CHAT_MUSIC,"First off: thank you so much for volunteering!
 
 We're always trying to get more participants for the human-monster mentorship program so it really means a lot.",>,1,,,,,,
 1,,"Now I know some of you have been here before, but I can see at least a few new faces among us.
@@ -26,4 +26,4 @@ Two: To help young monsters figure out who they want to be and how they want to 
 {MONSTER_NAME}, where are you?
 
 Oh, there you are!",>,13,,,,,,
-13,MONSTER,Hi.,>,ModeMonConvo0,,,,,,
+13,SHOW_MONSTER,Hi.,>,ModeMonConvo0,,,,,,

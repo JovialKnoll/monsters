@@ -121,9 +121,12 @@ class ModeConvo(ModeButtons, Saveable):
     def _handleTags(self):
         self.all_sprites.empty()
         for tag in self._style:
-            if tag == "MONSTER":
+            if tag == "SHOW_MONSTER":
                 shared.state.protag_mon.rect.center = (160, 128)
                 self.all_sprites.add(shared.state.protag_mon)
+            elif tag == "START_CHAT_MUSIC":
+                pygame.mixer.music.load(constants.CHAT_LOOP)
+                pygame.mixer.music.play(-1)
             elif tag == "STOP_MUSIC":
                 self._stopMixer()
 

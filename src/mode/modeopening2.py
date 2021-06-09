@@ -12,11 +12,15 @@ class ModeOpening2(ModeOpening):
     __slots__ = (
         'time',
         'fade',
+        'music_started',
+        'music_time',
         'move_time',
     )
 
     def __init__(self):
         super().__init__()
+        pygame.mixer.music.load(constants.TITLE_INTRO)
+        self.music_started = False
         left_mon = Monster.atLevel(3)
         right_mon = Monster.atLevel(2)
 
@@ -33,6 +37,7 @@ class ModeOpening2(ModeOpening):
         left_mon.addPosRel(Monster.Lerp, beat * 6, -constants.SCREEN_SIZE[0] // 2, 0)
         right_mon.addPosRel(Monster.Lerp, beat * 6, constants.SCREEN_SIZE[0] // 2, 0,
                             sound=sproing, positional_sound=True)
+        self.music_time = beat * 6
         # back and forth
         left_mon.addWait(beat * 8 + pause * 2)
         jump = right_mon.rect.width // 8
@@ -94,6 +99,9 @@ class ModeOpening2(ModeOpening):
 
     def _update(self, dt):
         self.time += dt
+        if self.time >= self.music_time and not self.music_started:
+            pygame.mixer.music.play(1, 0, 500)
+            self.music_started = True
         if self.time >= self.move_time:
             self.fade.set_alpha(
                 min((self.time - self.move_time) * 255 // 750, 255)

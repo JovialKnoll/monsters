@@ -1,7 +1,5 @@
 necessary:
-* music / sound
-    convo music
-    opening music
+* opening music (loop)
 * content for convos and fights
     first convo with monster
     outline for plot

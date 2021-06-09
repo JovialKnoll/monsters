@@ -53,6 +53,8 @@ ROOEEE = os.path.join(SOUND_DIRECTORY, 'rooeee.wav')
 BWOP = os.path.join(SOUND_DIRECTORY, 'bwop.wav')
 
 MUSIC_DIRECTORY = os.path.join(SOUND_DIRECTORY, 'music')
+TITLE_INTRO = os.path.join(MUSIC_DIRECTORY, 'title_intro.ogg')
+CHAT_LOOP = os.path.join(MUSIC_DIRECTORY, 'chat_loop.ogg')
 FIGHT_LOOP = os.path.join(MUSIC_DIRECTORY, 'fight_loop.ogg')
 
 TEXT_DIRECTORY = os.path.join(ASSETS_DIRECTORY, 'text')

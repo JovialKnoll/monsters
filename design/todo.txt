@@ -4,7 +4,8 @@ necessary:
     first convo with monster
     outline for plot
     first fight
-* replace WAVs with OGGs
+* finalizing music and sound volumes
+* replace WAVs with OGGs (after above)
 * linux bugs:
     fullscreen breaks
         seems to be an actual pygame bug, either wait for a fix, help, or workaround

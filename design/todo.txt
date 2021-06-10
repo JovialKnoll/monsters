@@ -11,7 +11,6 @@ necessary:
 * try to make cleaner directory later
     https://stackoverflow.com/questions/19579979/pyinstaller-changing-dll-and-pyd-output-location
 
-
 optional:
 * re-evaluate mon stats
     tally up results for winners for different possible distributions of stats

@@ -31,6 +31,7 @@ class ModeConvo(ModeButtons, Saveable):
 
     __slots__ = (
         '_convo_key',
+        '_active_tags',
         '_convo_dict',
         '_style',
         '_text',
@@ -54,6 +55,7 @@ class ModeConvo(ModeButtons, Saveable):
     def __init__(self, convo_key: str = '0'):
         super().__init__()
         self._convo_key = convo_key
+        self._active_tags = set()
         self._convo_dict = self._getScript()
         self._loadText()
         self._resetPosition()
@@ -68,11 +70,15 @@ class ModeConvo(ModeButtons, Saveable):
         return ConvoPart.getConvoDict(convo_file)
 
     def save(self):
-        return self._convo_key
+        return self._convo_key, self._active_tags
 
     @classmethod
     def load(cls, save_data):
-        new_obj = cls(save_data)
+        convo_key, active_tags = save_data
+        new_obj = cls(convo_key)
+        new_obj._active_tags.update(active_tags)
+        new_obj._style.update(active_tags)
+        new_obj._renderText()
         return new_obj
 
     def _handleLoad(self):
@@ -124,13 +130,13 @@ class ModeConvo(ModeButtons, Saveable):
             if tag == "SHOW_MONSTER":
                 shared.state.protag_mon.rect.center = (160, 128)
                 self.all_sprites.add(shared.state.protag_mon)
-            elif tag == "HIDE_MONSTER":
-                shared.state.protag_mon.kill()
             elif tag == "START_CHAT_MUSIC":
                 pygame.mixer.music.load(constants.CHAT_LOOP)
                 pygame.mixer.music.play(-1)
+                self._active_tags.add("START_CHAT_MUSIC")
             elif tag == "STOP_MUSIC":
                 self._stopMixer()
+                self._active_tags.discard("START_CHAT_MUSIC")
 
     def _handleButton(self, prev_convo_key: str, index: int):
         """This function will handle any special case logic for clicking a button.

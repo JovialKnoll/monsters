@@ -26,4 +26,4 @@ Two: To help young monsters figure out who they want to be and how they want to 
 {MONSTER_NAME}, where are you?
 
 Oh, there you are!",>,13,,,,,,
-13,SHOW_MONSTER,Hi.,>,ModeMonConvo0,,,,,,
+13,SHOW_MONSTER|STOP_MUSIC,...,>,ModeIntroduction1,,,,,,

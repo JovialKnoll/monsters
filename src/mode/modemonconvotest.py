@@ -6,7 +6,7 @@ from .modetest import ModeTest
 from .modefight import ModeFight
 
 
-class ModeMonConvo0(ModeConvo):
+class ModeMonConvoTest(ModeConvo):
     def _handleButton(self, prev_convo_key: str, index: int):
         if index == 1:
             print("Really anything can happen here.")
@@ -14,8 +14,8 @@ class ModeMonConvo0(ModeConvo):
             self.next_mode = ModeFight(
                 shared.state.protag_mon,
                 Monster.atLevel(0),
-                ModeMonConvo0,
-                ModeMonConvo0,
+                ModeMonConvoTest,
+                ModeMonConvoTest,
                 ModeTest
             )
             return True

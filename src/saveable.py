@@ -23,6 +23,7 @@ class Saveable(abc.ABC):
 
 KEY_COLLECTION = 'COLLECTION'
 COLLECTION_DEQUE = 'DEQUE'
+COLLECTION_SET = 'SET'
 KEY_ELEMENTS = 'ELEMENTS'
 KEY_MAXLEN = 'MAXLEN'
 KEY_MODULE = 'MODULE'
@@ -37,6 +38,11 @@ class SaveableJSONEncoder(json.JSONEncoder):
                 KEY_COLLECTION: COLLECTION_DEQUE,
                 KEY_ELEMENTS: list(o),
                 KEY_MAXLEN: o.maxlen,
+            }
+        elif isinstance(o, set):
+            return {
+                KEY_COLLECTION: COLLECTION_SET,
+                KEY_ELEMENTS: list(o),
             }
         elif isinstance(o, type):
             return {
@@ -63,6 +69,8 @@ def decodeSaveable(dct: dict):
     if KEY_COLLECTION in dct:
         if dct[KEY_COLLECTION] == COLLECTION_DEQUE:
             return deque(dct[KEY_ELEMENTS], dct[KEY_MAXLEN])
+        elif dct[KEY_COLLECTION] == COLLECTION_SET:
+            return set(dct[KEY_ELEMENTS])
     elif {KEY_MODULE, KEY_CLASS} == dct.keys():
         return _getClass(dct)
     elif {KEY_MODULE, KEY_CLASS, KEY_SAVEABLE} == dct.keys():

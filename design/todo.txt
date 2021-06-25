@@ -1,8 +1,8 @@
 necessary:
 * opening music (loop)
 * content for convos and fights
-    first convo with monster
     outline for plot
+    fill out options in modemenu
     first fight
 * finalizing music and sound volumes
 * replace WAVs with OGGs (after above)

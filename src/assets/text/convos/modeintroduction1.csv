@@ -11,4 +11,4 @@ Without using their names, I mean.",Why is that?,3a,I see.,4
 7a,SHOW_MONSTER,"Not only that, but yes you do need to help me fight.",...,8,,
 7b,SHOW_MONSTER,You sound uncertain.,>,8,,
 8,SHOW_MONSTER,"Don't worry, it's not too hard.",>,9,,
-9,SHOW_MONSTER,,>,ModeMonConvoTest,,
+9,SHOW_MONSTER,"So, what are you up for now?",>,ModeMenu,,

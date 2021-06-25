@@ -1,11 +1,11 @@
-0,SHOW_MONSTER|START_CHAT_MUSIC,,Hello there.,1,,,,,,
-1,SHOW_MONSTER,"Well, I'm {MONSTER_NAME}.",My name is...,2,,,,,,
-2,SHOW_MONSTER,"Oh, I can see your name badge.",>,3,,,,,,
+0,SHOW_MONSTER|START_CHAT_MUSIC,,Hello there.,1,,
+1,SHOW_MONSTER,"Well, I'm {MONSTER_NAME}.",My name is...,2,,
+2,SHOW_MONSTER,"Oh, I can see your name badge.",>,3,,
 3,SHOW_MONSTER,"Plus, it's kind of the norm for us to just, talk to people.
-Without using their names, I mean.",Why is that?,3a,I see.,4,,,,
-3a,SHOW_MONSTER,I dunno. I guess we usually don't talk in large groups?,>,4,,,,,,
-4,SHOW_MONSTER,Anyway.,>,5,,,,,,
+Without using their names, I mean.",Why is that?,3a,I see.,4
+3a,SHOW_MONSTER,I dunno. I guess we usually don't talk in large groups?,>,4,,
+4,SHOW_MONSTER,Anyway.,>,5,,
 5,SHOW_MONSTER,"When do I get to fight another monster?
-",...,6,,,,,,
-6,SHOW_MONSTER,"What? That's what you're supposed to train me to do, right?",>,7,,,,,,
-7,SHOW_MONSTER,,>,ModeMonConvoTest,,,,,,
+",...,6,,
+6,SHOW_MONSTER,"What? That's what you're supposed to train me to do, right?",>,7,,
+7,SHOW_MONSTER,,>,ModeMonConvoTest,,

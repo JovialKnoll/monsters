@@ -7,5 +7,8 @@ Without using their names, I mean.",Why is that?,3a,I see.,4
 4,SHOW_MONSTER,Anyway.,>,5,,
 5,SHOW_MONSTER,"When do I get to fight another monster?
 ",...,6,,
-6,SHOW_MONSTER,"What? That's what you're supposed to train me to do, right?",>,7,,
-7,SHOW_MONSTER,,>,ModeMonConvoTest,,
+6,SHOW_MONSTER,"What? That's what you're supposed to train me to do, right?",No?,7a,I guess?,7b
+7a,SHOW_MONSTER,"Not only that, but yes you do need to help me fight.",...,8,,
+7b,SHOW_MONSTER,You sound uncertain.,>,8,,
+8,SHOW_MONSTER,"Don't worry, it's not too hard.",>,9,,
+9,SHOW_MONSTER,,>,ModeMonConvoTest,,

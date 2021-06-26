@@ -21,15 +21,3 @@ class ModeMenu(ModeConvo):
     @staticmethod
     def _getSpacing(stat_num: int):
         return (2 - math.ceil(math.log10(stat_num))) * "_"
-
-    def _handleButton(self, prev_convo_key: str, index: int):
-        if index == 0:
-            print("Go to a convo?")
-        elif index == 1:
-            print("Go to a fight?")
-        elif index == 2:
-            # uhhhh
-            print("Something?")
-        elif index == 3:
-            pygame.event.post(pygame.event.Event(pygame.QUIT, {}))
-        return False

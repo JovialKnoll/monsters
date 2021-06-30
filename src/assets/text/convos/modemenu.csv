@@ -1,5 +1,10 @@
 0,SHOW_MONSTER,,Let's talk.,1,Tell me how you're doing.,2,Let's go find a fight.,3,Let's take a break.,4
 1,SHOW_MONSTER,We just talked though? Let's go find a fight.,>,0,,,,,,
-2,SHOW_MONSTER,status check goes here,>,0,,,,,,
-3,SHOW_MONSTER,"chance to not fight goes here, then chance to go to fight",>,0,,,,,,
-4,SHOW_MONSTER,learning about esc menu goes here,>,0,,,,,,
+2,SHOW_MONSTER,"I'm fine, but let's go fight another monster.",>,0,,,,,,
+3,SHOW_MONSTER,Are you sure? Can I go fight now?,Yes,3a,No,3b,,,,
+3a,SHOW_MONSTER,"Cool! Okay okay, I got this, I can show you how this works.",>,3a1,,,,,,
+3a1,SHOW_MONSTER,INSERT FIGHT EXPLANATION HERE,>,3a1,,,,,,
+3b,SHOW_MONSTER,Aw! pfft.,>,0,,,,,,
+4,SHOW_MONSTER,"Oh, I think you can hit the ESC key?
+Trying to close out the window should also work.",>,4a,,,,,,
+4a,SHOW_MONSTER,That should bring up a menu.,>,0,,,,,,

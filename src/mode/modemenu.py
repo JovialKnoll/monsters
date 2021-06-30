@@ -1,7 +1,5 @@
 import math
 
-import pygame
-
 import shared
 from .modeconvo import ModeConvo
 

@@ -3,7 +3,9 @@
 2,SHOW_MONSTER,"I'm fine, but let's go fight another monster.",>,0,,,,,,
 3,SHOW_MONSTER,Are you sure? Can I go fight now?,Yes,3a,No,3b,,,,
 3a,SHOW_MONSTER,"Cool! Okay okay, I got this, I can show you how this works.",>,3a1,,,,,,
-3a1,SHOW_MONSTER,INSERT FIGHT EXPLANATION HERE,>,3a1,,,,,,
+3a1,SHOW_MONSTER,"Okay, I should be able to find another monster to fight.",>,3a2,,,,,,
+3a2,SHOW_MONSTER,"You can just tell me what to do during it, okay?",Got it.,3a3,Wait!,3b,,,,
+3a3,SHOW_MONSTER,,>,3a3,,,,,,
 3b,SHOW_MONSTER,Aw! pfft.,>,0,,,,,,
 4,SHOW_MONSTER,"Oh, I think you can hit the ESC key?
 Trying to close out the window should also work.",>,4a,,,,,,

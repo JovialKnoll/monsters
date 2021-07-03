@@ -2,7 +2,7 @@ necessary:
 * opening music (loop)
 * content for convos and fights
     outline for plot
-    fill out options in modemenu 
+    fill out options in modemenu
     first fight
 * finalizing music and sound volumes
 * replace WAVs with OGGs (after above)

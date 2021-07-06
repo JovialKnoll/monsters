@@ -9,7 +9,6 @@ import utility
 from animsprite import AnimSprite
 from monster import Monster
 
-from .mode import Mode
 from .modebuttons import ModeButtons
 
 
@@ -42,6 +41,11 @@ class ModeFight(ModeButtons):
         "Defend",
         "Escape",
     ]
+    _RESULT_SAVING = {
+        'draw': 0,
+        'win': 1,
+        'lose': -1,
+    }
 
     __slots__ = (
         '_background',
@@ -56,10 +60,10 @@ class ModeFight(ModeButtons):
         '_action_set',
         '_result_displayed',
         '_result',
-        '_result_mode',
+        '_get_next_mode',
     )
 
-    def __init__(self, player_mon: Monster, enemy_mon: Monster, draw_mode: Mode, win_mode: Mode, lose_mode: Mode):
+    def __init__(self, player_mon: Monster, enemy_mon: Monster, get_next_mode: callable):
         """The functions passed in should return the next mode."""
         super().__init__()
 
@@ -100,13 +104,8 @@ class ModeFight(ModeButtons):
         self._action_set = False
 
         self._result_displayed = 0
-
         self._result = False
-        self._result_mode = {
-            'draw': draw_mode,
-            'win': win_mode,
-            'lose': lose_mode,
-        }
+        self._get_next_mode = get_next_mode
 
     def _buttonPress(self):
         self._player_action = self._BOX_CHOICES[self._selected_button]
@@ -150,7 +149,8 @@ class ModeFight(ModeButtons):
             if (event.type == pygame.MOUSEBUTTONUP and event.button == 1) \
                     or (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
                 self._stopMixer()
-                self.next_mode = self._result_mode[self._result]()
+                shared.state.fight_results.append(self._RESULT_SAVING[self._result])
+                self.next_mode = self._get_next_mode()
                 return
         # in the middle of action display
         if self._player_action:
@@ -229,7 +229,7 @@ class ModeFight(ModeButtons):
     def _drawScreen(self, screen):
         screen.fill(constants.WHITE)
         screen.blit(self._background, (0, 0))
-        if not self._action_set and self._player_action not in self._result_mode:
+        if not self._action_set and self._player_action not in self._RESULT_SAVING:
             self._drawSelected(screen)
 
         player_bar_length = self._HEALTH_BAR_LENGTH \

@@ -1,5 +1,6 @@
 necessary:
 * opening music (loop)
+* hub/menu music (loop) (unless no)
 * content for convos and fights
     outline for plot
     fill out options in modemenu

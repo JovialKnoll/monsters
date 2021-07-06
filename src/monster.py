@@ -30,7 +30,6 @@ class Monster(AnimSprite):
 
     __slots__ = (
         'lvl',
-        'awr',
         'personality',
         'name',
         'skin',
@@ -43,15 +42,10 @@ class Monster(AnimSprite):
         'facing_right',
     )
 
-    def __init__(self, in_stats={}):
+    def __init__(self, in_stats: dict = None):
         """Create a new monster, setting stats, etc. as needed."""
         super().__init__()
         self.lvl = 0
-        # self.awr might not even need to be a thing, remove this if it ends up not mattering
-        # awareness, this is a thing for conversations / progress through the game
-        self.awr = 0
-        # it might make more sense to hold info for conversations flow in shared.state, but I'm not sure
-        # depends on how this number interacts with monster stuff
         self.personality = Personality.random()
         self.name = Personality.generateName(self.personality)
         self.skin = Skin.random(self.personality)
@@ -62,7 +56,8 @@ class Monster(AnimSprite):
         self.stats = {x: 2 for x in self.MAIN_STATS}
         self.stats['drv'] = self.DRV_MAX // 2
         self._levelStats()
-        self.stats.update(in_stats)
+        if in_stats is not None:
+            self.stats.update(in_stats)
         self.setHealth()
 
         self.rect = pygame.Rect(0, 0, 48, 48)
@@ -75,7 +70,6 @@ class Monster(AnimSprite):
         return {
             'super': super().save(),
             'lvl': self.lvl,
-            'awr': self.awr,
             'personality': self.personality,
             'name': self.name,
             'skin': self.skin,
@@ -90,7 +84,6 @@ class Monster(AnimSprite):
     def load(cls, save_data):
         new_obj = cls()
         new_obj.lvl = save_data['lvl']
-        new_obj.awr = save_data['awr']
         new_obj.personality = save_data['personality']
         new_obj.name = save_data['name']
         new_obj.skin = save_data['skin']
@@ -115,7 +108,7 @@ class Monster(AnimSprite):
     def _drvEffect(self):
         return self.stats['drv'] - self.DRV_MAX + 1
 
-    def fightHit(self, action):
+    def fightHit(self, action: str):
         # todo: make speed affect more things
         attack = self.stats['atk']
         defend = self.stats['def']
@@ -144,7 +137,7 @@ class Monster(AnimSprite):
         self.stats['hpm'] = self.stats['vit'] * 2 + self.stats['vit'] // 2 + self.stats['vit'] // 4
         self.stats['hpc'] = self.stats['hpm']
 
-    def _getSpritePath(self, section, group):
+    def _getSpritePath(self, section: str, group: str):
         part = ''
         if self.lvl > 0:
             part = random.randint(0, 2)
@@ -203,7 +196,7 @@ class Monster(AnimSprite):
         return True
 
     @classmethod
-    def atLevel(cls, in_lvl, in_stats={}):
+    def atLevel(cls, in_lvl, in_stats: dict = None):
         """Create a new monster at a given level not above the maximum level, setting stats, etc. as needed."""
         new_mon = cls(in_stats)
         for n in range(min(in_lvl, cls.LVL_MAX)):

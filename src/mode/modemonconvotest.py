@@ -2,7 +2,6 @@ import shared
 from monster import Monster
 
 from .modeconvo import ModeConvo
-from .modetest import ModeTest
 from .modefight import ModeFight
 
 
@@ -14,9 +13,7 @@ class ModeMonConvoTest(ModeConvo):
             self.next_mode = ModeFight(
                 shared.state.protag_mon,
                 Monster.atLevel(0),
-                ModeMonConvoTest,
-                ModeMonConvoTest,
-                ModeTest
+                lambda: ModeMonConvoTest(),
             )
             return True
         elif index == 3:

@@ -6,6 +6,7 @@ from monster import Monster
 from personality import Personality
 from .modeconvo import ModeConvo
 from .modefight import ModeFight
+from .modetalk0 import ModeTalk0
 
 
 class ModeMenu(ModeConvo):
@@ -34,16 +35,12 @@ class ModeMenu(ModeConvo):
                 self._text = "I'm so excited!"
 
     def _handleButton(self, prev_convo_key: str, index: int):
-        if index == "3a3":
+        if prev_convo_key == "3a3":
             self._stopMixer()
             self.next_mode = ModeFight(
                 shared.state.protag_mon,
                 Monster.atLevel(0),
-                ModeMonConvoTest,
-                ModeMonConvoTest,
-                ModeTest
+                lambda: ModeTalk0()
             )
-            # rewrite ModeFight:
-            # instead of switching based on outcome, write outcome to shared (and just go to a passed in mode)
             return True
         return False

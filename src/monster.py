@@ -97,12 +97,16 @@ class Monster(AnimSprite):
 
     def fightStart(self):
         self.stats['drv'] = self.DRV_MAX
+        if self.lvl == 0:
+            self.stats['drv'] -= 1
         self.setHealth()
 
     def _drvEffect(self):
-        return self.stats['drv'] - self.DRV_MAX + 1
+        return self.stats['drv'] - self.DRV_MAX + 2
 
     def fightHit(self, action: str):
+        # todo: this should mostly be dependent on self.personality.preferred_fight
+        # basically, make choosing correctly let player win
         # todo: make speed affect more things
         attack = self.stats['atk']
         defend = self.stats['def']

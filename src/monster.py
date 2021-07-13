@@ -8,7 +8,6 @@ import shared
 from animsprite import AnimSprite
 from personality import Personality
 from skin import Skin
-from mood import Mood
 
 
 class Monster(AnimSprite):
@@ -33,7 +32,6 @@ class Monster(AnimSprite):
         'personality',
         'name',
         'skin',
-        'mood',
         'stats',
         'sprite_groups',
         'sprite_paths',
@@ -49,12 +47,9 @@ class Monster(AnimSprite):
         self.personality = Personality.random()
         self.name = Personality.generateName(self.personality)
         self.skin = Skin.random(self.personality)
-        # access the SkinTone with self.skin[self.lvl]
-        self.mood = Mood.Neutral
-        # mood might only be changed by and do stuff during battles / convos? maybe
 
         self.stats = {x: 2 for x in self.MAIN_STATS}
-        self.stats['drv'] = self.DRV_MAX // 2
+        self.stats['drv'] = self.DRV_MAX
         self._levelStats()
         if in_stats is not None:
             self.stats.update(in_stats)
@@ -73,7 +68,6 @@ class Monster(AnimSprite):
             'personality': self.personality,
             'name': self.name,
             'skin': self.skin,
-            'mood': self.mood,
             'stats': self.stats,
             'sprite_groups': self.sprite_groups,
             'sprite_paths': self.sprite_paths,
@@ -87,7 +81,6 @@ class Monster(AnimSprite):
         new_obj.personality = save_data['personality']
         new_obj.name = save_data['name']
         new_obj.skin = save_data['skin']
-        new_obj.mood = save_data['mood']
         new_obj.stats = save_data['stats']
         new_obj.sprite_groups = save_data['sprite_groups']
         new_obj.sprite_paths = save_data['sprite_paths']
@@ -103,7 +96,8 @@ class Monster(AnimSprite):
         return new_obj
 
     def fightStart(self):
-        self.stats['drv'] = max(min(self.stats['drv'] + self.mood.drvChange, self.DRV_MAX), 0)
+        self.stats['drv'] = self.DRV_MAX
+        self.setHealth()
 
     def _drvEffect(self):
         return self.stats['drv'] - self.DRV_MAX + 1
@@ -124,6 +118,7 @@ class Monster(AnimSprite):
             defend = defend // 2 + self.stats['spd'] // 2
         attack = max(attack + random.randint(-1, 1) + self._drvEffect(), 0)
         defend = max(defend + random.randint(-1, 1) + self._drvEffect(), 0)
+        self.stats['drv'] = max(self.stats['drv'] - 1, 0)
         return attack, defend
 
     def _levelStats(self):

@@ -3,8 +3,6 @@ necessary:
 * hub/menu music (loop) (unless no)
 * content for convos and fights
     outline for plot
-    fill out options in modemenu
-    first fight
 * finalizing music and sound volumes
 * replace WAVs with OGGs (after above)
 * linux bugs:
@@ -15,4 +13,4 @@ necessary:
 
 optional:
 * re-evaluate mon stats
-    fight strat should be "figure out correct action for this monster (personality)
+    fight strat should be "figure out correct action for this monster (personality)"

@@ -167,19 +167,19 @@ class ModeFight(ModeButtons):
         self._action_set = not self._action_set
 
     def _playerActionDone(self):
-        player_attack_defend = self._player_mon.fightHit(self._player_action)
-        enemy_attack_defend = self._enemy_mon.fightHit(self._enemy_action)
+        player_hit_block = self._player_mon.fightHit(self._player_action)
+        enemy_hit_block = self._enemy_mon.fightHit(self._enemy_action)
         damage_to_player = utility.reduceNumber(
             max(
                 0,
-                enemy_attack_defend[0] - player_attack_defend[1]
+                enemy_hit_block[0] - player_hit_block[1]
             ),
             2
         )
         damage_to_enemy = utility.reduceNumber(
             max(
                 0,
-                player_attack_defend[0] - enemy_attack_defend[1]
+                player_hit_block[0] - enemy_hit_block[1]
             ),
             2
         )

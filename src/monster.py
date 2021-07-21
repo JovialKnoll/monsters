@@ -105,25 +105,29 @@ class Monster(AnimSprite):
         return self.stats['drv'] - self.DRV_MAX + 2
 
     def fightHit(self, action: str):
-        # todo: this should mostly be dependent on self.personality.preferred_fight
+        # todo: this should mostly be dependent on self.personality.preferred_action
         # basically, make choosing correctly let player win
         # todo: make speed affect more things
-        attack = self.stats['atk']
-        defend = self.stats['def']
+        hit = 0
+        block = 0
         if action == 'attack':
-            attack += self.stats['atk'] // 2 + self.stats['spd'] + random.randint(0, 1)
-            defend += self.stats['def'] // 2 + self.stats['atk'] // 2
+            hit = self.stats['atk'] // 2 + self.stats['spd'] // 2
+            block = hit
         elif action == 'defend':
-            attack += self.stats['atk'] // 2 + self.stats['def'] // 2
-            defend += self.stats['atk'] // 2 + self.stats['spd'] + random.randint(0, 1)
+            hit = self.stats['vit'] // 2 + self.stats['def'] // 2
+            block = hit
         # 'escape'
         else:
-            attack = attack // 2 + self.stats['spd'] // 2
-            defend = defend // 2 + self.stats['spd'] // 2
-        attack = max(attack + random.randint(-1, 1) + self._drvEffect(), 0)
-        defend = max(defend + random.randint(-1, 1) + self._drvEffect(), 0)
+            hit = self.stats['atk'] // 4 + self.stats['def'] // 4
+            block = self.stats['vit'] // 2 + self.stats['spd'] // 2
+        if action == self.personality.preferred_action:
+            # todo: multiplier of something on lvl here
+            hit += self.lvl
+        block += random.randint(0, 1)
+        hit = max(hit + random.randint(-1, 1) + self._drvEffect(), 0)
+        block = max(block + random.randint(-1, 1) + self._drvEffect(), 0)
         self.stats['drv'] = max(self.stats['drv'] - 1, 0)
-        return attack, defend
+        return hit, block
 
     def _levelStats(self):
         for stat in self.MAIN_STATS:
@@ -133,7 +137,8 @@ class Monster(AnimSprite):
         self.stats[self.personality.stat] += 2
 
     def setHealth(self):
-        self.stats['hpm'] = self.stats['vit'] * 2 + self.stats['vit'] // 2 + self.stats['vit'] // 4
+        # make this more lvl based
+        self.stats['hpm'] = 8 + (self.lvl * 2 + 1)**2 + self.stats['vit'] // 4
         self.stats['hpc'] = self.stats['hpm']
 
     def _getSpritePath(self, section: str, group: str):

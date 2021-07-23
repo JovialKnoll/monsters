@@ -1,7 +1,7 @@
 necessary:
 * opening music (loop)
 * hub/menu music (loop) (unless no)
-* content for convos and fights
+* content for convos linked to fights
     outline for plot
 * finalizing music and sound volumes
 * replace WAVs with OGGs (after above)
@@ -10,7 +10,3 @@ necessary:
         seems to be an actual pygame bug, either wait for a fix, help, or workaround
 * try to make cleaner directory later
     https://stackoverflow.com/questions/19579979/pyinstaller-changing-dll-and-pyd-output-location
-
-optional:
-* re-evaluate mon stats
-    fight strat should be "figure out correct action for this monster (personality)"

@@ -104,24 +104,30 @@ class Monster(AnimSprite):
     def _drvEffect(self):
         return self.stats['drv'] - self.DRV_MAX + 2
 
+    def _getHealthBasis(self):
+        return 8 + (self.lvl * 2 + 1)**2
+
     def fightHit(self, action: str):
         # todo: this should mostly be dependent on self.personality.preferred_action
         # basically, make choosing correctly let player win
         # todo: make speed affect more things
         hit = 0
         block = 0
-        if action == 'attack':
+        if action == 'Attack':
             hit = self.stats['atk'] // 2 + self.stats['spd'] // 2
             block = hit + random.randint(0, 1)
-        elif action == 'defend':
+        elif action == 'Defend':
             hit = self.stats['vit'] // 2 + self.stats['def'] // 2
             block = hit + random.randint(0, 1)
-        # 'escape'
+        # 'Escape'
         else:
-            hit = self.stats['atk'] // 4
+            hit = self.stats['atk'] // 4 - self._getHealthBasis() // 4 - random.randint(1, 4)
             block = self.stats['def'] // 2 + self.stats['spd'] // 2
         if action == self.personality.preferred_action:
-            hit += self.getHealthBasis() / 4 + random.randint(-1, 0)
+            hit += self._getHealthBasis() // 4
+            block += self._getHealthBasis() // 4
+        else:
+            hit -= self._getHealthBasis() // 4 + random.randint(1, 2)
         hit = max(hit + random.randint(-1, 1) + self._drvEffect(), 0)
         block = max(block + random.randint(-1, 1) + self._drvEffect(), 0)
         self.stats['drv'] = max(self.stats['drv'] - 1, 0)
@@ -134,12 +140,9 @@ class Monster(AnimSprite):
             self.stats[stat] += 1
         self.stats[self.personality.stat] += 2
 
-    def getHealthBasis(self):
-        return 8 + (self.lvl * 2 + 1)**2
-
     def setHealth(self):
         # make this more lvl based
-        self.stats['hpm'] = self.getHealthBasis() + self.stats['vit']
+        self.stats['hpm'] = self._getHealthBasis() + self.stats['vit']
         self.stats['hpc'] = self.stats['hpm']
 
     def _getSpritePath(self, section: str, group: str):

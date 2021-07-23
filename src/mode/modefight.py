@@ -1,4 +1,5 @@
 import random
+import itertools
 from collections import deque
 
 import pygame
@@ -54,6 +55,7 @@ class ModeFight(ModeButtons):
         '_bwop',
         '_player_mon',
         '_enemy_mon',
+        '_enemy_choices',
         '_player_action',
         '_enemy_action',
         '_action_display',
@@ -89,6 +91,9 @@ class ModeFight(ModeButtons):
 
         self._player_mon = player_mon
         self._enemy_mon = enemy_mon
+        self._enemy_choices = self._BOX_CHOICES \
+            + list(itertools.repeat(self._enemy_mon.personality.preferred_action, 3))
+        print(self._enemy_choices)
 
         self._player_mon.fightStart()
         self._player_mon.setImage(True)
@@ -109,7 +114,7 @@ class ModeFight(ModeButtons):
 
     def _buttonPress(self):
         self._player_action = self._BOX_CHOICES[self._selected_button]
-        self._enemy_action = random.choice(('Attack', 'Defend'))
+        self._enemy_action = random.choice(self._enemy_choices)
 
         if self._player_action == 'Attack':
             self._setActionDisplay("I'm gonna hit 'em!")
@@ -142,6 +147,11 @@ class ModeFight(ModeButtons):
                                       sound=self._bwop, positional_sound=True)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 67, 4, 0)
+        elif self._player_action == 'Escape':
+            self._enemy_mon.addWait(self._ANIM_WAIT)
+            self._enemy_mon.addWait(0, sound=self._rooeee, positional_sound=True)
+            self._enemy_mon.addPosRel(AnimSprite.Lerp, 333, 20, 0)
+            self._enemy_mon.addPosRel(AnimSprite.Lerp, 67, -20, 0)
 
     def _input(self, event):
         # click forward to next mode
@@ -169,26 +179,34 @@ class ModeFight(ModeButtons):
     def _playerActionDone(self):
         player_hit_block = self._player_mon.fightHit(self._player_action)
         enemy_hit_block = self._enemy_mon.fightHit(self._enemy_action)
-        damage_to_player = utility.reduceNumber(
+
+        raw_player_damage = enemy_hit_block[0] - player_hit_block[1]
+        final_player_damage = utility.reduceNumber(
             max(
                 0,
-                enemy_hit_block[0] - player_hit_block[1]
+                raw_player_damage
             ),
             2
         )
-        damage_to_enemy = utility.reduceNumber(
+        raw_enemy_damage = player_hit_block[0] - enemy_hit_block[1]
+        final_enemy_damage = utility.reduceNumber(
             max(
                 0,
-                player_hit_block[0] - enemy_hit_block[1]
+                raw_enemy_damage
             ),
             2
         )
-        if damage_to_player == 0 and damage_to_enemy == 0:
-            damage_to_player = damage_to_enemy = 1
+        if final_player_damage == 0 and final_enemy_damage == 0:
+            if raw_player_damage > raw_enemy_damage:
+                final_player_damage = 1
+            elif raw_enemy_damage > raw_player_damage:
+                final_enemy_damage = 1
+            else:
+                final_player_damage = final_enemy_damage = 1
         # display results below
-        self._setActionDisplay("Hit for " + str(damage_to_enemy) + "! Took " + str(damage_to_player) + "!")
-        self._player_mon.stats['hpc'] -= damage_to_player
-        self._enemy_mon.stats['hpc'] -= damage_to_enemy
+        self._setActionDisplay("Hit for " + str(final_enemy_damage) + "! Took " + str(final_player_damage) + "!")
+        self._player_mon.stats['hpc'] -= final_player_damage
+        self._enemy_mon.stats['hpc'] -= final_enemy_damage
 
         if self._player_mon.stats['hpc'] < 1 and self._enemy_mon.stats['hpc'] < 1:
             self._setupEnd('draw')

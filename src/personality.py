@@ -5,19 +5,19 @@ class Personality(object):
     # Passing around classes instead of strings or something, sort of like an enum.
     class Affectionate(object):
         stat = 'vit'
-        preferred_action = 'defend'
+        preferred_action = 'Defend'
 
     class Aggressive(object):
         stat = 'atk'
-        preferred_action = 'attack'
+        preferred_action = 'Attack'
 
     class Careful(object):
         stat = 'def'
-        preferred_action = 'defend'
+        preferred_action = 'Defend'
 
     class Energetic(object):
         stat = 'spd'
-        preferred_action = 'attack'
+        preferred_action = 'Attack'
 
     @classmethod
     def random(cls):

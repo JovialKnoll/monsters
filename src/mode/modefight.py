@@ -147,7 +147,7 @@ class ModeFight(ModeButtons):
                                       sound=self._bwop, positional_sound=True)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 67, 4, 0)
-        elif self._player_action == 'Escape':
+        elif self._enemy_action == 'Escape':
             self._enemy_mon.addWait(self._ANIM_WAIT)
             self._enemy_mon.addWait(0, sound=self._rooeee, positional_sound=True)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 333, 20, 0)

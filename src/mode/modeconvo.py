@@ -60,6 +60,7 @@ class ModeConvo(ModeButtons, Saveable):
         self._loadText()
         self._resetPosition()
         self._renderText()
+        self._text_rect.clamp_ip(self._surf_text.get_rect())
 
     @classmethod
     def _getScript(cls):

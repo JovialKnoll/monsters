@@ -8,7 +8,6 @@ import shared
 from animsprite import AnimSprite
 from personality import Personality
 from skin import Skin
-from mood import Mood
 
 
 class Monster(AnimSprite):
@@ -33,7 +32,6 @@ class Monster(AnimSprite):
         'personality',
         'name',
         'skin',
-        'mood',
         'stats',
         'sprite_groups',
         'sprite_paths',
@@ -49,12 +47,9 @@ class Monster(AnimSprite):
         self.personality = Personality.random()
         self.name = Personality.generateName(self.personality)
         self.skin = Skin.random(self.personality)
-        # access the SkinTone with self.skin[self.lvl]
-        self.mood = Mood.Neutral
-        # mood might only be changed by and do stuff during battles / convos? maybe
 
         self.stats = {x: 2 for x in self.MAIN_STATS}
-        self.stats['drv'] = self.DRV_MAX // 2
+        self.stats['drv'] = self.DRV_MAX
         self._levelStats()
         if in_stats is not None:
             self.stats.update(in_stats)
@@ -73,7 +68,6 @@ class Monster(AnimSprite):
             'personality': self.personality,
             'name': self.name,
             'skin': self.skin,
-            'mood': self.mood,
             'stats': self.stats,
             'sprite_groups': self.sprite_groups,
             'sprite_paths': self.sprite_paths,
@@ -87,7 +81,6 @@ class Monster(AnimSprite):
         new_obj.personality = save_data['personality']
         new_obj.name = save_data['name']
         new_obj.skin = save_data['skin']
-        new_obj.mood = save_data['mood']
         new_obj.stats = save_data['stats']
         new_obj.sprite_groups = save_data['sprite_groups']
         new_obj.sprite_paths = save_data['sprite_paths']
@@ -103,28 +96,42 @@ class Monster(AnimSprite):
         return new_obj
 
     def fightStart(self):
-        self.stats['drv'] = max(min(self.stats['drv'] + self.mood.drvChange, self.DRV_MAX), 0)
+        self.stats['drv'] = self.DRV_MAX
+        if self.lvl == 0:
+            self.stats['drv'] -= 1
+        self.setHealth()
 
     def _drvEffect(self):
-        return self.stats['drv'] - self.DRV_MAX + 1
+        return self.stats['drv'] - self.DRV_MAX + 2
 
-    def fightHit(self, action: str):
-        # todo: make speed affect more things
-        attack = self.stats['atk']
-        defend = self.stats['def']
-        if action == 'attack':
-            attack += self.stats['atk'] // 2 + self.stats['spd'] + random.randint(0, 1)
-            defend += self.stats['def'] // 2 + self.stats['atk'] // 2
-        elif action == 'defend':
-            attack += self.stats['atk'] // 2 + self.stats['def'] // 2
-            defend += self.stats['atk'] // 2 + self.stats['spd'] + random.randint(0, 1)
-        # 'escape'
+    def _getHealthBasis(self):
+        return 8 + (self.lvl * 2 + 1)**2
+
+    def fightHit(self, action: str, is_protag: bool = False):
+        hit = 0
+        block = 0
+        if action == 'Attack':
+            hit = self.stats['atk'] // 2 + self.stats['spd'] // 2
+            block = hit + random.randint(0, 1)
+        elif action == 'Defend':
+            hit = self.stats['vit'] // 2 + self.stats['def'] // 2
+            block = hit + random.randint(0, 1)
+        # 'Escape'
         else:
-            attack = attack // 2 + self.stats['spd'] // 2
-            defend = defend // 2 + self.stats['spd'] // 2
-        attack = max(attack + random.randint(-1, 1) + self._drvEffect(), 0)
-        defend = max(defend + random.randint(-1, 1) + self._drvEffect(), 0)
-        return attack, defend
+            hit = self.stats['atk'] // 4 - self._getHealthBasis() // 4 - random.randint(1, 4)
+            block = self.stats['def'] // 2 + self.stats['spd'] // 2
+        if action == self.personality.preferred_action:
+            bonus = self._getHealthBasis() // 3
+            if is_protag:
+                bonus = self._getHealthBasis() // 2
+            hit += bonus
+            block += bonus
+        else:
+            hit -= self._getHealthBasis() // 4 + random.randint(1, 2)
+        hit = max(hit + random.randint(-1, 1) + self._drvEffect(), 0)
+        block = max(block + random.randint(-1, 1) + self._drvEffect(), 0)
+        self.stats['drv'] = max(self.stats['drv'] - 1, 0)
+        return hit, block
 
     def _levelStats(self):
         for stat in self.MAIN_STATS:
@@ -134,7 +141,7 @@ class Monster(AnimSprite):
         self.stats[self.personality.stat] += 2
 
     def setHealth(self):
-        self.stats['hpm'] = self.stats['vit'] * 2 + self.stats['vit'] // 2 + self.stats['vit'] // 4
+        self.stats['hpm'] = self._getHealthBasis() + self.stats['vit']
         self.stats['hpc'] = self.stats['hpm']
 
     def _getSpritePath(self, section: str, group: str):

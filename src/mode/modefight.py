@@ -259,6 +259,5 @@ class ModeFight(ModeButtons):
             * self._enemy_mon.stats['hpc'] // self._enemy_mon.stats['hpm']
         screen.fill(self._enemy_mon.getLightSkin(), (294 - enemy_bar_length, 30, enemy_bar_length, 10))
         screen.blit(self._health_bar, (233, 29))
-        # maybe draw health numbers / stats / etc
         for index, line in enumerate(self._action_display):
             screen.blit(line, (120, 166 - constants.FONT_HEIGHT * index))

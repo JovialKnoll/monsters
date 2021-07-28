@@ -108,8 +108,6 @@ class Monster(AnimSprite):
         return 8 + (self.lvl * 2 + 1)**2
 
     def fightHit(self, action: str, is_protag: bool = False):
-        # todo: this should mostly be dependent on self.personality.preferred_action
-        # basically, make choosing correctly let player win
         hit = 0
         block = 0
         if action == 'Attack':
@@ -143,7 +141,6 @@ class Monster(AnimSprite):
         self.stats[self.personality.stat] += 2
 
     def setHealth(self):
-        # make this more lvl based
         self.stats['hpm'] = self._getHealthBasis() + self.stats['vit']
         self.stats['hpc'] = self.stats['hpm']
 

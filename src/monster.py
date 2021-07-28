@@ -107,10 +107,9 @@ class Monster(AnimSprite):
     def _getHealthBasis(self):
         return 8 + (self.lvl * 2 + 1)**2
 
-    def fightHit(self, action: str):
+    def fightHit(self, action: str, is_protag: bool = False):
         # todo: this should mostly be dependent on self.personality.preferred_action
         # basically, make choosing correctly let player win
-        # todo: make speed affect more things
         hit = 0
         block = 0
         if action == 'Attack':
@@ -124,8 +123,11 @@ class Monster(AnimSprite):
             hit = self.stats['atk'] // 4 - self._getHealthBasis() // 4 - random.randint(1, 4)
             block = self.stats['def'] // 2 + self.stats['spd'] // 2
         if action == self.personality.preferred_action:
-            hit += self._getHealthBasis() // 4
-            block += self._getHealthBasis() // 4
+            bonus = self._getHealthBasis() // 3
+            if is_protag:
+                bonus = self._getHealthBasis() // 2
+            hit += bonus
+            block += bonus
         else:
             hit -= self._getHealthBasis() // 4 + random.randint(1, 2)
         hit = max(hit + random.randint(-1, 1) + self._drvEffect(), 0)

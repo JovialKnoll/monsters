@@ -177,7 +177,7 @@ class ModeFight(ModeButtons):
         self._action_set = not self._action_set
 
     def _playerActionDone(self):
-        player_hit_block = self._player_mon.fightHit(self._player_action)
+        player_hit_block = self._player_mon.fightHit(self._player_action, True)
         enemy_hit_block = self._enemy_mon.fightHit(self._enemy_action)
 
         raw_player_damage = enemy_hit_block[0] - player_hit_block[1]

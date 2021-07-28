@@ -10,5 +10,3 @@ necessary:
         seems to be an actual pygame bug, either wait for a fix, help, or workaround
 * try to make cleaner directory later
     https://stackoverflow.com/questions/19579979/pyinstaller-changing-dll-and-pyd-output-location
-
-put finger on scale more for player winning

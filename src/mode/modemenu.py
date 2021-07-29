@@ -17,12 +17,12 @@ class ModeMenu(ModeConvo):
     def _handleLoad(self):
         if self._convo_key == "0":
             mon = shared.state.protag_mon
-            mon_string = "lvl: " + str(mon.lvl) + "\n"
+            mon_string = f"lvl: {mon.lvl}\n"
             mon_string += "_".join(
-                [stat + ": " + str(mon.stats[stat]) + self._getSpacing(mon.stats[stat]) for stat in mon.MAIN_STATS]
+                [f"{stat}: {mon.stats[stat]}" + self._getSpacing(mon.stats[stat]) for stat in mon.MAIN_STATS]
             )
-            mon_string += "\ndrv: " + str(mon.stats['drv']) + "/" + str(mon.DRV_MAX)
-            mon_string += "\n_hp: " + str(mon.stats['hpc']) + "/" + str(mon.stats['hpm'])
+            mon_string += f"\ndrv: {mon.stats['drv']}/{mon.DRV_MAX}"
+            mon_string += f"\n_hp: {mon.stats['hpc']}/{mon.stats['hpm']}"
             self._text = mon.name + "\n" + mon_string.upper()
         elif self._convo_key == "3a3":
             if shared.state.protag_mon.personality == Personality.Affectionate:

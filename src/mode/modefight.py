@@ -47,6 +47,9 @@ class ModeFight(ModeButtons):
         'win': 1,
         'lose': -1,
     }
+    _PLAYER_BAR_X = 137
+    _ENEMY_BAR_X = 233
+    _PLAYER_BAR_Y = _ENEMY_BAR_Y = 29
 
     __slots__ = (
         '_background',
@@ -116,9 +119,10 @@ class ModeFight(ModeButtons):
     def _drawHP(self):
         player_health_text = f"{self._player_mon.stats['hpc']}/{self._player_mon.stats['hpm']}"
         enemy_health_text = f"{self._enemy_mon.stats['hpc']}/{self._enemy_mon.stats['hpm']}"
+        text_width = constants.FONT_SIZE * 5
         # 62 x 12
-        # screen.blit(self._health_bar, (137, 29)) (player)
-        # screen.blit(self._health_bar, (233, 29)) (enemy)
+        # screen.blit(self._health_bar, (self._PLAYER_BAR_X, self._PLAYER_BAR_Y)) (player)
+        # screen.blit(self._health_bar, (self._ENEMY_BAR_X, self._ENEMY_BAR_Y)) (enemy)
 
     def _buttonPress(self):
         self._player_action = self._BOX_CHOICES[self._selected_button]
@@ -261,12 +265,18 @@ class ModeFight(ModeButtons):
 
         player_bar_length = self._HEALTH_BAR_LENGTH \
             * self._player_mon.stats['hpc'] // self._player_mon.stats['hpm']
-        screen.fill(self._player_mon.getLightSkin(), (138, 30, player_bar_length, 10))
-        screen.blit(self._health_bar, (137, 29))
+        screen.fill(
+            self._player_mon.getLightSkin(),
+            (self._PLAYER_BAR_X + 1, self._PLAYER_BAR_Y + 1, player_bar_length, 10)
+        )
+        screen.blit(self._health_bar, (self._PLAYER_BAR_X, self._PLAYER_BAR_Y))
 
         enemy_bar_length = self._HEALTH_BAR_LENGTH \
             * self._enemy_mon.stats['hpc'] // self._enemy_mon.stats['hpm']
-        screen.fill(self._enemy_mon.getLightSkin(), (294 - enemy_bar_length, 30, enemy_bar_length, 10))
-        screen.blit(self._health_bar, (233, 29))
+        screen.fill(
+            self._enemy_mon.getLightSkin(),
+            (self._ENEMY_BAR_X + 1 - enemy_bar_length, self._ENEMY_BAR_Y + 1, enemy_bar_length, 10)
+        )
+        screen.blit(self._health_bar, (self._ENEMY_BAR_X, self._ENEMY_BAR_Y))
         for index, line in enumerate(self._action_display):
             screen.blit(line, (120, 166 - constants.FONT_HEIGHT * index))

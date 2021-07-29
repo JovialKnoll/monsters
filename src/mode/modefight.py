@@ -81,6 +81,7 @@ class ModeFight(ModeButtons):
             )
         self._background = self._background.convert(shared.display.screen)
         self._background.set_colorkey(constants.COLORKEY)
+        self._drawHP()
 
         pygame.mixer.music.load(constants.FIGHT_LOOP)
         pygame.mixer.music.play(-1)
@@ -111,6 +112,13 @@ class ModeFight(ModeButtons):
         self._result_displayed = 0
         self._result = False
         self._get_next_mode = get_next_mode
+
+    def _drawHP(self):
+        player_health_text = f"{self._player_mon.stats['hpc']}/{self._player_mon.stats['hpm']}"
+        enemy_health_text = f"{self._enemy_mon.stats['hpc']}/{self._enemy_mon.stats['hpm']}"
+        # 62 x 12
+        # screen.blit(self._health_bar, (137, 29)) (player)
+        # screen.blit(self._health_bar, (233, 29)) (enemy)
 
     def _buttonPress(self):
         self._player_action = self._BOX_CHOICES[self._selected_button]
@@ -207,6 +215,7 @@ class ModeFight(ModeButtons):
         self._setActionDisplay("Hit for " + str(final_enemy_damage) + "! Took " + str(final_player_damage) + "!")
         self._player_mon.stats['hpc'] -= final_player_damage
         self._enemy_mon.stats['hpc'] -= final_enemy_damage
+        self._drawHP()
 
         if self._player_mon.stats['hpc'] < 1 and self._enemy_mon.stats['hpc'] < 1:
             self._setupEnd('draw')

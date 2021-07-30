@@ -52,13 +52,13 @@ class ModeFight(ModeButtons):
     _PLAYER_BAR_Y = _ENEMY_BAR_Y = 29
 
     __slots__ = (
+        '_player_mon',
+        '_enemy_mon',
+        '_enemy_choices',
         '_background',
         '_thunk',
         '_rooeee',
         '_bwop',
-        '_player_mon',
-        '_enemy_mon',
-        '_enemy_choices',
         '_player_action',
         '_enemy_action',
         '_action_display',
@@ -71,6 +71,11 @@ class ModeFight(ModeButtons):
     def __init__(self, player_mon: Monster, enemy_mon: Monster, get_next_mode: callable):
         """The functions passed in should return the next mode."""
         super().__init__()
+
+        self._player_mon = player_mon
+        self._enemy_mon = enemy_mon
+        self._enemy_choices = self._BOX_CHOICES \
+            + list(itertools.repeat(self._enemy_mon.personality.preferred_action, 3))
 
         self._background = pygame.image.load(constants.LAYOUT_2_FILE)
         for index, choice in enumerate(self._BOX_CHOICES):
@@ -92,11 +97,6 @@ class ModeFight(ModeButtons):
         self._thunk = pygame.mixer.Sound(constants.THUNK)
         self._rooeee = pygame.mixer.Sound(constants.ROOEEE)
         self._bwop = pygame.mixer.Sound(constants.BWOP)
-
-        self._player_mon = player_mon
-        self._enemy_mon = enemy_mon
-        self._enemy_choices = self._BOX_CHOICES \
-            + list(itertools.repeat(self._enemy_mon.personality.preferred_action, 3))
 
         self._player_mon.fightStart()
         self._player_mon.setImage(True)
@@ -122,6 +122,32 @@ class ModeFight(ModeButtons):
         # 62 x 12
         # screen.blit(self._health_bar, (self._PLAYER_BAR_X, self._PLAYER_BAR_Y)) (player)
         # screen.blit(self._health_bar, (self._ENEMY_BAR_X, self._ENEMY_BAR_Y)) (enemy)
+        player_health_dest = (
+            self._PLAYER_BAR_X + self._HEALTH_BAR_LENGTH + 2 - text_width,
+            self._PLAYER_BAR_Y - constants.FONT_HEIGHT
+        )
+        enemy_health_dest = (
+            self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 2 - text_width,
+            self._ENEMY_BAR_Y - constants.FONT_HEIGHT
+        )
+        shared.font_wrap.renderToInside(
+            self._background,
+            player_health_dest,
+            text_width,
+            player_health_text,
+            False,
+            constants.TEXT_COLOR,
+            background=constants.WHITE
+        )
+        shared.font_wrap.renderToInside(
+            self._background,
+            enemy_health_dest,
+            text_width,
+            enemy_health_text,
+            False,
+            constants.TEXT_COLOR,
+            background=constants.WHITE
+        )
 
     def _buttonPress(self):
         self._player_action = self._BOX_CHOICES[self._selected_button]

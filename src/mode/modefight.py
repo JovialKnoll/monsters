@@ -97,7 +97,6 @@ class ModeFight(ModeButtons):
         self._enemy_mon = enemy_mon
         self._enemy_choices = self._BOX_CHOICES \
             + list(itertools.repeat(self._enemy_mon.personality.preferred_action, 3))
-        print(self._enemy_choices)
 
         self._player_mon.fightStart()
         self._player_mon.setImage(True)

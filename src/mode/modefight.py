@@ -37,6 +37,7 @@ class ModeFight(ModeButtons):
     _ENEMY_POS = (262, 128)
     _ANIM_WAIT = 250
     _HEALTH_BAR_LENGTH = 60
+    _HEALTH_BAR_HEIGHT = 10
     _BOX_CHOICES = [
         "Attack",
         "Defend",
@@ -47,15 +48,18 @@ class ModeFight(ModeButtons):
         'win': 1,
         'lose': -1,
     }
+    _PLAYER_BAR_X = 137
+    _ENEMY_BAR_X = 233
+    _PLAYER_BAR_Y = _ENEMY_BAR_Y = 29
 
     __slots__ = (
+        '_player_mon',
+        '_enemy_mon',
+        '_enemy_choices',
         '_background',
         '_thunk',
         '_rooeee',
         '_bwop',
-        '_player_mon',
-        '_enemy_mon',
-        '_enemy_choices',
         '_player_action',
         '_enemy_action',
         '_action_display',
@@ -69,6 +73,11 @@ class ModeFight(ModeButtons):
         """The functions passed in should return the next mode."""
         super().__init__()
 
+        self._player_mon = player_mon
+        self._enemy_mon = enemy_mon
+        self._enemy_choices = self._BOX_CHOICES \
+            + list(itertools.repeat(self._enemy_mon.personality.preferred_action, 3))
+
         self._background = pygame.image.load(constants.LAYOUT_2_FILE)
         for index, choice in enumerate(self._BOX_CHOICES):
             shared.font_wrap.renderToInside(
@@ -81,6 +90,7 @@ class ModeFight(ModeButtons):
             )
         self._background = self._background.convert(shared.display.screen)
         self._background.set_colorkey(constants.COLORKEY)
+        self._drawHP()
 
         pygame.mixer.music.load(constants.FIGHT_LOOP)
         pygame.mixer.music.play(-1)
@@ -88,12 +98,6 @@ class ModeFight(ModeButtons):
         self._thunk = pygame.mixer.Sound(constants.THUNK)
         self._rooeee = pygame.mixer.Sound(constants.ROOEEE)
         self._bwop = pygame.mixer.Sound(constants.BWOP)
-
-        self._player_mon = player_mon
-        self._enemy_mon = enemy_mon
-        self._enemy_choices = self._BOX_CHOICES \
-            + list(itertools.repeat(self._enemy_mon.personality.preferred_action, 3))
-        print(self._enemy_choices)
 
         self._player_mon.fightStart()
         self._player_mon.setImage(True)
@@ -111,6 +115,41 @@ class ModeFight(ModeButtons):
         self._result_displayed = 0
         self._result = False
         self._get_next_mode = get_next_mode
+
+    def _drawHP(self):
+        player_health_text = f"{self._player_mon.stats['hpc']}/{self._player_mon.stats['hpm']}"
+        if self._player_mon.stats['hpc'] < 10:
+            player_health_text = "_" + player_health_text
+        enemy_health_text = f"{self._enemy_mon.stats['hpc']}/{self._enemy_mon.stats['hpm']}"
+        if self._enemy_mon.stats['hpc'] < 10:
+            enemy_health_text = "_" + enemy_health_text
+        text_width = constants.FONT_SIZE * 5
+        player_health_dest = (
+            self._PLAYER_BAR_X + self._HEALTH_BAR_LENGTH + 2 - text_width,
+            self._PLAYER_BAR_Y - constants.FONT_HEIGHT
+        )
+        enemy_health_dest = (
+            self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 2 - text_width,
+            self._ENEMY_BAR_Y - constants.FONT_HEIGHT
+        )
+        shared.font_wrap.renderToInside(
+            self._background,
+            player_health_dest,
+            text_width,
+            player_health_text,
+            False,
+            constants.TEXT_COLOR,
+            background=constants.WHITE
+        )
+        shared.font_wrap.renderToInside(
+            self._background,
+            enemy_health_dest,
+            text_width,
+            enemy_health_text,
+            False,
+            constants.TEXT_COLOR,
+            background=constants.WHITE
+        )
 
     def _buttonPress(self):
         self._player_action = self._BOX_CHOICES[self._selected_button]
@@ -207,6 +246,7 @@ class ModeFight(ModeButtons):
         self._setActionDisplay("Hit for " + str(final_enemy_damage) + "! Took " + str(final_player_damage) + "!")
         self._player_mon.stats['hpc'] -= final_player_damage
         self._enemy_mon.stats['hpc'] -= final_enemy_damage
+        self._drawHP()
 
         if self._player_mon.stats['hpc'] < 1 and self._enemy_mon.stats['hpc'] < 1:
             self._setupEnd('draw')
@@ -252,12 +292,28 @@ class ModeFight(ModeButtons):
 
         player_bar_length = self._HEALTH_BAR_LENGTH \
             * self._player_mon.stats['hpc'] // self._player_mon.stats['hpm']
-        screen.fill(self._player_mon.getLightSkin(), (138, 30, player_bar_length, 10))
-        screen.blit(self._health_bar, (137, 29))
+        screen.fill(
+            self._player_mon.getLightSkin(),
+            (
+                self._PLAYER_BAR_X + 1,
+                self._PLAYER_BAR_Y + 1,
+                player_bar_length,
+                self._HEALTH_BAR_HEIGHT
+            )
+        )
+        screen.blit(self._health_bar, (self._PLAYER_BAR_X, self._PLAYER_BAR_Y))
 
         enemy_bar_length = self._HEALTH_BAR_LENGTH \
             * self._enemy_mon.stats['hpc'] // self._enemy_mon.stats['hpm']
-        screen.fill(self._enemy_mon.getLightSkin(), (294 - enemy_bar_length, 30, enemy_bar_length, 10))
-        screen.blit(self._health_bar, (233, 29))
+        screen.fill(
+            self._enemy_mon.getLightSkin(),
+            (
+                self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 1 - enemy_bar_length,
+                self._ENEMY_BAR_Y + 1,
+                enemy_bar_length,
+                self._HEALTH_BAR_HEIGHT
+            )
+        )
+        screen.blit(self._health_bar, (self._ENEMY_BAR_X, self._ENEMY_BAR_Y))
         for index, line in enumerate(self._action_display):
             screen.blit(line, (120, 166 - constants.FONT_HEIGHT * index))

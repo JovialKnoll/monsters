@@ -118,7 +118,11 @@ class ModeFight(ModeButtons):
 
     def _drawHP(self):
         player_health_text = f"{self._player_mon.stats['hpc']}/{self._player_mon.stats['hpm']}"
+        if self._player_mon.stats['hpc'] < 10:
+            player_health_text = "_" + player_health_text
         enemy_health_text = f"{self._enemy_mon.stats['hpc']}/{self._enemy_mon.stats['hpm']}"
+        if self._enemy_mon.stats['hpc'] < 10:
+            enemy_health_text = "_" + enemy_health_text
         text_width = constants.FONT_SIZE * 5
         player_health_dest = (
             self._PLAYER_BAR_X + self._HEALTH_BAR_LENGTH + 2 - text_width,

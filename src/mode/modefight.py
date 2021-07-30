@@ -37,6 +37,7 @@ class ModeFight(ModeButtons):
     _ENEMY_POS = (262, 128)
     _ANIM_WAIT = 250
     _HEALTH_BAR_LENGTH = 60
+    _HEALTH_BAR_HEIGHT = 10
     _BOX_CHOICES = [
         "Attack",
         "Defend",
@@ -119,9 +120,6 @@ class ModeFight(ModeButtons):
         player_health_text = f"{self._player_mon.stats['hpc']}/{self._player_mon.stats['hpm']}"
         enemy_health_text = f"{self._enemy_mon.stats['hpc']}/{self._enemy_mon.stats['hpm']}"
         text_width = constants.FONT_SIZE * 5
-        # 62 x 12
-        # screen.blit(self._health_bar, (self._PLAYER_BAR_X, self._PLAYER_BAR_Y)) (player)
-        # screen.blit(self._health_bar, (self._ENEMY_BAR_X, self._ENEMY_BAR_Y)) (enemy)
         player_health_dest = (
             self._PLAYER_BAR_X + self._HEALTH_BAR_LENGTH + 2 - text_width,
             self._PLAYER_BAR_Y - constants.FONT_HEIGHT
@@ -292,7 +290,12 @@ class ModeFight(ModeButtons):
             * self._player_mon.stats['hpc'] // self._player_mon.stats['hpm']
         screen.fill(
             self._player_mon.getLightSkin(),
-            (self._PLAYER_BAR_X + 1, self._PLAYER_BAR_Y + 1, player_bar_length, 10)
+            (
+                self._PLAYER_BAR_X + 1,
+                self._PLAYER_BAR_Y + 1,
+                player_bar_length,
+                self._HEALTH_BAR_HEIGHT
+            )
         )
         screen.blit(self._health_bar, (self._PLAYER_BAR_X, self._PLAYER_BAR_Y))
 
@@ -300,7 +303,12 @@ class ModeFight(ModeButtons):
             * self._enemy_mon.stats['hpc'] // self._enemy_mon.stats['hpm']
         screen.fill(
             self._enemy_mon.getLightSkin(),
-            (self._ENEMY_BAR_X + 1 - enemy_bar_length, self._ENEMY_BAR_Y + 1, enemy_bar_length, 10)
+            (
+                self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 1 - enemy_bar_length,
+                self._ENEMY_BAR_Y + 1,
+                enemy_bar_length,
+                self._HEALTH_BAR_HEIGHT
+            )
         )
         screen.blit(self._health_bar, (self._ENEMY_BAR_X, self._ENEMY_BAR_Y))
         for index, line in enumerate(self._action_display):

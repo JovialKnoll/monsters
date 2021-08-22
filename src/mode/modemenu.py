@@ -6,7 +6,8 @@ from monster import Monster
 from personality import Personality
 from .modeconvo import ModeConvo
 from .modefight import ModeFight
-from .modetalk0 import ModeTalk0
+from .modetalkwin0 import ModeTalkWin0
+from .modetalkelse0 import ModeTalkElse0
 
 
 class ModeMenu(ModeConvo):
@@ -40,7 +41,7 @@ class ModeMenu(ModeConvo):
             self.next_mode = ModeFight(
                 shared.state.protag_mon,
                 Monster.atLevel(0),
-                lambda: ModeTalk0()
+                lambda: ModeTalkWin0() if shared.state.fight_results[-1] == 1 else ModeTalkElse0()
             )
             return True
         return False

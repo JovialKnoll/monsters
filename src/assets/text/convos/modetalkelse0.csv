@@ -1,2 +1,10 @@
-0,SHOW_MONSTER,...,>,1
-1,SHOW_MONSTER|START_CHAT_MUSIC,We lost...,>,1
+0,SHOW_MONSTER,...,>,1,,
+1,SHOW_MONSTER|START_CHAT_MUSIC,We didn't win...,>,2,,
+2,SHOW_MONSTER,We need to try again! I need to win some fights if I want to grow as a monster.,>,3,,
+3,SHOW_MONSTER,"Sigh.
+
+I need to take a nap. We can try again after. Can you go do human things in the meantime?",Yes,4a,No,4b
+4a,SHOW_MONSTER,"Okay, let's meet back here in a bit.",>,5,,
+4b,SHOW_MONSTER,"Well, you can stay here, but I'll be back in a bit.",>,5,,
+5,,...,>,6,,
+6,SHOW_MONSTER,Okay. Let's try again.,>,6,,

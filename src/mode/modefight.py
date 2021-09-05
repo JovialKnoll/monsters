@@ -245,7 +245,9 @@ class ModeFight(ModeButtons):
         # display results below
         self._setActionDisplay("Hit for " + str(final_enemy_damage) + "! Took " + str(final_player_damage) + "!")
         self._player_mon.stats['hpc'] -= final_player_damage
+        self._player_mon.stats['hpc'] = max(self._player_mon.stats['hpc'], 0)
         self._enemy_mon.stats['hpc'] -= final_enemy_damage
+        self._enemy_mon.stats['hpc'] = max(self._enemy_mon.stats['hpc'], 0)
         self._drawHP()
 
         if self._player_mon.stats['hpc'] < 1 and self._enemy_mon.stats['hpc'] < 1:

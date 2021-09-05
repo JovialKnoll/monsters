@@ -6,6 +6,7 @@ from .modegamemenu import ModeGameMenu
 from .modegamemenu import ModeGameMenuTop
 from .modeintroduction0 import ModeIntroduction0
 from .modeintroduction1 import ModeIntroduction1
+from .modelevelup0 import ModeLevelUp0
 from .modemenu import ModeMenu
 from .modemonconvotest import ModeMonConvoTest
 from .modeopening import ModeOpening

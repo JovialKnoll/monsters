@@ -5,9 +5,6 @@ necessary:
     outline for plot
 * finalizing music and sound volumes
 * replace WAVs with OGGs (after above)
-* linux bugs:
-    fullscreen breaks
-        seems to be an actual pygame bug, either wait for a fix, help, or workaround
 * try to make cleaner directory later
     https://stackoverflow.com/questions/19579979/pyinstaller-changing-dll-and-pyd-output-location
 * window icon

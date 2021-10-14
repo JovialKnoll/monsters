@@ -60,9 +60,7 @@ class Display(object):
         if pygame.display.mode_ok(max_disp_res, pygame.DOUBLEBUF):
             self._windowed_flags = pygame.DOUBLEBUF
         self._fullscreen_flags = 0
-        if sys.platform != "win32":
-            self._fullscreen_flags = pygame.NOFRAME
-        elif pygame.display.mode_ok(self._monitor_res, pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE):
+        if pygame.display.mode_ok(self._monitor_res, pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE):
             self._fullscreen_flags = pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
         elif pygame.display.mode_ok(self._monitor_res, pygame.FULLSCREEN | pygame.DOUBLEBUF):
             self._fullscreen_flags = pygame.FULLSCREEN | pygame.DOUBLEBUF
@@ -132,10 +130,9 @@ class Display(object):
         )
         if self._full_screen is None:
             if sys.platform != "win32":
-                print(self._fullscreen_flags)
                 self._full_screen = pygame.display.set_mode(
                     (0, 0),
-                    self._fullscreen_flags
+                    pygame.NOFRAME
                 )
                 pygame.display.toggle_fullscreen()
             else:

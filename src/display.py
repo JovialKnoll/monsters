@@ -131,12 +131,18 @@ class Display(object):
             (self._monitor_res[1] - self._disp_res[1]) // 2,
         )
         if self._full_screen is None:
-            self._full_screen = pygame.display.set_mode(
-                self._monitor_res,
-                self._fullscreen_flags
-            )
             if sys.platform != "win32":
+                print(self._fullscreen_flags)
+                self._full_screen = pygame.display.set_mode(
+                    (0, 0),
+                    self._fullscreen_flags
+                )
                 pygame.display.toggle_fullscreen()
+            else:
+                self._full_screen = pygame.display.set_mode(
+                    self._monitor_res,
+                    self._fullscreen_flags
+                )
         else:
             self._full_screen.fill(constants.BLACK)
         self._disp_screen = pygame.Surface(self._disp_res).convert(self._full_screen)

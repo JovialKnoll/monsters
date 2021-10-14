@@ -1,3 +1,4 @@
+import sys
 import os
 
 import pygame
@@ -59,7 +60,9 @@ class Display(object):
         if pygame.display.mode_ok(max_disp_res, pygame.DOUBLEBUF):
             self._windowed_flags = pygame.DOUBLEBUF
         self._fullscreen_flags = 0
-        if pygame.display.mode_ok(self._monitor_res, pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE):
+        if sys.platform != "win32":
+            self._fullscreen_flags = pygame.NOFRAME
+        elif pygame.display.mode_ok(self._monitor_res, pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE):
             self._fullscreen_flags = pygame.FULLSCREEN | pygame.DOUBLEBUF | pygame.HWSURFACE
         elif pygame.display.mode_ok(self._monitor_res, pygame.FULLSCREEN | pygame.DOUBLEBUF):
             self._fullscreen_flags = pygame.FULLSCREEN | pygame.DOUBLEBUF
@@ -128,6 +131,7 @@ class Display(object):
             (self._monitor_res[1] - self._disp_res[1]) // 2,
         )
         if self._full_screen is None:
+            os.environ['SDL_VIDEO_WINDOW_POS'] = "{},{}".format(0, 0)
             self._full_screen = pygame.display.set_mode(
                 self._monitor_res,
                 self._fullscreen_flags

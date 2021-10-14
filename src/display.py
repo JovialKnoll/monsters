@@ -131,6 +131,7 @@ class Display(object):
             (self._monitor_res[1] - self._disp_res[1]) // 2,
         )
         if self._full_screen is None:
+            os.environ['SDL_VIDEO_WINDOW_POS'] = "{},{}".format(0, 0)
             self._full_screen = pygame.display.set_mode(
                 self._monitor_res,
                 self._fullscreen_flags

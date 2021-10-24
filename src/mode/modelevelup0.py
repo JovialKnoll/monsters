@@ -1,3 +1,5 @@
+from collections import deque
+
 import constants
 import shared
 
@@ -10,6 +12,7 @@ class ModeLevelUp0(Mode):
     __slots__ = (
         'time',
         'first_sprite',
+        'sprite_switches',
     )
 
     def __init__(self):
@@ -27,7 +30,9 @@ class ModeLevelUp0(Mode):
         shared.state.protag_mon.rect.midbottom = constants.SCREEN_CENTER
         self.all_sprites.add(self.first_sprite, shared.state.protag_mon)
 
-        self._setVisibleSprite(0)
+        shared.state.protag_mon.visible = 0
+
+        self.sprite_switches = deque((2000, 2250, 3000, 3250, 4000))
 
         # save current sprite from monster, level it up, and flicker between them
         # maybe some special effects too
@@ -38,12 +43,17 @@ class ModeLevelUp0(Mode):
 
     def _update(self, dt):
         self.time += dt
-        if self.time >= 1000:
-            self._setVisibleSprite(1)
+        while self.sprite_switches and self.time >= self.sprite_switches[0]:
+            self._switchVisibleSprite()
+            self.sprite_switches.popleft()
 
-    def _setVisibleSprite(self, index: int):
-        self.first_sprite.visible = (index + 1) % 2
-        shared.state.protag_mon.visible = index
+    def _switchVisibleSprite(self):
+        if self.first_sprite.visible:
+            self.first_sprite.visible = 0
+            shared.state.protag_mon.visible = 1
+        else:
+            self.first_sprite.visible = 1
+            shared.state.protag_mon.visible = 0
 
     def _drawScreen(self, screen):
         screen.fill(constants.WHITE)

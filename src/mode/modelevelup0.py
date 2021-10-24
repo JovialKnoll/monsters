@@ -25,8 +25,9 @@ class ModeLevelUp0(Mode):
         shared.state.protag_mon.levelUp()
         shared.state.protag_mon.setImage(True)
         shared.state.protag_mon.rect.midbottom = constants.SCREEN_CENTER
-        shared.state.protag_mon.visible = 0
         self.all_sprites.add(self.first_sprite, shared.state.protag_mon)
+
+        self._setVisibleSprite(0)
 
         # save current sprite from monster, level it up, and flicker between them
         # maybe some special effects too
@@ -38,8 +39,11 @@ class ModeLevelUp0(Mode):
     def _update(self, dt):
         self.time += dt
         if self.time >= 1000:
-            self.first_sprite.visible = 0
-            shared.state.protag_mon.visible = 1
+            self._setVisibleSprite(1)
+
+    def _setVisibleSprite(self, index: int):
+        self.first_sprite.visible = (index + 1) % 2
+        shared.state.protag_mon.visible = index
 
     def _drawScreen(self, screen):
         screen.fill(constants.WHITE)

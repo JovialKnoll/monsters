@@ -53,9 +53,6 @@ class ModeLevelUp0(Mode):
             15750,
             16000,
         ))
-
-        # save current sprite from monster, level it up, and flicker between them
-        # maybe some special effects too
         # maybe text? could have no text though
 
     def _input(self, event):

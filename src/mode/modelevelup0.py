@@ -32,7 +32,27 @@ class ModeLevelUp0(Mode):
 
         shared.state.protag_mon.visible = 0
 
-        self.sprite_switches = deque((2000, 2250, 3000, 3250, 4000))
+        self.sprite_switches = deque((
+            4000,
+            4100,
+            6000,
+            6100,
+            8000,
+            8100,
+            10000,
+            10100,
+            11000,
+            11100,
+            12000,
+            12100,
+            13000,
+            13100,
+            14000,
+            14500,
+            15000,
+            15750,
+            16000,
+        ))
 
         # save current sprite from monster, level it up, and flicker between them
         # maybe some special effects too

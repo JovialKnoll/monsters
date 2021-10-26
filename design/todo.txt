@@ -1,6 +1,7 @@
 necessary:
 * opening music (loop)
 * hub/menu music (loop) (unless no)
+* make next menu, share code with modemenu
 * content for convos linked to fights
     outline for plot
 * finalizing music and sound volumes

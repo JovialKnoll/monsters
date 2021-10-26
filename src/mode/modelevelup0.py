@@ -21,16 +21,30 @@ class ModeLevelUp0(Mode):
         self.time = 0
         self.background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
         self.background.fill(constants.WHITE)
+        shared.font_wrap.renderToCentered(
+            self.background,
+            (constants.SCREEN_SIZE[0] // 2 + 1, constants.SCREEN_SIZE[1] // 4 + 1),
+            "LEVEL UP",
+            False,
+            constants.TEXT_COLOR
+        )
+        shared.font_wrap.renderToCentered(
+            self.background,
+            (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 4),
+            "LEVEL UP",
+            False,
+            constants.DARK_TEXT_COLOR
+        )
         shared.state.protag_mon.setImage(True)
         # set up first sprite
         self.first_sprite = pygame.sprite.DirtySprite()
         self.first_sprite.image = shared.state.protag_mon.image
         self.first_sprite.rect = shared.state.protag_mon.rect
-        self.first_sprite.rect.midbottom = constants.SCREEN_CENTER
+        self.first_sprite.rect.center = (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 2 // 3)
         # level up and set up second sprite
         shared.state.protag_mon.levelUp()
         shared.state.protag_mon.setImage(True)
-        shared.state.protag_mon.rect.midbottom = constants.SCREEN_CENTER
+        shared.state.protag_mon.rect.midbottom = self.first_sprite.rect.midbottom
         self.all_sprites.add(self.first_sprite, shared.state.protag_mon)
 
         shared.state.protag_mon.visible = 0

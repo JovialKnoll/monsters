@@ -10,7 +10,7 @@ Requires Python 3 and Pygame.
 5. run `venv\Scripts\activate`
 6. run `pip install -r requirements.txt`
 
-- Alternately, you can use pycharm or some other IDE that will handle virtual environment for you.
+- Alternately, you can use pycharm or some other IDE that will handle the virtual environment for you.
 
 ## How to run in windows:
 1. setup virtual environment first

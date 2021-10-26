@@ -11,6 +11,7 @@ from .mode import Mode
 class ModeLevelUp0(Mode):
     __slots__ = (
         'time',
+        'background',
         'first_sprite',
         'sprite_switches',
     )
@@ -18,6 +19,8 @@ class ModeLevelUp0(Mode):
     def __init__(self):
         super().__init__()
         self.time = 0
+        self.background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+        self.background.fill(constants.WHITE)
         shared.state.protag_mon.setImage(True)
         # set up first sprite
         self.first_sprite = pygame.sprite.DirtySprite()
@@ -73,4 +76,4 @@ class ModeLevelUp0(Mode):
             shared.state.protag_mon.visible = 0
 
     def _drawScreen(self, screen):
-        screen.fill(constants.WHITE)
+        screen.blit(self.background, (0, 0))

@@ -19,7 +19,6 @@ class ModeOpening0(ModeOpening):
 
     def __init__(self):
         super().__init__()
-
         self.time = 0
         self.step = 0
         self.background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)

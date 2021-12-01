@@ -1,5 +1,5 @@
 from .modeconvo import ModeConvo
 
 
-class ModeTalkWin0(ModeConvo):
+class ModePostLevel0(ModeConvo):
     pass

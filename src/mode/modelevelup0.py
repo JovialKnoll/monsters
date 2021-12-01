@@ -80,6 +80,8 @@ class ModeLevelUp0(Mode):
         while self.sprite_switches and self.time >= self.sprite_switches[0]:
             self._switchVisibleSprite()
             self.sprite_switches.popleft()
+        # display "press key to proceed" text after flickering
+        # then allow that
 
     def _switchVisibleSprite(self):
         if self.first_sprite.visible:

@@ -11,6 +11,7 @@ from .modeopening import ModeOpening
 
 class ModeLevelUp(ModeOpening, abc.ABC):
     __slots__ = (
+        'done',
         'time',
         'background',
         'first_sprite',
@@ -19,6 +20,7 @@ class ModeLevelUp(ModeOpening, abc.ABC):
 
     def __init__(self):
         super().__init__()
+        self.done = False
         self.time = 0
         self.background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
         self.background.fill(constants.WHITE)
@@ -82,6 +84,22 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         while self.sprite_switches and self.time >= self.sprite_switches[0]:
             self._switchVisibleSprite()
             self.sprite_switches.popleft()
+        if not self.sprite_switches and not self.done:
+            self.done = True
+            shared.font_wrap.renderToCentered(
+                self.background,
+                (constants.SCREEN_SIZE[0] // 2 + 1, constants.SCREEN_SIZE[1] // 4 + 1 + 2 * constants.FONT_HEIGHT),
+                "PRESS ANY KEY TO PROCEED",
+                False,
+                constants.TEXT_COLOR
+            )
+            shared.font_wrap.renderToCentered(
+                self.background,
+                (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 4 + 2 * constants.FONT_HEIGHT),
+                "PRESS ANY KEY TO PROCEED",
+                False,
+                constants.DARK_TEXT_COLOR
+            )
         # display "press key to proceed" text after flickering
         # then allow that
 

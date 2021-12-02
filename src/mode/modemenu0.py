@@ -10,7 +10,7 @@ from .modetalkwin0 import ModeTalkWin0
 from .modetalkelse0 import ModeTalkElse0
 
 
-class ModeMenu(ModeConvo):
+class ModeMenu0(ModeConvo):
     @staticmethod
     def _getSpacing(stat_num: int):
         return (2 - math.ceil(math.log10(stat_num))) * "_"

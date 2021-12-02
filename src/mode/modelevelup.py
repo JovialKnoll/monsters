@@ -100,8 +100,6 @@ class ModeLevelUp(ModeOpening, abc.ABC):
                 False,
                 constants.DARK_TEXT_COLOR
             )
-        # display "press key to proceed" text after flickering
-        # then allow that
 
     def _switchVisibleSprite(self):
         if self.first_sprite.visible:

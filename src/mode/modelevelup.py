@@ -18,26 +18,29 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         'sprite_switches',
     )
 
+    def _drawFontEffect(self, text: str, pos: tuple[int, int]):
+        shared.font_wrap.renderToCentered(
+            self.background,
+            (pos[0] + 1, pos[1] + 1),
+            text,
+            False,
+            constants.TEXT_COLOR
+        )
+        shared.font_wrap.renderToCentered(
+            self.background,
+            (pos[0], pos[1]),
+            text,
+            False,
+            constants.DARK_TEXT_COLOR
+        )
+
     def __init__(self):
         super().__init__()
         self.done = False
         self.time = 0
         self.background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
         self.background.fill(constants.WHITE)
-        shared.font_wrap.renderToCentered(
-            self.background,
-            (constants.SCREEN_SIZE[0] // 2 + 1, constants.SCREEN_SIZE[1] // 4 + 1),
-            "LEVEL UP",
-            False,
-            constants.TEXT_COLOR
-        )
-        shared.font_wrap.renderToCentered(
-            self.background,
-            (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 4),
-            "LEVEL UP",
-            False,
-            constants.DARK_TEXT_COLOR
-        )
+        self._drawFontEffect("LEVEL UP", (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 4))
         shared.state.protag_mon.setImage(True)
         # set up first sprite
         self.first_sprite = pygame.sprite.DirtySprite()
@@ -86,19 +89,9 @@ class ModeLevelUp(ModeOpening, abc.ABC):
             self.sprite_switches.popleft()
         if not self.sprite_switches and not self.done:
             self.done = True
-            shared.font_wrap.renderToCentered(
-                self.background,
-                (constants.SCREEN_SIZE[0] // 2 + 1, constants.SCREEN_SIZE[1] // 4 + 1 + 2 * constants.FONT_HEIGHT),
+            self._drawFontEffect(
                 "PRESS ANY KEY TO PROCEED",
-                False,
-                constants.TEXT_COLOR
-            )
-            shared.font_wrap.renderToCentered(
-                self.background,
-                (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 4 + 2 * constants.FONT_HEIGHT),
-                "PRESS ANY KEY TO PROCEED",
-                False,
-                constants.DARK_TEXT_COLOR
+                (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 4 + 2 * constants.FONT_HEIGHT)
             )
 
     def _switchVisibleSprite(self):

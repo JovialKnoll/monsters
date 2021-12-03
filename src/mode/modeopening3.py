@@ -6,9 +6,8 @@ import pygame
 import constants
 import shared
 from monster import Monster
-
-from .modeopening import ModeOpening
 from .modeintroduction0 import ModeIntroduction0
+from .modeopening import ModeOpening
 
 
 class ModeOpening3(ModeOpening):

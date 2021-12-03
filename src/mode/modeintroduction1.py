@@ -1,6 +1,5 @@
 import shared
 from personality import Personality
-
 from .modeconvo import ModeConvo
 
 

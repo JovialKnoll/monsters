@@ -1,10 +1,10 @@
 import shared
 from monster import Monster
 from personality import Personality
-from .modemenu import ModeMenu
 from .modefight import ModeFight
 from .modetalkwin0 import ModeTalkWin0
 from .modetalkelse0 import ModeTalkElse0
+from .modemenu import ModeMenu
 
 
 class ModeMenu0(ModeMenu):

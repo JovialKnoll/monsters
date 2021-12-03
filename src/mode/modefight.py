@@ -9,7 +9,6 @@ import shared
 import utility
 from animsprite import AnimSprite
 from monster import Monster
-
 from .modebuttons import ModeButtons
 
 

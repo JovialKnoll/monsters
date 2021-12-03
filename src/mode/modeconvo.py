@@ -7,7 +7,6 @@ import constants
 import utility
 import shared
 from convopart import ConvoPart
-
 from saveable import Saveable
 from .modebuttons import ModeButtons
 

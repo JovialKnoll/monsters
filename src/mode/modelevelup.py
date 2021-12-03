@@ -1,11 +1,10 @@
 import abc
 from collections import deque
 
-import constants
-import shared
-
 import pygame
 
+import constants
+import shared
 from .modeopening import ModeOpening
 
 

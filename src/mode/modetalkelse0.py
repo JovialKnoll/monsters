@@ -1,9 +1,8 @@
 import shared
 from monster import Monster
-
-from .modeconvo import ModeConvo
 from .modefight import ModeFight
 from .modetalkwin0 import ModeTalkWin0
+from .modeconvo import ModeConvo
 
 
 class ModeTalkElse0(ModeConvo):

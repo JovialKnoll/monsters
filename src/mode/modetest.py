@@ -4,9 +4,8 @@ import constants
 import utility
 import shared
 from monster import Monster
-
-from saveable import Saveable
 from .mode import Mode
+from saveable import Saveable
 
 
 class ModeTest(Mode, Saveable):

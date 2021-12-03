@@ -4,7 +4,6 @@ import pygame
 
 import constants
 import shared
-
 from .mode import Mode
 
 

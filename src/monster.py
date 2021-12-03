@@ -5,9 +5,9 @@ import pygame
 
 import constants
 import shared
-from animsprite import AnimSprite
 from personality import Personality
 from skin import Skin
+from animsprite import AnimSprite
 
 
 class Monster(AnimSprite):

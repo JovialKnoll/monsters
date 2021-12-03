@@ -1,8 +1,7 @@
 import shared
 from monster import Monster
-
-from .modeconvo import ModeConvo
 from .modefight import ModeFight
+from .modeconvo import ModeConvo
 
 
 class ModeMonConvoTest(ModeConvo):

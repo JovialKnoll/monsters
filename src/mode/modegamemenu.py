@@ -1,4 +1,4 @@
-from abc import ABC
+import abc
 
 import pygame
 
@@ -6,11 +6,10 @@ import constants
 import shared
 from save import Save
 from saveable import Saveable
-
 from .mode import Mode
 
 
-class ModeGameMenu(Mode, ABC):
+class ModeGameMenu(Mode, abc.ABC):
     MENU_CHAR_WIDTH = 20
     MENU_WIDTH = MENU_CHAR_WIDTH * constants.FONT_SIZE
     SHARED_DISP_TEXT = "Options:\nESC) Go Back\n"

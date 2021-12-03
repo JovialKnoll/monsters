@@ -1,31 +1,16 @@
-import math
-
 import shared
 from monster import Monster
-
 from personality import Personality
-from .modeconvo import ModeConvo
 from .modefight import ModeFight
 from .modetalkwin0 import ModeTalkWin0
 from .modetalkelse0 import ModeTalkElse0
+from .modemenu import ModeMenu
 
 
-class ModeMenu0(ModeConvo):
-    @staticmethod
-    def _getSpacing(stat_num: int):
-        return (2 - math.ceil(math.log10(stat_num))) * "_"
-
+class ModeMenu0(ModeMenu):
     def _handleLoad(self):
-        if self._convo_key == "0":
-            mon = shared.state.protag_mon
-            mon_string = f"lvl: {mon.lvl}\n"
-            mon_string += "_".join(
-                [f"{stat}: {mon.stats[stat]}" + self._getSpacing(mon.stats[stat]) for stat in mon.MAIN_STATS]
-            )
-            mon_string += f"\ndrv: {mon.stats['drv']}/{mon.DRV_MAX}"
-            mon_string += f"\n_hp: {mon.stats['hpc']}/{mon.stats['hpm']}"
-            self._text = mon.name + "\n" + mon_string.upper()
-        elif self._convo_key == "3a3":
+        super()._handleLoad()
+        if self._convo_key == "3a3":
             if shared.state.protag_mon.personality == Personality.Affectionate:
                 self._text = "I'm sure we'll do great."
             elif shared.state.protag_mon.personality == Personality.Aggressive:
@@ -35,7 +20,7 @@ class ModeMenu0(ModeConvo):
             elif shared.state.protag_mon.personality == Personality.Energetic:
                 self._text = "I'm so excited!"
 
-    def _handleButton(self, prev_convo_key: str, index: int):
+    def _handleButton(self, prev_convo_key, index):
         if prev_convo_key == "3a3":
             self._stopMixer()
             self.next_mode = ModeFight(

@@ -19,5 +19,7 @@ from .modeopening2 import ModeOpening2
 from .modeopening3 import ModeOpening3
 from .modepostlevel0 import ModePostLevel0
 from .modetalkelse0 import ModeTalkElse0
+from .modetalkelse1 import ModeTalkElse1
 from .modetalkwin0 import ModeTalkWin0
+from .modetalkwin1 import ModeTalkWin1
 from .modetest import ModeTest

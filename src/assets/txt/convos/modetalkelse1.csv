@@ -1,0 +1,6 @@
+0,SHOW_MONSTER,...,>,1,,
+1,SHOW_MONSTER|START_CHAT_MUSIC,Aw...,>,2,,
+2,SHOW_MONSTER,"Well, we know we can win, so we just need to try again.",>,3,,
+3,SHOW_MONSTER,"Okay, are you ready?",Yes,4a,No,4b
+4a,SHOW_MONSTER,Let's go.,>,4a,,
+4b,SHOW_MONSTER,We can just hang out then.,>,ModeMenu1,,

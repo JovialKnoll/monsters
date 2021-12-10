@@ -10,6 +10,7 @@ from .modelevelup import ModeLevelUp
 from .modelevelup0 import ModeLevelUp0
 from .modemenu import ModeMenu
 from .modemenu0 import ModeMenu0
+from .modemenu1 import ModeMenu1
 from .modemonconvotest import ModeMonConvoTest
 from .modeopening import ModeOpening
 from .modeopening0 import ModeOpening0
@@ -18,5 +19,7 @@ from .modeopening2 import ModeOpening2
 from .modeopening3 import ModeOpening3
 from .modepostlevel0 import ModePostLevel0
 from .modetalkelse0 import ModeTalkElse0
+from .modetalkelse1 import ModeTalkElse1
 from .modetalkwin0 import ModeTalkWin0
+from .modetalkwin1 import ModeTalkWin1
 from .modetest import ModeTest

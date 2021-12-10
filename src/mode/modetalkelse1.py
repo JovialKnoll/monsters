@@ -7,7 +7,7 @@ from .modeconvo import ModeConvo
 
 class ModeTalkElse1(ModeConvo):
     def _handleButton(self, prev_convo_key: str, index: int):
-        if prev_convo_key == "6":
+        if prev_convo_key == "4a":
             self._stopMixer()
             self.next_mode = ModeFight(
                 shared.state.protag_mon,

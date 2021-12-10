@@ -1,5 +1,2 @@
-0,SHOW_MONSTER,...,>,1
-1,SHOW_MONSTER|START_CHAT_MUSIC,We won!,>,2
-2,SHOW_MONSTER,"Huh, I feel kind of.",>,3
-3,SHOW_MONSTER,Strange.,>,4
-4,SHOW_MONSTER,...,>,ModeLevelUp1
+0,SHOW_MONSTER,"Okay, I think that was enough to...",>,1
+4,SHOW_MONSTER,!,>,ModeLevelUp1

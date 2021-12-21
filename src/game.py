@@ -41,8 +41,7 @@ class Game(object):
             self._current_mode.all_sprites.empty()
             self._current_mode = self._current_mode.next_mode
         if not shared.game_running:
-            with open(constants.CONFIG_FILE, 'w') as file:
-                shared.config.write(file, space_around_delimiters=False)
+            shared.saveConfig()
         self._is_first_loop = False
         return shared.game_running
 

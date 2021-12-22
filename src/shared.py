@@ -14,3 +14,8 @@ font_wrap = FontWrap(constants.FONT, constants.FONT_SIZE)
 display = Display()
 state = State()
 game_running = True
+
+
+def saveConfig():
+    with open(constants.CONFIG_FILE, 'w') as file:
+        config.write(file, space_around_delimiters=False)

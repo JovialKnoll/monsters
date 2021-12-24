@@ -1,2 +1,2 @@
 0,SHOW_MONSTER,"Okay, I think that was enough to...",>,1
-4,SHOW_MONSTER,!,>,ModeLevelUp1
+1,SHOW_MONSTER,!,>,ModeLevelUp1

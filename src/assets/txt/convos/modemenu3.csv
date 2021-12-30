@@ -1,1 +1,15 @@
 0,SHOW_MONSTER,,Let's talk.,1,Tell me how you're doing.,2,Let's go find a fight.,3,Let's take a break.,4
+1,SHOW_MONSTER,What about?,Leveling up.,1a,Fighting.,1b,Mentorship.,1c,Life.,1d
+1a,SHOW_MONSTER,"Well it feels pretty good. I think I might have reached the limit, though.",>,0,,,,,,
+1b,SHOW_MONSTER,"I like it, I think.
+I guess that's a pretty normal opinion for monsters. How should I put it? It helps me express myself.",>,0,,,,,,
+1c,SHOW_MONSTER,"I think you've been doing a good job. We got this far, right?",>,0,,,,,,
+1d,SHOW_MONSTER,"Uh, I'm not a philosopher.",>,0,,,,,,
+2,SHOW_MONSTER,Can't complain.,>,0,,,,,,
+3,SHOW_MONSTER,I think this might be the last one I need your help for.,>,3a,,,,,,
+3a,SHOW_MONSTER,Should we go now?,Yes,3aa,No,3ab,,,,
+3aa,SHOW_MONSTER,"Okay, let's.
+
+And, thank you.",>,3aa,,,,,,
+3ab,SHOW_MONSTER,"Okay, let me know when you're ready.",>,0,,,,,,
+4,SHOW_MONSTER,"Okay, see you later!",>,0,,,,,,

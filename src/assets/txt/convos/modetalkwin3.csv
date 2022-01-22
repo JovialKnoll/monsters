@@ -1,2 +1,6 @@
 0,SHOW_MONSTER,We did it.,>,1
-1,SHOW_MONSTER,,,1
+1,SHOW_MONSTER,I feel like I'm done fighting.,>,2
+2,SHOW_MONSTER,"At least, for now.
+I don't think I need any more help.",>,3
+3,SHOW_MONSTER,I've learned as much as I can from you.,>,4
+4,SHOW_MONSTER,Thank you.,>,4

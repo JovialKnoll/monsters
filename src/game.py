@@ -12,7 +12,7 @@ class Game(object):
         '_max_framerate',
         '_clock',
         '_current_mode',
-        '_is_first_loop'
+        '_is_first_loop',
     )
 
     def __init__(self):

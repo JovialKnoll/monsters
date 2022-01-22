@@ -8,4 +8,5 @@ necessary:
     https://stackoverflow.com/questions/19579979/pyinstaller-changing-dll-and-pyd-output-location
 * window icon
 * custom mouse icon?
+* switch to useing pygame vector?
 * save previous monster stats (at each level) so player can view monsters from older saves?

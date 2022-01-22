@@ -71,6 +71,7 @@ class ModeGameMenuTop(ModeGameMenu):
             elif event.key == pygame.K_4:
                 shared.state = State()
                 self._previous_mode = mode.ModeOpening0()
+                self._old_screen = self._getOldScreen()
             elif event.key == pygame.K_5:
                 shared.game_running = False
 

@@ -71,7 +71,7 @@ class Game(object):
         return True
 
     def _handlePauseMenu(self):
-        # pass quit events forward to the mode.ModeGameMenu, but not to other events
+        # pass quit events forward to mode.ModeGameMenu, but not to other events
         if isinstance(self._current_mode, mode.ModeGameMenu):
             return True
         self._current_mode = mode.ModeGameMenuTop(self._current_mode)

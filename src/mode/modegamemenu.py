@@ -4,12 +4,13 @@ import pygame
 
 import constants
 import shared
+import mode
+from state import State
 from save import Save
 from saveable import Saveable
-from .mode import Mode
 
 
-class ModeGameMenu(Mode, abc.ABC):
+class ModeGameMenu(mode.Mode, abc.ABC):
     MENU_CHAR_WIDTH = 20
     MENU_WIDTH = MENU_CHAR_WIDTH * constants.FONT_SIZE
     SHARED_DISP_TEXT = "Options:\nESC) Go Back\n"
@@ -68,12 +69,15 @@ class ModeGameMenuTop(ModeGameMenu):
             elif event.key == pygame.K_3:
                 self.next_mode = ModeGameMenuOptions(self._previous_mode, self._old_screen)
             elif event.key == pygame.K_4:
+                shared.state = State()
+                self._previous_mode = mode.ModeOpening0()
+            elif event.key == pygame.K_5:
                 shared.game_running = False
 
     def _drawScreen(self, screen):
         super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
-        disp_text += "1) Save\n2) Load\n3) Options\n4) Quit"
+        disp_text += "1) Save\n2) Load\n3) Options\n4) Restart\n5) Quit"
         self._drawText(screen, disp_text)
 
 

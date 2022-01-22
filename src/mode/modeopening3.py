@@ -12,9 +12,9 @@ from .modeopening import ModeOpening
 
 class ModeOpening3(ModeOpening):
     GROUND_LEVEL = constants.SCREEN_SIZE[1] - 8
-    CENTER_TIME = 2500
-    TRANSITION_TIME = 750
-    EMPTY_TIME = 250
+    CENTER_TIME = 1500
+    TRANSITION_TIME = 500
+    EMPTY_TIME = 100
     FULL_MONSTER_WAIT_TIME = EMPTY_TIME + TRANSITION_TIME + CENTER_TIME + TRANSITION_TIME
 
     __slots__ = (

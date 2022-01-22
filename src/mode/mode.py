@@ -40,7 +40,7 @@ class Mode(abc.ABC):
         )
 
     @typing.final
-    def input_events(self, events: list[pygame.event.Event]):
+    def input_events(self, events: typing.Iterable[pygame.event.Event]):
         """All game modes can take in events."""
         for event in events:
             self._input(event)

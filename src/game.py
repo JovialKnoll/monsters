@@ -61,11 +61,11 @@ class Game(object):
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
             return self._handlePauseMenu()
         elif event.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONUP, pygame.MOUSEBUTTONDOWN) \
-                and (
-                event.pos[0] < 0
-                or event.pos[1] < 0
-                or event.pos[0] >= constants.SCREEN_SIZE[0]
-                or event.pos[1] >= constants.SCREEN_SIZE[1]
+            and (
+            event.pos[0] < 0
+            or event.pos[1] < 0
+            or event.pos[0] >= constants.SCREEN_SIZE[0]
+            or event.pos[1] >= constants.SCREEN_SIZE[1]
         ):
             return False
         return True

@@ -69,8 +69,11 @@ class ModeGameMenuTop(ModeGameMenu):
             elif event.key == pygame.K_3:
                 self.next_mode = ModeGameMenuOptions(self._previous_mode, self._old_screen)
             elif event.key == pygame.K_4:
+                self._stopMixer()
                 shared.state = State()
                 self._previous_mode = mode.ModeOpening0()
+                pygame.mixer.music.pause()
+                pygame.mixer.pause()
                 self._old_screen = self._getOldScreen()
             elif event.key == pygame.K_5:
                 shared.game_running = False

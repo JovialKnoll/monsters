@@ -7,7 +7,7 @@ Requires Python 3 and Pygame.
 2. open up command prompt or powershell in the `src` directory
 4. run `python.exe -m venv venv`
     - you can replace `python.exe` with the full path to the appropriate file if it's not in your path
-5. run `venv\Scripts\activate`
+5. run `venv\Scripts\activate.ps1`
 6. run `pip install -r requirements.txt`
 
 - Alternately, you can use pycharm or some other IDE that will handle the virtual environment for you.

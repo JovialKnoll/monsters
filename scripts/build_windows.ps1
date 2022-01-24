@@ -2,7 +2,7 @@ cd ..
 # cleanup old build
 rm -r dist
 # use virtual environment
-src/venv/Scripts/activate
+src/venv/Scripts/activate.ps1
 # get pyinstaller
 pip install pyinstaller
 # create spec file

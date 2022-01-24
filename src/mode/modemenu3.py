@@ -1,6 +1,5 @@
 import shared
 from monster import Monster
-from personality import Personality
 from .modefight import ModeFight
 from .modetalkwin3 import ModeTalkWin3
 from .modetalkelse3 import ModeTalkElse3

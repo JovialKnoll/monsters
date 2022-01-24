@@ -12,7 +12,7 @@ class Game(object):
         '_max_framerate',
         '_clock',
         '_current_mode',
-        '_is_first_loop'
+        '_is_first_loop',
     )
 
     def __init__(self):
@@ -56,14 +56,12 @@ class Game(object):
         """
         if event.type in (pygame.QUIT, pygame.WINDOWFOCUSLOST, pygame.WINDOWMINIMIZED):
             return self._handlePauseMenu()
-        elif event.type == pygame.WINDOWMOVED:
-            if not self._is_first_loop:
-                return self._handlePauseMenu()
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                return self._handlePauseMenu()
+        elif event.type == pygame.WINDOWMOVED and not self._is_first_loop:
+            return self._handlePauseMenu()
+        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            return self._handlePauseMenu()
         elif event.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONUP, pygame.MOUSEBUTTONDOWN) \
-                and (
+            and (
                 event.pos[0] < 0
                 or event.pos[1] < 0
                 or event.pos[0] >= constants.SCREEN_SIZE[0]
@@ -73,7 +71,7 @@ class Game(object):
         return True
 
     def _handlePauseMenu(self):
-        # pass quit events forward to the mode.ModeGameMenu, but not to other events
+        # pass quit events forward to mode.ModeGameMenu, but not to other modes
         if isinstance(self._current_mode, mode.ModeGameMenu):
             return True
         self._current_mode = mode.ModeGameMenuTop(self._current_mode)

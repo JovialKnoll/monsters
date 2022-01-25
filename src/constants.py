@@ -29,6 +29,9 @@ ASSETS_DIRECTORY = os.path.join(SRC_DIRECTORY, 'assets')
 GRAPHICS_DIRECTORY = os.path.join(ASSETS_DIRECTORY, 'gfx')
 FONT = os.path.join(GRAPHICS_DIRECTORY, 'simple_mono.ttf')
 
+ICONS_DIRECTORY = os.path.join(GRAPHICS_DIRECTORY, 'icons')
+WINDOW_ICON = os.path.join(ICONS_DIRECTORY, 'icon.png')
+
 LOGOS_DIRECTORY = os.path.join(GRAPHICS_DIRECTORY, 'logos')
 JK_LOGO_BLACK = os.path.join(LOGOS_DIRECTORY, 'jklogo_black.png')
 JK_LOGO_GREY = os.path.join(LOGOS_DIRECTORY, 'jklogo_grey.png')

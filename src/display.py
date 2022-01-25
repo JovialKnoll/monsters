@@ -9,6 +9,7 @@ import shared
 
 class Display(object):
     __slots__ = (
+        '_window_icon',
         '_monitor_res',
         '_upscale_max',
         '_windowed_flags',
@@ -23,6 +24,8 @@ class Display(object):
     )
 
     def __init__(self):
+        self._window_icon = pygame.image.load(constants.WINDOW_ICON)
+        self._window_icon.set_colorkey(constants.COLORKEY)
         self._setupDisplay()
         self.is_fullscreen = shared.config.getboolean(constants.CONFIG_SECTION, constants.CONFIG_FULLSCREEN)
         self.upscale = shared.config.getint(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE)
@@ -40,9 +43,7 @@ class Display(object):
 
     def _setupDisplay(self):
         pygame.display.set_caption(constants.SCREEN_CAPTION)
-        # todo: set window icon here
-        # todo: replace with a custom mouse icon or get rid of it?
-        # pygame.mouse.set_visible(False)
+        pygame.display.set_icon(self._window_icon)
         display_info = pygame.display.Info()
         self._monitor_res = (
             display_info.current_w,

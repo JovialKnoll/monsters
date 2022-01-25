@@ -7,6 +7,5 @@ necessary:
 * try to make cleaner directory later
     https://stackoverflow.com/questions/19579979/pyinstaller-changing-dll-and-pyd-output-location
 * exe icon
-* custom mouse icon?
 * switch to using pygame vector?
 * save previous monster stats (at each level) so player can view monsters from older saves?

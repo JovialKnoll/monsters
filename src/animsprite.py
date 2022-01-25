@@ -5,7 +5,6 @@ import pygame
 import constants
 import utility
 from anim import Anim
-from vec2d import Vec2d
 from saveable import Saveable
 
 
@@ -115,12 +114,12 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
         )
 
     def addPosRel(self, func, time, x_or_pair, y=None, sound=None, positional_sound=False):
-        newPos = Vec2d(x_or_pair, y)
+        new_pos = pygame.math.Vector2(x_or_pair, y)
         if self.anims:
-            newPos += self.anims[-1].pos
+            new_pos += self.anims[-1].pos
         else:
-            newPos += self.rect.center
-        self.addPosAbs(func, time, newPos, sound=sound, positional_sound=positional_sound)
+            new_pos += self.rect.center
+        self.addPosAbs(func, time, new_pos, sound=sound, positional_sound=positional_sound)
 
     def addWait(self, time, sound=None, positional_sound=False):
         self.addPosRel(AnimSprite.Binary, time, 0, 0, sound, positional_sound)

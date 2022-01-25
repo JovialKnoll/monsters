@@ -40,9 +40,7 @@ class Display(object):
 
     def _setupDisplay(self):
         pygame.display.set_caption(constants.SCREEN_CAPTION)
-        # todo: set window icon here
-        # todo: replace with a custom mouse icon or get rid of it?
-        # pygame.mouse.set_visible(False)
+        pygame.display.set_icon(constants.WINDOW_ICON)
         display_info = pygame.display.Info()
         self._monitor_res = (
             display_info.current_w,

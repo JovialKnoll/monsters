@@ -3,6 +3,8 @@ import abc
 import json
 from collections import deque
 
+import pygame.math
+
 
 class Saveable(abc.ABC):
     @abc.abstractmethod
@@ -24,6 +26,8 @@ class Saveable(abc.ABC):
 KEY_COLLECTION = 'COLLECTION'
 COLLECTION_DEQUE = 'DEQUE'
 COLLECTION_SET = 'SET'
+COLLECTION_VECTOR2 = 'VECTOR2'
+COLLECTION_VECTOR3 = 'VECTOR3'
 KEY_ELEMENTS = 'ELEMENTS'
 KEY_MAXLEN = 'MAXLEN'
 KEY_MODULE = 'MODULE'
@@ -42,6 +46,16 @@ class SaveableJSONEncoder(json.JSONEncoder):
         elif isinstance(o, set):
             return {
                 KEY_COLLECTION: COLLECTION_SET,
+                KEY_ELEMENTS: list(o),
+            }
+        elif isinstance(o, pygame.math.Vector2):
+            return {
+                KEY_COLLECTION: COLLECTION_VECTOR2,
+                KEY_ELEMENTS: list(o),
+            }
+        elif isinstance(o, pygame.math.Vector3):
+            return {
+                KEY_COLLECTION: COLLECTION_VECTOR3,
                 KEY_ELEMENTS: list(o),
             }
         elif isinstance(o, type):
@@ -71,6 +85,10 @@ def decodeSaveable(dct: dict):
             return deque(dct[KEY_ELEMENTS], dct[KEY_MAXLEN])
         elif dct[KEY_COLLECTION] == COLLECTION_SET:
             return set(dct[KEY_ELEMENTS])
+        elif dct[KEY_COLLECTION] == COLLECTION_VECTOR2:
+            return pygame.math.Vector2(dct[KEY_ELEMENTS])
+        elif dct[KEY_COLLECTION] == COLLECTION_VECTOR3:
+            return pygame.math.Vector3(dct[KEY_ELEMENTS])
     elif {KEY_MODULE, KEY_CLASS} == dct.keys():
         return _getClass(dct)
     elif {KEY_MODULE, KEY_CLASS, KEY_SAVEABLE} == dct.keys():

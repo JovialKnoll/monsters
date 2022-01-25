@@ -28,9 +28,8 @@ class Game(object):
         self._current_mode.input_events(
             self._filterInput(pygame.event.get())
         )
-        self._current_mode.update(
-            self._getTime()
-        )
+        for i in range(self._getTime()):
+            self._current_mode.update(1)
         self._current_mode.draw(shared.display.screen)
         shared.display.scaleDraw()
         if self._current_mode.next_mode is not None:
@@ -80,6 +79,4 @@ class Game(object):
         return False
 
     def _getTime(self):
-        # just for debugging purposes
-        pygame.display.set_caption(str(self._clock.get_fps()))
         return self._clock.tick(self._max_framerate)

@@ -1,6 +1,6 @@
 necessary:
+* put chat music in menus (minus any bits it makes sense to leave silent)
 * opening music (loop)
-* hub/menu music (loop) (unless no)
 * decide which secions play which music
 * finalizing music and sound volumes
 * replace WAVs with OGGs (after above)

@@ -1,7 +1,7 @@
-0,SHOW_MONSTER,,Let's talk.,1,Tell me how you're doing.,2,Let's go find a fight.,3,Let's take a break.,4
+0,SHOW_MONSTER|START_CHAT_MUSIC,,Let's talk.,1,Tell me how you're doing.,2,Let's go find a fight.,3,Let's take a break.,4
 1,SHOW_MONSTER,I think things have been going well.,>,0,,,,,,
 2,SHOW_MONSTER,,>,0,,,,,,
 3,SHOW_MONSTER,Are you ready?,Yes,3a,No,3b,,,,
-3a,SHOW_MONSTER,Okay!,>,3a,,,,,,
+3a,SHOW_MONSTER|STOP_MUSIC,Okay!,>,3a,,,,,,
 3b,SHOW_MONSTER,Let's do it later then.,>,0,,,,,,
 4,SHOW_MONSTER,Press the ESC key or close the window.,>,0,,,,,,

@@ -9,9 +9,11 @@ pip install pyinstaller
 pyinstaller --clean -ywF -i design/icon.ico -n chikkai src/main.py
 # build exe
 pyinstaller -y chikkai.spec
+# windows setup
+mkdir dist/chikkai
+mv dist/chikkai.exe dist/chikkai/chikkai.exe
 # copy in assets
 cp -r src/assets dist/chikkai/assets
-mv dist/chikkai.exe dist/chikkai/
 # cleanup
 deactivate
 rm -r build

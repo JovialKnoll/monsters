@@ -37,18 +37,16 @@ jobs:
           mkdir dist/chikkai
           mv dist/chikkai.exe dist/chikkai/chikkai.exe
       - name: Copy in assets
-        run: |
-          mkdir dist/chikkai/assets
-          cp -r src/assets dist/chikkai/assets
-#      - name: MacOS cleanup
-#        if: startsWith(matrix.os, 'macos')
-#        run: rm -rf dist/chikkai.app/
+        run: cp -r src/assets dist/chikkai/assets
+      - name: MacOS cleanup
+        if: startsWith(matrix.os, 'macos')
+        run: rm -rf dist/chikkai.app/
       - name: Unix final
         if: startsWith(matrix.os, 'windows') != true
         run: |
           chmod +x dist/chikkai
           cd dist
-          tar -zcvf ../chikkai.tar.gz .
+          tar -zcvf ../chikkai.tar.gz ./*
           cd ..
           rm -rf dist/*
           mv chikkai.tar.gz dist

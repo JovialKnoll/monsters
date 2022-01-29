@@ -7,4 +7,4 @@ I need to take a nap. We can try again after. Can you go do human things in the 
 4a,SHOW_MONSTER,"Okay, let's meet back here in a bit.",>,5,,
 4b,SHOW_MONSTER,"Well, you can stay here, but I'll be back in a bit.",>,5,,
 5,,...,>,6,,
-6,SHOW_MONSTER,Okay. Let's try again.,>,6,,
+6,SHOW_MONSTER|STOP_MUSIC,Okay. Let's try again.,>,6,,

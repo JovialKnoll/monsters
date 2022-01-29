@@ -2,7 +2,5 @@ necessary:
 * opening music (loop)
 * finalizing music and sound volumes
 * replace WAVs with OGGs (after above)
-* try to make cleaner directory later
-    https://stackoverflow.com/questions/19579979/pyinstaller-changing-dll-and-pyd-output-location
 maybe:
 * save previous monster stats (at each level) so player can view monsters from older saves

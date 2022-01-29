@@ -1,5 +1,4 @@
 necessary:
-* no transparency in icon
 * opening music (loop)
 * finalizing music and sound volumes
 * replace WAVs with OGGs (after above)

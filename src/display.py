@@ -25,7 +25,6 @@ class Display(object):
 
     def __init__(self):
         self._window_icon = pygame.image.load(constants.WINDOW_ICON)
-        self._window_icon.set_colorkey(constants.COLORKEY)
         self._setupDisplay()
         self.is_fullscreen = shared.config.getboolean(constants.CONFIG_SECTION, constants.CONFIG_FULLSCREEN)
         self.upscale = shared.config.getint(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE)

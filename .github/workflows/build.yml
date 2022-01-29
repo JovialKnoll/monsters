@@ -26,7 +26,9 @@ jobs:
       - name: Build exe
         run: pyinstaller -y chikkai.spec
       - name: Copy in assets
-        run: cp -r src/assets dist/chikkai/assets
+        run: |
+          mkdir dist/chikkai/assets
+          cp -r src/assets dist/chikkai/assets
 #      - name: MacOS cleanup
 #        if: startsWith(matrix.os, 'macos')
 #        run: rm -rf dist/chikkai.app/

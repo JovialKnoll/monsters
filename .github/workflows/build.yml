@@ -46,7 +46,7 @@ jobs:
         run: |
           chmod +x dist/chikkai
           cd dist
-          tar -zcvf ../chikkai.tar.gz ./*
+          tar -zcvf ../chikkai.tar.gz ./chikkai
           cd ..
           rm -rf dist/*
           mv chikkai.tar.gz dist

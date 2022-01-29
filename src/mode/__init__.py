@@ -31,6 +31,3 @@ from .modetalkwin0 import ModeTalkWin0
 from .modetalkwin1 import ModeTalkWin1
 from .modetalkwin2 import ModeTalkWin2
 from .modetalkwin3 import ModeTalkWin3
-
-from .modetest import ModeTest
-from .modemonconvotest import ModeMonConvoTest

@@ -22,20 +22,31 @@ jobs:
       - name: Install pyinstaller
         run: pip install pyinstaller
       - name: Create spec file
-        run: pyinstaller --clean -yw -i design/icon.ico -n chikkai src/main.py
+        run: pyinstaller --clean -ywF -i design/icon.ico -n chikkai src/main.py
       - name: Build exe
         run: pyinstaller -y chikkai.spec
+      - name: Unix setup
+        if: startsWith(matrix.os, 'windows') != true
+        run: |
+          mv dist/chikkai dist/chikkai_e
+          mkdir dist/chikkai
+          mv dist/chikkai_e dist/chikkai/chikkai
+      - name: Windows setup
+        if: startsWith(matrix.os, 'windows') == true
+        run: |
+          mkdir dist/chikkai
+          mv dist/chikkai.exe dist/chikkai/chikkai.exe
       - name: Copy in assets
         run: cp -r src/assets dist/chikkai/assets
-#      - name: MacOS cleanup
-#        if: startsWith(matrix.os, 'macos')
-#        run: rm -rf dist/chikkai.app/
-      - name: Unix setup
+      - name: MacOS cleanup
+        if: startsWith(matrix.os, 'macos')
+        run: rm -rf dist/chikkai.app/
+      - name: Unix final
         if: startsWith(matrix.os, 'windows') != true
         run: |
           chmod +x dist/chikkai
           cd dist
-          tar -zcvf ../chikkai.tar.gz .
+          tar -zcvf ../chikkai.tar.gz ./chikkai
           cd ..
           rm -rf dist/*
           mv chikkai.tar.gz dist

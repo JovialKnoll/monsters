@@ -2,5 +2,6 @@ necessary:
 * opening music (loop)
 * finalizing music and sound volumes
 * replace WAVs with OGGs (after above)
+* ending credits
 maybe:
 * save previous monster stats (at each level) so player can view monsters from older saves

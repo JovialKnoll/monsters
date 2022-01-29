@@ -1,5 +1,5 @@
 necessary:
-* opening music (loop)
+* opening music (loop) (also for credits, maybe quieter?)
 * finalizing music and sound volumes
 * replace WAVs with OGGs (after above)
 * ending credits

@@ -13,7 +13,9 @@ class ModeCredits(ModeOpening):
     def __init__(self):
         super().__init__()
         self._time = 0
-        credits_text = "test"
+        # could replace time tracking with tracking position of sprite
+        with open(constants.CREDITS_TEXT) as credits_file:
+            credits_text = credits_file.read().replace(' ', '_')
         credits_sprite = AnimSprite()
         credits_sprite.image = shared.font_wrap.renderInside(
             constants.SCREEN_SIZE[0] // 2,

@@ -1,6 +1,5 @@
 necessary:
 * opening music (loop) (also for credits, maybe quieter?)
-* sound for level up?
 * finalizing music and sound volumes
 * replace WAVs with OGGs
 * ending credits

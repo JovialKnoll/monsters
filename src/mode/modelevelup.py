@@ -15,6 +15,7 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         '_background',
         '_first_sprite',
         '_sprite_switches',
+        '_bip'
     )
 
     def _drawFontEffect(self, text: str, pos: tuple[int, int]):
@@ -76,6 +77,8 @@ class ModeLevelUp(ModeOpening, abc.ABC):
             16000,
         ))
 
+        self._bip = pygame.mixer.Sound(constants.BIP)
+
     def _input(self, event):
         if self._time >= 16000:
             super()._input(event)
@@ -94,6 +97,7 @@ class ModeLevelUp(ModeOpening, abc.ABC):
             )
 
     def _switchVisibleSprite(self):
+        self._bip.play()
         if self._first_sprite.visible:
             self._first_sprite.visible = 0
             shared.state.protag_mon.visible = 1

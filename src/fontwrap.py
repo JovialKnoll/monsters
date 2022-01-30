@@ -6,19 +6,19 @@ import shared
 
 class FontWrap(object):
     __slots__ = (
-        'font',
+        '_font',
     )
 
     def __init__(self, font_file, font_size):
-        self.font = pygame.font.Font(font_file, font_size)
+        self._font = pygame.font.Font(font_file, font_size)
 
     def renderTo(self, surf, dest, text, antialias, color, background=None):
-        surf.blit(self.font.render(text, antialias, color, background), dest)
+        surf.blit(self._font.render(text, antialias, color, background), dest)
 
     def renderToCentered(self, surf, dest, text, antialias, color, background=None):
-        text_size = self.font.size(text)
+        text_size = self._font.size(text)
         surf.blit(
-            self.font.render(text, antialias, color, background),
+            self._font.render(text, antialias, color, background),
             (dest[0] - text_size[0] // 2, dest[1] - text_size[1] // 2)
         )
 
@@ -29,7 +29,7 @@ class FontWrap(object):
         lines = [words[0].replace('_', ' ')]
         for word in words[1:]:
             new_word = word.replace('_', ' ')
-            if self.font.size(lines[-1] + " " + new_word)[0] > width:
+            if self._font.size(lines[-1] + " " + new_word)[0] > width:
                 lines.append(new_word)
             else:
                 lines[-1] += " " + new_word
@@ -37,7 +37,7 @@ class FontWrap(object):
         result = pygame.Surface((width, constants.FONT_HEIGHT * len(lines))).convert(shared.display.screen)
         result.fill(background)
         for i, line in enumerate(lines):
-            drawn_line = self.font.render(line, antialias, color, background).convert(result)
+            drawn_line = self._font.render(line, antialias, color, background).convert(result)
             result.blit(drawn_line, (0, i * constants.FONT_HEIGHT))
         return result
 

@@ -16,27 +16,27 @@ class ModeOpening1(ModeOpening):
     STAR_TRAVEL = 350
 
     __slots__ = (
-        'time',
-        'background',
-        'logo',
+        '_time',
+        '_background',
+        '_logo',
     )
 
     def __init__(self):
         super().__init__()
 
-        self.time = 0
-        self.background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
-        self.background.fill(constants.WHITE)
+        self._time = 0
+        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+        self._background.fill(constants.WHITE)
         shared.font_wrap.renderToCentered(
-            self.background,
+            self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8 + 8),
             self.LOGO_TEXT,
             False,
             constants.BLACK
         )
         bip = pygame.mixer.Sound(constants.BIP)
-        self.logo = pygame.image.load(constants.TIN_LOGO).convert(shared.display.screen)
-        self.logo.set_colorkey(constants.COLORKEY)
+        self._logo = pygame.image.load(constants.TIN_LOGO).convert(shared.display.screen)
+        self._logo.set_colorkey(constants.COLORKEY)
         star_image = pygame.image.load(constants.STAR).convert(shared.display.screen)
         star_image.set_colorkey(constants.COLORKEY)
         star_image = pygame.transform.scale(
@@ -80,19 +80,19 @@ class ModeOpening1(ModeOpening):
         self.next_mode = ModeOpening2()
 
     def _update(self, dt):
-        self.time += dt
-        if self.time >= self.STAR_WAIT * 2 + self.STAR_TRAVEL * self.STAR_WAVES:
+        self._time += dt
+        if self._time >= self.STAR_WAIT * 2 + self.STAR_TRAVEL * self.STAR_WAVES:
             self._stopMixer()
             self._switchMode()
 
     def _drawScreen(self, screen):
-        screen.blit(self.background, (0, 0))
+        screen.blit(self._background, (0, 0))
 
     def _drawPostSprites(self, screen):
         screen.blit(
-            self.logo,
+            self._logo,
             (
-                constants.SCREEN_SIZE[0] // 2 - self.logo.get_width() // 2,
-                constants.SCREEN_SIZE[1] * 7 // 16 - self.logo.get_height() // 2,
+                constants.SCREEN_SIZE[0] // 2 - self._logo.get_width() // 2,
+                constants.SCREEN_SIZE[1] * 7 // 16 - self._logo.get_height() // 2,
             )
         )

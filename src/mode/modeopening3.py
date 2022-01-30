@@ -18,27 +18,27 @@ class ModeOpening3(ModeOpening):
     FULL_MONSTER_WAIT_TIME = EMPTY_TIME + TRANSITION_TIME + CENTER_TIME + TRANSITION_TIME
 
     __slots__ = (
-        'monsters',
-        'wait_time',
-        'last_level',
-        'background',
-        'initial_wait_time',
+        '_monsters',
+        '_wait_time',
+        '_last_level',
+        '_background',
+        '_initial_wait_time',
     )
 
     def __init__(self):
         super().__init__()
         # static elements setup
-        self.background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
-        self.background.fill(constants.WHITE)
+        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+        self._background.fill(constants.WHITE)
         shared.font_wrap.renderToCentered(
-            self.background,
+            self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2 + 4),
             "press any key to start",
             False,
             constants.BLACK
         )
         logo = pygame.image.load(constants.CHIKKAI_LOGO).convert(shared.display.screen)
-        self.background.blit(
+        self._background.blit(
             logo,
             (
                 constants.SCREEN_SIZE[0] // 2 - logo.get_width() // 2,
@@ -46,35 +46,35 @@ class ModeOpening3(ModeOpening):
             )
         )
         # monster loop setup
-        self.last_level = 3
-        self.monsters = deque((), 3)
+        self._last_level = 3
+        self._monsters = deque((), 3)
         monster = self._getMonster(0, 3)
         # start the first one in the center
         monster.rect.midbottom = (constants.SCREEN_SIZE[0] // 2, self.GROUND_LEVEL)
         monster.anims.popleft()
         monster.anims.popleft()
-        self.monsters.append(monster)
-        self.wait_time = self.CENTER_TIME + self.TRANSITION_TIME
-        self.monsters.append(self._getMonster(self.wait_time))
-        self.wait_time += self.FULL_MONSTER_WAIT_TIME
-        self.monsters.append(self._getMonster(self.wait_time))
-        self.wait_time += self.FULL_MONSTER_WAIT_TIME
-        self.initial_wait_time = self.wait_time
+        self._monsters.append(monster)
+        self._wait_time = self.CENTER_TIME + self.TRANSITION_TIME
+        self._monsters.append(self._getMonster(self._wait_time))
+        self._wait_time += self.FULL_MONSTER_WAIT_TIME
+        self._monsters.append(self._getMonster(self._wait_time))
+        self._wait_time += self.FULL_MONSTER_WAIT_TIME
+        self._initial_wait_time = self._wait_time
 
-    def _getMonster(self, wait_time, level=None):
-        # wait_time is how much time until the previous mon is off the screen
+    def _getMonster(self, _wait_time, level=None):
+        # _wait_time is how much time until the previous mon is off the screen
         if level is None:
             level = random.choice(
-                [i for i in range(1, 4) if i != self.last_level]
+                [i for i in range(1, 4) if i != self._last_level]
             )
         monster = Monster.atLevel(level)
-        self.last_level = level
+        self._last_level = level
         self.all_sprites.add(monster)
         monster.rect.midbottom = (
             constants.SCREEN_SIZE[0] + monster.rect.width // 2,
             self.GROUND_LEVEL
         )
-        monster.addWait(wait_time + self.EMPTY_TIME)
+        monster.addWait(_wait_time + self.EMPTY_TIME)
         monster.addPosAbs(
             Monster.Lerp,
             self.TRANSITION_TIME,
@@ -94,13 +94,13 @@ class ModeOpening3(ModeOpening):
         self.next_mode = ModeIntroduction0()
 
     def _update(self, dt):
-        self.wait_time -= dt
-        # every so often, set up additional looping monsters here, so we don't run out
-        if self.wait_time < self.initial_wait_time - self.FULL_MONSTER_WAIT_TIME:
-            monster = self._getMonster(self.wait_time)
-            self.monsters[0].kill()
-            self.monsters.append(monster)
-            self.wait_time += self.FULL_MONSTER_WAIT_TIME
+        self._wait_time -= dt
+        # every so often, set up additional looping _monsters here, so we don't run out
+        if self._wait_time < self._initial_wait_time - self.FULL_MONSTER_WAIT_TIME:
+            monster = self._getMonster(self._wait_time)
+            self._monsters[0].kill()
+            self._monsters.append(monster)
+            self._wait_time += self.FULL_MONSTER_WAIT_TIME
 
     def _drawScreen(self, screen):
-        screen.blit(self.background, (0, 0))
+        screen.blit(self._background, (0, 0))

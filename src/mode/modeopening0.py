@@ -11,26 +11,26 @@ class ModeOpening0(ModeOpening):
     LOGO_TEXT = "Jovial Knoll"
 
     __slots__ = (
-        'time',
-        'step',
-        'background',
+        '_time',
+        '_step',
+        '_background',
     )
 
     def __init__(self):
         super().__init__()
-        self.time = 0
-        self.step = 0
-        self.background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
-        self.background.fill(constants.WHITE)
+        self._time = 0
+        self._step = 0
+        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+        self._background.fill(constants.WHITE)
         shared.font_wrap.renderToCentered(
-            self.background,
+            self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
             self.LOGO_TEXT,
             False,
             constants.BLACK
         )
         logo = pygame.image.load(constants.JK_LOGO_BLACK).convert(shared.display.screen)
-        self.background.blit(
+        self._background.blit(
             logo,
             (
                 constants.SCREEN_SIZE[0] // 2 - logo.get_width() // 2,
@@ -58,53 +58,53 @@ class ModeOpening0(ModeOpening):
         self.next_mode = ModeOpening1()
 
     def _update(self, dt):
-        self.time += dt
-        if self.time >= 1250 and self.step < 1:
-            self.step += 1
+        self._time += dt
+        if self._time >= 1250 and self._step < 1:
+            self._step += 1
             shared.font_wrap.renderToCentered(
-                self.background,
+                self._background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
                 self.LOGO_TEXT,
                 False,
                 constants.TEXT_COLOR
             )
-        if self.time >= 1500 and self.step < 2:
-            self.step += 1
+        if self._time >= 1500 and self._step < 2:
+            self._step += 1
             shared.font_wrap.renderToCentered(
-                self.background,
+                self._background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
                 self.LOGO_TEXT,
                 False,
                 constants.DARK_TEXT_COLOR
             )
             logo = pygame.image.load(constants.JK_LOGO_LIGHT_GREY).convert(shared.display.screen)
-            self.background.blit(
+            self._background.blit(
                 logo,
                 (
                     constants.SCREEN_SIZE[0] // 2 - logo.get_width() // 2,
                     constants.SCREEN_SIZE[1] * 7 // 16 - logo.get_height() // 2,
                 )
             )
-        if self.time >= 1750 and self.step < 3:
-            self.step += 1
+        if self._time >= 1750 and self._step < 3:
+            self._step += 1
             shared.font_wrap.renderToCentered(
-                self.background,
+                self._background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
                 self.LOGO_TEXT,
                 False,
                 constants.BLACK
             )
             logo = pygame.image.load(constants.JK_LOGO_GREY).convert(shared.display.screen)
-            self.background.blit(
+            self._background.blit(
                 logo,
                 (
                     constants.SCREEN_SIZE[0] // 2 - logo.get_width() // 2,
                     constants.SCREEN_SIZE[1] * 7 // 16 - logo.get_height() // 2,
                 )
             )
-        if self.time >= 4000:
+        if self._time >= 4000:
             self._stopMixer()
             self._switchMode()
 
     def _drawScreen(self, screen):
-        screen.blit(self.background, (0, 0))
+        screen.blit(self._background, (0, 0))

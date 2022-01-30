@@ -9,17 +9,17 @@ from .modeopening import ModeOpening
 
 class ModeOpening2(ModeOpening):
     __slots__ = (
-        'time',
-        'fade',
-        'music_started',
-        'music_time',
-        'move_time',
+        '_time',
+        '_fade',
+        '_music_started',
+        '_music_time',
+        '_move_time',
     )
 
     def __init__(self):
         super().__init__()
         pygame.mixer.music.load(constants.TITLE_INTRO)
-        self.music_started = False
+        self._music_started = False
         left_mon = Monster.atLevel(3)
         right_mon = Monster.atLevel(2)
 
@@ -36,7 +36,7 @@ class ModeOpening2(ModeOpening):
         left_mon.addPosRel(Monster.Lerp, beat * 6, -constants.SCREEN_SIZE[0] // 2, 0)
         right_mon.addPosRel(Monster.Lerp, beat * 6, constants.SCREEN_SIZE[0] // 2, 0,
                             sound=sproing, positional_sound=True)
-        self.music_time = beat * 6
+        self._music_time = beat * 6
         # back and forth
         left_mon.addWait(beat * 8 + pause * 2)
         jump = right_mon.rect.width // 8
@@ -87,25 +87,25 @@ class ModeOpening2(ModeOpening):
         left_mon.layer = 1
         right_mon.layer = 0
         self.all_sprites.add(right_mon, left_mon)
-        self.time = 0
-        self.move_time = beat * 28 + pause * 2 + 300
-        self.fade = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
-        self.fade.fill(constants.WHITE)
-        self.fade.set_alpha(0)
+        self._time = 0
+        self._move_time = beat * 28 + pause * 2 + 300
+        self._fade = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+        self._fade.fill(constants.WHITE)
+        self._fade.set_alpha(0)
 
     def _switchMode(self):
         self.next_mode = ModeOpening3()
 
     def _update(self, dt):
-        self.time += dt
-        if self.time >= self.music_time and not self.music_started:
+        self._time += dt
+        if self._time >= self._music_time and not self._music_started:
             pygame.mixer.music.play(1, 0, 500)
-            self.music_started = True
-        if self.time >= self.move_time:
-            self.fade.set_alpha(
-                min((self.time - self.move_time) * 255 // 750, 255)
+            self._music_started = True
+        if self._time >= self._move_time:
+            self._fade.set_alpha(
+                min((self._time - self._move_time) * 255 // 750, 255)
             )
-        if self.time >= self.move_time + 1500:
+        if self._time >= self._move_time + 1500:
             self._stopMixer()
             self._switchMode()
 
@@ -113,4 +113,4 @@ class ModeOpening2(ModeOpening):
         screen.fill(constants.WHITE)
 
     def _drawPostSprites(self, screen):
-        screen.blit(self.fade, (0, 0))
+        screen.blit(self._fade, (0, 0))

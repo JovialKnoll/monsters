@@ -15,7 +15,7 @@ mv dist/chikkai.exe dist/chikkai/chikkai.exe
 # copy in assets
 cp -r src/assets dist/chikkai/assets
 # copy in readme
-cp design/README.txt dist/chikkai/
+cp README.txt dist/chikkai/
 # copy in license
 cp LICENSE.txt dist/chikkai/
 # cleanup

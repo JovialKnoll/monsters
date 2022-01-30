@@ -38,6 +38,10 @@ jobs:
           mv dist/chikkai.exe dist/chikkai/chikkai.exe
       - name: Copy in assets
         run: cp -r src/assets dist/chikkai/assets
+      - name: Copy in readme
+        run: cp design/README.txt dist/chikkai/
+      - name: Copy in license
+        run: cp LICENSE.txt dist/chikkai/
       - name: MacOS cleanup
         if: startsWith(matrix.os, 'macos')
         run: rm -rf dist/chikkai.app/

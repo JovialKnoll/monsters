@@ -207,11 +207,6 @@ class ModeFight(ModeButtons):
         if self._player_action:
             return
         super()._input(event)
-        # testing stuff, remove later
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_t:
-                print("_player_mon.stats = " + str(self._player_mon.stats))
-                print("_enemy_mon.stats = " + str(self._enemy_mon.stats))
 
     def _setActionDisplay(self, text: str):
         self._action_display.appendleft(shared.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR))

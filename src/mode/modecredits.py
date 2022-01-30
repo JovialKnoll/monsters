@@ -1,5 +1,3 @@
-import pygame
-
 import constants
 import shared
 from animsprite import AnimSprite
@@ -10,16 +8,33 @@ from .modeopening import ModeOpening
 class ModeCredits(ModeOpening):
     __slots__ = (
         '_time',
-        '_background',
     )
 
     def __init__(self):
         super().__init__()
         self._time = 0
-        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
-        self._background.fill(constants.BLACK)
-        # make an animsprite with rendered font for all credits
-        # make it move to scroll
+        credits_text = "test"
+        credits_sprite = AnimSprite()
+        credits_sprite.image = shared.font_wrap.renderInside(
+            constants.SCREEN_SIZE[0] // 2,
+            credits_text,
+            False,
+            constants.WHITE,
+            background=constants.BLACK
+        )
+        credits_sprite.rect = credits_sprite.image.get_rect()
+        credits_sprite.rect.midtop = (
+            constants.SCREEN_SIZE[0] // 2,
+            constants.SCREEN_SIZE[1],
+        )
+        credits_sprite.addWait(1000)
+        credits_sprite.addPosRel(
+            AnimSprite.Lerp,
+            10000,
+            0,
+            (constants.SCREEN_SIZE[1] + credits_sprite.rect.height) * -1
+        )
+        self.all_sprites.add(credits_sprite)
 
     def _switchMode(self):
         self.next_mode = ModeOpening0()
@@ -30,4 +45,4 @@ class ModeCredits(ModeOpening):
         # press any key to proceed etc
 
     def _drawScreen(self, screen):
-        screen.blit(self._background, (0, 0))
+        screen.fill(constants.BLACK)

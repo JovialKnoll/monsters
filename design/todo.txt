@@ -4,4 +4,3 @@ necessary:
 * finalizing music and sound volumes
 * replace WAVs with OGGs (after above)
 * ending credits
-* decide if standardizing capitalization of "press any key" messages

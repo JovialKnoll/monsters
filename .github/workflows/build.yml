@@ -48,7 +48,7 @@ jobs:
       - name: Unix final
         if: startsWith(matrix.os, 'windows') != true
         run: |
-          sed -i 's/chikkai.exe/chikkai/g' dist/README.txt
+          sed -i 's/chikkai.exe/chikkai/g' dist/chikkai/README.txt
           chmod +x dist/chikkai
           cd dist
           tar -zcvf ../chikkai.tar.gz ./chikkai

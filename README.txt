@@ -24,7 +24,7 @@ Controls:
     - pick an option with ENTER and MOUSE CLICK
   always
     - bring up the pause menu with ESC
-    - pause menu controls are listed in the pause menu
+    - controls for the pause menu are listed in the pause menu
 
 
 Notes:

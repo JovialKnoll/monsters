@@ -30,11 +30,14 @@ class ModeCredits(ModeOpening):
             constants.SCREEN_SIZE[1],
         )
         credits_sprite.addWait(1000)
+        credits_speed = constants.FONT_HEIGHT / 750
+        credits_distance = constants.SCREEN_SIZE[1] + credits_sprite.rect.height
+        credits_time = int(credits_distance / credits_speed)
         credits_sprite.addPosRel(
             AnimSprite.Lerp,
-            10000,
+            credits_time,
             0,
-            (constants.SCREEN_SIZE[1] + credits_sprite.rect.height) * -1
+            credits_distance * -1
         )
         self.all_sprites.add(credits_sprite)
 
@@ -43,7 +46,7 @@ class ModeCredits(ModeOpening):
 
     def _update(self, dt):
         self._time += dt
-        # after enough time for the credits to scroll, render text on to background
+        # after credits_time, render text on to background
         # press any key to proceed etc
 
     def _drawScreen(self, screen):

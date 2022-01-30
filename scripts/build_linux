@@ -17,6 +17,10 @@ mkdir dist/chikkai
 mv dist/chikkai_e dist/chikkai/chikkai
 # copy in assets
 cp -r src/assets dist/chikkai/assets
+# copy in readme
+cp design/README.txt dist/chikkai/
+# copy in license
+cp LICENSE.txt dist/chikkai/
 # unix final
 chmod +x dist/chikkai
 # cleanup

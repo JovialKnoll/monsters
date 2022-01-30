@@ -42,13 +42,17 @@ jobs:
         run: cp LICENSE.txt dist/chikkai/
       - name: Copy in readme
         run: cp README.txt dist/chikkai/
+      - name: Linux cleanup
+        if: startsWith(matrix.os, 'ubuntu')
+        run: sed -i 's/chikkai.exe/chikkai/g' dist/chikkai/README.txt
       - name: MacOS cleanup
         if: startsWith(matrix.os, 'macos')
-        run: rm -rf dist/chikkai.app/
+        run: |
+          sed -i '' 's/chikkai.exe/chikkai/g' dist/chikkai/README.txt
+          rm -rf dist/chikkai.app/
       - name: Unix final
         if: startsWith(matrix.os, 'windows') != true
         run: |
-          sed -i '' 's/chikkai.exe/chikkai/g' dist/chikkai/README.txt
           chmod +x dist/chikkai
           cd dist
           tar -zcvf ../chikkai.tar.gz ./chikkai

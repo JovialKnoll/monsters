@@ -1,6 +1,6 @@
 necessary:
-* make README.txt to package with distribution of game
 * opening music (loop) (also for credits, maybe quieter?)
+* sound for level up?
 * finalizing music and sound volumes
-* replace WAVs with OGGs (after above)
+* replace WAVs with OGGs
 * ending credits

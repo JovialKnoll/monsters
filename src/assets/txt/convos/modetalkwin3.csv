@@ -4,4 +4,4 @@
 I don't think I need any more help.",>,3
 3,SHOW_MONSTER|STOP_MUSIC,I've learned as much as I can from you.,>,4
 4,SHOW_MONSTER,Thank you.,>,5
-5,SHOW_MONSTER,:),>,5
+5,SHOW_MONSTER,:),>,ModeCredits

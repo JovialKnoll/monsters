@@ -2,7 +2,7 @@ Chikkai! Tiny Kaijus
 
 
 Files:
-  chikkai.exe (chikkai on linux / macos)
+  chikkai.exe
     - game executable - run this!
   assets
     - various assets the game needs to run

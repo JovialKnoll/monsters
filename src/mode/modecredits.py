@@ -33,7 +33,7 @@ class ModeCredits(ModeOpening):
             constants.SCREEN_SIZE[1],
         )
         self._credits_sprite.addWait(1000)
-        credits_speed = constants.FONT_HEIGHT / 750
+        credits_speed = constants.FONT_HEIGHT / 500
         credits_distance = constants.SCREEN_SIZE[1] + self._credits_sprite.rect.height
         credits_time = int(credits_distance / credits_speed)
         self._credits_sprite.addPosRel(
@@ -52,7 +52,7 @@ class ModeCredits(ModeOpening):
         if not self._credits_sprite.stillAnimating():
             shared.font_wrap.renderToCentered(
                 self._background,
-                (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2 + 4),
+                (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2),
                 "press any key to proceed",
                 False,
                 constants.WHITE

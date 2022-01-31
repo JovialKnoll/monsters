@@ -97,15 +97,15 @@ class AnimSprite(pygame.sprite.DirtySprite, Saveable):
         if self.positional_sound:
             if self.sound_channel.get_busy():
                 pos = min(max(self.rect.centerx / constants.SCREEN_SIZE[0], 0), 1)
-                channel_l = self.boundChannelVolume(utility.cos_curve(pos))
-                channel_r = self.boundChannelVolume(utility.sin_curve(pos))
+                channel_l = self._boundChannelVolume(utility.cos_curve(pos))
+                channel_r = self._boundChannelVolume(utility.sin_curve(pos))
                 self.sound_channel.set_volume(channel_l, channel_r)
             else:
                 self.positional_sound = False
                 self.sound_channel = None
 
     @staticmethod
-    def boundChannelVolume(volume):
+    def _boundChannelVolume(volume):
         return .2 + (volume * .8)
 
     def addPosAbs(self, func, time, x_or_pair, y=None, sound=None, positional_sound=False):

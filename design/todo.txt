@@ -3,5 +3,4 @@ necessary:
 * adjust opening to music of vice versa
 * finalizing music and sound volumes
 * replace WAVs with OGGs
-* ending credits
 * output monster stat block and all images up to that point on level up (make optional). make new directory, mention in readme

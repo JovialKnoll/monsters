@@ -21,15 +21,15 @@ class ModeCredits(ModeOpening):
             credits_text = credits_file.read().replace(' ', '_')
         self._credits_sprite = AnimSprite()
         self._credits_sprite.image = shared.font_wrap.renderInside(
-            constants.SCREEN_SIZE[0] // 2,
+            constants.SCREEN_SIZE[0] * 3 // 4,
             credits_text,
             False,
             constants.WHITE,
             background=constants.BLACK
         )
         self._credits_sprite.rect = self._credits_sprite.image.get_rect()
-        self._credits_sprite.rect.midtop = (
-            constants.SCREEN_SIZE[0] // 2,
+        self._credits_sprite.rect.topleft = (
+            constants.SCREEN_SIZE[0] // 4,
             constants.SCREEN_SIZE[1],
         )
         self._credits_sprite.addWait(1000)

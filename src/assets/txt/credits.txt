@@ -14,11 +14,7 @@ Engineering
 Art Director
   tinsil
 
-Font Design
-  tinsil
-
-Logo Design
-  tinsil
+Script
   JovialKnoll
 
 Music Production
@@ -27,5 +23,9 @@ Music Production
 Additional Sound Design
   JovialKnoll
 
-Script
+Font Design
+  tinsil
+
+Logo Design
+  tinsil
   JovialKnoll

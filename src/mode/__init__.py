@@ -1,6 +1,7 @@
 from .mode import Mode
 from .modebuttons import ModeButtons
 from .modeconvo import ModeConvo
+from .modecredits import ModeCredits
 from .modefight import ModeFight
 from .modegamemenu import ModeGameMenu
 from .modegamemenu import ModeGameMenuTop

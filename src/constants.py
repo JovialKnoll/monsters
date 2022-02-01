@@ -63,6 +63,7 @@ CHAT_LOOP = os.path.join(MUSIC_DIRECTORY, 'chat_loop.ogg')
 FIGHT_LOOP = os.path.join(MUSIC_DIRECTORY, 'fight_loop.ogg')
 
 TEXT_DIRECTORY = os.path.join(ASSETS_DIRECTORY, 'txt')
+CREDITS_TEXT = os.path.join(TEXT_DIRECTORY, 'credits.txt')
 CONVO_DIRECTORY = os.path.join(TEXT_DIRECTORY, 'convos')
 
 SAVE_DIRECTORY = os.path.join(SRC_DIRECTORY, 'saves')

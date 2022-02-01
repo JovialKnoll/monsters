@@ -8,7 +8,7 @@ from .modeopening import ModeOpening
 
 
 class ModeOpening0(ModeOpening):
-    LOGO_TEXT = "Jovial Knoll"
+    LOGO_TEXT = "JovialKnoll"
 
     __slots__ = (
         '_time',

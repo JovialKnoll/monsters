@@ -10,7 +10,6 @@ from .modeopening import ModeOpening
 
 
 class ModeOpening1(ModeOpening):
-    LOGO_TEXT = "tinsil"
     STAR_WAVES = 3
     STAR_WAIT = 1000
     STAR_TRAVEL = 350
@@ -30,7 +29,7 @@ class ModeOpening1(ModeOpening):
         shared.font_wrap.renderToCentered(
             self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8 + 8),
-            self.LOGO_TEXT,
+            "tinsil",
             False,
             constants.BLACK
         )

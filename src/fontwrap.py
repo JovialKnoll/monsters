@@ -9,20 +9,23 @@ class FontWrap(object):
         '_font',
     )
 
-    def __init__(self, font_file, font_size):
+    def __init__(self, font_file, font_size: int):
         self._font = pygame.font.Font(font_file, font_size)
 
-    def renderTo(self, surf, dest, text, antialias, color, background=None):
+    def renderTo(self, surf: pygame.Surface, dest, text: str,
+                 antialias: bool, color, background=None):
         surf.blit(self._font.render(text, antialias, color, background), dest)
 
-    def renderToCentered(self, surf, dest, text, antialias, color, background=None):
+    def renderToCentered(self, surf: pygame.Surface, dest, text: str,
+                         antialias, color, background=None):
         text_size = self._font.size(text)
         surf.blit(
             self._font.render(text, antialias, color, background),
             (dest[0] - text_size[0] // 2, dest[1] - text_size[1] // 2)
         )
 
-    def renderWordsInside(self, width, words, antialias, color, background):
+    def renderWordsInside(self, width: int, words: list[str],
+                          antialias: bool, color, background=None):
         """Returns a surface of the width with the words drawn on it.
         If any word is too long to fit, it will be in its own line, and truncated.
         """
@@ -41,7 +44,8 @@ class FontWrap(object):
             result.blit(drawn_line, (0, i * constants.FONT_HEIGHT))
         return result
 
-    def renderToInside(self, surf, dest, width, text, antialias, color, background=None):
+    def renderToInside(self, surf: pygame.Surface, dest, width: int, text: str,
+                       antialias: bool, color, background=None):
         # probably more efficient to do once?
         part_dest = [dest[0], dest[1]]
         for line in [line.split() for line in text.splitlines()]:
@@ -55,7 +59,8 @@ class FontWrap(object):
             surf.blit(img, part_dest)
             part_dest[1] += img.get_height()
 
-    def renderInside(self, width, text, antialias, color, background=None):
+    def renderInside(self, width: int, text: str,
+                     antialias: bool, color, background=None):
         # probably more efficient if keeping resultant surface and using that to draw over and over?
         height = 0
         imgs = []

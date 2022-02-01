@@ -9,14 +9,14 @@ from .modeopening import ModeOpening
 
 class ModeCredits(ModeOpening):
     __slots__ = (
-        '_background',
         '_credits_sprite',
+        '_time',
+        '_move_time',
+        '_final_text',
     )
 
     def __init__(self):
         super().__init__()
-        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
-        self._background.fill(constants.BLACK)
         with open(constants.CREDITS_TEXT) as credits_file:
             credits_text = credits_file.read().replace(' ', '_')
         self._credits_sprite = AnimSprite()
@@ -32,10 +32,13 @@ class ModeCredits(ModeOpening):
             constants.SCREEN_SIZE[0] // 4,
             constants.SCREEN_SIZE[1],
         )
+        self._time = 0
         self._credits_sprite.addWait(1000)
+        self._move_time = 1000
         credits_speed = constants.FONT_HEIGHT / 500
         credits_distance = constants.SCREEN_SIZE[1] + self._credits_sprite.rect.height
         credits_time = int(credits_distance / credits_speed)
+        self._move_time += credits_time
         self._credits_sprite.addPosRel(
             AnimSprite.Lerp,
             credits_time,
@@ -43,20 +46,29 @@ class ModeCredits(ModeOpening):
             credits_distance * -1
         )
         self._credits_sprite.addWait(1000)
+        self._move_time += 1000
         self.all_sprites.add(self._credits_sprite)
+        self._final_text = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+        self._final_text.fill(constants.BLACK)
+        shared.font_wrap.renderToCentered(
+            self._final_text,
+            (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2),
+            "press any key to proceed",
+            False,
+            constants.WHITE
+        )
+        self._final_text.set_alpha(0)
 
     def _switchMode(self):
         self.next_mode = ModeOpening0()
 
     def _update(self, dt):
-        if not self._credits_sprite.stillAnimating():
-            shared.font_wrap.renderToCentered(
-                self._background,
-                (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2),
-                "press any key to proceed",
-                False,
-                constants.WHITE
+        self._time += dt
+        if self._time >= self._move_time:
+            self._final_text.set_alpha(
+                min((self._time - self._move_time) * 255 // 1000, 255)
             )
 
     def _drawScreen(self, screen):
-        screen.blit(self._background, (0, 0))
+        screen.fill(constants.BLACK)
+        screen.blit(self._final_text, (0, 0))

@@ -1,16 +1,31 @@
-credits go here
+Director
+  JovialKnoll
 
-testing lines
+Original Concept
+  tinsil
 
-Job 1
-  person A
+Game Design
+  JovialKnoll
+  tinsil
 
-Job 2
-  person B
+Engineering
+  JovialKnoll
 
-Job 3
-  person A
-  person B
+Art Director
+  tinsil
 
-etc
-etc
+Font Design
+  tinsil
+
+Logo Design
+  tinsil
+  JovialKnoll
+
+Music Production
+  tinsil
+
+Additional Sound Design
+  JovialKnoll
+
+Script
+  JovialKnoll

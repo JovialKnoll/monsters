@@ -205,6 +205,8 @@ class ModeGameMenuLoad(ModeGameMenu):
         '_saves',
         '_save_index',
         '_loaded_save',
+        '_confirm_delete',
+        '_deleted_save',
     )
 
     def __init__(self, previous_mode, old_screen=None):
@@ -212,6 +214,8 @@ class ModeGameMenuLoad(ModeGameMenu):
         self._saves = Save.getAllFromFiles()
         self._save_index = 0
         self._loaded_save = False
+        self._confirm_delete = False
+        self._deleted_save = False
 
     def _input(self, event):
         if event.type == pygame.QUIT:
@@ -219,13 +223,22 @@ class ModeGameMenuLoad(ModeGameMenu):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE or self._loaded_save:
                 self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
+            elif self._deleted_save:
+                self._deleted_save = False
+            elif self._confirm_delete:
+                if event.key == pygame.K_RETURN:
+                    self._confirm_delete = False
+                    self._saves[self._save_index].delete()
+                    del self._saves[self._save_index]
+                    self._save_index = max(0, min(len(self._saves) - 1, self._save_index))
+                    self._deleted_save = True
+                else:
+                    self._confirm_delete = False
             elif len(self._saves) > 0:
                 if event.key in (pygame.K_UP, pygame.K_LEFT):
                     self._save_index = max(self._save_index - 1, 0)
-                    pass
                 elif event.key in (pygame.K_DOWN, pygame.K_RIGHT):
                     self._save_index = min(self._save_index + 1, len(self._saves) - 1)
-                    pass
                 elif event.key == pygame.K_RETURN:
                     self._stopMixer()
                     self._previous_mode = self._saves[self._save_index].load()
@@ -233,7 +246,8 @@ class ModeGameMenuLoad(ModeGameMenu):
                     pygame.mixer.pause()
                     self._old_screen = self._getOldScreen()
                     self._loaded_save = True
-                    pass
+                elif event.key == pygame.K_DELETE:
+                    self._confirm_delete = True
 
     def _drawScreen(self, screen):
         super()._drawScreen(screen)
@@ -242,8 +256,13 @@ class ModeGameMenuLoad(ModeGameMenu):
             disp_text += "\nThere are no save files to select from."
         elif self._loaded_save:
             disp_text += "\nLoaded successfully.\nPress any key to go back."
+        elif self._confirm_delete:
+            disp_text += "\nThis will delete an existing save file." \
+                + "\nPress ENTER to confirm, or any other key to go back."
+        elif self._deleted_save:
+            disp_text += "\nDeleted successfully.\nPress any key to continue."
         else:
-            disp_text += "ENTER) Load\nARROW KEYS) Select a file:"
+            disp_text += "ENTER) Load\nDEL) Delete\nARROW KEYS) Select a file:"
             for i in range(-1, 2):
                 disp_text += "\n"
                 this_index = self._save_index + i

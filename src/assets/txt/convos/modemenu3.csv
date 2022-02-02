@@ -3,7 +3,7 @@
 1a,SHOW_MONSTER,"Well it feels pretty good. I think I might have reached the limit, though.",>,0,,,,,,
 1b,SHOW_MONSTER,"I like it, I think.
 I guess that's a pretty normal opinion for monsters. How should I put it? It helps me express myself.",>,0,,,,,,
-1c,SHOW_MONSTER,"I think you've been doing a good job. We got this far, right?",>,0,,,,,,
+1c,SHOW_MONSTER,"I think you've been doing a good job. We've gotten this far, right?",>,0,,,,,,
 1d,SHOW_MONSTER,"Uh, I'm not a philosopher.",>,0,,,,,,
 2,SHOW_MONSTER,Can't complain.,>,0,,,,,,
 3,SHOW_MONSTER,I think this might be the last one I need your help for.,>,3a,,,,,,

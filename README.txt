@@ -12,6 +12,9 @@ Files:
   saves
     - will be created automatically
     - your save files are stored here
+  images
+    - will be created automatically
+    - any image files the game creates will be stored here
 
 
 Controls:

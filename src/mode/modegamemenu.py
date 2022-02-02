@@ -252,7 +252,7 @@ class ModeGameMenuLoad(ModeGameMenu):
         elif self._deleted_save:
             disp_text += "\nDeleted successfully.\nPress any key to continue."
         else:
-            disp_text += "ENTER) Load\nARROW KEYS) Select a file:"
+            disp_text += "ENTER) Load\nDEL) Delete\nARROW KEYS) Select a file:"
             for i in range(-1, 2):
                 disp_text += "\n"
                 this_index = self._save_index + i

@@ -41,27 +41,29 @@ class Save(object):
             )
         )
 
+    @staticmethod
+    def _getFilePath(file_name):
+        return os.path.join(constants.SAVE_DIRECTORY, file_name)
+
     @classmethod
     def getAllFromFiles(cls):
-        return tuple(
-            sorted(
-                (
-                    save
-                    for save
-                    in (
-                        cls.getFromFile(file)
-                        for file
-                        in cls._getSaveFiles()
-                    )
-                    if save
-                ),
-                key=lambda s: (s.file_name.lower(), s.file_name)
-            )
+        return sorted(
+            (
+                save
+                for save
+                in (
+                    cls.getFromFile(file)
+                    for file
+                    in cls._getSaveFiles()
+                )
+                if save
+            ),
+            key=lambda s: (s.file_name.lower(), s.file_name)
         )
 
     @classmethod
     def getFromFile(cls, file_name: str):
-        file_path = os.path.join(constants.SAVE_DIRECTORY, file_name)
+        file_path = cls._getFilePath(file_name)
         try:
             with open(file_path, 'r') as file:
                 save_object = json.load(file, object_hook=saveable.decodeSaveable)
@@ -83,7 +85,7 @@ class Save(object):
             'mode_data': self._mode_data,
             'shared_data': self._shared_data,
         }
-        file_path = os.path.join(constants.SAVE_DIRECTORY, self.file_name)
+        file_path = self._getFilePath(self.file_name)
         try:
             with open(file_path, 'w') as file:
                 json.dump(save_object, file, cls=saveable.SaveableJSONEncoder)
@@ -96,3 +98,7 @@ class Save(object):
         mode_cls = getattr(mode, self._mode_name)
         new_mode = mode_cls.load(self._mode_data)
         return new_mode
+
+    def delete(self):
+        file_path = self._getFilePath(self.file_name)
+        os.remove(file_path)

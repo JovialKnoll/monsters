@@ -47,20 +47,18 @@ class Save(object):
 
     @classmethod
     def getAllFromFiles(cls):
-        return tuple(
-            sorted(
-                (
-                    save
-                    for save
-                    in (
-                        cls.getFromFile(file)
-                        for file
-                        in cls._getSaveFiles()
-                    )
-                    if save
-                ),
-                key=lambda s: (s.file_name.lower(), s.file_name)
-            )
+        return sorted(
+            (
+                save
+                for save
+                in (
+                    cls.getFromFile(file)
+                    for file
+                    in cls._getSaveFiles()
+                )
+                if save
+            ),
+            key=lambda s: (s.file_name.lower(), s.file_name)
         )
 
     @classmethod

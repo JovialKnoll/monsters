@@ -226,13 +226,14 @@ class ModeGameMenuLoad(ModeGameMenu):
             elif self._deleted_save:
                 self._deleted_save = False
             elif self._confirm_delete:
-                if event.key == pygame.K_ESCAPE:
-                    self._confirm_delete = False
-                elif event.key == pygame.K_RETURN:
+                if event.key == pygame.K_RETURN:
                     self._confirm_delete = False
                     self._saves[self._save_index].delete()
                     del self._saves[self._save_index]
+                    self._save_index = max(0, min(len(self._saves) - 1, self._save_index))
                     self._deleted_save = True
+                else:
+                    self._confirm_delete = False
             elif len(self._saves) > 0:
                 if event.key in (pygame.K_UP, pygame.K_LEFT):
                     self._save_index = max(self._save_index - 1, 0)

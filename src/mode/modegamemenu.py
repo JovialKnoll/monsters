@@ -205,6 +205,8 @@ class ModeGameMenuLoad(ModeGameMenu):
         '_saves',
         '_save_index',
         '_loaded_save',
+        '_confirm_delete',
+        '_deleted_save',
     )
 
     def __init__(self, previous_mode, old_screen=None):
@@ -212,6 +214,8 @@ class ModeGameMenuLoad(ModeGameMenu):
         self._saves = Save.getAllFromFiles()
         self._save_index = 0
         self._loaded_save = False
+        self._confirm_delete = False
+        self._deleted_save = False
 
     def _input(self, event):
         if event.type == pygame.QUIT:
@@ -242,6 +246,11 @@ class ModeGameMenuLoad(ModeGameMenu):
             disp_text += "\nThere are no save files to select from."
         elif self._loaded_save:
             disp_text += "\nLoaded successfully.\nPress any key to go back."
+        elif self._confirm_delete:
+            disp_text += "\nThis will delete an existing save file." \
+                + "\nPress ENTER again to confirm, or ESC to go back."
+        elif self._deleted_save:
+            disp_text += "\nDeleted successfully.\nPress any key to continue."
         else:
             disp_text += "ENTER) Load\nARROW KEYS) Select a file:"
             for i in range(-1, 2):

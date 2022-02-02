@@ -223,13 +223,20 @@ class ModeGameMenuLoad(ModeGameMenu):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE or self._loaded_save:
                 self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
+            elif self._deleted_save:
+                self._deleted_save = False
+            elif self._confirm_delete:
+                if event.key == pygame.K_ESCAPE:
+                    self._confirm_delete = False
+                elif event.key == pygame.K_RETURN:
+                    self._confirm_delete = False
+                    # delete file here
+                    self._deleted_save = True
             elif len(self._saves) > 0:
                 if event.key in (pygame.K_UP, pygame.K_LEFT):
                     self._save_index = max(self._save_index - 1, 0)
-                    pass
                 elif event.key in (pygame.K_DOWN, pygame.K_RIGHT):
                     self._save_index = min(self._save_index + 1, len(self._saves) - 1)
-                    pass
                 elif event.key == pygame.K_RETURN:
                     self._stopMixer()
                     self._previous_mode = self._saves[self._save_index].load()
@@ -237,7 +244,8 @@ class ModeGameMenuLoad(ModeGameMenu):
                     pygame.mixer.pause()
                     self._old_screen = self._getOldScreen()
                     self._loaded_save = True
-                    pass
+                elif event.key == pygame.K_DELETE:
+                    self._confirm_delete = True
 
     def _drawScreen(self, screen):
         super()._drawScreen(screen)
@@ -248,7 +256,7 @@ class ModeGameMenuLoad(ModeGameMenu):
             disp_text += "\nLoaded successfully.\nPress any key to go back."
         elif self._confirm_delete:
             disp_text += "\nThis will delete an existing save file." \
-                + "\nPress ENTER again to confirm, or ESC to go back."
+                + "\nPress ENTER to confirm, or any other key to go back."
         elif self._deleted_save:
             disp_text += "\nDeleted successfully.\nPress any key to continue."
         else:

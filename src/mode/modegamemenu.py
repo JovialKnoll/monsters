@@ -230,7 +230,8 @@ class ModeGameMenuLoad(ModeGameMenu):
                     self._confirm_delete = False
                 elif event.key == pygame.K_RETURN:
                     self._confirm_delete = False
-                    # delete file here
+                    self._saves[self._save_index].delete()
+                    del self._saves[self._save_index]
                     self._deleted_save = True
             elif len(self._saves) > 0:
                 if event.key in (pygame.K_UP, pygame.K_LEFT):

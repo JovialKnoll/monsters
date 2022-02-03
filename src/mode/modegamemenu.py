@@ -13,7 +13,7 @@ from saveable import Saveable
 class ModeGameMenu(mode.Mode, abc.ABC):
     FILE_EXT = '.sav'
     MENU_CHAR_WIDTH = 26
-    MENU_WIDTH = MENU_CHAR_WIDTH * constants.FONT_SIZE
+    MENU_WIDTH = MENU_CHAR_WIDTH * constants.FONT_SIZE + 1
     SHARED_DISP_TEXT = "Options:\nESC) Go Back\n"
 
     __slots__ = (

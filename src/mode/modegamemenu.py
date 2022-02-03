@@ -308,5 +308,5 @@ class ModeGameMenuOptions(ModeGameMenu):
 
     @staticmethod
     def getTickBox(value: bool):
-        inside = "X" if value else "_"
+        inside = "*" if value else "_"
         return f"[{inside}]"

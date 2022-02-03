@@ -152,7 +152,7 @@ class ModeGameMenuSave(ModeGameMenu):
                     self._cursor_position -= 1
                 self._resetCursorBlink()
             elif (
-                length < (self.MENU_CHAR_WIDTH - len(self.FILE_EXT) - 1)
+                length < (self.MENU_CHAR_WIDTH - 1)
                 and (
                     # numbers
                     ('0' <= char <= '9')
@@ -181,7 +181,6 @@ class ModeGameMenuSave(ModeGameMenu):
             disp_text += "ENTER) Save\nType a file name:\n>"
             if self._save_name:
                 disp_text += self._save_name
-            disp_text += self.FILE_EXT
             if self._confirm_overwrite and self._save_success is None:
                 disp_text += "\nThis will overwrite an existing save file." \
                     + "\nPress ENTER again to confirm, or ESC to go back."

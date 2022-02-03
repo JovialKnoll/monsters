@@ -255,10 +255,6 @@ class ModeGameMenuLoad(ModeGameMenu):
             disp_text += "\nThere are no save files to select from."
         elif self._loaded_save:
             disp_text += "\nLoaded successfully.\nPress any key to go back."
-        elif self._confirm_delete:
-            disp_text += "\nThis will delete the following save file:" \
-                + f"\n_{self._saves[self._save_index].file_name}" \
-                + "\nPress ENTER to confirm, or any other key to go back."
         elif self._deleted_save:
             disp_text += "\nDeleted successfully.\nPress any key to continue."
         else:
@@ -272,6 +268,9 @@ class ModeGameMenuLoad(ModeGameMenu):
                     disp_text += "_"
                 if 0 <= this_index < len(self._saves):
                     disp_text += self._saves[this_index].file_name
+            if self._confirm_delete:
+                disp_text += "\nAre you sure you want to delete?" \
+                    + "\nPress ENTER to confirm, or any other key to go back."
         self._drawText(screen, disp_text)
 
 

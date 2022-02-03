@@ -22,7 +22,7 @@ cp LICENSE.txt dist/chikkai/
 # copy in readme
 cp README.txt dist/chikkai/
 # linux cleanup
-sed -i 's/chikkai.exe/chikkai/g' dist/README.txt
+sed -i 's/chikkai.exe/chikkai/g' dist/chikkai/README.txt
 # unix final
 chmod +x dist/chikkai
 # cleanup

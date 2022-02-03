@@ -1,14 +1,14 @@
 0,SHOW_MONSTER|START_CHAT_MUSIC,,Hello there.,1,,
 1,SHOW_MONSTER,"Well, I'm {MONSTER_NAME}.",My name is...,2,,
 2,SHOW_MONSTER,"Oh, I can see your name badge.",>,3,,
-3,SHOW_MONSTER,"Plus, it's kind of the norm for us to just, talk to people.
+3,SHOW_MONSTER,"Plus, it's kind of the norm for us to, just, talk to people.
 Without using their names, I mean.",Why is that?,3a,I see.,4
 3a,SHOW_MONSTER,I dunno. I guess we usually don't talk in large groups?,>,4,,
 4,SHOW_MONSTER,Anyway.,>,5,,
 5,SHOW_MONSTER,"When do I get to fight another monster?
 ",...,6,,
 6,SHOW_MONSTER,"What? That's what you're supposed to train me to do, right?",No?,7a,I guess?,7b
-7a,SHOW_MONSTER,"Not only that, but yes you do need to help me fight.",...,8,,
+7a,SHOW_MONSTER,"Sure, we'll do more than just that, but yes, you do need to help me fight.",...,8,,
 7b,SHOW_MONSTER,You sound uncertain.,>,8,,
 8,SHOW_MONSTER,"Don't worry, it's not too hard.",>,9,,
 9,SHOW_MONSTER|STOP_MUSIC,"So, what are you up for now?",>,ModeMenu0,,

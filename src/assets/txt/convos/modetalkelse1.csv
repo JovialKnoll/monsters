@@ -3,4 +3,4 @@
 2,SHOW_MONSTER,"Well, we know we can win, so we just need to try again.",>,3,,
 3,SHOW_MONSTER,"Okay, are you ready?",Yes,4a,No,4b
 4a,SHOW_MONSTER|STOP_MUSIC,Let's go.,>,4a,,
-4b,SHOW_MONSTER|STOP_MUSIC,We can just hang out then.,>,ModeMenu1,,
+4b,SHOW_MONSTER|STOP_MUSIC,"We can just hang out, then.",>,ModeMenu1,,

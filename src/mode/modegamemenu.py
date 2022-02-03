@@ -257,7 +257,8 @@ class ModeGameMenuLoad(ModeGameMenu):
         elif self._loaded_save:
             disp_text += "\nLoaded successfully.\nPress any key to go back."
         elif self._confirm_delete:
-            disp_text += "\nThis will delete an existing save file." \
+            disp_text += "\nThis will delete the following save file:" \
+                + f"\n_{self._saves[self._save_index].file_name}" \
                 + "\nPress ENTER to confirm, or any other key to go back."
         elif self._deleted_save:
             disp_text += "\nDeleted successfully.\nPress any key to continue."

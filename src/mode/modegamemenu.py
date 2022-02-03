@@ -11,7 +11,8 @@ from saveable import Saveable
 
 
 class ModeGameMenu(mode.Mode, abc.ABC):
-    MENU_CHAR_WIDTH = 20
+    FILE_EXT = '.sav'
+    MENU_CHAR_WIDTH = 26
     MENU_WIDTH = MENU_CHAR_WIDTH * constants.FONT_SIZE
     SHARED_DISP_TEXT = "Options:\nESC) Go Back\n"
 
@@ -86,8 +87,6 @@ class ModeGameMenuTop(ModeGameMenu):
 
 
 class ModeGameMenuSave(ModeGameMenu):
-    FILE_EXT = '.sav'
-
     __slots__ = (
         '_save_name',
         '_cursor_position',
@@ -152,7 +151,7 @@ class ModeGameMenuSave(ModeGameMenu):
                     self._cursor_position -= 1
                 self._resetCursorBlink()
             elif (
-                length < (self.MENU_CHAR_WIDTH - len(self.FILE_EXT) - 1)
+                length < (self.MENU_CHAR_WIDTH - 1)
                 and (
                     # numbers
                     ('0' <= char <= '9')
@@ -178,12 +177,11 @@ class ModeGameMenuSave(ModeGameMenu):
         if not isinstance(self._previous_mode, Saveable):
             disp_text += "\nYou can't save now."
         elif not self._save_success:
-            disp_text += "ENTER) Save\nType a file name:\n>"
+            disp_text += "ENTER) Save\nType a save name:\n>"
             if self._save_name:
                 disp_text += self._save_name
-            disp_text += self.FILE_EXT
             if self._confirm_overwrite and self._save_success is None:
-                disp_text += "\nThis will overwrite an existing save file." \
+                disp_text += "\nThis will overwrite an existing save." \
                     + "\nPress ENTER again to confirm, or ESC to go back."
             elif self._save_success is False:
                 disp_text += "\nSave failed.\nPress ENTER to try again, or ESC to go back."
@@ -253,16 +251,13 @@ class ModeGameMenuLoad(ModeGameMenu):
         super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
         if len(self._saves) == 0:
-            disp_text += "\nThere are no save files to select from."
+            disp_text += "\nThere are no saves to select from."
         elif self._loaded_save:
             disp_text += "\nLoaded successfully.\nPress any key to go back."
-        elif self._confirm_delete:
-            disp_text += "\nThis will delete an existing save file." \
-                + "\nPress ENTER to confirm, or any other key to go back."
         elif self._deleted_save:
             disp_text += "\nDeleted successfully.\nPress any key to continue."
         else:
-            disp_text += "ENTER) Load\nDEL) Delete\nARROW KEYS) Select a file:"
+            disp_text += "ENTER) Load\nDEL) Delete\nARROW KEYS) Select a save:"
             for i in range(-1, 2):
                 disp_text += "\n"
                 this_index = self._save_index + i
@@ -271,7 +266,10 @@ class ModeGameMenuLoad(ModeGameMenu):
                 else:
                     disp_text += "_"
                 if 0 <= this_index < len(self._saves):
-                    disp_text += self._saves[this_index].file_name
+                    disp_text += self._saves[this_index].file_name[:-len(self.FILE_EXT)]
+            if self._confirm_delete:
+                disp_text += "\nAre you sure you want to delete?" \
+                    + "\nPress ENTER to confirm, or any other key to go back."
         self._drawText(screen, disp_text)
 
 

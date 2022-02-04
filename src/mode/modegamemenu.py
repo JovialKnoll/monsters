@@ -39,15 +39,12 @@ class ModeGameMenu(mode.Mode, abc.ABC):
         )
         return old_screen
 
-    def _drawScreen(self, screen):
+    def _drawText(self, screen, disp_text):
         screen.blit(self._old_screen, (0, 0))
-
-    @classmethod
-    def _drawText(cls, screen, disp_text):
         shared.font_wrap.renderToInside(
             screen,
             (0, 0),
-            cls.MENU_WIDTH,
+            self.MENU_WIDTH,
             disp_text,
             False,
             constants.WHITE,
@@ -79,7 +76,6 @@ class ModeGameMenuTop(ModeGameMenu):
                 shared.game_running = False
 
     def _drawScreen(self, screen):
-        super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
         disp_text += "1) Save\n2) Load\n3) Options\n4) Restart\n5) Quit"
         self._drawText(screen, disp_text)
@@ -171,7 +167,6 @@ class ModeGameMenuSave(ModeGameMenu):
             self._cursor_timer -= constants.CURSOR_TIME
 
     def _drawScreen(self, screen):
-        super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
         if not isinstance(self._previous_mode, Saveable):
             disp_text += "\nYou can't save now."
@@ -247,7 +242,6 @@ class ModeGameMenuLoad(ModeGameMenu):
                     self._confirm_delete = True
 
     def _drawScreen(self, screen):
-        super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
         if len(self._saves) == 0:
             disp_text += "\nThere are no saves to select from."
@@ -299,7 +293,6 @@ class ModeGameMenuOptions(ModeGameMenu):
                 shared.display.setScale(target_scale)
 
     def _drawScreen(self, screen):
-        super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
         disp_text += f"ARROWS) Upscaling: {shared.display.upscale}" \
                      f"\nF) Fullscreen: {self.getTickBox(shared.display.is_fullscreen)}"

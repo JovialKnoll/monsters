@@ -21,7 +21,7 @@ class ModeGameMenu(mode.Mode, abc.ABC):
         '_last_disp_text',
     )
 
-    def __init__(self, previous_mode, old_screen=None):
+    def __init__(self, previous_mode: mode.Mode, old_screen=None):
         super().__init__()
         self._previous_mode = previous_mode
         if old_screen is None:
@@ -41,19 +41,19 @@ class ModeGameMenu(mode.Mode, abc.ABC):
         )
         return old_screen
 
-    def _drawText(self, screen, disp_text):
+    def _drawText(self, screen: pygame.surface.Surface, disp_text: str):
         if self._last_disp_text != disp_text:
             self._last_disp_text = disp_text
             screen.blit(self._old_screen, (0, 0))
-            shared.font_wrap.renderToInside(
-                screen,
-                (0, 0),
+            menu_surface = shared.font_wrap.renderInside(
                 self.MENU_WIDTH,
                 disp_text,
                 False,
                 constants.WHITE,
                 constants.BLACK
             )
+            menu_surface.set_alpha(235)
+            screen.blit(menu_surface, (0, 0))
 
 
 class ModeGameMenuTop(ModeGameMenu):
@@ -76,6 +76,7 @@ class ModeGameMenuTop(ModeGameMenu):
                 pygame.mixer.music.pause()
                 pygame.mixer.pause()
                 self._old_screen = self._getOldScreen()
+                self._last_disp_text = None
             elif event.key == pygame.K_5:
                 shared.game_running = False
 

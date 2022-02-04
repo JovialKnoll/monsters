@@ -39,7 +39,7 @@ class Save(object):
             if os.path.isfile(
                 os.path.join(constants.SAVE_DIRECTORY, file_name)
             )
-            and file_name.endswith(".sav")
+            and file_name.endswith(constants.SAVE_EXT)
         )
 
     @staticmethod

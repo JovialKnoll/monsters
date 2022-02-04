@@ -18,6 +18,7 @@ class ModeGameMenu(mode.Mode, abc.ABC):
     __slots__ = (
         '_previous_mode',
         '_old_screen',
+        '_last_disp_text',
     )
 
     def __init__(self, previous_mode, old_screen=None):
@@ -26,6 +27,7 @@ class ModeGameMenu(mode.Mode, abc.ABC):
         if old_screen is None:
             old_screen = self._getOldScreen()
         self._old_screen = old_screen
+        self._last_disp_text = None
 
     def _getOldScreen(self):
         old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
@@ -40,16 +42,18 @@ class ModeGameMenu(mode.Mode, abc.ABC):
         return old_screen
 
     def _drawText(self, screen, disp_text):
-        screen.blit(self._old_screen, (0, 0))
-        shared.font_wrap.renderToInside(
-            screen,
-            (0, 0),
-            self.MENU_WIDTH,
-            disp_text,
-            False,
-            constants.WHITE,
-            constants.BLACK
-        )
+        if self._last_disp_text != disp_text:
+            self._last_disp_text = disp_text
+            screen.blit(self._old_screen, (0, 0))
+            shared.font_wrap.renderToInside(
+                screen,
+                (0, 0),
+                self.MENU_WIDTH,
+                disp_text,
+                False,
+                constants.WHITE,
+                constants.BLACK
+            )
 
 
 class ModeGameMenuTop(ModeGameMenu):

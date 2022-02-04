@@ -3,5 +3,5 @@
 2,SHOW_MONSTER,,>,0,,,,,,
 3,SHOW_MONSTER,Are you ready?,Yes,3a,No,3b,,,,
 3a,SHOW_MONSTER|STOP_MUSIC,Okay!,>,3a,,,,,,
-3b,SHOW_MONSTER,Let's do it later then.,>,0,,,,,,
+3b,SHOW_MONSTER,"Oh, then let's do that later.",>,0,,,,,,
 4,SHOW_MONSTER,Press the ESC key or close the window.,>,0,,,,,,

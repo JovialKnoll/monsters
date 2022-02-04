@@ -11,21 +11,23 @@ from saveable import Saveable
 
 
 class ModeGameMenu(mode.Mode, abc.ABC):
-    MENU_CHAR_WIDTH = 20
-    MENU_WIDTH = MENU_CHAR_WIDTH * constants.FONT_SIZE
+    MENU_CHAR_WIDTH = 26
+    MENU_WIDTH = MENU_CHAR_WIDTH * constants.FONT_SIZE + 1
     SHARED_DISP_TEXT = "Options:\nESC) Go Back\n"
 
     __slots__ = (
         '_previous_mode',
         '_old_screen',
+        '_last_disp_text',
     )
 
-    def __init__(self, previous_mode, old_screen=None):
+    def __init__(self, previous_mode: mode.Mode, old_screen=None):
         super().__init__()
         self._previous_mode = previous_mode
         if old_screen is None:
             old_screen = self._getOldScreen()
         self._old_screen = old_screen
+        self._last_disp_text = None
 
     def _getOldScreen(self):
         old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
@@ -39,20 +41,19 @@ class ModeGameMenu(mode.Mode, abc.ABC):
         )
         return old_screen
 
-    def _drawScreen(self, screen):
-        screen.blit(self._old_screen, (0, 0))
-
-    @classmethod
-    def _drawText(cls, screen, disp_text):
-        shared.font_wrap.renderToInside(
-            screen,
-            (0, 0),
-            cls.MENU_WIDTH,
-            disp_text,
-            False,
-            constants.WHITE,
-            constants.BLACK
-        )
+    def _drawText(self, screen: pygame.surface.Surface, disp_text: str):
+        if self._last_disp_text != disp_text:
+            self._last_disp_text = disp_text
+            screen.blit(self._old_screen, (0, 0))
+            menu_surface = shared.font_wrap.renderInside(
+                self.MENU_WIDTH,
+                disp_text,
+                False,
+                constants.WHITE,
+                constants.BLACK
+            )
+            menu_surface.set_alpha(235)
+            screen.blit(menu_surface, (0, 0))
 
 
 class ModeGameMenuTop(ModeGameMenu):
@@ -75,19 +76,17 @@ class ModeGameMenuTop(ModeGameMenu):
                 pygame.mixer.music.pause()
                 pygame.mixer.pause()
                 self._old_screen = self._getOldScreen()
+                self._last_disp_text = None
             elif event.key == pygame.K_5:
                 shared.game_running = False
 
     def _drawScreen(self, screen):
-        super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
         disp_text += "1) Save\n2) Load\n3) Options\n4) Restart\n5) Quit"
         self._drawText(screen, disp_text)
 
 
 class ModeGameMenuSave(ModeGameMenu):
-    FILE_EXT = '.sav'
-
     __slots__ = (
         '_save_name',
         '_cursor_position',
@@ -125,10 +124,10 @@ class ModeGameMenuSave(ModeGameMenu):
                     self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
             elif event.key == pygame.K_RETURN:
                 if self._save_name and isinstance(self._previous_mode, Saveable):
-                    if Save.willOverwrite(self._save_name + self.FILE_EXT) and not self._confirm_overwrite:
+                    if Save.willOverwrite(self._save_name + constants.SAVE_EXT) and not self._confirm_overwrite:
                         self._confirm_overwrite = True
                     elif not self._save_success:
-                        new_save = Save.getFromMode(self._save_name + self.FILE_EXT, self._previous_mode)
+                        new_save = Save.getFromMode(self._save_name + constants.SAVE_EXT, self._previous_mode)
                         self._save_success = new_save.save()
             elif event.key == pygame.K_LEFT:
                 self._cursor_position = max(self._cursor_position - 1, 0)
@@ -152,7 +151,7 @@ class ModeGameMenuSave(ModeGameMenu):
                     self._cursor_position -= 1
                 self._resetCursorBlink()
             elif (
-                length < (self.MENU_CHAR_WIDTH - len(self.FILE_EXT) - 1)
+                length < (self.MENU_CHAR_WIDTH - 1)
                 and (
                     # numbers
                     ('0' <= char <= '9')
@@ -173,17 +172,15 @@ class ModeGameMenuSave(ModeGameMenu):
             self._cursor_timer -= constants.CURSOR_TIME
 
     def _drawScreen(self, screen):
-        super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
         if not isinstance(self._previous_mode, Saveable):
             disp_text += "\nYou can't save now."
         elif not self._save_success:
-            disp_text += "ENTER) Save\nType a file name:\n>"
+            disp_text += "ENTER) Save\nType a save name:\n>"
             if self._save_name:
                 disp_text += self._save_name
-            disp_text += self.FILE_EXT
             if self._confirm_overwrite and self._save_success is None:
-                disp_text += "\nThis will overwrite an existing save file." \
+                disp_text += "\nThis will overwrite an existing save." \
                     + "\nPress ENTER again to confirm, or ESC to go back."
             elif self._save_success is False:
                 disp_text += "\nSave failed.\nPress ENTER to try again, or ESC to go back."
@@ -250,19 +247,15 @@ class ModeGameMenuLoad(ModeGameMenu):
                     self._confirm_delete = True
 
     def _drawScreen(self, screen):
-        super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
         if len(self._saves) == 0:
-            disp_text += "\nThere are no save files to select from."
+            disp_text += "\nThere are no saves to select from."
         elif self._loaded_save:
             disp_text += "\nLoaded successfully.\nPress any key to go back."
-        elif self._confirm_delete:
-            disp_text += "\nThis will delete an existing save file." \
-                + "\nPress ENTER to confirm, or any other key to go back."
         elif self._deleted_save:
             disp_text += "\nDeleted successfully.\nPress any key to continue."
         else:
-            disp_text += "ENTER) Load\nDEL) Delete\nARROW KEYS) Select a file:"
+            disp_text += "ENTER) Load\nDEL) Delete\nARROW KEYS) Select a save:"
             for i in range(-1, 2):
                 disp_text += "\n"
                 this_index = self._save_index + i
@@ -271,7 +264,10 @@ class ModeGameMenuLoad(ModeGameMenu):
                 else:
                     disp_text += "_"
                 if 0 <= this_index < len(self._saves):
-                    disp_text += self._saves[this_index].file_name
+                    disp_text += self._saves[this_index].file_name[:-len(constants.SAVE_EXT)]
+            if self._confirm_delete:
+                disp_text += "\nAre you sure you want to delete?" \
+                    + "\nPress ENTER to confirm, or any other key to go back."
         self._drawText(screen, disp_text)
 
 
@@ -302,7 +298,6 @@ class ModeGameMenuOptions(ModeGameMenu):
                 shared.display.setScale(target_scale)
 
     def _drawScreen(self, screen):
-        super()._drawScreen(screen)
         disp_text = self.SHARED_DISP_TEXT
         disp_text += f"ARROWS) Upscaling: {shared.display.upscale}" \
                      f"\nF) Fullscreen: {self.getTickBox(shared.display.is_fullscreen)}"
@@ -310,5 +305,5 @@ class ModeGameMenuOptions(ModeGameMenu):
 
     @staticmethod
     def getTickBox(value: bool):
-        inside = "X" if value else "_"
+        inside = "*" if value else "_"
         return f"[{inside}]"

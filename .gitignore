@@ -141,5 +141,6 @@ build/
 dist/
 saves/
 images/
+screenshots/
 .spec
 config.ini

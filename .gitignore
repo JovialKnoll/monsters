@@ -140,5 +140,6 @@ ENV/
 build/
 dist/
 saves/
+images/
 .spec
 config.ini

@@ -292,7 +292,7 @@ class ModeFight(ModeButtons):
         player_bar_length = self._HEALTH_BAR_LENGTH \
             * self._player_mon.stats['hpc'] // self._player_mon.stats['hpm']
         screen.fill(
-            self._player_mon.getLightSkin(),
+            self._player_mon.getBarColor(),
             (
                 self._PLAYER_BAR_X + 1,
                 self._PLAYER_BAR_Y + 1,
@@ -305,7 +305,7 @@ class ModeFight(ModeButtons):
         enemy_bar_length = self._HEALTH_BAR_LENGTH \
             * self._enemy_mon.stats['hpc'] // self._enemy_mon.stats['hpm']
         screen.fill(
-            self._enemy_mon.getLightSkin(),
+            self._enemy_mon.getBarColor(),
             (
                 self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 1 - enemy_bar_length,
                 self._ENEMY_BAR_Y + 1,

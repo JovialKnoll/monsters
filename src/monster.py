@@ -78,6 +78,7 @@ class Monster(AnimSprite):
             'stats': self.stats,
             'sprite_groups': self.sprite_groups,
             'sprite_paths': self.sprite_paths,
+            'old_sprite_paths': self.old_sprite_paths,
             'facing_right': self.facing_right,
         }
 
@@ -92,6 +93,7 @@ class Monster(AnimSprite):
         new_obj.stats = save_data['stats']
         new_obj.sprite_groups = save_data['sprite_groups']
         new_obj.sprite_paths = save_data['sprite_paths']
+        new_obj.old_sprite_paths = save_data['old_sprite_paths']
         new_obj._setSprites()
         new_obj.setImage(save_data['facing_right'])
 
@@ -168,25 +170,33 @@ class Monster(AnimSprite):
         if self.lvl == 0:
             self.sprite_paths = self.sprite_paths[1:4]
 
-    def getDarkSkin(self):
-        return self.skin[self.lvl].dark
-
-    def getLightSkin(self):
-        return self.skin[self.lvl].light
-
-    def _setSprites(self):
-        self.sprite = pygame.image.load(self.sprite_paths[0]).convert(shared.display.screen)
+    def _setSprites(self, alt_lvl=None, alt_sprite_paths=None):
+        lvl = self.lvl
+        sprite_paths = self.sprite_paths
+        if alt_lvl is not None and alt_sprite_paths is not None:
+            lvl = alt_lvl
+            sprite_paths = alt_sprite_paths
+        self.sprite = pygame.image.load(sprite_paths[0]).convert(shared.display.screen)
         self.sprite.set_colorkey(constants.COLORKEY)
-        for sprite_path in self.sprite_paths[1:]:
+        for sprite_path in sprite_paths[1:]:
             new_part = pygame.image.load(sprite_path).convert(self.sprite)
             new_part.set_colorkey(constants.COLORKEY)
             self.sprite.blit(new_part, (0, 0))
-        if self.lvl > 0:
+        if lvl > 0:
             pix_array = pygame.PixelArray(self.sprite)
-            pix_array.replace(self.skin[0].dark, self.getDarkSkin())
-            pix_array.replace(self.skin[0].light, self.getLightSkin())
+            pix_array.replace(
+                self.skin[0].dark,
+                self.skin[lvl].dark
+            )
+            pix_array.replace(
+                self.skin[0].light,
+                self.skin[lvl].light
+            )
             del pix_array
         self.sprite_right = pygame.transform.flip(self.sprite, True, False)
+
+    def getBarColor(self):
+        return self.skin[self.lvl].light
 
     def setImage(self, face_right=False):
         self.facing_right = face_right
@@ -210,6 +220,20 @@ class Monster(AnimSprite):
         self._setSprites()
         self.setImage()
         return True
+
+    def getCard(self):
+        card = pygame.Surface((64*4, 64*4))
+        card.fill(constants.WHITE)
+        rect = self.sprite_right.get_rect()
+        rect.midbottom = (64/2 + 64 * self.lvl, 64)
+        card.blit(self.sprite_right, rect)
+        for lvl, sprite_paths in enumerate(self.old_sprite_paths):
+            self._setSprites(lvl, sprite_paths)
+            rect = self.sprite_right.get_rect()
+            rect.midbottom = (64/2 + 64 * lvl, 64)
+            card.blit(self.sprite_right, rect)
+        self._setSprites()
+        return card
 
     @classmethod
     def atLevel(cls, in_lvl, in_stats: dict = None):

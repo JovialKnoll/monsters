@@ -256,6 +256,24 @@ class Monster(AnimSprite):
             False,
             constants.BLACK
         )
+        shared.font_wrap.renderToInside(
+            card,
+            (0, 0),
+            64 * 4,
+            "CHIKKAI! Tiny Kaijus",
+            False,
+            constants.TEXT_COLOR
+        )
+        website = "jovialknoll.itch.io"
+        website_width = len(website) * constants.FONT_SIZE
+        shared.font_wrap.renderToInside(
+            card,
+            (64 * 4 - website_width, 64 * 2 - constants.FONT_HEIGHT),
+            website_width,
+            website,
+            False,
+            constants.TEXT_COLOR
+        )
         return card
 
     @classmethod

@@ -28,6 +28,7 @@ Controls:
     - pick an option with ENTER and MOUSE CLICK
   always
     - bring up the pause menu with ESC
+    - take a screenshot with F12
     - controls for the pause menu are listed in the pause menu
 
 

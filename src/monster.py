@@ -1,6 +1,7 @@
 import os
 import random
 import uuid
+import math
 
 import pygame
 
@@ -214,6 +215,7 @@ class Monster(AnimSprite):
             return False
         self.lvl += 1
         self._levelStats()
+        self.stats['drv'] = self.DRV_MAX
         self.setHealth()
         self.old_sprite_paths.append(self.sprite_paths)
         self._setSpritePaths()
@@ -221,18 +223,39 @@ class Monster(AnimSprite):
         self.setImage()
         return True
 
+    @staticmethod
+    def _getSpacing(stat_num: int):
+        return (2 - math.ceil(math.log10(stat_num))) * "_"
+
+    def getStatText(self):
+        stat_text = f"lvl: {self.lvl}\n"
+        stat_text += "_".join(
+            [f"{stat}: {self.stats[stat]}" + self._getSpacing(self.stats[stat]) for stat in self.MAIN_STATS]
+        )
+        stat_text += f"\ndrv: {self.stats['drv']}/{self.DRV_MAX}"
+        stat_text += f"\n_hp: {self.stats['hpc']}/{self.stats['hpm']}"
+        return self.name + "\n" + stat_text.upper()
+
     def getCard(self):
-        card = pygame.Surface((64*4, 64*4))
+        card = pygame.Surface((64 * 4, 64 * 2))
         card.fill(constants.WHITE)
         rect = self.sprite_right.get_rect()
-        rect.midbottom = (64/2 + 64 * self.lvl, 64)
+        rect.midbottom = (64 // 2 + 64 * self.lvl, 64)
         card.blit(self.sprite_right, rect)
         for lvl, sprite_paths in enumerate(self.old_sprite_paths):
             self._setSprites(lvl, sprite_paths)
             rect = self.sprite_right.get_rect()
-            rect.midbottom = (64/2 + 64 * lvl, 64)
+            rect.midbottom = (64 // 2 + 64 * lvl, 64)
             card.blit(self.sprite_right, rect)
         self._setSprites()
+        shared.font_wrap.renderToInside(
+            card,
+            (0, 64 + (64 - constants.FONT_HEIGHT * 5) // 2),
+            64 * 4,
+            self.getStatText(),
+            False,
+            constants.BLACK
+        )
         return card
 
     @classmethod

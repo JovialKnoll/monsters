@@ -14,7 +14,7 @@ Files:
     - your save files are stored here
   images
     - will be created automatically
-    - any image files the game creates will be stored here
+    - when your monster levels up you'll get an image of their current stats here
 
 
 Controls:

@@ -121,13 +121,13 @@ class Monster(AnimSprite):
     def fightHit(self, action: str, is_protag: bool = False):
         hit = 0
         block = 0
-        if action == 'Attack':
+        if action == constants.FIGHT_ATTACK:
             hit = self.stats['atk'] // 2 + self.stats['spd'] // 2
             block = hit + random.randint(0, 1)
-        elif action == 'Defend':
+        elif action == constants.FIGHT_DEFEND:
             hit = self.stats['vit'] // 2 + self.stats['def'] // 2
             block = hit + random.randint(0, 1)
-        # 'Escape'
+        # DODGE
         else:
             hit = self.stats['atk'] // 4 - self._getHealthBasis() // 4 - random.randint(1, 4)
             block = self.stats['def'] // 2 + self.stats['spd'] // 2

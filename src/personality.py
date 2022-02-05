@@ -1,23 +1,25 @@
 import random
 
+import constants
+
 
 class Personality(object):
     # Passing around classes instead of strings or something, sort of like an enum.
     class Affectionate(object):
         stat = 'vit'
-        preferred_action = 'Defend'
+        preferred_action = constants.FIGHT_DEFEND
 
     class Aggressive(object):
         stat = 'atk'
-        preferred_action = 'Attack'
+        preferred_action = constants.FIGHT_ATTACK
 
     class Careful(object):
         stat = 'def'
-        preferred_action = 'Defend'
+        preferred_action = constants.FIGHT_DEFEND
 
     class Energetic(object):
         stat = 'spd'
-        preferred_action = 'Attack'
+        preferred_action = constants.FIGHT_ATTACK
 
     @classmethod
     def random(cls):

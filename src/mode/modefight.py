@@ -38,9 +38,9 @@ class ModeFight(ModeButtons):
     _HEALTH_BAR_LENGTH = 60
     _HEALTH_BAR_HEIGHT = 10
     _BOX_CHOICES = [
-        "Attack",
-        "Defend",
-        "Escape",
+        constants.FIGHT_ATTACK,
+        constants.FIGHT_DEFEND,
+        constants.FIGHT_DODGE,
     ]
     _RESULT_SAVING = {
         'draw': 0,
@@ -157,38 +157,38 @@ class ModeFight(ModeButtons):
         self._player_action = self._BOX_CHOICES[self._selected_button]
         self._enemy_action = random.choice(self._enemy_choices)
 
-        if self._player_action == 'Attack':
+        if self._player_action == constants.FIGHT_ATTACK:
             self._setActionDisplay("I'm gonna hit 'em!")
             self._player_mon.addWait(self._ANIM_WAIT)
             self._player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0,
                                        sound=self._thunk, positional_sound=True)
             self._player_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
-        elif self._player_action == 'Defend':
+        elif self._player_action == constants.FIGHT_DEFEND:
             self._setActionDisplay("I'm gonna block 'em!")
             self._player_mon.addWait(self._ANIM_WAIT)
             self._player_mon.addPosRel(AnimSprite.Lerp, 133, -8, 0,
                                        sound=self._bwop, positional_sound=True)
             self._player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
             self._player_mon.addPosRel(AnimSprite.Lerp, 67, -4, 0)
-        elif self._player_action == 'Escape':
-            self._setActionDisplay("I'm gonna run away!")
+        elif self._player_action == constants.FIGHT_DODGE:
+            self._setActionDisplay("I'm gonna dodge!")
             self._player_mon.addWait(self._ANIM_WAIT)
             self._player_mon.addWait(0, sound=self._rooeee, positional_sound=True)
             self._player_mon.addPosRel(AnimSprite.Lerp, 333, -20, 0)
             self._player_mon.addPosRel(AnimSprite.Lerp, 67, 20, 0)
 
-        if self._enemy_action == 'Attack':
+        if self._enemy_action == constants.FIGHT_ATTACK:
             self._enemy_mon.addWait(self._ANIM_WAIT)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0,
                                       sound=self._thunk, positional_sound=True)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
-        elif self._enemy_action == 'Defend':
+        elif self._enemy_action == constants.FIGHT_DEFEND:
             self._enemy_mon.addWait(self._ANIM_WAIT)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 133, 8, 0,
                                       sound=self._bwop, positional_sound=True)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 67, 4, 0)
-        elif self._enemy_action == 'Escape':
+        elif self._enemy_action == constants.FIGHT_DODGE:
             self._enemy_mon.addWait(self._ANIM_WAIT)
             self._enemy_mon.addWait(0, sound=self._rooeee, positional_sound=True)
             self._enemy_mon.addPosRel(AnimSprite.Lerp, 333, 20, 0)
@@ -259,8 +259,8 @@ class ModeFight(ModeButtons):
 
     def _setupEnd(self, ending: str):
         self._player_action = ending
-        self._player_mon.addWait(500)
-        self._player_mon.addWait(500)
+        self._player_mon.addWait(750)
+        self._player_mon.addWait(750)
         pygame.mixer.music.fadeout(1000)
 
     def _update(self, dt):

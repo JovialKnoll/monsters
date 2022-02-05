@@ -297,7 +297,16 @@ class ModeFight(ModeButtons):
                 self._PLAYER_BAR_X + 1,
                 self._PLAYER_BAR_Y + 1,
                 player_bar_length,
-                self._HEALTH_BAR_HEIGHT
+                self._HEALTH_BAR_HEIGHT - 1
+            )
+        )
+        screen.fill(
+            self._player_mon.getBarColor2(),
+            (
+                self._PLAYER_BAR_X + 1,
+                self._PLAYER_BAR_Y + self._HEALTH_BAR_HEIGHT,
+                player_bar_length,
+                1
             )
         )
         screen.blit(self._health_bar, (self._PLAYER_BAR_X, self._PLAYER_BAR_Y))
@@ -310,7 +319,16 @@ class ModeFight(ModeButtons):
                 self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 1 - enemy_bar_length,
                 self._ENEMY_BAR_Y + 1,
                 enemy_bar_length,
-                self._HEALTH_BAR_HEIGHT
+                self._HEALTH_BAR_HEIGHT - 1
+            )
+        )
+        screen.fill(
+            self._enemy_mon.getBarColor2(),
+            (
+                self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 1 - enemy_bar_length,
+                self._ENEMY_BAR_Y + self._HEALTH_BAR_HEIGHT,
+                enemy_bar_length,
+                1
             )
         )
         screen.blit(self._health_bar, (self._ENEMY_BAR_X, self._ENEMY_BAR_Y))

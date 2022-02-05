@@ -199,6 +199,9 @@ class Monster(AnimSprite):
     def getBarColor(self):
         return self.skin[self.lvl].light
 
+    def getBarColor2(self):
+        return self.skin[self.lvl].dark
+
     def setImage(self, face_right=False):
         self.facing_right = face_right
         if face_right:

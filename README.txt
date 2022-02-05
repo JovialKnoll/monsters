@@ -12,6 +12,10 @@ Files:
   saves
     - will be created automatically
     - your save files are stored here
+  images
+    - will be created automatically
+    - when your monster levels up you'll get an image of their current stats here
+    - hey share it on social media or something? #ChikkaiGame
 
 
 Controls:

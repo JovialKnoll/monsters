@@ -61,7 +61,7 @@ class ModeConvo(ModeButtons, Saveable):
         self._renderText()
         self._text_rect.clamp_ip(self._surf_text.get_rect())
         # in case of monster display
-        shared.state.protag_mon.setImage(True)
+        shared.state.protag_mon.setImage()
 
     @classmethod
     def _getScript(cls):

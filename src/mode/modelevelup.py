@@ -1,4 +1,5 @@
 import abc
+import os
 from collections import deque
 
 import pygame
@@ -41,7 +42,7 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         self._background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
         self._background.fill(constants.WHITE)
         self._drawFontEffect("LEVEL UP", (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 4))
-        shared.state.protag_mon.setImage(True)
+        shared.state.protag_mon.setImage()
         # set up first sprite
         self._first_sprite = pygame.sprite.DirtySprite()
         self._first_sprite.image = shared.state.protag_mon.image
@@ -49,12 +50,10 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         self._first_sprite.rect.center = (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 2 // 3)
         # level up and set up second sprite
         shared.state.protag_mon.levelUp()
-        shared.state.protag_mon.setImage(True)
+        shared.state.protag_mon.setImage()
         shared.state.protag_mon.rect.midbottom = self._first_sprite.rect.midbottom
         self.all_sprites.add(self._first_sprite, shared.state.protag_mon)
-
         shared.state.protag_mon.visible = 0
-
         self._sprite_switches = deque((
             4000,
             4100,
@@ -76,8 +75,14 @@ class ModeLevelUp(ModeOpening, abc.ABC):
             15750,
             16000,
         ))
-
         self._bip = pygame.mixer.Sound(constants.BIP)
+        try:
+            os.mkdir(constants.IMAGE_DIRECTORY)
+        except FileExistsError:
+            pass
+        file_name = f"{shared.state.protag_mon.name}_{shared.state.protag_mon.uuid}.png"
+        file_path = os.path.join(constants.IMAGE_DIRECTORY, file_name)
+        pygame.image.save(shared.state.protag_mon.getCard(), file_path)
 
     def _input(self, event):
         if self._time >= 16000:

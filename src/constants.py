@@ -69,6 +69,8 @@ CONVO_DIRECTORY = os.path.join(TEXT_DIRECTORY, 'convos')
 
 SAVE_DIRECTORY = os.path.join(SRC_DIRECTORY, 'saves')
 
+IMAGE_DIRECTORY = os.path.join(SRC_DIRECTORY, 'images')
+
 CONFIG_FILE = os.path.join(SRC_DIRECTORY, 'config.ini')
 CONFIG_SECTION = 'Game'
 CONFIG_MAX_FRAMERATE = 'MaxFramerate'

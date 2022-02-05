@@ -1,5 +1,7 @@
 import os
 import random
+import uuid
+import math
 
 import pygame
 
@@ -28,6 +30,7 @@ class Monster(AnimSprite):
     )
 
     __slots__ = (
+        'uuid',
         'lvl',
         'personality',
         'name',
@@ -35,6 +38,7 @@ class Monster(AnimSprite):
         'stats',
         'sprite_groups',
         'sprite_paths',
+        'old_sprite_paths',
         'sprite',
         'sprite_right',
         'facing_right',
@@ -43,6 +47,7 @@ class Monster(AnimSprite):
     def __init__(self, in_stats: dict = None):
         """Create a new monster, setting stats, etc. as needed."""
         super().__init__()
+        self.uuid = str(uuid.uuid4())
         self.lvl = 0
         self.personality = Personality.random()
         self.name = Personality.generateName(self.personality)
@@ -57,13 +62,16 @@ class Monster(AnimSprite):
 
         self.rect = pygame.Rect(0, 0, 48, 48)
         self.sprite_groups = tuple(random.choice(('A', 'B', 'C')) for x in range(5))
+        self.sprite_paths = None
         self._setSpritePaths()
+        self.old_sprite_paths = []
         self._setSprites()
         self.setImage()
 
     def save(self):
         return {
             'super': super().save(),
+            'uuid': self.uuid,
             'lvl': self.lvl,
             'personality': self.personality,
             'name': self.name,
@@ -71,12 +79,14 @@ class Monster(AnimSprite):
             'stats': self.stats,
             'sprite_groups': self.sprite_groups,
             'sprite_paths': self.sprite_paths,
+            'old_sprite_paths': self.old_sprite_paths,
             'facing_right': self.facing_right,
         }
 
     @classmethod
     def load(cls, save_data):
         new_obj = cls()
+        new_obj.uuid = save_data['uuid']
         new_obj.lvl = save_data['lvl']
         new_obj.personality = save_data['personality']
         new_obj.name = save_data['name']
@@ -84,6 +94,7 @@ class Monster(AnimSprite):
         new_obj.stats = save_data['stats']
         new_obj.sprite_groups = save_data['sprite_groups']
         new_obj.sprite_paths = save_data['sprite_paths']
+        new_obj.old_sprite_paths = save_data['old_sprite_paths']
         new_obj._setSprites()
         new_obj.setImage(save_data['facing_right'])
 
@@ -160,25 +171,33 @@ class Monster(AnimSprite):
         if self.lvl == 0:
             self.sprite_paths = self.sprite_paths[1:4]
 
-    def getDarkSkin(self):
-        return self.skin[self.lvl].dark
-
-    def getLightSkin(self):
-        return self.skin[self.lvl].light
-
-    def _setSprites(self):
-        self.sprite = pygame.image.load(self.sprite_paths[0]).convert(shared.display.screen)
+    def _setSprites(self, alt_lvl=None, alt_sprite_paths=None):
+        lvl = self.lvl
+        sprite_paths = self.sprite_paths
+        if alt_lvl is not None and alt_sprite_paths is not None:
+            lvl = alt_lvl
+            sprite_paths = alt_sprite_paths
+        self.sprite = pygame.image.load(sprite_paths[0]).convert(shared.display.screen)
         self.sprite.set_colorkey(constants.COLORKEY)
-        for sprite_path in self.sprite_paths[1:]:
+        for sprite_path in sprite_paths[1:]:
             new_part = pygame.image.load(sprite_path).convert(self.sprite)
             new_part.set_colorkey(constants.COLORKEY)
             self.sprite.blit(new_part, (0, 0))
-        if self.lvl > 0:
+        if lvl > 0:
             pix_array = pygame.PixelArray(self.sprite)
-            pix_array.replace(self.skin[0].dark, self.getDarkSkin())
-            pix_array.replace(self.skin[0].light, self.getLightSkin())
+            pix_array.replace(
+                self.skin[0].dark,
+                self.skin[lvl].dark
+            )
+            pix_array.replace(
+                self.skin[0].light,
+                self.skin[lvl].light
+            )
             del pix_array
         self.sprite_right = pygame.transform.flip(self.sprite, True, False)
+
+    def getBarColor(self):
+        return self.skin[self.lvl].light
 
     def setImage(self, face_right=False):
         self.facing_right = face_right
@@ -196,11 +215,48 @@ class Monster(AnimSprite):
             return False
         self.lvl += 1
         self._levelStats()
+        self.stats['drv'] = self.DRV_MAX
         self.setHealth()
+        self.old_sprite_paths.append(self.sprite_paths)
         self._setSpritePaths()
         self._setSprites()
         self.setImage()
         return True
+
+    @staticmethod
+    def _getSpacing(stat_num: int):
+        return (2 - math.ceil(math.log10(stat_num))) * "_"
+
+    def getStatText(self):
+        stat_text = f"lvl: {self.lvl}\n"
+        stat_text += "_".join(
+            [f"{stat}: {self.stats[stat]}" + self._getSpacing(self.stats[stat]) for stat in self.MAIN_STATS]
+        )
+        stat_text += f"\ndrv: {self.stats['drv']}/{self.DRV_MAX}"
+        stat_text += f"\n_hp: {self.stats['hpc']}/{self.stats['hpm']}"
+        return self.name + "\n" + stat_text.upper()
+
+    def getCard(self):
+        card = pygame.Surface((64 * 4, 64 * 2))
+        card.fill(constants.WHITE)
+        rect = self.sprite_right.get_rect()
+        rect.midbottom = (64 // 2 + 64 * self.lvl, 64)
+        card.blit(self.sprite_right, rect)
+        for lvl, sprite_paths in enumerate(self.old_sprite_paths):
+            self._setSprites(lvl, sprite_paths)
+            rect = self.sprite_right.get_rect()
+            rect.midbottom = (64 // 2 + 64 * lvl, 64)
+            card.blit(self.sprite_right, rect)
+        self._setSprites()
+        shared.font_wrap.renderToInside(
+            card,
+            (0, 64 + (64 - constants.FONT_HEIGHT * 5) // 2),
+            64 * 4,
+            self.getStatText(),
+            False,
+            constants.BLACK
+        )
+        return card
 
     @classmethod
     def atLevel(cls, in_lvl, in_stats: dict = None):

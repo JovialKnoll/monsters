@@ -1,5 +1,6 @@
 import os
 import random
+import uuid
 
 import pygame
 
@@ -28,6 +29,7 @@ class Monster(AnimSprite):
     )
 
     __slots__ = (
+        'uuid',
         'lvl',
         'personality',
         'name',
@@ -43,6 +45,7 @@ class Monster(AnimSprite):
     def __init__(self, in_stats: dict = None):
         """Create a new monster, setting stats, etc. as needed."""
         super().__init__()
+        self.uuid = str(uuid.uuid4())
         self.lvl = 0
         self.personality = Personality.random()
         self.name = Personality.generateName(self.personality)
@@ -64,6 +67,7 @@ class Monster(AnimSprite):
     def save(self):
         return {
             'super': super().save(),
+            'uuid': self.uuid,
             'lvl': self.lvl,
             'personality': self.personality,
             'name': self.name,
@@ -77,6 +81,7 @@ class Monster(AnimSprite):
     @classmethod
     def load(cls, save_data):
         new_obj = cls()
+        new_obj.uuid = save_data['uuid']
         new_obj.lvl = save_data['lvl']
         new_obj.personality = save_data['personality']
         new_obj.name = save_data['name']

@@ -129,8 +129,8 @@ class Monster(AnimSprite):
             block = hit + random.randint(0, 1)
         # DODGE
         else:
-            hit = self.stats['atk'] // 4 - self._getHealthBasis() // 4 - random.randint(1, 4)
-            block = self.stats['def'] // 2 + self.stats['spd'] // 2
+            hit = self.stats['atk'] // 4 + self.stats['vit'] // 4
+            block = self.stats['def'] // 2 + self.stats['spd'] // 2 + random.randint(0, 1)
         if action == self.personality.preferred_action:
             bonus = self._getHealthBasis() // 3
             if is_protag:

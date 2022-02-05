@@ -2,6 +2,6 @@
 1,SHOW_MONSTER,I feel like I'm done fighting.,>,2
 2,SHOW_MONSTER,"Well, for now at least.
 I don't think I need any more help.",>,3
-3,SHOW_MONSTER|STOP_MUSIC,I've learned as much as I can from you.,>,4
-4,SHOW_MONSTER,Thank you.,>,5
+3,SHOW_MONSTER,I've learned as much as I can from you.,>,4
+4,SHOW_MONSTER|STOP_MUSIC,Thank you.,>,5
 5,SHOW_MONSTER,:),>,ModeCredits

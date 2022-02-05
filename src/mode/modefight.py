@@ -1,5 +1,6 @@
 import random
 import itertools
+import math
 from collections import deque
 
 import pygame
@@ -289,8 +290,10 @@ class ModeFight(ModeButtons):
         if not self._action_set and self._player_action not in self._RESULT_SAVING:
             self._drawSelected(screen)
 
-        player_bar_length = self._HEALTH_BAR_LENGTH \
-            * self._player_mon.stats['hpc'] // self._player_mon.stats['hpm']
+        player_bar_length = math.ceil(
+            self._HEALTH_BAR_LENGTH
+            * self._player_mon.stats['hpc'] / self._player_mon.stats['hpm']
+        )
         screen.fill(
             self._player_mon.getBarColor(),
             (
@@ -302,8 +305,10 @@ class ModeFight(ModeButtons):
         )
         screen.blit(self._health_bar, (self._PLAYER_BAR_X, self._PLAYER_BAR_Y))
 
-        enemy_bar_length = self._HEALTH_BAR_LENGTH \
-            * self._enemy_mon.stats['hpc'] // self._enemy_mon.stats['hpm']
+        enemy_bar_length = math.ceil(
+            self._HEALTH_BAR_LENGTH
+            * self._enemy_mon.stats['hpc'] / self._enemy_mon.stats['hpm']
+        )
         screen.fill(
             self._enemy_mon.getBarColor(),
             (

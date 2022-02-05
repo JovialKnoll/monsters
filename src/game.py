@@ -1,4 +1,6 @@
 import typing
+import os
+from datetime import datetime
 
 import pygame
 
@@ -57,8 +59,18 @@ class Game(object):
             return self._handlePauseMenu()
         elif event.type == pygame.WINDOWMOVED and not self._is_first_loop:
             return self._handlePauseMenu()
-        elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-            return self._handlePauseMenu()
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                return self._handlePauseMenu()
+            elif event.key == pygame.K_F12:
+                try:
+                    os.mkdir(constants.SCREENSHOT_DIRECTORY)
+                except FileExistsError:
+                    pass
+                file_name = f"{datetime.utcnow().isoformat().replace(':', '')}.png"
+                file_path = os.path.join(constants.SCREENSHOT_DIRECTORY, file_name)
+                pygame.image.save(shared.display.screen, file_path)
+                return False
         elif event.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONUP, pygame.MOUSEBUTTONDOWN) \
             and (
                 event.pos[0] < 0

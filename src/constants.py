@@ -72,8 +72,8 @@ CREDITS_TEXT = os.path.join(TEXT_DIRECTORY, 'credits.txt')
 CONVO_DIRECTORY = os.path.join(TEXT_DIRECTORY, 'convos')
 
 SAVE_DIRECTORY = os.path.join(SRC_DIRECTORY, 'saves')
-
 IMAGE_DIRECTORY = os.path.join(SRC_DIRECTORY, 'images')
+SCREENSHOT_DIRECTORY = os.path.join(SRC_DIRECTORY, 'screenshots')
 
 CONFIG_FILE = os.path.join(SRC_DIRECTORY, 'config.ini')
 CONFIG_SECTION = 'Game'

@@ -37,6 +37,7 @@ class Monster(AnimSprite):
         'stats',
         'sprite_groups',
         'sprite_paths',
+        'old_sprite_paths',
         'sprite',
         'sprite_right',
         'facing_right',
@@ -60,7 +61,9 @@ class Monster(AnimSprite):
 
         self.rect = pygame.Rect(0, 0, 48, 48)
         self.sprite_groups = tuple(random.choice(('A', 'B', 'C')) for x in range(5))
+        self.sprite_paths = None
         self._setSpritePaths()
+        self.old_sprite_paths = []
         self._setSprites()
         self.setImage()
 
@@ -202,6 +205,7 @@ class Monster(AnimSprite):
         self.lvl += 1
         self._levelStats()
         self.setHealth()
+        self.old_sprite_paths.append(self.sprite_paths)
         self._setSpritePaths()
         self._setSprites()
         self.setImage()

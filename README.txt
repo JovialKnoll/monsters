@@ -14,7 +14,7 @@ Files:
     - your save files are stored here
   images
     - will be created automatically
-    - when your monster levels up, you'll get an image of their current stats here
+    - when your monster levels up, an image of their current stats goes here
     - share it on social media or something? #ChikkaiGame
 
 
@@ -28,6 +28,7 @@ Controls:
     - pick an option with ENTER and MOUSE CLICK
   always
     - bring up the pause menu with ESC
+    - take a screenshot with F12
     - controls for the pause menu are listed in the pause menu
 
 

@@ -16,6 +16,9 @@ Files:
     - will be created automatically
     - when your monster levels up, an image of their current stats goes here
     - share it on social media or something? #ChikkaiGame
+  screenshots
+    - will be created automatically
+    - screenshots you take will go here
 
 
 Controls:

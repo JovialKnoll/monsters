@@ -32,3 +32,6 @@ Logo Design
 
 Editor
   RoseOfBattle
+
+QA Lead
+  JovialKnoll

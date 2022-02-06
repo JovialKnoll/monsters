@@ -37,8 +37,8 @@ class Monster(AnimSprite):
         'skin',
         'stats',
         'sprite_groups',
-        'sprite_paths',
-        'old_sprite_paths',
+        'sprite_files',
+        'old_sprite_files',
         'sprite',
         'sprite_right',
         'facing_right',
@@ -62,9 +62,9 @@ class Monster(AnimSprite):
 
         self.rect = pygame.Rect(0, 0, 48, 48)
         self.sprite_groups = tuple(random.choice(('A', 'B', 'C')) for x in range(5))
-        self.sprite_paths = None
+        self.sprite_files = None
         self._setSpritePaths()
-        self.old_sprite_paths = []
+        self.old_sprite_files = []
         self._setSprites()
         self.setImage()
 
@@ -78,8 +78,8 @@ class Monster(AnimSprite):
             'skin': self.skin,
             'stats': self.stats,
             'sprite_groups': self.sprite_groups,
-            'sprite_paths': self.sprite_paths,
-            'old_sprite_paths': self.old_sprite_paths,
+            'sprite_files': self.sprite_files,
+            'old_sprite_files': self.old_sprite_files,
             'facing_right': self.facing_right,
         }
 
@@ -93,8 +93,8 @@ class Monster(AnimSprite):
         new_obj.skin = save_data['skin']
         new_obj.stats = save_data['stats']
         new_obj.sprite_groups = save_data['sprite_groups']
-        new_obj.sprite_paths = save_data['sprite_paths']
-        new_obj.old_sprite_paths = save_data['old_sprite_paths']
+        new_obj.sprite_files = save_data['sprite_files']
+        new_obj.old_sprite_files = save_data['old_sprite_files']
         new_obj._setSprites()
         new_obj.setImage(save_data['facing_right'])
 
@@ -159,28 +159,31 @@ class Monster(AnimSprite):
         part = ''
         if self.lvl > 0:
             part = random.randint(0, 2)
-        return os.path.join(
-            constants.MONSTER_PARTS_DIRECTORY,
-            '{}-{}-{}{}.png'.format(self.lvl, section, group, part)
-        )
+        return '{}-{}-{}{}.png'.format(self.lvl, section, group, part)
 
     def _setSpritePaths(self):
-        self.sprite_paths = tuple(
+        self.sprite_files = tuple(
             self._getSpritePath(self.BODY_SECTIONS[i], self.sprite_groups[i]) for i in range(5)
         )
         if self.lvl == 0:
-            self.sprite_paths = self.sprite_paths[1:4]
+            self.sprite_files = self.sprite_files[1:4]
 
-    def _setSprites(self, alt_lvl=None, alt_sprite_paths=None):
+    @staticmethod
+    def _loadSpriteFile(sprite_file: str):
+        return pygame.image.load(
+            os.path.join(constants.MONSTER_PARTS_DIRECTORY, sprite_file)
+        )
+
+    def _setSprites(self, alt_lvl=None, alt_sprite_files=None):
         lvl = self.lvl
-        sprite_paths = self.sprite_paths
-        if alt_lvl is not None and alt_sprite_paths is not None:
+        sprite_files = self.sprite_files
+        if alt_lvl is not None and alt_sprite_files is not None:
             lvl = alt_lvl
-            sprite_paths = alt_sprite_paths
-        self.sprite = pygame.image.load(sprite_paths[0]).convert(shared.display.screen)
+            sprite_files = alt_sprite_files
+        self.sprite = self._loadSpriteFile(sprite_files[0]).convert(shared.display.screen)
         self.sprite.set_colorkey(constants.COLORKEY)
-        for sprite_path in sprite_paths[1:]:
-            new_part = pygame.image.load(sprite_path).convert(self.sprite)
+        for sprite_path in sprite_files[1:]:
+            new_part = self._loadSpriteFile(sprite_path).convert(self.sprite)
             new_part.set_colorkey(constants.COLORKEY)
             self.sprite.blit(new_part, (0, 0))
         if lvl > 0:
@@ -220,7 +223,7 @@ class Monster(AnimSprite):
         self._levelStats()
         self.stats['drv'] = self.DRV_MAX
         self.setHealth()
-        self.old_sprite_paths.append(self.sprite_paths)
+        self.old_sprite_files.append(self.sprite_files)
         self._setSpritePaths()
         self._setSprites()
         self.setImage()
@@ -245,8 +248,8 @@ class Monster(AnimSprite):
         rect = self.sprite_right.get_rect()
         rect.midbottom = (64 // 2 + 64 * self.lvl, 64)
         card.blit(self.sprite_right, rect)
-        for lvl, sprite_paths in enumerate(self.old_sprite_paths):
-            self._setSprites(lvl, sprite_paths)
+        for lvl, sprite_files in enumerate(self.old_sprite_files):
+            self._setSprites(lvl, sprite_files)
             rect = self.sprite_right.get_rect()
             rect.midbottom = (64 // 2 + 64 * lvl, 64)
             card.blit(self.sprite_right, rect)

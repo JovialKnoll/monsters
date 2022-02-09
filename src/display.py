@@ -41,7 +41,7 @@ class Display(object):
         shared.config.set(constants.CONFIG_SECTION, constants.CONFIG_SCREEN_SCALE, str(self.upscale))
 
     def _setupDisplay(self):
-        pygame.display.set_caption(constants.SCREEN_CAPTION)
+        pygame.display.set_caption(constants.TITLE)
         pygame.display.set_icon(self._window_icon)
         display_info = pygame.display.Info()
         self._monitor_res = (

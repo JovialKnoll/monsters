@@ -1,4 +1,4 @@
-Chikkai! Tiny Kaijus
+CHIKKAI! Tiny Kaijus
 
 
 Files:

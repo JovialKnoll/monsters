@@ -4,7 +4,7 @@ import os
 import pygame
 
 
-SCREEN_CAPTION = "CHIKKAI!"
+TITLE = "CHIKKAI! Tiny Kaijus"
 SCREEN_SIZE = (320, 180)
 SCREEN_CENTER = (SCREEN_SIZE[0] // 2, SCREEN_SIZE[1] // 2)
 SCREEN_RECT = pygame.Rect((0, 0), SCREEN_SIZE)

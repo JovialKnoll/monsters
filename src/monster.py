@@ -266,7 +266,7 @@ class Monster(AnimSprite):
             card,
             (0, 0),
             64 * 4,
-            "CHIKKAI! Tiny Kaijus",
+            constants.TITLE,
             False,
             constants.TEXT_COLOR
         )

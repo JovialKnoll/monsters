@@ -49,4 +49,8 @@ Notes:
 Thank you for downloading!
 If you have issues running the built version of this game, you could try
 running it from source. In either case, feel free to check out the source code
-at: https://github.com/JovialKnoll/monsters
+at: github.com/JovialKnoll/monsters
+
+jovialknoll.itch.io
+jovialknoll.com
+twitter.com/JovialKnolGames

@@ -4,6 +4,7 @@ import os
 import pygame
 
 
+VERSION = "0.9.0"
 TITLE = "CHIKKAI! Tiny Kaijus"
 SCREEN_SIZE = (320, 180)
 SCREEN_CENTER = (SCREEN_SIZE[0] // 2, SCREEN_SIZE[1] // 2)

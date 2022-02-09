@@ -22,7 +22,7 @@ jobs:
       - name: Install pyinstaller
         run: pip install pyinstaller
       - name: Create spec file
-        run: pyinstaller --clean -ywF --target-arch universal2 -i design/icon.ico -n chikkai src/main.py
+        run: pyinstaller --clean -ywF -i design/icon.ico -n chikkai src/main.py
       - name: Build exe
         run: pyinstaller -y chikkai.spec
       - name: Unix setup

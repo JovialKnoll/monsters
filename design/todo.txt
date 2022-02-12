@@ -2,5 +2,3 @@ necessary:
 * opening music (loop) (also for credits, maybe quieter?)
 * finalizing music and sound volumes
 * replace WAVs with OGGs
-* pngcrush, make sure to remove gamma and reduce sizes
-    pngcrush -rem gAMA -rem cHRM -rem iCCP -rem sRGB infile.png outfile.png

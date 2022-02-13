@@ -51,6 +51,10 @@ If you have issues running the built version of this game, you could try
 running it from source. In either case, feel free to check out the source code
 at: github.com/JovialKnoll/monsters
 
+JovialKnoll:
 jovialknoll.itch.io
 jovialknoll.com
 twitter.com/JovialKnolGames
+
+tinsil:
+tinsil.tumblr.com

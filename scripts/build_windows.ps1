@@ -6,7 +6,7 @@ src/venv/Scripts/activate.ps1
 # get pyinstaller
 pip install pyinstaller
 # create spec file
-pyinstaller --clean -ywF -i design/icon.ico -n chikkai src/main.py
+pyinstaller --clean -ywF -i src/icon.ico -n chikkai src/main.py
 # build exe
 pyinstaller -y chikkai.spec
 # windows setup

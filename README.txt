@@ -1,14 +1,14 @@
 CHIKKAI! Tiny Kaijus
 
 
-Files:
+Files and Folders:
   chikkai.exe
     - game executable - run this!
-  assets
-    - various assets the game needs to run
   config.ini
     - will be created automatically
     - you can edit game configuration here
+  assets
+    - various assets the game needs to run
   saves
     - will be created automatically
     - your save files are stored here

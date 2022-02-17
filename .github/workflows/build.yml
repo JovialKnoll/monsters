@@ -50,15 +50,6 @@ jobs:
         run: |
           sed -i '' 's/chikkai.exe/chikkai/g' dist/chikkai/README.txt
           rm -rf dist/chikkai.app/
-      - name: Unix final
-        if: startsWith(matrix.os, 'windows') != true
-        run: |
-          chmod +x dist/chikkai
-          cd dist
-          tar -zcvf ../chikkai.tar.gz ./chikkai
-          cd ..
-          rm -rf dist/*
-          mv chikkai.tar.gz dist
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:

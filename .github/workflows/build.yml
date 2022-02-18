@@ -42,6 +42,8 @@ jobs:
               cd dist/
               zip -r9 ../chikkai-build-ubuntu-latest.zip *
             CMD_BUTLER_SETUP: |
+              TAGVERSION=$(git describe --tags --exact-match)
+              echo "TAGVERSION=${TAGVERSION:1}" >> $GITHUB_ENV
               curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
               unzip butler.zip
               chmod +x butler
@@ -51,6 +53,8 @@ jobs:
               cd dist/
               zip -r9 ../chikkai-build-macos-latest.zip *
             CMD_BUTLER_SETUP: |
+              TAGVERSION=$(git describe --tags --exact-match)
+              echo "TAGVERSION=${TAGVERSION:1}" >> $GITHUB_ENV
               curl -L -o butler.zip https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default
               unzip butler.zip
               chmod +x butler
@@ -58,6 +62,8 @@ jobs:
             CMD_CLEANUP: ;
             CMD_ZIP: Compress-Archive -Path dist/* -DestinationPath chikkai-build-windows-latest.zip
             CMD_BUTLER_SETUP: |
+              $tagversion = git describe --tags --exact-match
+              echo "TAGVERSION=$tagversion.Substring(1)" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
               Invoke-WebRequest -o butler.zip https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default
               Expand-Archive -Path butler.zip -DestinationPath .
       fail-fast: false
@@ -78,11 +84,8 @@ jobs:
         run: pyinstaller -y chikkai.spec
       - name: Copy Assets
         run: cp -r src/assets dist/assets
-      - name: Version
-        run: |
-          git describe --tags --exact-match > dist/assets/txt/version.txt
-          TAGVERSION=$(git describe --tags --exact-match)
-          echo "TAGVERSION=${TAGVERSION:1}" >> $GITHUB_ENV
+      - name: Copy Version
+        run: git describe --tags --exact-match > dist/assets/txt/version.txt
       - name: Copy License
         run: cp LICENSE.txt dist/
       - name: Copy Readme
@@ -117,5 +120,5 @@ jobs:
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         run: |
-          ./butler push dist jovialknoll/chikkai:chikkai-${{ matrix.os }} --userversion ${{ env.TAGVERSION }}
+          ./butler push dist jovialknoll/chikkai:${{ matrix.os }} --userversion ${{ env.TAGVERSION }}
           ./butler logout

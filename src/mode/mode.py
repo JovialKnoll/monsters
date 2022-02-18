@@ -24,7 +24,7 @@ class Mode(abc.ABC):
     def __trackMouseButton(self, event: pygame.event.Event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             self.__pressed_mouse_buttons[event.button] = event.pos
-        elif event.type == pygame.MOUSEBUTTONDOWN:
+        elif event.type == pygame.MOUSEBUTTONUP:
             if event.button in self.__pressed_mouse_buttons:
                 del self.__pressed_mouse_buttons[event.button]
 

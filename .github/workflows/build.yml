@@ -1,15 +1,50 @@
 name: build
+
 on:
   push:
     branches:
-      release
+      master
+    tags:
+      v*
+
 jobs:
+
+  createrelease:
+    name: Create Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Write Release URL File
+        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
+      - name: Upload Release URL File
+        uses: actions/upload-artifact@v1
+        with:
+          name: release_url
+          path: release_url.txt
+
   build:
+    name: Build Release
+    needs: createrelease
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            CMD_CLEANUP: sed -i 's/chikkai.exe/chikkai/g' dist/README.txt
+          - os: macos-latest
+            CMD_CLEANUP: sed -i '' 's/chikkai.exe/chikkai/g' dist/README.txt
+          - os: windows-latest
+            CMD_CLEANUP: ;
       fail-fast: false
-    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout commit
         uses: actions/checkout@v2
@@ -18,36 +53,21 @@ jobs:
         with:
           python-version: '3.10'
       - name: Install dependencies
-        run: pip install -r src/requirements.txt pyinstaller
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r src/requirements.txt pyinstaller
       - name: Create spec file
         run: pyinstaller --clean -ywF -i src/icon.ico -n chikkai src/main.py
       - name: Build exe
         run: pyinstaller -y chikkai.spec
-      - name: Unix setup
-        if: startsWith(matrix.os, 'windows') != true
-        run: |
-          mv dist/chikkai dist/chikkai_e
-          mkdir dist/chikkai
-          mv dist/chikkai_e dist/chikkai/chikkai
-      - name: Windows setup
-        if: startsWith(matrix.os, 'windows') == true
-        run: |
-          mkdir dist/chikkai
-          mv dist/chikkai.exe dist/chikkai/chikkai.exe
       - name: Copy in assets
-        run: cp -r src/assets dist/chikkai/assets
+        run: cp -r src/assets dist/assets
       - name: Copy in license
-        run: cp LICENSE.txt dist/chikkai/
+        run: cp LICENSE.txt dist/
       - name: Copy in readme
-        run: cp README.txt dist/chikkai/
-      - name: Linux cleanup
-        if: startsWith(matrix.os, 'ubuntu')
-        run: sed -i 's/chikkai.exe/chikkai/g' dist/chikkai/README.txt
-      - name: MacOS cleanup
-        if: startsWith(matrix.os, 'macos')
-        run: |
-          sed -i '' 's/chikkai.exe/chikkai/g' dist/chikkai/README.txt
-          rm -rf dist/chikkai.app/
+        run: cp README.txt dist/
+      - name: Cleanup
+        run: ${{ matrix.CMD_CLEANUP }}
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:

@@ -38,13 +38,13 @@ jobs:
         include:
           - os: ubuntu-latest
             CMD_CLEANUP: sed -i 's/chikkai.exe/chikkai/g' dist/README.txt
-            CMD_ZIP: zip -r9 chikkai-build-${{ matrix.os }}.zip dist/*
+            CMD_ZIP: zip -r9 chikkai-build-ubuntu-latest.zip dist/*
           - os: macos-latest
             CMD_CLEANUP: sed -i '' 's/chikkai.exe/chikkai/g' dist/README.txt
-            CMD_ZIP: zip -r9 chikkai-build-${{ matrix.os }}.zip dist/*
+            CMD_ZIP: zip -r9 chikkai-build-macos-latest.zip dist/*
           - os: windows-latest
             CMD_CLEANUP: ;
-            CMD_ZIP: Compress-Archive -Path dist/* -DestinationPath chikkai-build-${{ matrix.os }}.zip
+            CMD_ZIP: Compress-Archive -Path dist/* -DestinationPath chikkai-build-windows-latest.zip
       fail-fast: false
     steps:
       - name: Checkout Commit

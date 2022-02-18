@@ -63,7 +63,8 @@ jobs:
             CMD_ZIP: Compress-Archive -Path dist/* -DestinationPath chikkai-build-windows-latest.zip
             CMD_BUTLER_SETUP: |
               $tagversion = git describe --tags --exact-match
-              echo "TAGVERSION=$tagversion.Substring(1)" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
+              $tagversion = $tagversion.Substring(1)
+              echo "TAGVERSION=$tagversion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
               Invoke-WebRequest -o butler.zip https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default
               Expand-Archive -Path butler.zip -DestinationPath .
       fail-fast: false

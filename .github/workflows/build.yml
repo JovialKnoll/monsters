@@ -67,7 +67,7 @@ jobs:
       - name: Cleanup
         run: ${{ matrix.CMD_CLEANUP }}
       - name: Version
-        run: git describe --tags > dist/assets/txt/version.txt
+        run: git describe --tags --exact-match > dist/assets/txt/version.txt
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:

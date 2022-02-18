@@ -41,14 +41,25 @@ jobs:
             CMD_ZIP: |
               cd dist/
               zip -r9 ../chikkai-build-ubuntu-latest.zip *
+            CMD_BUTLER_SETUP: |
+              curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
+              unzip butler.zip
+              chmod +x butler
           - os: macos-latest
             CMD_CLEANUP: sed -i '' 's/chikkai.exe/chikkai/g' dist/README.txt
             CMD_ZIP: |
               cd dist/
               zip -r9 ../chikkai-build-macos-latest.zip *
+            CMD_BUTLER_SETUP: |
+              curl -L -o butler.zip https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default
+              unzip butler.zip
+              chmod +x butler
           - os: windows-latest
             CMD_CLEANUP: ;
             CMD_ZIP: Compress-Archive -Path dist/* -DestinationPath chikkai-build-windows-latest.zip
+            CMD_BUTLER_SETUP: |
+              Invoke-WebRequest -o butler.zip https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default
+              Expand-Archive -Path butler.zip -DestinationPath .
       fail-fast: false
     steps:
       - name: Checkout Commit
@@ -68,7 +79,10 @@ jobs:
       - name: Copy Assets
         run: cp -r src/assets dist/assets
       - name: Version
-        run: git describe --tags --exact-match > dist/assets/txt/version.txt
+        run: |
+          git describe --tags --exact-match > dist/assets/txt/version.txt
+          TAGVERSION=$(git describe --tags --exact-match)
+          echo "TAGVERSION=${TAGVERSION:1}" >> $GITHUB_ENV
       - name: Copy License
         run: cp LICENSE.txt dist/
       - name: Copy Readme
@@ -97,3 +111,11 @@ jobs:
           asset_path: ./chikkai-build-${{ matrix.os }}.zip
           asset_name: chikkai-build-${{ matrix.os }}.zip
           asset_content_type: application/zip
+      - name: Setup Butler
+        run: ${{ matrix.CMD_BUTLER_SETUP }}
+      - name: Upload With Butler
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: |
+          ./butler push dist jovialknoll/chikkai:chikkai-${{ matrix.os }} --userversion ${{ env.TAGVERSION }}
+          ./butler logout

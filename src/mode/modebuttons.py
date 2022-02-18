@@ -65,14 +65,14 @@ class ModeButtons(Mode, abc.ABC):
 
     def _input(self, event):
         # using this for button selection and pressing
-        if event.type == pygame.MOUSEMOTION:
+        if event.type in (pygame.MOUSEMOTION, pygame.MOUSEBUTTONDOWN):
             self._posSelect(event.pos)
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 if self._posSelect(event.pos) is not None \
                     and self._mouseButtonStatus(event.button) \
-                    and self._posSelect(self._mouseButtonStatus(event.button)) \
-                        == self._posSelect(event.pos):
+                    and self._posSelect(event.pos) \
+                        == self._posSelect(self._mouseButtonStatus(event.button)):
                     self._buttonPress()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:

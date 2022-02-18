@@ -117,5 +117,5 @@ jobs:
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
         run: |
-          ./butler push dist jovialknoll/chikkai:chikkai-${{ matrix.os }} --userversion ${{ env.TAGVERSION }}
+          ./butler push dist jovialknoll/chikkai:${{ matrix.os }} --userversion ${{ env.TAGVERSION }}
           ./butler logout

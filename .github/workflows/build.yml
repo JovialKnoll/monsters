@@ -44,33 +44,49 @@ jobs:
             CMD_CLEANUP: ;
       fail-fast: false
     steps:
-      - name: Checkout commit
+      - name: Checkout Commit
         uses: actions/checkout@v2
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.10'
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r src/requirements.txt pyinstaller
-      - name: Create spec file
+      - name: Create Spec File
         run: pyinstaller --clean -ywF -i src/icon.ico -n chikkai src/main.py
-      - name: Build exe
+      - name: Build Exe
         run: pyinstaller -y chikkai.spec
-      - name: Copy in assets
+      - name: Copy Assets
         run: cp -r src/assets dist/assets
-      - name: Copy in license
+      - name: Copy License
         run: cp LICENSE.txt dist/
-      - name: Copy in readme
+      - name: Copy Readme
         run: cp README.txt dist/
       - name: Cleanup
         run: ${{ matrix.CMD_CLEANUP }}
       - name: Version
         run: git describe --tags --exact-match > dist/assets/txt/version.txt
-      - name: Upload build
-        uses: actions/upload-artifact@v2
+      - name: Zip Build
+        run: zip -r9 chikkai-build-${{ matrix.os }}.zip dist/
+      - name: Load Release URL File
+        uses: actions/download-artifact@v2
         with:
-          name: chikkai-build-${{ matrix.os }}
-          path: dist/
-          if-no-files-found: error
+          name: release_url
+      - name: Get Release Info
+        id: get_release_info
+        shell: bash
+        run: |
+          value=`cat release_url/release_url.txt`
+          echo ::set-output name=upload_url::$value
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
+          asset_path: ./chikkai-build-${{ matrix.os }}.zip
+          asset_name: chikkai-build-${{ matrix.os }}.zip
+          asset_content_type: application/zip

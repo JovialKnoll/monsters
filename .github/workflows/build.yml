@@ -38,10 +38,13 @@ jobs:
         include:
           - os: ubuntu-latest
             CMD_CLEANUP: sed -i 's/chikkai.exe/chikkai/g' dist/README.txt
+            CMD_ZIP: zip -r9 chikkai-build-${{ matrix.os }}.zip dist/*
           - os: macos-latest
             CMD_CLEANUP: sed -i '' 's/chikkai.exe/chikkai/g' dist/README.txt
+            CMD_ZIP: zip -r9 chikkai-build-${{ matrix.os }}.zip dist/*
           - os: windows-latest
             CMD_CLEANUP: ;
+            CMD_ZIP: Compress-Archive -Path dist/* -DestinationPath chikkai-build-${{ matrix.os }}.zip
       fail-fast: false
     steps:
       - name: Checkout Commit
@@ -60,16 +63,16 @@ jobs:
         run: pyinstaller -y chikkai.spec
       - name: Copy Assets
         run: cp -r src/assets dist/assets
+      - name: Version
+        run: git describe --tags --exact-match > dist/assets/txt/version.txt
       - name: Copy License
         run: cp LICENSE.txt dist/
       - name: Copy Readme
         run: cp README.txt dist/
       - name: Cleanup
         run: ${{ matrix.CMD_CLEANUP }}
-      - name: Version
-        run: git describe --tags --exact-match > dist/assets/txt/version.txt
       - name: Zip Build
-        run: zip -r9 chikkai-build-${{ matrix.os }}.zip dist/
+        run: ${{ matrix.CMD_ZIP }}
       - name: Load Release URL File
         uses: actions/download-artifact@v2
         with:

@@ -4,7 +4,6 @@ import os
 import pygame
 
 
-VERSION = "0.9.1"
 TITLE = "CHIKKAI! Tiny Kaijus"
 SCREEN_SIZE = (320, 180)
 SCREEN_CENTER = (SCREEN_SIZE[0] // 2, SCREEN_SIZE[1] // 2)
@@ -69,6 +68,7 @@ CHAT_LOOP = os.path.join(MUSIC_DIRECTORY, 'chat_loop.ogg')
 FIGHT_LOOP = os.path.join(MUSIC_DIRECTORY, 'fight_loop.ogg')
 
 TEXT_DIRECTORY = os.path.join(ASSETS_DIRECTORY, 'txt')
+VERSION_TEXT = os.path.join(TEXT_DIRECTORY, 'version.txt')
 CREDITS_TEXT = os.path.join(TEXT_DIRECTORY, 'credits.txt')
 CONVO_DIRECTORY = os.path.join(TEXT_DIRECTORY, 'convos')
 
@@ -86,3 +86,6 @@ CONFIG_DEFAULTS = {
     CONFIG_SCREEN_SCALE: 4,
     CONFIG_FULLSCREEN: False,
 }
+
+with open(VERSION_TEXT) as version_file:
+    VERSION = version_file.readline().rstrip('\n')

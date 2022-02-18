@@ -8,26 +8,29 @@ Game Design
   JovialKnoll
   tinsil
 
+Writing
+  JovialKnoll
+
 Engineering
   JovialKnoll
 
 Art Director
   tinsil
 
-Writer
-  JovialKnoll
-
-Music Production
+Character Design
   tinsil
-
-Additional Sound Design
-  JovialKnoll
 
 Font Design
   tinsil
 
 Logo Design
   tinsil
+  JovialKnoll
+
+Music Production
+  tinsil
+
+Additional Sound Design
   JovialKnoll
 
 Editor

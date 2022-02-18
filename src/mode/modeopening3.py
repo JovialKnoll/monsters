@@ -45,13 +45,12 @@ class ModeOpening3(ModeOpening):
                 constants.SCREEN_SIZE[1] // 4 - logo.get_height() // 2,
             )
         )
-        version = f"v{constants.VERSION}"
-        version_width = len(version) * constants.FONT_SIZE
+        version_width = len(constants.VERSION) * constants.FONT_SIZE
         shared.font_wrap.renderToInside(
             self._background,
             (constants.SCREEN_SIZE[0] - version_width, constants.SCREEN_SIZE[1] - constants.FONT_HEIGHT),
             version_width,
-            version,
+            constants.VERSION,
             False,
             constants.TEXT_COLOR
         )

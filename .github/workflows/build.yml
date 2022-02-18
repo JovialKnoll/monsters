@@ -66,6 +66,8 @@ jobs:
         run: cp README.txt dist/
       - name: Cleanup
         run: ${{ matrix.CMD_CLEANUP }}
+      - name: Version
+        run: git describe --tags > dist/assets/txt/version.txt
       - name: Upload build
         uses: actions/upload-artifact@v2
         with:

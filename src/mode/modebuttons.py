@@ -74,8 +74,8 @@ class ModeButtons(Mode, abc.ABC):
             if event.button == 1:
                 if self._posSelect(event.pos) is not None \
                     and self._mouseButtonStatus(event.button) \
-                    and self._posSelect(event.pos) \
-                        == self._posSelect(self._mouseButtonStatus(event.button)):
+                    and self._posSelect(self._mouseButtonStatus(event.button)) \
+                        == self._posSelect(event.pos):
                     self._buttonPress()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:

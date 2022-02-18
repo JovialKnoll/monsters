@@ -119,6 +119,4 @@ jobs:
       - name: Upload With Butler
         env:
           BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
-        run: |
-          ./butler push dist jovialknoll/chikkai:${{ matrix.os }} --userversion ${{ env.TAGVERSION }}
-          ./butler logout
+        run: ./butler push dist jovialknoll/chikkai:${{ matrix.os }} --userversion ${{ env.TAGVERSION }}

@@ -4,6 +4,11 @@ from saveable import Saveable
 
 
 class SkinTone(Saveable):
+    __slots__ = (
+        'dark',
+        'light',
+    )
+
     def __init__(self, in_dark: tuple[int, int, int], in_light: tuple[int, int, int]):
         """Hold onto the darker and lighter colors."""
         self.dark = pygame.Color(in_dark[0], in_dark[1], in_dark[2])

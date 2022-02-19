@@ -17,11 +17,10 @@ jobs:
       upload_url: ${{ needs.create-release.outputs.upload_url }}
 
   upload-butler:
-    needs: [create-release, build-python]
+    needs: build-python
     uses: JovialKnoll/workflows/.github/workflows/upload-butler.yml@v1
     with:
       project_name: chikkai
-      release_version: ${{ needs.create-release.outputs.release_version }}
       release_asset_url_ubuntu_latest: ${{ needs.build-python.outputs.release_asset_url_ubuntu_latest }}
       release_asset_url_macos_latest: ${{ needs.build-python.outputs.release_asset_url_macos_latest }}
       release_asset_url_windows_latest: ${{ needs.build-python.outputs.release_asset_url_windows_latest }}

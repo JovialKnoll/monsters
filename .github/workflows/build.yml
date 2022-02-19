@@ -6,118 +6,24 @@ on:
       v*.*.*
 
 jobs:
+  create-release:
+    uses: JovialKnoll/workflows/.github/workflows/create-release.yml
 
-  createrelease:
-    name: Create Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
-      - name: Write Release URL File
-        run: echo "${{ steps.create_release.outputs.upload_url }}" > release_url.txt
-      - name: Upload Release URL File
-        uses: actions/upload-artifact@v1
-        with:
-          name: release_url
-          path: release_url.txt
+  build-python:
+    uses: JovialKnoll/workflows/.github/workflows/build-python.yml
+    needs: create-release
+    with:
+      project_name: chikkai
+      upload_url: ${{ needs.create-release.outputs.upload_url }}
 
-  build:
-    name: Build Release
-    needs: createrelease
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        include:
-          - os: ubuntu-latest
-            CMD_CLEANUP: sed -i 's/chikkai.exe/chikkai/g' dist/README.txt
-            CMD_ZIP: |
-              cd dist/
-              zip -r9 ../chikkai-build-ubuntu-latest.zip *
-            CMD_BUTLER_SETUP: |
-              TAGVERSION=$(git describe --tags --exact-match)
-              echo "TAGVERSION=${TAGVERSION:1}" >> $GITHUB_ENV
-              curl -L -o butler.zip https://broth.itch.ovh/butler/linux-amd64/LATEST/archive/default
-              unzip butler.zip
-              chmod +x butler
-          - os: macos-latest
-            CMD_CLEANUP: sed -i '' 's/chikkai.exe/chikkai/g' dist/README.txt
-            CMD_ZIP: |
-              cd dist/
-              zip -r9 ../chikkai-build-macos-latest.zip *
-            CMD_BUTLER_SETUP: |
-              TAGVERSION=$(git describe --tags --exact-match)
-              echo "TAGVERSION=${TAGVERSION:1}" >> $GITHUB_ENV
-              curl -L -o butler.zip https://broth.itch.ovh/butler/darwin-amd64/LATEST/archive/default
-              unzip butler.zip
-              chmod +x butler
-          - os: windows-latest
-            CMD_CLEANUP: ;
-            CMD_ZIP: Compress-Archive -Path dist/* -DestinationPath chikkai-build-windows-latest.zip
-            CMD_BUTLER_SETUP: |
-              $tagversion = git describe --tags --exact-match
-              $tagversion = $tagversion.Substring(1)
-              echo "TAGVERSION=$tagversion" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf-8 -Append
-              Invoke-WebRequest -o butler.zip https://broth.itch.ovh/butler/windows-amd64/LATEST/archive/default
-              Expand-Archive -Path butler.zip -DestinationPath .
-      fail-fast: false
-    steps:
-      - name: Checkout Commit
-        uses: actions/checkout@v2
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.10'
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r src/requirements.txt pyinstaller
-      - name: Create Spec File
-        run: pyinstaller --clean -ywF -i src/icon.ico -n chikkai src/main.py
-      - name: Build Exe
-        run: pyinstaller -y chikkai.spec
-      - name: Copy Assets
-        run: cp -r src/assets dist/assets
-      - name: Copy Version
-        run: git describe --tags --exact-match > dist/assets/txt/version.txt
-      - name: Copy License
-        run: cp LICENSE.txt dist/
-      - name: Copy Readme
-        run: cp README.txt dist/
-      - name: Cleanup
-        run: ${{ matrix.CMD_CLEANUP }}
-      - name: Zip Build
-        run: ${{ matrix.CMD_ZIP }}
-      - name: Load Release URL File
-        uses: actions/download-artifact@v2
-        with:
-          name: release_url
-      - name: Get Release Info
-        id: get_release_info
-        shell: bash
-        run: |
-          value=`cat release_url.txt`
-          echo ::set-output name=upload_url::$value
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.get_release_info.outputs.upload_url }}
-          asset_path: ./chikkai-build-${{ matrix.os }}.zip
-          asset_name: chikkai-build-${{ matrix.os }}.zip
-          asset_content_type: application/zip
-      - name: Setup Butler
-        run: ${{ matrix.CMD_BUTLER_SETUP }}
-      - name: Upload With Butler
-        env:
-          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
-        run: ./butler push dist jovialknoll/chikkai:${{ matrix.os }} --userversion ${{ env.TAGVERSION }}
+  upload-butler:
+    needs: [create-release, build-python]
+    uses: JovialKnoll/workflows/.github/workflows/upload-butler.yml
+    with:
+      project_name: chikkai
+      release_version: ${{ needs.create-release.outputs.release_version }}
+      release_asset_url_ubuntu_latest: ${{ needs.build-python.outputs.release_asset_url_ubuntu_latest }}
+      release_asset_url_macos_latest: ${{ needs.build-python.outputs.release_asset_url_macos_latest }}
+      release_asset_url_windows_latest: ${{ needs.build-python.outputs.release_asset_url_windows_latest }}
+    secrets:
+      BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}

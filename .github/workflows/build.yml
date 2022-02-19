@@ -20,6 +20,7 @@ jobs:
     needs: build-python
     uses: JovialKnoll/workflows/.github/workflows/upload-butler.yml@master
     with:
+      itch_user: jovialknoll
       project_name: chikkai
       release_asset_url_ubuntu_latest: ${{ needs.build-python.outputs.release_asset_url_ubuntu_latest }}
       release_asset_url_macos_latest: ${{ needs.build-python.outputs.release_asset_url_macos_latest }}

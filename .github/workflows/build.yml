@@ -7,10 +7,10 @@ on:
 
 jobs:
   create-release:
-    uses: JovialKnoll/workflows/.github/workflows/create-release.yml
+    uses: JovialKnoll/workflows/.github/workflows/create-release.yml@v1
 
   build-python:
-    uses: JovialKnoll/workflows/.github/workflows/build-python.yml
+    uses: JovialKnoll/workflows/.github/workflows/build-python.yml@v1
     needs: create-release
     with:
       project_name: chikkai
@@ -18,7 +18,7 @@ jobs:
 
   upload-butler:
     needs: [create-release, build-python]
-    uses: JovialKnoll/workflows/.github/workflows/upload-butler.yml
+    uses: JovialKnoll/workflows/.github/workflows/upload-butler.yml@v1
     with:
       project_name: chikkai
       release_version: ${{ needs.create-release.outputs.release_version }}

@@ -17,8 +17,8 @@ jobs:
       upload_url: ${{ needs.create-release.outputs.upload_url }}
 
   upload-butler:
-    needs: build-python
     uses: JovialKnoll/workflows/.github/workflows/upload-butler.yml@master
+    needs: build-python
     with:
       itch_user: jovialknoll
       project_name: chikkai

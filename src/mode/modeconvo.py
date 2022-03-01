@@ -7,9 +7,9 @@ import pygame
 import constants
 import utility
 import shared
+import mode
 from saveable import Saveable
 from .modebuttons import ModeButtons
-import mode
 
 
 class ConvoChoice(object):

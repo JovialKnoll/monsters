@@ -17,10 +17,10 @@ class Game(object):
         '_is_first_loop',
     )
 
-    def __init__(self):
+    def __init__(self, start_mode: mode.Mode):
         self._max_framerate = shared.config.getint(constants.CONFIG_SECTION, constants.CONFIG_MAX_FRAMERATE)
         self._clock = pygame.time.Clock()
-        self._current_mode = mode.ModeOpening0()
+        self._current_mode = start_mode
         self._is_first_loop = True
 
     def run(self):

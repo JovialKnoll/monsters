@@ -8,10 +8,11 @@ import pygame
 pygame.init()
 
 from game import Game
+from mode import ModeOpening0
 
 
 def main():
-    game = Game()
+    game = Game(ModeOpening0())
     while game.run():
         pass
     del game

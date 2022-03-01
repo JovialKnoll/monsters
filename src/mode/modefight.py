@@ -90,7 +90,6 @@ class ModeFight(ModeButtons):
             )
         self._background = self._background.convert(shared.display.screen)
         self._background.set_colorkey(constants.COLORKEY)
-        self._drawHP()
 
         pygame.mixer.music.load(constants.FIGHT_LOOP)
         pygame.mixer.music.play(-1)
@@ -118,6 +117,8 @@ class ModeFight(ModeButtons):
         self._result_displayed = 0
         self._result = False
         self._get_next_mode = get_next_mode
+
+        self._drawHP()
 
     def _drawHP(self):
         player_health_text = f"{self._player_mon.stats['hpc']}/{self._player_mon.stats['hpm']}"

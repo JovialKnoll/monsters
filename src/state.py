@@ -1,7 +1,8 @@
+from saveable import Saveable
 from monster import Monster
 
 
-class State(object):
+class State(Saveable):
     __slots__ = (
         'protag_mon',
         'fight_results',

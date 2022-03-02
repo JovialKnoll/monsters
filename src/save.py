@@ -86,24 +86,27 @@ def _decodeSaveable(dct: dict):
     return dct
 
 
+_SAVE_EXT = '.sav'
+
+
 class Save(object):
     __slots__ = (
-        'file_name',
+        'save_name',
         '_mode_name',
         '_mode_data',
         '_shared_data',
     )
 
-    def __init__(self, file_name: str, mode_name: str, mode_data, shared_data):
-        self.file_name = file_name
+    def __init__(self, save_name: str, mode_name: str, mode_data, shared_data):
+        self.save_name = save_name
         self._mode_name = mode_name
         self._mode_data = mode_data
         self._shared_data = shared_data
 
     @staticmethod
-    def willOverwrite(file_name: str):
+    def willOverwrite(save_name: str):
         return os.path.exists(
-            os.path.join(constants.SAVE_DIRECTORY, file_name)
+            Save._getFilePathFromFileName(save_name + _SAVE_EXT)
         )
 
     @staticmethod
@@ -115,14 +118,17 @@ class Save(object):
             for file_name
             in os.listdir(constants.SAVE_DIRECTORY)
             if os.path.isfile(
-                os.path.join(constants.SAVE_DIRECTORY, file_name)
+                Save._getFilePathFromFileName(file_name)
             )
-            and file_name.endswith(constants.SAVE_EXT)
+            and file_name.endswith(_SAVE_EXT)
         )
 
     @staticmethod
-    def _getFilePath(file_name):
+    def _getFilePathFromFileName(file_name):
         return os.path.join(constants.SAVE_DIRECTORY, file_name)
+
+    def _getFilePath(self):
+        return self._getFilePathFromFileName(self.save_name + _SAVE_EXT)
 
     @classmethod
     def getAllFromFiles(cls):
@@ -131,28 +137,28 @@ class Save(object):
                 save
                 for save
                 in (
-                    cls.getFromFile(file)
+                    cls._getFromFile(file)
                     for file
                     in cls._getSaveFiles()
                 )
                 if save
             ),
-            key=lambda s: (s.file_name.lower(), s.file_name)
+            key=lambda s: (s.save_name.lower(), s.save_name)
         )
 
     @classmethod
-    def getFromFile(cls, file_name: str):
-        file_path = cls._getFilePath(file_name)
+    def _getFromFile(cls, file_name: str):
+        file_path = cls._getFilePathFromFileName(file_name)
         try:
             with open(file_path, 'r') as file:
                 save_object = json.load(file, object_hook=_decodeSaveable)
-                return cls(file_name, save_object['mode_name'], save_object['mode_data'], save_object['shared_data'])
+                return cls(file_name[:-len(_SAVE_EXT)], save_object['mode_name'], save_object['mode_data'], save_object['shared_data'])
         except (IOError, json.decoder.JSONDecodeError):
             return False
 
     @classmethod
-    def getFromMode(cls, file_name: str, from_mode: Saveable):
-        return cls(file_name, type(from_mode).__name__, from_mode.save(), shared.state.save())
+    def getFromMode(cls, save_name: str, from_mode: Saveable):
+        return cls(save_name, type(from_mode).__name__, from_mode.save(), shared.state.save())
 
     def save(self):
         try:
@@ -164,7 +170,7 @@ class Save(object):
             'mode_data': self._mode_data,
             'shared_data': self._shared_data,
         }
-        file_path = self._getFilePath(self.file_name)
+        file_path = self._getFilePath()
         try:
             with open(file_path, 'w') as file:
                 json.dump(save_object, file, cls=_SaveableJSONEncoder)
@@ -179,5 +185,5 @@ class Save(object):
         return new_mode
 
     def delete(self):
-        file_path = self._getFilePath(self.file_name)
+        file_path = self._getFilePath()
         os.remove(file_path)

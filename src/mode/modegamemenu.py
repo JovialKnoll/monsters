@@ -124,10 +124,10 @@ class ModeGameMenuSave(ModeGameMenu):
                     self.next_mode = ModeGameMenuTop(self._previous_mode, self._old_screen)
             elif event.key == pygame.K_RETURN:
                 if self._save_name and isinstance(self._previous_mode, Saveable):
-                    if Save.willOverwrite(self._save_name + constants.SAVE_EXT) and not self._confirm_overwrite:
+                    if Save.willOverwrite(self._save_name) and not self._confirm_overwrite:
                         self._confirm_overwrite = True
                     elif not self._save_success:
-                        new_save = Save.getFromMode(self._save_name + constants.SAVE_EXT, self._previous_mode)
+                        new_save = Save.getFromMode(self._save_name, self._previous_mode)
                         self._save_success = new_save.save()
             elif event.key == pygame.K_LEFT:
                 self._cursor_position = max(self._cursor_position - 1, 0)
@@ -264,7 +264,7 @@ class ModeGameMenuLoad(ModeGameMenu):
                 else:
                     disp_text += "_"
                 if 0 <= this_index < len(self._saves):
-                    disp_text += self._saves[this_index].file_name[:-len(constants.SAVE_EXT)]
+                    disp_text += self._saves[this_index].save_name
             if self._confirm_delete:
                 disp_text += "\nAre you sure you want to delete?" \
                     + "\nPress ENTER to confirm, or any other key to go back."

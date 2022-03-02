@@ -16,7 +16,6 @@ DARK_TEXT_COLOR = (82, 81, 83)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 COLORKEY = (255, 0, 255)
-SAVE_EXT = '.sav'
 
 FIGHT_ATTACK = "Aggressive Attack"
 FIGHT_DEFEND = "Defensive Attack"

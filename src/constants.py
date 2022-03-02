@@ -86,5 +86,9 @@ CONFIG_DEFAULTS = {
     CONFIG_FULLSCREEN: False,
 }
 
-with open(VERSION_TEXT) as version_file:
-    VERSION = version_file.readline().rstrip('\n')
+VERSION = ''
+try:
+    with open(VERSION_TEXT) as version_file:
+        VERSION = version_file.readline().rstrip('\n')
+except FileNotFoundError:
+    pass

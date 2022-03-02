@@ -1,3 +1,2 @@
 necessary:
-* music lost on loading save
 * opening music (loop) (also for credits, maybe quieter?)

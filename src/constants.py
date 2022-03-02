@@ -1,13 +1,9 @@
 import sys
 import os
 
-import pygame
-
 
 TITLE = "CHIKKAI! Tiny Kaijus"
 SCREEN_SIZE = (320, 180)
-SCREEN_CENTER = (SCREEN_SIZE[0] // 2, SCREEN_SIZE[1] // 2)
-SCREEN_RECT = pygame.Rect((0, 0), SCREEN_SIZE)
 CURSOR_TIME = 500
 FONT_SIZE = 8
 FONT_HEIGHT = 10

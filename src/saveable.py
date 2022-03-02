@@ -23,75 +23,75 @@ class Saveable(abc.ABC):
         )
 
 
-KEY_COLLECTION = 'COLLECTION'
-COLLECTION_DEQUE = 'DEQUE'
-COLLECTION_SET = 'SET'
-COLLECTION_VECTOR2 = 'VECTOR2'
-COLLECTION_VECTOR3 = 'VECTOR3'
-KEY_ELEMENTS = 'ELEMENTS'
-KEY_MAXLEN = 'MAXLEN'
-KEY_MODULE = 'MODULE'
-KEY_CLASS = 'CLASS'
-KEY_SAVEABLE = 'SAVEABLE'
+_KEY_COLLECTION = 'COLLECTION'
+_COLLECTION_DEQUE = 'DEQUE'
+_COLLECTION_SET = 'SET'
+_COLLECTION_VECTOR2 = 'VECTOR2'
+_COLLECTION_VECTOR3 = 'VECTOR3'
+_KEY_ELEMENTS = 'ELEMENTS'
+_KEY_MAXLEN = 'MAXLEN'
+_KEY_MODULE = 'MODULE'
+_KEY_CLASS = 'CLASS'
+_KEY_SAVEABLE = 'SAVEABLE'
 
 
 class SaveableJSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, deque):
             return {
-                KEY_COLLECTION: COLLECTION_DEQUE,
-                KEY_ELEMENTS: list(o),
-                KEY_MAXLEN: o.maxlen,
+                _KEY_COLLECTION: _COLLECTION_DEQUE,
+                _KEY_ELEMENTS: list(o),
+                _KEY_MAXLEN: o.maxlen,
             }
         elif isinstance(o, set):
             return {
-                KEY_COLLECTION: COLLECTION_SET,
-                KEY_ELEMENTS: list(o),
+                _KEY_COLLECTION: _COLLECTION_SET,
+                _KEY_ELEMENTS: list(o),
             }
         elif isinstance(o, pygame.math.Vector2):
             return {
-                KEY_COLLECTION: COLLECTION_VECTOR2,
-                KEY_ELEMENTS: list(o),
+                _KEY_COLLECTION: _COLLECTION_VECTOR2,
+                _KEY_ELEMENTS: list(o),
             }
         elif isinstance(o, pygame.math.Vector3):
             return {
-                KEY_COLLECTION: COLLECTION_VECTOR3,
-                KEY_ELEMENTS: list(o),
+                _KEY_COLLECTION: _COLLECTION_VECTOR3,
+                _KEY_ELEMENTS: list(o),
             }
         elif isinstance(o, type):
             return {
-                KEY_MODULE: o.__module__,
-                KEY_CLASS: o.__qualname__,
+                _KEY_MODULE: o.__module__,
+                _KEY_CLASS: o.__qualname__,
             }
         elif isinstance(o, Saveable):
             return {
-                KEY_MODULE: type(o).__module__,
-                KEY_CLASS: type(o).__qualname__,
-                KEY_SAVEABLE: o.save(),
+                _KEY_MODULE: type(o).__module__,
+                _KEY_CLASS: type(o).__qualname__,
+                _KEY_SAVEABLE: o.save(),
             }
         return super().default(o)
 
 
 def _getClass(dct: dict):
-    attr = sys.modules[dct[KEY_MODULE]]
-    for name in dct[KEY_CLASS].split('.'):
+    attr = sys.modules[dct[_KEY_MODULE]]
+    for name in dct[_KEY_CLASS].split('.'):
         attr = getattr(attr, name)
     return attr
 
 
 def decodeSaveable(dct: dict):
-    if KEY_COLLECTION in dct:
-        if dct[KEY_COLLECTION] == COLLECTION_DEQUE:
-            return deque(dct[KEY_ELEMENTS], dct[KEY_MAXLEN])
-        elif dct[KEY_COLLECTION] == COLLECTION_SET:
-            return set(dct[KEY_ELEMENTS])
-        elif dct[KEY_COLLECTION] == COLLECTION_VECTOR2:
-            return pygame.math.Vector2(dct[KEY_ELEMENTS])
-        elif dct[KEY_COLLECTION] == COLLECTION_VECTOR3:
-            return pygame.math.Vector3(dct[KEY_ELEMENTS])
-    elif {KEY_MODULE, KEY_CLASS} == dct.keys():
+    if _KEY_COLLECTION in dct:
+        if dct[_KEY_COLLECTION] == _COLLECTION_DEQUE:
+            return deque(dct[_KEY_ELEMENTS], dct[_KEY_MAXLEN])
+        elif dct[_KEY_COLLECTION] == _COLLECTION_SET:
+            return set(dct[_KEY_ELEMENTS])
+        elif dct[_KEY_COLLECTION] == _COLLECTION_VECTOR2:
+            return pygame.math.Vector2(dct[_KEY_ELEMENTS])
+        elif dct[_KEY_COLLECTION] == _COLLECTION_VECTOR3:
+            return pygame.math.Vector3(dct[_KEY_ELEMENTS])
+    elif {_KEY_MODULE, _KEY_CLASS} == dct.keys():
         return _getClass(dct)
-    elif {KEY_MODULE, KEY_CLASS, KEY_SAVEABLE} == dct.keys():
+    elif {_KEY_MODULE, _KEY_CLASS, _KEY_SAVEABLE} == dct.keys():
         saveable_class = _getClass(dct)
-        return saveable_class.load(dct[KEY_SAVEABLE])
+        return saveable_class.load(dct[_KEY_SAVEABLE])
     return dct

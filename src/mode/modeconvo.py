@@ -138,7 +138,6 @@ class ModeConvo(ModeButtons, Saveable):
     def load(cls, save_data):
         convo_key, active_tags = save_data
         new_obj = cls(convo_key)
-        new_obj._active_tags.update(active_tags)
         new_obj._style.update(active_tags)
         new_obj._renderText()
         return new_obj

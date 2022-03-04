@@ -7,7 +7,7 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "1"
 import pygame
 pygame.init()
 
-from game import Game
+from jovialengine import Game
 from mode import ModeOpening0
 
 

@@ -5,7 +5,7 @@ import pygame
 from jovialengine import ModeBase
 
 
-class ModeOpening(Mode, abc.ABC):
+class ModeOpening(ModeBase, abc.ABC):
     @abc.abstractmethod
     def _switchMode(self):
         raise NotImplementedError(

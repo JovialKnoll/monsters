@@ -2,7 +2,7 @@ import abc
 
 import pygame
 
-from .mode import Mode
+from jovialengine import ModeBase
 
 
 class ModeOpening(Mode, abc.ABC):

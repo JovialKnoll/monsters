@@ -4,7 +4,7 @@ import pygame
 
 import constants
 import shared
-from .mode import Mode
+from jovialengine import ModeBase
 
 
 class ModeButtons(Mode, abc.ABC):

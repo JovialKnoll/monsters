@@ -1,4 +1,4 @@
-from .mode import Mode
+from jovialengine import ModeBase
 from .modebuttons import ModeButtons
 from .modeconvo import ModeConvo
 from .modecredits import ModeCredits

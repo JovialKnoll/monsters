@@ -8,7 +8,7 @@ from .modeopening import ModeOpening
 
 
 class ModeOpening0(ModeOpening):
-    LOGO_TEXT = "JovialKnoll"
+    _LOGO_TEXT = "JovialKnoll"
 
     __slots__ = (
         '_time',
@@ -25,7 +25,7 @@ class ModeOpening0(ModeOpening):
         shared.font_wrap.renderToCentered(
             self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
-            self.LOGO_TEXT,
+            self._LOGO_TEXT,
             False,
             constants.BLACK
         )
@@ -64,7 +64,7 @@ class ModeOpening0(ModeOpening):
             shared.font_wrap.renderToCentered(
                 self._background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
-                self.LOGO_TEXT,
+                self._LOGO_TEXT,
                 False,
                 constants.TEXT_COLOR
             )
@@ -73,7 +73,7 @@ class ModeOpening0(ModeOpening):
             shared.font_wrap.renderToCentered(
                 self._background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
-                self.LOGO_TEXT,
+                self._LOGO_TEXT,
                 False,
                 constants.DARK_TEXT_COLOR
             )
@@ -90,7 +90,7 @@ class ModeOpening0(ModeOpening):
             shared.font_wrap.renderToCentered(
                 self._background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
-                self.LOGO_TEXT,
+                self._LOGO_TEXT,
                 False,
                 constants.BLACK
             )

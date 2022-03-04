@@ -19,6 +19,7 @@ class ModeGameMenu(mode.Mode, abc.ABC):
         '_previous_mode',
         '_old_screen',
         '_last_disp_text',
+        '_menu_surface',
     )
 
     def __init__(self, previous_mode: mode.Mode, old_screen=None):
@@ -28,6 +29,7 @@ class ModeGameMenu(mode.Mode, abc.ABC):
             old_screen = self._getOldScreen()
         self._old_screen = old_screen
         self._last_disp_text = None
+        self._menu_surface = None
 
     def _getOldScreen(self):
         old_screen = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
@@ -41,19 +43,22 @@ class ModeGameMenu(mode.Mode, abc.ABC):
         )
         return old_screen
 
-    def _drawText(self, screen: pygame.surface.Surface, disp_text: str):
+    def _drawTextAlways(self, disp_text: str):
+        self._last_disp_text = disp_text
+        self._menu_surface = shared.font_wrap.renderInside(
+            self.MENU_WIDTH,
+            disp_text,
+            False,
+            constants.WHITE,
+            constants.BLACK
+        )
+        self._menu_surface.set_alpha(235)
+
+    def _drawText(self, disp_text: str):
         if self._last_disp_text != disp_text:
-            self._last_disp_text = disp_text
-            screen.blit(self._old_screen, (0, 0))
-            menu_surface = shared.font_wrap.renderInside(
-                self.MENU_WIDTH,
-                disp_text,
-                False,
-                constants.WHITE,
-                constants.BLACK
-            )
-            menu_surface.set_alpha(235)
-            screen.blit(menu_surface, (0, 0))
+            self._drawTextAlways(disp_text)
+            return True
+        return False
 
 
 class ModeGameMenuTop(ModeGameMenu):
@@ -83,7 +88,9 @@ class ModeGameMenuTop(ModeGameMenu):
     def _drawScreen(self, screen):
         disp_text = self.SHARED_DISP_TEXT
         disp_text += "1) Save\n2) Load\n3) Options\n4) Restart\n5) Quit"
-        self._drawText(screen, disp_text)
+        if self._drawText(disp_text):
+            screen.blit(self._old_screen, (0, 0))
+            screen.blit(self._menu_surface, (0, 0))
 
 
 class ModeGameMenuSave(ModeGameMenu):
@@ -186,15 +193,17 @@ class ModeGameMenuSave(ModeGameMenu):
                 disp_text += "\nSave failed.\nPress ENTER to try again, or ESC to go back."
         else:
             disp_text += "\nSaved successfully.\nPress any key to go back."
-        self._drawText(screen, disp_text)
+        self._drawTextAlways(disp_text)
+        screen.blit(self._old_screen, (0, 0))
         if self._cursor_switch and not self._confirm_overwrite and self._save_success is None:
-            screen.fill(
+            self._menu_surface.fill(
                 constants.WHITE,
                 (
                     ((self._cursor_position + 1) * constants.FONT_SIZE, 4 * constants.FONT_HEIGHT),
                     (1, constants.FONT_HEIGHT)
                 )
             )
+        screen.blit(self._menu_surface, (0, 0))
 
 
 class ModeGameMenuLoad(ModeGameMenu):
@@ -268,7 +277,9 @@ class ModeGameMenuLoad(ModeGameMenu):
             if self._confirm_delete:
                 disp_text += "\nAre you sure you want to delete?" \
                     + "\nPress ENTER to confirm, or any other key to go back."
-        self._drawText(screen, disp_text)
+        if self._drawText(disp_text):
+            screen.blit(self._old_screen, (0, 0))
+            screen.blit(self._menu_surface, (0, 0))
 
 
 class ModeGameMenuOptions(ModeGameMenu):
@@ -301,7 +312,9 @@ class ModeGameMenuOptions(ModeGameMenu):
         disp_text = self.SHARED_DISP_TEXT
         disp_text += f"ARROWS) Upscaling: {shared.display.upscale}" \
                      f"\nF) Fullscreen: {self.getTickBox(shared.display.is_fullscreen)}"
-        self._drawText(screen, disp_text)
+        if self._drawText(disp_text):
+            screen.blit(self._old_screen, (0, 0))
+            screen.blit(self._menu_surface, (0, 0))
 
     @staticmethod
     def getTickBox(value: bool):

@@ -10,9 +10,9 @@ from .modeopening import ModeOpening
 
 
 class ModeOpening1(ModeOpening):
-    STAR_WAVES = 3
-    STAR_WAIT = 1000
-    STAR_TRAVEL = 350
+    _STAR_WAVES = 3
+    _STAR_WAIT = 1000
+    _STAR_TRAVEL = 350
 
     __slots__ = (
         '_time',
@@ -46,7 +46,7 @@ class ModeOpening1(ModeOpening):
             )
         )
         star_number = 7
-        for i in range(self.STAR_WAVES):
+        for i in range(self._STAR_WAVES):
             for j in range(star_number):
                 radius = constants.SCREEN_SIZE[0] * 5 // 8
                 angle = j * 2 / star_number * math.pi
@@ -54,7 +54,7 @@ class ModeOpening1(ModeOpening):
                 y = constants.SCREEN_SIZE[1] // 2 - radius * math.cos(angle)
                 self._makeStar(
                     star_image,
-                    self.STAR_WAIT + i * self.STAR_TRAVEL,
+                    self._STAR_WAIT + i * self._STAR_TRAVEL,
                     (x, y),
                     bip if j == 0 else None
                 )
@@ -70,7 +70,7 @@ class ModeOpening1(ModeOpening):
         star_sprite.addWait(wait, sound=sound)
         star_sprite.addPosAbs(
             AnimSprite.Lerp,
-            self.STAR_TRAVEL,
+            self._STAR_TRAVEL,
             dest
         )
         self.all_sprites.add(star_sprite)
@@ -80,7 +80,7 @@ class ModeOpening1(ModeOpening):
 
     def _update(self, dt):
         self._time += dt
-        if self._time >= self.STAR_WAIT * 2 + self.STAR_TRAVEL * self.STAR_WAVES:
+        if self._time >= self._STAR_WAIT * 2 + self._STAR_TRAVEL * self._STAR_WAVES:
             self._stopMixer()
             self._switchMode()
 

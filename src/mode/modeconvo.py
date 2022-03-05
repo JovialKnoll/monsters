@@ -8,7 +8,7 @@ import constants
 import utility
 import shared
 import mode
-from saveable import Saveable
+from jovialengine import Saveable
 from .modebuttons import ModeButtons
 
 

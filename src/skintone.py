@@ -1,9 +1,8 @@
 import pygame
+import jovialengine
 
-from saveable import Saveable
 
-
-class SkinTone(Saveable):
+class SkinTone(jovialengine.Saveable):
     __slots__ = (
         'dark',
         'light',

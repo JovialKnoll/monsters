@@ -4,15 +4,14 @@ import uuid
 import math
 
 import pygame
+import jovialengine
 
 import constants
-import shared
 from personality import Personality
 from skin import Skin
-from animsprite import AnimSprite
 
 
-class Monster(AnimSprite):
+class Monster(jovialengine.AnimSprite):
     DRV_MAX = 4
     LVL_MAX = 3
     MAIN_STATS = (
@@ -180,7 +179,7 @@ class Monster(AnimSprite):
         if alt_lvl is not None and alt_sprite_files is not None:
             lvl = alt_lvl
             sprite_files = alt_sprite_files
-        self.sprite = self._loadSpriteFile(sprite_files[0]).convert(shared.display.screen)
+        self.sprite = self._loadSpriteFile(sprite_files[0]).convert(jovialengine.shared.display.screen)
         self.sprite.set_colorkey(constants.COLORKEY)
         for sprite_path in sprite_files[1:]:
             new_part = self._loadSpriteFile(sprite_path).convert(self.sprite)
@@ -254,7 +253,7 @@ class Monster(AnimSprite):
             rect.midbottom = (64 // 2 + 64 * lvl, 64)
             card.blit(self.sprite_right, rect)
         self._setSprites()
-        shared.font_wrap.renderToInside(
+        jovialengine.shared.font_wrap.renderToInside(
             card,
             (0, 64 + (64 - constants.FONT_HEIGHT * 5) // 2),
             64 * 4,
@@ -262,7 +261,7 @@ class Monster(AnimSprite):
             False,
             constants.BLACK
         )
-        shared.font_wrap.renderToInside(
+        jovialengine.shared.font_wrap.renderToInside(
             card,
             (0, 0),
             64 * 4,
@@ -272,7 +271,7 @@ class Monster(AnimSprite):
         )
         website = "jovialknoll.itch.io"
         website_width = len(website) * constants.FONT_SIZE
-        shared.font_wrap.renderToInside(
+        jovialengine.shared.font_wrap.renderToInside(
             card,
             (64 * 4 - website_width, 64 * 2 - constants.FONT_HEIGHT),
             website_width,

@@ -1,13 +1,13 @@
 import abc
 
 import pygame
+import jovialengine
 
 import constants
 import shared
-from jovialengine import ModeBase
 
 
-class ModeButtons(ModeBase, abc.ABC):
+class ModeButtons(jovialengine.ModeBase, abc.ABC):
     _TEXT_MARGIN = 4
     _black_box = pygame.image.load(constants.BLACKBOX_FILE).convert(shared.display.screen)
     _black_box.set_colorkey(constants.COLORKEY)

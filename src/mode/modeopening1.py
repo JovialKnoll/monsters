@@ -1,7 +1,6 @@
 import math
 
 import pygame
-
 import jovialengine
 
 import constants

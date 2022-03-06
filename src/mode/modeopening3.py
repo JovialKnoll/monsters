@@ -2,7 +2,6 @@ import random
 from collections import deque
 
 import pygame
-
 import jovialengine
 
 import constants

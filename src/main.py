@@ -12,7 +12,7 @@ from mode import ModeOpening0
 
 
 def main():
-    game = jovialengine.Game(ModeOpening0())
+    game = jovialengine.Game(ModeOpening0)
     while game.run():
         pass
     del game

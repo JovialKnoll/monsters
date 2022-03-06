@@ -30,8 +30,6 @@ class ModeFight(ModeButtons):
         pygame.K_s,
         pygame.K_d,
     }
-    _health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert(jovialengine.shared.display.screen)
-    _health_bar.set_colorkey(constants.COLORKEY)
     _PLAYER_POS = (170, 128)
     _ENEMY_POS = (262, 128)
     _ANIM_WAIT = 250
@@ -52,6 +50,7 @@ class ModeFight(ModeButtons):
     _PLAYER_BAR_Y = _ENEMY_BAR_Y = 29
 
     __slots__ = (
+        '_health_bar',
         '_player_mon',
         '_enemy_mon',
         '_enemy_choices',
@@ -71,6 +70,8 @@ class ModeFight(ModeButtons):
     def __init__(self, player_mon: Monster, enemy_mon: Monster, get_next_mode: callable):
         """The functions passed in should return the next mode."""
         super().__init__()
+        self._health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert(jovialengine.shared.display.screen)
+        self._health_bar.set_colorkey(constants.COLORKEY)
 
         self._player_mon = player_mon
         self._enemy_mon = enemy_mon

@@ -8,18 +8,19 @@ import constants
 
 class ModeButtons(jovialengine.ModeBase, abc.ABC):
     _TEXT_MARGIN = 4
-    _black_box = pygame.image.load(constants.BLACKBOX_FILE).convert(jovialengine.shared.display.screen)
-    _black_box.set_colorkey(constants.COLORKEY)
     buttons = ()
     _back_keys = set()
     _forward_keys = set()
 
     __slots__ = (
+        '_black_box',
         '_selected_button',
     )
 
     def __init__(self):
         super().__init__()
+        self._black_box = pygame.image.load(constants.BLACKBOX_FILE).convert(jovialengine.shared.display.screen)
+        self._black_box.set_colorkey(constants.COLORKEY)
         self._selected_button = 0
 
     def _drawSelected(self, screen: pygame.surface):

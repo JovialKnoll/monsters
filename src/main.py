@@ -6,13 +6,13 @@ import os
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "1"
 import pygame
 pygame.init()
+import jovialengine
 
-from game import Game
 from mode import ModeOpening0
 
 
 def main():
-    game = Game(ModeOpening0())
+    game = jovialengine.Game(ModeOpening0)
     while game.run():
         pass
     del game

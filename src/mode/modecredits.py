@@ -1,8 +1,7 @@
 import pygame
+import jovialengine
 
 import constants
-import shared
-from animsprite import AnimSprite
 from .modeopening0 import ModeOpening0
 from .modeopening import ModeOpening
 
@@ -19,8 +18,8 @@ class ModeCredits(ModeOpening):
         super().__init__()
         with open(constants.CREDITS_TEXT) as credits_file:
             credits_text = credits_file.read().replace(' ', '_')
-        self._credits_sprite = AnimSprite()
-        self._credits_sprite.image = shared.font_wrap.renderInside(
+        self._credits_sprite = jovialengine.AnimSprite()
+        self._credits_sprite.image = jovialengine.shared.font_wrap.renderInside(
             constants.SCREEN_SIZE[0] * 3 // 4,
             credits_text,
             False,
@@ -40,7 +39,7 @@ class ModeCredits(ModeOpening):
         credits_time = int(credits_distance / credits_speed)
         self._move_time += credits_time
         self._credits_sprite.addPosRel(
-            AnimSprite.Lerp,
+            jovialengine.AnimSprite.Lerp,
             credits_time,
             0,
             credits_distance * -1
@@ -48,9 +47,9 @@ class ModeCredits(ModeOpening):
         self._credits_sprite.addWait(1000)
         self._move_time += 1000
         self.all_sprites.add(self._credits_sprite)
-        self._final_text = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+        self._final_text = pygame.Surface(constants.SCREEN_SIZE).convert(jovialengine.shared.display.screen)
         self._final_text.fill(constants.BLACK)
-        shared.font_wrap.renderToCentered(
+        jovialengine.shared.font_wrap.renderToCentered(
             self._final_text,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2),
             "press any key to proceed",

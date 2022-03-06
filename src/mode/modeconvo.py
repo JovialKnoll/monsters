@@ -3,12 +3,10 @@ import os
 import copy
 
 import pygame
+import jovialengine
 
 import constants
-import utility
-import shared
 import mode
-from saveable import Saveable
 from .modebuttons import ModeButtons
 
 
@@ -71,7 +69,7 @@ class ConvoPart(object):
         return convo_dict
 
 
-class ModeConvo(ModeButtons, Saveable):
+class ModeConvo(ModeButtons, jovialengine.Saveable):
     buttons = (
         pygame.Rect(8, 88, 88, 36),
         pygame.Rect(224, 88, 88, 36),
@@ -121,7 +119,7 @@ class ModeConvo(ModeButtons, Saveable):
         self._renderText()
         self._text_rect.clamp_ip(self._surf_text.get_rect())
         # in case of monster display
-        shared.state.protag_mon.setImage()
+        jovialengine.shared.state.protag_mon.setImage()
 
     @classmethod
     def _getScript(cls):
@@ -151,7 +149,7 @@ class ModeConvo(ModeButtons, Saveable):
 
     def _getTextReplace(self):
         return {
-            'MONSTER_NAME': shared.state.protag_mon.name,
+            'MONSTER_NAME': jovialengine.shared.state.protag_mon.name,
         }
 
     def _loadText(self):
@@ -170,11 +168,11 @@ class ModeConvo(ModeButtons, Saveable):
 
     def _renderText(self):
         self._handleTags()
-        self._surf_text = shared.font_wrap.renderInside(296, self._text, False, constants.TEXT_COLOR)
-        self._background = pygame.image.load(constants.LAYOUT_1_FILE).convert(shared.display.screen)
+        self._surf_text = jovialengine.shared.font_wrap.renderInside(296, self._text, False, constants.TEXT_COLOR)
+        self._background = pygame.image.load(constants.LAYOUT_1_FILE).convert(jovialengine.shared.display.screen)
         self._background.set_colorkey(constants.COLORKEY)
         for index, button in enumerate(self._choices):
-            shared.font_wrap.renderToInside(
+            jovialengine.shared.font_wrap.renderToInside(
                 self._background,
                 self._textStart(index),
                 self._textWidth(index),
@@ -189,8 +187,8 @@ class ModeConvo(ModeButtons, Saveable):
         self.all_sprites.empty()
         for tag in self._style:
             if tag == "SHOW_MONSTER":
-                shared.state.protag_mon.rect.center = (160, 128)
-                self.all_sprites.add(shared.state.protag_mon)
+                jovialengine.shared.state.protag_mon.rect.center = (160, 128)
+                self.all_sprites.add(jovialengine.shared.state.protag_mon)
             elif tag == "START_CHAT_MUSIC":
                 if "START_CHAT_MUSIC" not in self._active_tags:
                     pygame.mixer.music.load(constants.CHAT_LOOP)
@@ -249,7 +247,7 @@ class ModeConvo(ModeButtons, Saveable):
             - (pressed_keys[pygame.K_UP] or pressed_keys[pygame.K_w])
 
     def _update(self, dt):
-        self._text_scroll, text_scroll_int = utility.getIntMovement(
+        self._text_scroll, text_scroll_int = jovialengine.utility.getIntMovement(
             self._text_scroll,
             self._getScrollDirection() * self.SCROLL_AMOUNT_SPEED,
             dt

@@ -1,8 +1,9 @@
-from saveable import Saveable
+import jovialengine
+
 from monster import Monster
 
 
-class State(Saveable):
+class State(jovialengine.Saveable):
     __slots__ = (
         'protag_mon',
         'fight_results',

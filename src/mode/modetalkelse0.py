@@ -1,4 +1,5 @@
-import shared
+import jovialengine
+
 from monster import Monster
 from .modefight import ModeFight
 from .modetalkwin0 import ModeTalkWin0
@@ -10,9 +11,9 @@ class ModeTalkElse0(ModeConvo):
         if prev_convo_key == "6":
             self._stopMixer()
             self.next_mode = ModeFight(
-                shared.state.protag_mon,
+                jovialengine.shared.state.protag_mon,
                 Monster.atLevel(0),
-                lambda: ModeTalkWin0() if shared.state.fight_results[-1] == 1 else ModeTalkElse0()
+                lambda: ModeTalkWin0() if jovialengine.shared.state.fight_results[-1] == 1 else ModeTalkElse0()
             )
             return True
         return False

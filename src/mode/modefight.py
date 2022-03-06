@@ -5,10 +5,9 @@ from collections import deque
 
 import pygame
 
+import jovialengine
+
 import constants
-import shared
-import utility
-from animsprite import AnimSprite
 from monster import Monster
 from .modebuttons import ModeButtons
 
@@ -31,7 +30,7 @@ class ModeFight(ModeButtons):
         pygame.K_s,
         pygame.K_d,
     }
-    _health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert(shared.display.screen)
+    _health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert(jovialengine.shared.display.screen)
     _health_bar.set_colorkey(constants.COLORKEY)
     _PLAYER_POS = (170, 128)
     _ENEMY_POS = (262, 128)
@@ -80,7 +79,7 @@ class ModeFight(ModeButtons):
 
         self._background = pygame.image.load(constants.LAYOUT_2_FILE)
         for index, choice in enumerate(self._BOX_CHOICES):
-            shared.font_wrap.renderToInside(
+            jovialengine.shared.font_wrap.renderToInside(
                 self._background,
                 self._textStart(index),
                 self._textWidth(index),
@@ -88,7 +87,7 @@ class ModeFight(ModeButtons):
                 False,
                 constants.TEXT_COLOR
             )
-        self._background = self._background.convert(shared.display.screen)
+        self._background = self._background.convert(jovialengine.shared.display.screen)
         self._background.set_colorkey(constants.COLORKEY)
 
         pygame.mixer.music.load(constants.FIGHT_LOOP)
@@ -136,7 +135,7 @@ class ModeFight(ModeButtons):
             self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 2 - text_width,
             self._ENEMY_BAR_Y - constants.FONT_HEIGHT
         )
-        shared.font_wrap.renderToInside(
+        jovialengine.shared.font_wrap.renderToInside(
             self._background,
             player_health_dest,
             text_width,
@@ -145,7 +144,7 @@ class ModeFight(ModeButtons):
             constants.TEXT_COLOR,
             background=constants.WHITE
         )
-        shared.font_wrap.renderToInside(
+        jovialengine.shared.font_wrap.renderToInside(
             self._background,
             enemy_health_dest,
             text_width,
@@ -162,39 +161,39 @@ class ModeFight(ModeButtons):
         if self._player_action == constants.FIGHT_ATTACK:
             self._setActionDisplay("I'm gonna hit 'em!")
             self._player_mon.addWait(self._ANIM_WAIT)
-            self._player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0,
+            self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, 12, 0,
                                        sound=self._thunk, positional_sound=True)
-            self._player_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
+            self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, -12, 0)
         elif self._player_action == constants.FIGHT_DEFEND:
             self._setActionDisplay("I'm gonna block 'em!")
             self._player_mon.addWait(self._ANIM_WAIT)
-            self._player_mon.addPosRel(AnimSprite.Lerp, 133, -8, 0,
+            self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 133, -8, 0,
                                        sound=self._bwop, positional_sound=True)
-            self._player_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
-            self._player_mon.addPosRel(AnimSprite.Lerp, 67, -4, 0)
+            self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, 12, 0)
+            self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, -4, 0)
         elif self._player_action == constants.FIGHT_DODGE:
             self._setActionDisplay("I'm gonna dodge!")
             self._player_mon.addWait(self._ANIM_WAIT)
             self._player_mon.addWait(0, sound=self._rooeee, positional_sound=True)
-            self._player_mon.addPosRel(AnimSprite.Lerp, 333, -20, 0)
-            self._player_mon.addPosRel(AnimSprite.Lerp, 67, 20, 0)
+            self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 333, -20, 0)
+            self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, 20, 0)
 
         if self._enemy_action == constants.FIGHT_ATTACK:
             self._enemy_mon.addWait(self._ANIM_WAIT)
-            self._enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0,
+            self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, -12, 0,
                                       sound=self._thunk, positional_sound=True)
-            self._enemy_mon.addPosRel(AnimSprite.Lerp, 200, 12, 0)
+            self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, 12, 0)
         elif self._enemy_action == constants.FIGHT_DEFEND:
             self._enemy_mon.addWait(self._ANIM_WAIT)
-            self._enemy_mon.addPosRel(AnimSprite.Lerp, 133, 8, 0,
+            self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 133, 8, 0,
                                       sound=self._bwop, positional_sound=True)
-            self._enemy_mon.addPosRel(AnimSprite.Lerp, 200, -12, 0)
-            self._enemy_mon.addPosRel(AnimSprite.Lerp, 67, 4, 0)
+            self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, -12, 0)
+            self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, 4, 0)
         elif self._enemy_action == constants.FIGHT_DODGE:
             self._enemy_mon.addWait(self._ANIM_WAIT)
             self._enemy_mon.addWait(0, sound=self._rooeee, positional_sound=True)
-            self._enemy_mon.addPosRel(AnimSprite.Lerp, 333, 20, 0)
-            self._enemy_mon.addPosRel(AnimSprite.Lerp, 67, -20, 0)
+            self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 333, 20, 0)
+            self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, -20, 0)
 
     def _input(self, event):
         # click forward to next mode
@@ -202,7 +201,7 @@ class ModeFight(ModeButtons):
             if (event.type == pygame.MOUSEBUTTONUP and event.button == 1) \
                     or (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
                 self._stopMixer()
-                shared.state.fight_results.append(self._RESULT_SAVING[self._result])
+                jovialengine.shared.state.fight_results.append(self._RESULT_SAVING[self._result])
                 self.next_mode = self._get_next_mode()
                 return
         # in the middle of action display
@@ -211,7 +210,7 @@ class ModeFight(ModeButtons):
         super()._input(event)
 
     def _setActionDisplay(self, text: str):
-        self._action_display.appendleft(shared.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR))
+        self._action_display.appendleft(jovialengine.shared.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR))
         self._action_set = not self._action_set
 
     def _playerActionDone(self):
@@ -219,7 +218,7 @@ class ModeFight(ModeButtons):
         enemy_hit_block = self._enemy_mon.fightHit(self._enemy_action)
 
         raw_player_damage = enemy_hit_block[0] - player_hit_block[1]
-        final_player_damage = utility.reduceNumber(
+        final_player_damage = jovialengine.utility.reduceNumber(
             max(
                 0,
                 raw_player_damage
@@ -227,7 +226,7 @@ class ModeFight(ModeButtons):
             2
         )
         raw_enemy_damage = player_hit_block[0] - enemy_hit_block[1]
-        final_enemy_damage = utility.reduceNumber(
+        final_enemy_damage = jovialengine.utility.reduceNumber(
             max(
                 0,
                 raw_enemy_damage

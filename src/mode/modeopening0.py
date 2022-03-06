@@ -1,8 +1,8 @@
 import pygame
 
+import jovialengine
+
 import constants
-import shared
-from animsprite import AnimSprite
 from .modeopening1 import ModeOpening1
 from .modeopening import ModeOpening
 
@@ -20,16 +20,16 @@ class ModeOpening0(ModeOpening):
         super().__init__()
         self._time = 0
         self._step = 0
-        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(jovialengine.shared.display.screen)
         self._background.fill(constants.WHITE)
-        shared.font_wrap.renderToCentered(
+        jovialengine.shared.font_wrap.renderToCentered(
             self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
             self._LOGO_TEXT,
             False,
             constants.BLACK
         )
-        logo = pygame.image.load(constants.JK_LOGO_BLACK).convert(shared.display.screen)
+        logo = pygame.image.load(constants.JK_LOGO_BLACK).convert(jovialengine.shared.display.screen)
         self._background.blit(
             logo,
             (
@@ -37,8 +37,8 @@ class ModeOpening0(ModeOpening):
                 constants.SCREEN_SIZE[1] * 7 // 16 - logo.get_height() // 2,
             )
         )
-        star_sprite = AnimSprite()
-        star_sprite.image = pygame.image.load(constants.STAR).convert(shared.display.screen)
+        star_sprite = jovialengine.AnimSprite()
+        star_sprite.image = pygame.image.load(constants.STAR).convert(jovialengine.shared.display.screen)
         star_sprite.image.set_colorkey(constants.COLORKEY)
         star_sprite.rect = star_sprite.image.get_rect()
         star_sprite.rect.center = (
@@ -47,7 +47,7 @@ class ModeOpening0(ModeOpening):
         )
         star_sprite.addWait(750, sound=pygame.mixer.Sound(constants.LONGSLIDE), positional_sound=True)
         star_sprite.addPosAbs(
-            AnimSprite.Lerp,
+            jovialengine.AnimSprite.Lerp,
             500,
             constants.SCREEN_SIZE[0] // 2 - constants.SCREEN_SIZE[1] // 2 - star_sprite.rect.width // 2,
             constants.SCREEN_SIZE[1] + star_sprite.rect.height // 2
@@ -61,7 +61,7 @@ class ModeOpening0(ModeOpening):
         self._time += dt
         if self._time >= 1250 and self._step < 1:
             self._step += 1
-            shared.font_wrap.renderToCentered(
+            jovialengine.shared.font_wrap.renderToCentered(
                 self._background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
                 self._LOGO_TEXT,
@@ -70,14 +70,14 @@ class ModeOpening0(ModeOpening):
             )
         if self._time >= 1500 and self._step < 2:
             self._step += 1
-            shared.font_wrap.renderToCentered(
+            jovialengine.shared.font_wrap.renderToCentered(
                 self._background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
                 self._LOGO_TEXT,
                 False,
                 constants.DARK_TEXT_COLOR
             )
-            logo = pygame.image.load(constants.JK_LOGO_LIGHT_GREY).convert(shared.display.screen)
+            logo = pygame.image.load(constants.JK_LOGO_LIGHT_GREY).convert(jovialengine.shared.display.screen)
             self._background.blit(
                 logo,
                 (
@@ -87,14 +87,14 @@ class ModeOpening0(ModeOpening):
             )
         if self._time >= 1750 and self._step < 3:
             self._step += 1
-            shared.font_wrap.renderToCentered(
+            jovialengine.shared.font_wrap.renderToCentered(
                 self._background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
                 self._LOGO_TEXT,
                 False,
                 constants.BLACK
             )
-            logo = pygame.image.load(constants.JK_LOGO_GREY).convert(shared.display.screen)
+            logo = pygame.image.load(constants.JK_LOGO_GREY).convert(jovialengine.shared.display.screen)
             self._background.blit(
                 logo,
                 (

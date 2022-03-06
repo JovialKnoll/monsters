@@ -1,6 +1,6 @@
 import jovialengine
 
-from monster import Monster
+import monster
 
 
 class State(jovialengine.Saveable):
@@ -11,7 +11,7 @@ class State(jovialengine.Saveable):
 
     def __init__(self):
         # start with a random monster
-        self.protag_mon = Monster()
+        self.protag_mon = monster.Monster()
         self.fight_results = []
 
     def save(self):

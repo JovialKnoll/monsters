@@ -1,7 +1,8 @@
 import pygame
 
+import jovialengine
+
 import constants
-import shared
 from monster import Monster
 from .modeopening3 import ModeOpening3
 from .modeopening import ModeOpening
@@ -89,7 +90,7 @@ class ModeOpening2(ModeOpening):
         self.all_sprites.add(right_mon, left_mon)
         self._time = 0
         self._move_time = beat * 28 + pause * 2 + 300
-        self._fade = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+        self._fade = pygame.Surface(constants.SCREEN_SIZE).convert(jovialengine.shared.display.screen)
         self._fade.fill(constants.WHITE)
         self._fade.set_alpha(0)
 

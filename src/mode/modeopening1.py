@@ -2,9 +2,9 @@ import math
 
 import pygame
 
+import jovialengine
+
 import constants
-import shared
-from animsprite import AnimSprite
 from .modeopening2 import ModeOpening2
 from .modeopening import ModeOpening
 
@@ -24,9 +24,9 @@ class ModeOpening1(ModeOpening):
         super().__init__()
 
         self._time = 0
-        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(jovialengine.shared.display.screen)
         self._background.fill(constants.WHITE)
-        shared.font_wrap.renderToCentered(
+        jovialengine.shared.font_wrap.renderToCentered(
             self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8 + 8),
             "tinsil",
@@ -34,9 +34,9 @@ class ModeOpening1(ModeOpening):
             constants.BLACK
         )
         bip = pygame.mixer.Sound(constants.BIP)
-        self._logo = pygame.image.load(constants.TIN_LOGO).convert(shared.display.screen)
+        self._logo = pygame.image.load(constants.TIN_LOGO).convert(jovialengine.shared.display.screen)
         self._logo.set_colorkey(constants.COLORKEY)
-        star_image = pygame.image.load(constants.STAR).convert(shared.display.screen)
+        star_image = pygame.image.load(constants.STAR).convert(jovialengine.shared.display.screen)
         star_image.set_colorkey(constants.COLORKEY)
         star_image = pygame.transform.scale(
             star_image,
@@ -60,7 +60,7 @@ class ModeOpening1(ModeOpening):
                 )
 
     def _makeStar(self, image: pygame.Surface, wait: int, dest: tuple[int, int], sound):
-        star_sprite = AnimSprite()
+        star_sprite = jovialengine.AnimSprite()
         star_sprite.image = image
         star_sprite.rect = star_sprite.image.get_rect()
         star_sprite.rect.center = (
@@ -69,7 +69,7 @@ class ModeOpening1(ModeOpening):
         )
         star_sprite.addWait(wait, sound=sound)
         star_sprite.addPosAbs(
-            AnimSprite.Lerp,
+            jovialengine.AnimSprite.Lerp,
             self._STAR_TRAVEL,
             dest
         )

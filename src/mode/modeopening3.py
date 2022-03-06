@@ -3,8 +3,9 @@ from collections import deque
 
 import pygame
 
+import jovialengine
+
 import constants
-import shared
 from monster import Monster
 from .modeintroduction0 import ModeIntroduction0
 from .modeopening import ModeOpening
@@ -28,16 +29,16 @@ class ModeOpening3(ModeOpening):
     def __init__(self):
         super().__init__()
         # static elements setup
-        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(shared.display.screen)
+        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(jovialengine.shared.display.screen)
         self._background.fill(constants.WHITE)
-        shared.font_wrap.renderToCentered(
+        jovialengine.shared.font_wrap.renderToCentered(
             self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2 + 4),
             "press any key to start",
             False,
             constants.BLACK
         )
-        logo = pygame.image.load(constants.CHIKKAI_LOGO).convert(shared.display.screen)
+        logo = pygame.image.load(constants.CHIKKAI_LOGO).convert(jovialengine.shared.display.screen)
         self._background.blit(
             logo,
             (
@@ -46,7 +47,7 @@ class ModeOpening3(ModeOpening):
             )
         )
         version_width = len(constants.VERSION) * constants.FONT_SIZE
-        shared.font_wrap.renderToInside(
+        jovialengine.shared.font_wrap.renderToInside(
             self._background,
             (constants.SCREEN_SIZE[0] - version_width, constants.SCREEN_SIZE[1] - constants.FONT_HEIGHT),
             version_width,

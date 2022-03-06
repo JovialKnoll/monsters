@@ -1,4 +1,5 @@
-import shared
+import jovialengine
+
 from monster import Monster
 from personality import Personality
 from .modefight import ModeFight
@@ -11,22 +12,22 @@ class ModeMenu0(ModeMenu):
     def _handleLoad(self):
         super()._handleLoad()
         if self._convo_key == "3a3":
-            if shared.state.protag_mon.personality == Personality.Affectionate:
+            if jovialengine.shared.state.protag_mon.personality == Personality.Affectionate:
                 self._text = "I'm sure we'll do great."
-            elif shared.state.protag_mon.personality == Personality.Aggressive:
+            elif jovialengine.shared.state.protag_mon.personality == Personality.Aggressive:
                 self._text = "Let's go win a fight!"
-            elif shared.state.protag_mon.personality == Personality.Careful:
+            elif jovialengine.shared.state.protag_mon.personality == Personality.Careful:
                 self._text = "Be careful, okay?"
-            elif shared.state.protag_mon.personality == Personality.Energetic:
+            elif jovialengine.shared.state.protag_mon.personality == Personality.Energetic:
                 self._text = "I'm so excited!"
 
     def _handleButton(self, prev_convo_key, index):
         if prev_convo_key == "3a3":
             self._stopMixer()
             self.next_mode = ModeFight(
-                shared.state.protag_mon,
+                jovialengine.shared.state.protag_mon,
                 Monster.atLevel(0),
-                lambda: ModeTalkWin0() if shared.state.fight_results[-1] == 1 else ModeTalkElse0()
+                lambda: ModeTalkWin0() if jovialengine.shared.state.fight_results[-1] == 1 else ModeTalkElse0()
             )
             return True
         return False

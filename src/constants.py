@@ -50,6 +50,15 @@ TITLE_INTRO = os.path.join(MUSIC_DIRECTORY, 'title_intro.ogg')
 CHAT_LOOP = os.path.join(MUSIC_DIRECTORY, 'chat_loop.ogg')
 FIGHT_LOOP = os.path.join(MUSIC_DIRECTORY, 'fight_loop.ogg')
 
+IMAGE_DIRECTORY = os.path.join(engineconstants.SRC_DIRECTORY, 'images')
+
 VERSION_TEXT = os.path.join(engineconstants.TEXT_DIRECTORY, 'version.txt')
 CREDITS_TEXT = os.path.join(engineconstants.TEXT_DIRECTORY, 'credits.txt')
 CONVO_DIRECTORY = os.path.join(engineconstants.TEXT_DIRECTORY, 'convos')
+
+VERSION = ''
+try:
+    with open(VERSION_TEXT) as version_file:
+        VERSION = version_file.readline().rstrip('\n')
+except FileNotFoundError:
+    pass

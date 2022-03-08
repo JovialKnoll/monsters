@@ -36,20 +36,20 @@ Controls:
 
 
 Gameplay:
-  This is more of a visual novel / pet sim than anything else, but if you want
-to win fights, some actions are better than others. See if you can figure out
-what the right option is for your monster!
+  This is more of a visual novel / pet sim than anything else, but if you
+want to win fights, some actions are better than others. See if you can
+figure out what the right option is for your monster!
   Monsters are randomly generated; there are 27 visual possibilities for new
 monsters and 708,588 for each level above that (59,049 body types * 12
-colorways). Across all levels, that's 2,125,791 monsters! Needless to say, you
-do not have to catch them all.
+colorways). Across all levels, that's 2,125,791 monsters! Needless to say,
+you do not have to catch them all.
 
 
 Notes:
 Thank you for downloading!
 If you have issues running the built version of this game, you could try
-running it from source. In either case, feel free to check out the source code
-at: github.com/JovialKnoll/monsters
+running it from source. In either case, feel free to check out the source
+code at: github.com/JovialKnoll/monsters
 
 JovialKnoll:
 jovialknoll.itch.io

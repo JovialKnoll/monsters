@@ -24,6 +24,7 @@ class SkinTone(jovialengine.Saveable):
     def load(cls, save_data):
         return cls(*save_data)
 
+
 class Skin(object):
     start_tone = SkinTone((72, 79, 69), (123, 129, 121))
     d1 = (94, 71, 124)

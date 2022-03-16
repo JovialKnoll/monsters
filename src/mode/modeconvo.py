@@ -148,7 +148,8 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         """
         pass
 
-    def _getTextReplace(self):
+    @staticmethod
+    def _getTextReplace():
         return {
             'MONSTER_NAME': jovialengine.shared.state.protag_mon.name,
         }

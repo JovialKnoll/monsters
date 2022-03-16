@@ -39,7 +39,7 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         super().__init__()
         self._done = False
         self._time = 0
-        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(jovialengine.shared.display.screen)
+        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(self._space)
         self._background.fill(constants.WHITE)
         self._drawFontEffect("LEVEL UP", (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 4))
         jovialengine.shared.state.protag_mon.setImage()
@@ -52,7 +52,7 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         jovialengine.shared.state.protag_mon.levelUp()
         jovialengine.shared.state.protag_mon.setImage()
         jovialengine.shared.state.protag_mon.rect.midbottom = self._first_sprite.rect.midbottom
-        self.all_sprites.add(self._first_sprite, jovialengine.shared.state.protag_mon)
+        self._all_sprites.add(self._first_sprite, jovialengine.shared.state.protag_mon)
         jovialengine.shared.state.protag_mon.visible = 0
         self._sprite_switches = deque((
             4000,

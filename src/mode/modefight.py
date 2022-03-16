@@ -69,7 +69,7 @@ class ModeFight(ModeButtons):
     def __init__(self, player_mon: Monster, enemy_mon: Monster, get_next_mode: callable):
         """The functions passed in should return the next mode."""
         super().__init__()
-        self._health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert(jovialengine.shared.display.screen)
+        self._health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert(self._space)
         self._health_bar.set_colorkey(constants.COLORKEY)
 
         self._player_mon = player_mon
@@ -87,7 +87,7 @@ class ModeFight(ModeButtons):
                 False,
                 constants.TEXT_COLOR
             )
-        self._background = self._background.convert(jovialengine.shared.display.screen)
+        self._background = self._background.convert(self._space)
         self._background.set_colorkey(constants.COLORKEY)
 
         pygame.mixer.music.load(constants.FIGHT_LOOP)
@@ -105,7 +105,7 @@ class ModeFight(ModeButtons):
 
         self._player_mon.rect.midbottom = self._PLAYER_POS
         self._enemy_mon.rect.midbottom = self._ENEMY_POS
-        self.all_sprites.add(self._player_mon, self._enemy_mon)
+        self._all_sprites.add(self._player_mon, self._enemy_mon)
 
         self._player_action = False
         self._enemy_action = False

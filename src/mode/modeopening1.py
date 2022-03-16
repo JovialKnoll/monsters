@@ -23,7 +23,7 @@ class ModeOpening1(ModeOpening):
         super().__init__()
 
         self._time = 0
-        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(jovialengine.shared.display.screen)
+        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(self._space)
         self._background.fill(constants.WHITE)
         jovialengine.shared.font_wrap.renderToCentered(
             self._background,
@@ -33,9 +33,9 @@ class ModeOpening1(ModeOpening):
             constants.BLACK
         )
         bip = pygame.mixer.Sound(constants.BIP)
-        self._logo = pygame.image.load(constants.TIN_LOGO).convert(jovialengine.shared.display.screen)
+        self._logo = pygame.image.load(constants.TIN_LOGO).convert(self._space)
         self._logo.set_colorkey(constants.COLORKEY)
-        star_image = pygame.image.load(constants.STAR).convert(jovialengine.shared.display.screen)
+        star_image = pygame.image.load(constants.STAR).convert(self._space)
         star_image.set_colorkey(constants.COLORKEY)
         star_image = pygame.transform.scale(
             star_image,
@@ -72,7 +72,7 @@ class ModeOpening1(ModeOpening):
             self._STAR_TRAVEL,
             dest
         )
-        self.all_sprites.add(star_sprite)
+        self._all_sprites.add(star_sprite)
 
     def _switchMode(self):
         self.next_mode = ModeOpening2()

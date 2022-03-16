@@ -19,7 +19,7 @@ class ModeOpening0(ModeOpening):
         super().__init__()
         self._time = 0
         self._step = 0
-        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(jovialengine.shared.display.screen)
+        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(self._space)
         self._background.fill(constants.WHITE)
         jovialengine.shared.font_wrap.renderToCentered(
             self._background,
@@ -28,7 +28,7 @@ class ModeOpening0(ModeOpening):
             False,
             constants.BLACK
         )
-        logo = pygame.image.load(constants.JK_LOGO_BLACK).convert(jovialengine.shared.display.screen)
+        logo = pygame.image.load(constants.JK_LOGO_BLACK).convert(self._space)
         self._background.blit(
             logo,
             (
@@ -37,7 +37,7 @@ class ModeOpening0(ModeOpening):
             )
         )
         star_sprite = jovialengine.AnimSprite()
-        star_sprite.image = pygame.image.load(constants.STAR).convert(jovialengine.shared.display.screen)
+        star_sprite.image = pygame.image.load(constants.STAR).convert(self._space)
         star_sprite.image.set_colorkey(constants.COLORKEY)
         star_sprite.rect = star_sprite.image.get_rect()
         star_sprite.rect.center = (
@@ -76,7 +76,7 @@ class ModeOpening0(ModeOpening):
                 False,
                 constants.DARK_TEXT_COLOR
             )
-            logo = pygame.image.load(constants.JK_LOGO_LIGHT_GREY).convert(jovialengine.shared.display.screen)
+            logo = pygame.image.load(constants.JK_LOGO_LIGHT_GREY).convert(self._space)
             self._background.blit(
                 logo,
                 (
@@ -93,7 +93,7 @@ class ModeOpening0(ModeOpening):
                 False,
                 constants.BLACK
             )
-            logo = pygame.image.load(constants.JK_LOGO_GREY).convert(jovialengine.shared.display.screen)
+            logo = pygame.image.load(constants.JK_LOGO_GREY).convert(self._space)
             self._background.blit(
                 logo,
                 (

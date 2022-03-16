@@ -169,7 +169,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
     def _renderText(self):
         self._handleTags()
         self._surf_text = jovialengine.shared.font_wrap.renderInside(296, self._text, False, constants.TEXT_COLOR)
-        self._background = pygame.image.load(constants.LAYOUT_1_FILE).convert(jovialengine.shared.display.screen)
+        self._background = pygame.image.load(constants.LAYOUT_1_FILE).convert(self._space)
         self._background.set_colorkey(constants.COLORKEY)
         for index, button in enumerate(self._choices):
             jovialengine.shared.font_wrap.renderToInside(

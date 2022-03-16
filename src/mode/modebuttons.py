@@ -19,7 +19,7 @@ class ModeButtons(jovialengine.ModeBase, abc.ABC):
 
     def __init__(self):
         super().__init__()
-        self._black_box = pygame.image.load(constants.BLACKBOX_FILE).convert(jovialengine.shared.display.screen)
+        self._black_box = pygame.image.load(constants.BLACKBOX_FILE).convert(self._space)
         self._black_box.set_colorkey(constants.COLORKEY)
         self._selected_button = 0
 

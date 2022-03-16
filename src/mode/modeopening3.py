@@ -28,7 +28,7 @@ class ModeOpening3(ModeOpening):
     def __init__(self):
         super().__init__()
         # static elements setup
-        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(jovialengine.shared.display.screen)
+        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(self._space)
         self._background.fill(constants.WHITE)
         jovialengine.shared.font_wrap.renderToCentered(
             self._background,
@@ -37,7 +37,7 @@ class ModeOpening3(ModeOpening):
             False,
             constants.BLACK
         )
-        logo = pygame.image.load(constants.CHIKKAI_LOGO).convert(jovialengine.shared.display.screen)
+        logo = pygame.image.load(constants.CHIKKAI_LOGO).convert(self._space)
         self._background.blit(
             logo,
             (
@@ -97,6 +97,7 @@ class ModeOpening3(ModeOpening):
             monster.rect.width // -2,
             self._GROUND_LEVEL - monster.rect.height // 2
         )
+        monster.convert(self._space)
         return monster
 
     def _switchMode(self):

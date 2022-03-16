@@ -110,5 +110,5 @@ class ModeLevelUp(ModeOpening, abc.ABC):
             self._first_sprite.visible = 1
             jovialengine.shared.state.protag_mon.visible = 0
 
-    def _drawScreen(self, screen):
+    def _drawPreSprites(self, screen):
         screen.blit(self._background, (0, 0))

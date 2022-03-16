@@ -68,6 +68,6 @@ class ModeCredits(ModeOpening):
                 min((self._time - self._move_time) * 255 // 1000, 255)
             )
 
-    def _drawScreen(self, screen):
+    def _drawPreSprites(self, screen):
         screen.fill(constants.BLACK)
         screen.blit(self._final_text, (0, 0))

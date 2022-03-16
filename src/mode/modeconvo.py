@@ -257,7 +257,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         if self._text_rect.bottom >= self._surf_text.get_rect().bottom:
             self._read_text = True
 
-    def _drawScreen(self, screen):
+    def _drawPreSprites(self, screen):
         screen.fill(constants.WHITE)
         screen.blit(self._background, (0, 0))
         screen.blit(self._surf_text, (12, 12), self._text_rect)

@@ -83,7 +83,7 @@ class ModeOpening1(ModeOpening):
             self._stopMixer()
             self._switchMode()
 
-    def _drawScreen(self, screen):
+    def _drawPreSprites(self, screen):
         screen.blit(self._background, (0, 0))
 
     def _drawPostSprites(self, screen):

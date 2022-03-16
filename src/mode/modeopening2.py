@@ -109,7 +109,7 @@ class ModeOpening2(ModeOpening):
             self._stopMixer()
             self._switchMode()
 
-    def _drawScreen(self, screen):
+    def _drawPreSprites(self, screen):
         screen.fill(constants.WHITE)
 
     def _drawPostSprites(self, screen):

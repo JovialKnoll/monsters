@@ -284,7 +284,7 @@ class ModeFight(ModeButtons):
             self._result_displayed = 2
             self._result = self._player_action
 
-    def _drawScreen(self, screen):
+    def _drawPreSprites(self, screen):
         screen.fill(constants.WHITE)
         screen.blit(self._background, (0, 0))
         if not self._action_set and self._player_action not in self._RESULT_SAVING:

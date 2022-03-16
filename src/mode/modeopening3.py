@@ -112,5 +112,5 @@ class ModeOpening3(ModeOpening):
             self._monsters.append(monster)
             self._wait_time += self._FULL_MONSTER_WAIT_TIME
 
-    def _drawScreen(self, screen):
+    def _drawPreSprites(self, screen):
         screen.blit(self._background, (0, 0))

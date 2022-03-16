@@ -21,14 +21,12 @@ class ModeOpening3(ModeOpening):
         '_monsters',
         '_wait_time',
         '_last_level',
-        '_background',
         '_initial_wait_time',
     )
 
     def __init__(self):
         super().__init__()
         # static elements setup
-        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(self._space)
         self._background.fill(constants.WHITE)
         jovialengine.shared.font_wrap.renderToCentered(
             self._background,
@@ -111,6 +109,3 @@ class ModeOpening3(ModeOpening):
             self._monsters[0].kill()
             self._monsters.append(monster)
             self._wait_time += self._FULL_MONSTER_WAIT_TIME
-
-    def _drawPreSprites(self, screen):
-        screen.blit(self._background, (0, 0))

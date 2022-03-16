@@ -15,7 +15,6 @@ class ModeOpening1(ModeOpening):
 
     __slots__ = (
         '_time',
-        '_background',
         '_logo',
     )
 
@@ -23,7 +22,6 @@ class ModeOpening1(ModeOpening):
         super().__init__()
 
         self._time = 0
-        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(self._space)
         self._background.fill(constants.WHITE)
         jovialengine.shared.font_wrap.renderToCentered(
             self._background,
@@ -82,9 +80,6 @@ class ModeOpening1(ModeOpening):
         if self._time >= self._STAR_WAIT * 2 + self._STAR_TRAVEL * self._STAR_WAVES:
             self._stopMixer()
             self._switchMode()
-
-    def _drawPreSprites(self, screen):
-        screen.blit(self._background, (0, 0))
 
     def _drawPostSprites(self, screen):
         screen.blit(

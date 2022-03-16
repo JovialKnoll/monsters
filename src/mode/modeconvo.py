@@ -97,7 +97,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         '_text_rect',
         '_text_scroll',
         '_surf_text',
-        '_background',
+        '_user_interface',
     )
 
     def _keySelect(self, key):
@@ -111,6 +111,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
 
     def __init__(self, convo_key: str = '0'):
         super().__init__()
+        self._background.fill(constants.WHITE)
         self._convo_key = convo_key
         self._active_tags = set()
         self._convo_dict = self._getScript()
@@ -169,11 +170,11 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
     def _renderText(self):
         self._handleTags()
         self._surf_text = jovialengine.shared.font_wrap.renderInside(296, self._text, False, constants.TEXT_COLOR)
-        self._background = pygame.image.load(constants.LAYOUT_1_FILE).convert(self._space)
-        self._background.set_colorkey(constants.COLORKEY)
+        self._user_interface = pygame.image.load(constants.LAYOUT_1_FILE).convert(self._space)
+        self._user_interface.set_colorkey(constants.COLORKEY)
         for index, button in enumerate(self._choices):
             jovialengine.shared.font_wrap.renderToInside(
-                self._background,
+                self._user_interface,
                 self._textStart(index),
                 self._textWidth(index),
                 button.text,
@@ -181,7 +182,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
                 constants.TEXT_COLOR
             )
         for index in range(len(self._choices), 4):
-            self._background.fill(constants.WHITE, self.buttons[index])
+            self._user_interface.fill(constants.WHITE, self.buttons[index])
 
     def _handleTags(self):
         self._all_sprites.empty()
@@ -258,8 +259,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
             self._read_text = True
 
     def _drawPreSprites(self, screen):
-        screen.fill(constants.WHITE)
-        screen.blit(self._background, (0, 0))
+        screen.blit(self._user_interface, (0, 0))
         screen.blit(self._surf_text, (12, 12), self._text_rect)
         if self._read_text:
             self._drawSelected(screen)

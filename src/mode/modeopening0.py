@@ -12,14 +12,12 @@ class ModeOpening0(ModeOpening):
     __slots__ = (
         '_time',
         '_step',
-        '_background',
     )
 
     def __init__(self):
         super().__init__()
         self._time = 0
         self._step = 0
-        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(self._space)
         self._background.fill(constants.WHITE)
         jovialengine.shared.font_wrap.renderToCentered(
             self._background,
@@ -104,6 +102,3 @@ class ModeOpening0(ModeOpening):
         if self._time >= 4000:
             self._stopMixer()
             self._switchMode()
-
-    def _drawPreSprites(self, screen):
-        screen.blit(self._background, (0, 0))

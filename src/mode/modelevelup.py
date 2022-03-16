@@ -13,7 +13,6 @@ class ModeLevelUp(ModeOpening, abc.ABC):
     __slots__ = (
         '_done',
         '_time',
-        '_background',
         '_first_sprite',
         '_sprite_switches',
         '_bip'
@@ -39,7 +38,6 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         super().__init__()
         self._done = False
         self._time = 0
-        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(self._space)
         self._background.fill(constants.WHITE)
         self._drawFontEffect("LEVEL UP", (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 4))
         jovialengine.shared.state.protag_mon.setImage()
@@ -109,6 +107,3 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         else:
             self._first_sprite.visible = 1
             jovialengine.shared.state.protag_mon.visible = 0
-
-    def _drawPreSprites(self, screen):
-        screen.blit(self._background, (0, 0))

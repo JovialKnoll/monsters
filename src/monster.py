@@ -60,7 +60,7 @@ class Monster(jovialengine.AnimSprite):
         self.setHealth()
 
         self.rect = pygame.Rect(0, 0, 48, 48)
-        self.sprite_groups = tuple(random.choice(('A', 'B', 'C')) for x in range(5))
+        self.sprite_groups = tuple(random.choice(('A', 'B', 'C')) for _ in range(5))
         self.sprite_files = None
         self._setSpritePaths()
         self.old_sprite_files = []

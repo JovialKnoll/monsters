@@ -211,7 +211,9 @@ class ModeFight(ModeButtons):
         super()._input(event)
 
     def _setActionDisplay(self, text: str):
-        self._action_display.appendleft(jovialengine.shared.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR))
+        self._action_display.appendleft(
+            jovialengine.shared.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR)
+        )
         self._action_set = not self._action_set
 
     def _playerActionDone(self):

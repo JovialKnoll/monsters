@@ -86,10 +86,10 @@ class ModeOpening2(ModeOpening):
         # higher layer = draw later = "in front"
         left_mon.layer = 1
         right_mon.layer = 0
-        self.all_sprites.add(right_mon, left_mon)
+        self._all_sprites.add(right_mon, left_mon)
         self._time = 0
         self._move_time = beat * 28 + pause * 2 + 300
-        self._fade = pygame.Surface(constants.SCREEN_SIZE).convert(jovialengine.shared.display.screen)
+        self._fade = pygame.Surface(constants.SCREEN_SIZE).convert(self._space)
         self._fade.fill(constants.WHITE)
         self._fade.set_alpha(0)
 
@@ -109,7 +109,7 @@ class ModeOpening2(ModeOpening):
             self._stopMixer()
             self._switchMode()
 
-    def _drawScreen(self, screen):
+    def _drawPreSprites(self, screen):
         screen.fill(constants.WHITE)
 
     def _drawPostSprites(self, screen):

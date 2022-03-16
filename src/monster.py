@@ -60,7 +60,7 @@ class Monster(jovialengine.AnimSprite):
         self.setHealth()
 
         self.rect = pygame.Rect(0, 0, 48, 48)
-        self.sprite_groups = tuple(random.choice(('A', 'B', 'C')) for x in range(5))
+        self.sprite_groups = tuple(random.choice(('A', 'B', 'C')) for _ in range(5))
         self.sprite_files = None
         self._setSpritePaths()
         self.old_sprite_files = []
@@ -182,7 +182,7 @@ class Monster(jovialengine.AnimSprite):
         self.sprite = self._loadSpriteFile(sprite_files[0]).convert(jovialengine.shared.display.screen)
         self.sprite.set_colorkey(constants.COLORKEY)
         for sprite_path in sprite_files[1:]:
-            new_part = self._loadSpriteFile(sprite_path).convert(self.sprite)
+            new_part = self._loadSpriteFile(sprite_path)
             new_part.set_colorkey(constants.COLORKEY)
             self.sprite.blit(new_part, (0, 0))
         if lvl > 0:

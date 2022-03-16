@@ -12,14 +12,12 @@ class ModeOpening0(ModeOpening):
     __slots__ = (
         '_time',
         '_step',
-        '_background',
     )
 
     def __init__(self):
         super().__init__()
         self._time = 0
         self._step = 0
-        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(jovialengine.shared.display.screen)
         self._background.fill(constants.WHITE)
         jovialengine.shared.font_wrap.renderToCentered(
             self._background,
@@ -28,7 +26,7 @@ class ModeOpening0(ModeOpening):
             False,
             constants.BLACK
         )
-        logo = pygame.image.load(constants.JK_LOGO_BLACK).convert(jovialengine.shared.display.screen)
+        logo = pygame.image.load(constants.JK_LOGO_BLACK).convert(self._space)
         self._background.blit(
             logo,
             (
@@ -37,7 +35,7 @@ class ModeOpening0(ModeOpening):
             )
         )
         star_sprite = jovialengine.AnimSprite()
-        star_sprite.image = pygame.image.load(constants.STAR).convert(jovialengine.shared.display.screen)
+        star_sprite.image = pygame.image.load(constants.STAR).convert(self._space)
         star_sprite.image.set_colorkey(constants.COLORKEY)
         star_sprite.rect = star_sprite.image.get_rect()
         star_sprite.rect.center = (
@@ -51,7 +49,7 @@ class ModeOpening0(ModeOpening):
             constants.SCREEN_SIZE[0] // 2 - constants.SCREEN_SIZE[1] // 2 - star_sprite.rect.width // 2,
             constants.SCREEN_SIZE[1] + star_sprite.rect.height // 2
         )
-        self.all_sprites.add(star_sprite)
+        self._all_sprites.add(star_sprite)
 
     def _switchMode(self):
         self.next_mode = ModeOpening1()
@@ -76,7 +74,7 @@ class ModeOpening0(ModeOpening):
                 False,
                 constants.DARK_TEXT_COLOR
             )
-            logo = pygame.image.load(constants.JK_LOGO_LIGHT_GREY).convert(jovialengine.shared.display.screen)
+            logo = pygame.image.load(constants.JK_LOGO_LIGHT_GREY).convert(self._space)
             self._background.blit(
                 logo,
                 (
@@ -93,7 +91,7 @@ class ModeOpening0(ModeOpening):
                 False,
                 constants.BLACK
             )
-            logo = pygame.image.load(constants.JK_LOGO_GREY).convert(jovialengine.shared.display.screen)
+            logo = pygame.image.load(constants.JK_LOGO_GREY).convert(self._space)
             self._background.blit(
                 logo,
                 (
@@ -104,6 +102,3 @@ class ModeOpening0(ModeOpening):
         if self._time >= 4000:
             self._stopMixer()
             self._switchMode()
-
-    def _drawScreen(self, screen):
-        screen.blit(self._background, (0, 0))

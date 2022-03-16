@@ -21,14 +21,12 @@ class ModeOpening3(ModeOpening):
         '_monsters',
         '_wait_time',
         '_last_level',
-        '_background',
         '_initial_wait_time',
     )
 
     def __init__(self):
         super().__init__()
         # static elements setup
-        self._background = pygame.Surface(constants.SCREEN_SIZE).convert(jovialengine.shared.display.screen)
         self._background.fill(constants.WHITE)
         jovialengine.shared.font_wrap.renderToCentered(
             self._background,
@@ -37,7 +35,7 @@ class ModeOpening3(ModeOpening):
             False,
             constants.BLACK
         )
-        logo = pygame.image.load(constants.CHIKKAI_LOGO).convert(jovialengine.shared.display.screen)
+        logo = pygame.image.load(constants.CHIKKAI_LOGO).convert(self._space)
         self._background.blit(
             logo,
             (
@@ -78,7 +76,7 @@ class ModeOpening3(ModeOpening):
             )
         monster = Monster.atLevel(level)
         self._last_level = level
-        self.all_sprites.add(monster)
+        self._all_sprites.add(monster)
         monster.rect.midbottom = (
             constants.SCREEN_SIZE[0] + monster.rect.width // 2,
             self._GROUND_LEVEL
@@ -110,6 +108,3 @@ class ModeOpening3(ModeOpening):
             self._monsters[0].kill()
             self._monsters.append(monster)
             self._wait_time += self._FULL_MONSTER_WAIT_TIME
-
-    def _drawScreen(self, screen):
-        screen.blit(self._background, (0, 0))

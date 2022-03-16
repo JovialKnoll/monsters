@@ -53,7 +53,7 @@ class ModeFight(ModeButtons):
         '_player_mon',
         '_enemy_mon',
         '_enemy_choices',
-        '_background',
+        '_user_interface',
         '_thunk',
         '_rooeee',
         '_bwop',
@@ -69,7 +69,8 @@ class ModeFight(ModeButtons):
     def __init__(self, player_mon: Monster, enemy_mon: Monster, get_next_mode: callable):
         """The functions passed in should return the next mode."""
         super().__init__()
-        self._health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert(jovialengine.shared.display.screen)
+        self._background.fill(constants.WHITE)
+        self._health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert(self._space)
         self._health_bar.set_colorkey(constants.COLORKEY)
 
         self._player_mon = player_mon
@@ -77,18 +78,18 @@ class ModeFight(ModeButtons):
         self._enemy_choices = self._BOX_CHOICES \
             + list(itertools.repeat(self._enemy_mon.personality.preferred_action, 3))
 
-        self._background = pygame.image.load(constants.LAYOUT_2_FILE)
+        self._user_interface = pygame.image.load(constants.LAYOUT_2_FILE)
         for index, choice in enumerate(self._BOX_CHOICES):
             jovialengine.shared.font_wrap.renderToInside(
-                self._background,
+                self._user_interface,
                 self._textStart(index),
                 self._textWidth(index),
                 choice,
                 False,
                 constants.TEXT_COLOR
             )
-        self._background = self._background.convert(jovialengine.shared.display.screen)
-        self._background.set_colorkey(constants.COLORKEY)
+        self._user_interface = self._user_interface.convert(self._space)
+        self._user_interface.set_colorkey(constants.COLORKEY)
 
         pygame.mixer.music.load(constants.FIGHT_LOOP)
         pygame.mixer.music.play(-1)
@@ -105,7 +106,7 @@ class ModeFight(ModeButtons):
 
         self._player_mon.rect.midbottom = self._PLAYER_POS
         self._enemy_mon.rect.midbottom = self._ENEMY_POS
-        self.all_sprites.add(self._player_mon, self._enemy_mon)
+        self._all_sprites.add(self._player_mon, self._enemy_mon)
 
         self._player_action = False
         self._enemy_action = False
@@ -136,7 +137,7 @@ class ModeFight(ModeButtons):
             self._ENEMY_BAR_Y - constants.FONT_HEIGHT
         )
         jovialengine.shared.font_wrap.renderToInside(
-            self._background,
+            self._user_interface,
             player_health_dest,
             text_width,
             player_health_text,
@@ -145,7 +146,7 @@ class ModeFight(ModeButtons):
             background=constants.WHITE
         )
         jovialengine.shared.font_wrap.renderToInside(
-            self._background,
+            self._user_interface,
             enemy_health_dest,
             text_width,
             enemy_health_text,
@@ -210,7 +211,9 @@ class ModeFight(ModeButtons):
         super()._input(event)
 
     def _setActionDisplay(self, text: str):
-        self._action_display.appendleft(jovialengine.shared.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR))
+        self._action_display.appendleft(
+            jovialengine.shared.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR)
+        )
         self._action_set = not self._action_set
 
     def _playerActionDone(self):
@@ -284,9 +287,8 @@ class ModeFight(ModeButtons):
             self._result_displayed = 2
             self._result = self._player_action
 
-    def _drawScreen(self, screen):
-        screen.fill(constants.WHITE)
-        screen.blit(self._background, (0, 0))
+    def _drawPreSprites(self, screen):
+        screen.blit(self._user_interface, (0, 0))
         if not self._action_set and self._player_action not in self._RESULT_SAVING:
             self._drawSelected(screen)
 

@@ -95,7 +95,6 @@ class ModeOpening3(ModeOpening):
             monster.rect.width // -2,
             self._GROUND_LEVEL - monster.rect.height // 2
         )
-        monster.convert(self._space)
         return monster
 
     def _switchMode(self):

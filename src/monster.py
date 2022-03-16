@@ -179,10 +179,10 @@ class Monster(jovialengine.AnimSprite):
         if alt_lvl is not None and alt_sprite_files is not None:
             lvl = alt_lvl
             sprite_files = alt_sprite_files
-        self.sprite = self._loadSpriteFile(sprite_files[0])
+        self.sprite = self._loadSpriteFile(sprite_files[0]).convert(jovialengine.shared.display.screen)
         self.sprite.set_colorkey(constants.COLORKEY)
         for sprite_path in sprite_files[1:]:
-            new_part = self._loadSpriteFile(sprite_path).convert(self.sprite)
+            new_part = self._loadSpriteFile(sprite_path)
             new_part.set_colorkey(constants.COLORKEY)
             self.sprite.blit(new_part, (0, 0))
         if lvl > 0:
@@ -213,11 +213,6 @@ class Monster(jovialengine.AnimSprite):
         standing_pos = self.rect.midbottom
         self.rect = self.image.get_rect()
         self.rect.midbottom = standing_pos
-
-    def convert(self, screen: pygame.surface.Surface):
-        self.sprite_right = self.sprite_right.convert(screen)
-        self.sprite = self.sprite.convert(screen)
-        self.image = self.image.convert(screen)
 
     def levelUp(self):
         """Level up a monster, setting stats, etc. as needed."""

@@ -168,7 +168,7 @@ class ModeFight(ModeButtons):
                 self._camera.y -= 1
             else:
                 self._camera.y += 1
-        self._camera_shake = 50
+            self._camera_shake = 50
 
     def _resetCamera(self):
         self._camera_shake = None

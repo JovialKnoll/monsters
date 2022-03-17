@@ -64,6 +64,7 @@ class ModeFight(ModeButtons):
         '_result_displayed',
         '_result',
         '_get_next_mode',
+        '_camera_shake',
     )
 
     def __init__(self, player_mon: Monster, enemy_mon: Monster, get_next_mode: callable):
@@ -118,6 +119,8 @@ class ModeFight(ModeButtons):
         self._result = False
         self._get_next_mode = get_next_mode
 
+        self._camera_shake = None
+
         self._drawHP()
 
     def _drawHP(self):
@@ -155,6 +158,23 @@ class ModeFight(ModeButtons):
             background=constants.WHITE
         )
 
+    def _shakeCamera(self):
+        if self._camera_shake is None:
+            if bool(random.getrandbits(1)):
+                self._camera.x -= 1
+            else:
+                self._camera.x += 1
+            if bool(random.getrandbits(1)):
+                self._camera.y -= 1
+            else:
+                self._camera.y += 1
+        self._camera_shake = 50
+
+    def _resetCamera(self):
+        self._camera_shake = None
+        self._camera.x = 0
+        self._camera.y = 0
+
     def _buttonPress(self):
         self._player_action = self._BOX_CHOICES[self._selected_button]
         self._enemy_action = random.choice(self._enemy_choices)
@@ -163,13 +183,15 @@ class ModeFight(ModeButtons):
             self._setActionDisplay("I'm gonna hit 'em!")
             self._player_mon.addWait(self._ANIM_WAIT)
             self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, 12, 0,
-                                       sound=self._thunk, positional_sound=True)
+                                       sound=self._thunk, positional_sound=True,
+                                       callback=self._shakeCamera)
             self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, -12, 0)
         elif self._player_action == constants.FIGHT_DEFEND:
             self._setActionDisplay("I'm gonna block 'em!")
             self._player_mon.addWait(self._ANIM_WAIT)
             self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 133, -8, 0,
-                                       sound=self._bwop, positional_sound=True)
+                                       sound=self._bwop, positional_sound=True,
+                                       callback=self._shakeCamera)
             self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, 12, 0)
             self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, -4, 0)
         elif self._player_action == constants.FIGHT_DODGE:
@@ -182,12 +204,14 @@ class ModeFight(ModeButtons):
         if self._enemy_action == constants.FIGHT_ATTACK:
             self._enemy_mon.addWait(self._ANIM_WAIT)
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, -12, 0,
-                                      sound=self._thunk, positional_sound=True)
+                                      sound=self._thunk, positional_sound=True,
+                                      callback=self._shakeCamera)
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, 12, 0)
         elif self._enemy_action == constants.FIGHT_DEFEND:
             self._enemy_mon.addWait(self._ANIM_WAIT)
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 133, 8, 0,
-                                      sound=self._bwop, positional_sound=True)
+                                      sound=self._bwop, positional_sound=True,
+                                      callback=self._shakeCamera)
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, -12, 0)
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, 4, 0)
         elif self._enemy_action == constants.FIGHT_DODGE:
@@ -268,6 +292,10 @@ class ModeFight(ModeButtons):
         pygame.mixer.music.fadeout(1000)
 
     def _update(self, dt):
+        if self._camera_shake is not None:
+            self._camera_shake -= dt
+            if self._camera_shake <= 0:
+                self._resetCamera()
         if self._player_action in self._BOX_CHOICES and not self._player_mon.stillAnimating():
             self._playerActionDone()
         elif self._player_action == 'draw':
@@ -286,6 +314,9 @@ class ModeFight(ModeButtons):
             self._setActionDisplay("continue.")
             self._result_displayed = 2
             self._result = self._player_action
+
+    def _updatePreDraw(self, screen):
+        screen.fill(constants.WHITE)
 
     def _drawPreSprites(self, screen):
         screen.blit(self._user_interface, (0, 0))

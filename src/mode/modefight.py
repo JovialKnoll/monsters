@@ -60,6 +60,7 @@ class ModeFight(ModeButtons):
         '_player_action',
         '_enemy_action',
         '_action_display',
+        '_action_display_latest',
         '_action_set',
         '_result_displayed',
         '_result',
@@ -113,6 +114,7 @@ class ModeFight(ModeButtons):
         self._enemy_action = False
 
         self._action_display = deque((), 4)
+        self._action_display_latest = None
         self._action_set = False
 
         self._result_displayed = 0
@@ -238,6 +240,7 @@ class ModeFight(ModeButtons):
         self._action_display.appendleft(
             jovialengine.shared.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR)
         )
+        self._action_display_latest = jovialengine.shared.font_wrap.renderInside(200, text, False, constants.BLACK)
         self._action_set = not self._action_set
 
     def _playerActionDone(self):
@@ -372,3 +375,5 @@ class ModeFight(ModeButtons):
         screen.blit(self._health_bar, (self._ENEMY_BAR_X, self._ENEMY_BAR_Y))
         for index, line in enumerate(self._action_display):
             screen.blit(line, (120, 166 - constants.FONT_HEIGHT * index))
+        if self._action_display_latest:
+            screen.blit(self._action_display_latest, (120, 166))

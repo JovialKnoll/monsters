@@ -179,7 +179,7 @@ class Monster(jovialengine.AnimSprite):
         if alt_lvl is not None and alt_sprite_files is not None:
             lvl = alt_lvl
             sprite_files = alt_sprite_files
-        self.sprite = self._loadSpriteFile(sprite_files[0]).convert(jovialengine.shared.display.screen)
+        self.sprite = self._loadSpriteFile(sprite_files[0]).convert()
         self.sprite.set_colorkey(constants.COLORKEY)
         for sprite_path in sprite_files[1:]:
             new_part = self._loadSpriteFile(sprite_path)

@@ -35,7 +35,7 @@ class ModeOpening3(ModeOpening):
             False,
             constants.BLACK
         )
-        logo = pygame.image.load(constants.CHIKKAI_LOGO).convert(self._space)
+        logo = pygame.image.load(constants.CHIKKAI_LOGO).convert()
         self._background.blit(
             logo,
             (

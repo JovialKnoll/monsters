@@ -31,9 +31,9 @@ class ModeOpening1(ModeOpening):
             constants.BLACK
         )
         bip = pygame.mixer.Sound(constants.BIP)
-        self._logo = pygame.image.load(constants.TIN_LOGO).convert(self._space)
+        self._logo = pygame.image.load(constants.TIN_LOGO).convert()
         self._logo.set_colorkey(constants.COLORKEY)
-        star_image = pygame.image.load(constants.STAR).convert(self._space)
+        star_image = pygame.image.load(constants.STAR).convert()
         star_image.set_colorkey(constants.COLORKEY)
         star_image = pygame.transform.scale(
             star_image,

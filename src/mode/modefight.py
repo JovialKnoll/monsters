@@ -72,7 +72,7 @@ class ModeFight(ModeButtons):
         """The functions passed in should return the next mode."""
         super().__init__()
         self._background.fill(constants.WHITE)
-        self._health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert(self._space)
+        self._health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert()
         self._health_bar.set_colorkey(constants.COLORKEY)
 
         self._player_mon = player_mon
@@ -90,7 +90,7 @@ class ModeFight(ModeButtons):
                 False,
                 constants.TEXT_COLOR
             )
-        self._user_interface = self._user_interface.convert(self._space)
+        self._user_interface = self._user_interface.convert()
         self._user_interface.set_colorkey(constants.COLORKEY)
 
         pygame.mixer.music.load(constants.FIGHT_LOOP)

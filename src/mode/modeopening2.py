@@ -89,7 +89,7 @@ class ModeOpening2(ModeOpening):
         self._all_sprites.add(right_mon, left_mon)
         self._time = 0
         self._move_time = beat * 28 + pause * 2 + 300
-        self._fade = pygame.Surface(constants.SCREEN_SIZE).convert(self._space)
+        self._fade = pygame.Surface(constants.SCREEN_SIZE).convert()
         self._fade.fill(constants.WHITE)
         self._fade.set_alpha(0)
 

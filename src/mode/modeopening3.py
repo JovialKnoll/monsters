@@ -32,7 +32,6 @@ class ModeOpening3(ModeOpening):
             self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2 + 4),
             "press any key to start",
-            False,
             constants.BLACK
         )
         logo = pygame.image.load(constants.CHIKKAI_LOGO).convert()
@@ -49,7 +48,6 @@ class ModeOpening3(ModeOpening):
             (constants.SCREEN_SIZE[0] - version_width, constants.SCREEN_SIZE[1] - constants.FONT_HEIGHT),
             version_width,
             constants.VERSION,
-            False,
             constants.TEXT_COLOR
         )
         # monster loop setup

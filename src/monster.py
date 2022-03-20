@@ -258,7 +258,6 @@ class Monster(jovialengine.AnimSprite):
             (0, 64 + (64 - constants.FONT_HEIGHT * 5) // 2),
             64 * 4,
             self.getStatText(),
-            False,
             constants.BLACK
         )
         jovialengine.shared.font_wrap.renderToInside(
@@ -266,7 +265,6 @@ class Monster(jovialengine.AnimSprite):
             (0, 0),
             64 * 4,
             constants.TITLE,
-            False,
             constants.TEXT_COLOR
         )
         website = "jovialknoll.itch.io"
@@ -276,7 +274,6 @@ class Monster(jovialengine.AnimSprite):
             (64 * 4 - website_width, 64 * 2 - constants.FONT_HEIGHT),
             website_width,
             website,
-            False,
             constants.TEXT_COLOR
         )
         return card

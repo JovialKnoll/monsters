@@ -61,6 +61,7 @@ class ModeFight(ModeButtons):
         '_enemy_action',
         '_action_display',
         '_action_display_latest',
+        '_action_display_latest2',
         '_action_set',
         '_result_displayed',
         '_result',
@@ -87,7 +88,6 @@ class ModeFight(ModeButtons):
                 self._textStart(index),
                 self._textWidth(index),
                 choice,
-                False,
                 constants.TEXT_COLOR
             )
         self._user_interface = self._user_interface.convert()
@@ -115,6 +115,7 @@ class ModeFight(ModeButtons):
 
         self._action_display = deque((), 4)
         self._action_display_latest = None
+        self._action_display_latest2 = None
         self._action_set = False
 
         self._result_displayed = 0
@@ -146,7 +147,6 @@ class ModeFight(ModeButtons):
             player_health_dest,
             text_width,
             player_health_text,
-            False,
             constants.TEXT_COLOR,
             background=constants.WHITE
         )
@@ -155,7 +155,6 @@ class ModeFight(ModeButtons):
             enemy_health_dest,
             text_width,
             enemy_health_text,
-            False,
             constants.TEXT_COLOR,
             background=constants.WHITE
         )
@@ -238,9 +237,17 @@ class ModeFight(ModeButtons):
 
     def _setActionDisplay(self, text: str):
         self._action_display.appendleft(
-            jovialengine.shared.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR)
+            jovialengine.shared.font_wrap.renderInside(
+                200,
+                text,
+                constants.TEXT_COLOR
+            )
         )
-        self._action_display_latest = jovialengine.shared.font_wrap.renderInside(200, text, False, constants.BLACK)
+        self._action_display_latest = jovialengine.shared.font_wrap.renderInside(
+            200,
+            text,
+            constants.BLACK
+        )
         self._action_set = not self._action_set
 
     def _playerActionDone(self):
@@ -314,6 +321,11 @@ class ModeFight(ModeButtons):
             self._result_displayed = 1
         elif not self._player_mon.stillAnimating() and self._result_displayed < 2:
             self._setActionDisplay("Click or press enter to")
+            self._action_display_latest2 = jovialengine.shared.font_wrap.renderInside(
+                200,
+                "Click or press enter to",
+                constants.BLACK
+            )
             self._setActionDisplay("continue.")
             self._result_displayed = 2
             self._result = self._player_action
@@ -377,3 +389,5 @@ class ModeFight(ModeButtons):
             screen.blit(line, (120, 166 - constants.FONT_HEIGHT * index))
         if self._action_display_latest:
             screen.blit(self._action_display_latest, (120, 166))
+        if self._action_display_latest2:
+            screen.blit(self._action_display_latest2, (120, 166 - constants.FONT_HEIGHT))

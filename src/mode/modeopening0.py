@@ -23,7 +23,6 @@ class ModeOpening0(ModeOpening):
             self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
             self._LOGO_TEXT,
-            False,
             constants.BLACK
         )
         logo = pygame.image.load(constants.JK_LOGO_BLACK).convert()
@@ -62,7 +61,6 @@ class ModeOpening0(ModeOpening):
                 self._background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
                 self._LOGO_TEXT,
-                False,
                 constants.TEXT_COLOR
             )
         if self._time >= 1500 and self._step < 2:
@@ -71,7 +69,6 @@ class ModeOpening0(ModeOpening):
                 self._background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
                 self._LOGO_TEXT,
-                False,
                 constants.DARK_TEXT_COLOR
             )
             logo = pygame.image.load(constants.JK_LOGO_LIGHT_GREY).convert()
@@ -88,7 +85,6 @@ class ModeOpening0(ModeOpening):
                 self._background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
                 self._LOGO_TEXT,
-                False,
                 constants.BLACK
             )
             logo = pygame.image.load(constants.JK_LOGO_GREY).convert()

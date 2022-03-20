@@ -87,7 +87,6 @@ class ModeFight(ModeButtons):
                 self._textStart(index),
                 self._textWidth(index),
                 choice,
-                False,
                 constants.TEXT_COLOR
             )
         self._user_interface = self._user_interface.convert()
@@ -146,7 +145,6 @@ class ModeFight(ModeButtons):
             player_health_dest,
             text_width,
             player_health_text,
-            False,
             constants.TEXT_COLOR,
             background=constants.WHITE
         )
@@ -155,7 +153,6 @@ class ModeFight(ModeButtons):
             enemy_health_dest,
             text_width,
             enemy_health_text,
-            False,
             constants.TEXT_COLOR,
             background=constants.WHITE
         )
@@ -238,9 +235,17 @@ class ModeFight(ModeButtons):
 
     def _setActionDisplay(self, text: str):
         self._action_display.appendleft(
-            jovialengine.shared.font_wrap.renderInside(200, text, False, constants.TEXT_COLOR)
+            jovialengine.shared.font_wrap.renderInside(
+                200,
+                text,
+                constants.TEXT_COLOR
+            )
         )
-        self._action_display_latest = jovialengine.shared.font_wrap.renderInside(200, text, False, constants.BLACK)
+        self._action_display_latest = jovialengine.shared.font_wrap.renderInside(
+            200,
+            text,
+            constants.BLACK
+        )
         self._action_set = not self._action_set
 
     def _playerActionDone(self):

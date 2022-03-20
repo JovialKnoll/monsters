@@ -22,7 +22,6 @@ class ModeCredits(ModeOpening):
         self._credits_sprite.image = jovialengine.shared.font_wrap.renderInside(
             constants.SCREEN_SIZE[0] * 3 // 4,
             credits_text,
-            False,
             constants.WHITE,
             background=constants.BLACK
         )
@@ -53,7 +52,6 @@ class ModeCredits(ModeOpening):
             self._final_text,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2),
             "press any key to proceed",
-            False,
             constants.WHITE
         )
         self._final_text.set_alpha(0)

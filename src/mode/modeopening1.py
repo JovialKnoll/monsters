@@ -27,7 +27,6 @@ class ModeOpening1(ModeOpening):
             self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8 + 8),
             "tinsil",
-            False,
             constants.BLACK
         )
         bip = pygame.mixer.Sound(constants.BIP)

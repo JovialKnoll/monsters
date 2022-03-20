@@ -23,14 +23,12 @@ class ModeLevelUp(ModeOpening, abc.ABC):
             self._background,
             (pos[0] + 1, pos[1] + 1),
             text,
-            False,
             constants.TEXT_COLOR
         )
         jovialengine.shared.font_wrap.renderToCentered(
             self._background,
             (pos[0], pos[1]),
             text,
-            False,
             constants.DARK_TEXT_COLOR
         )
 

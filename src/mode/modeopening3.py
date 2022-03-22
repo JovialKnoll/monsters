@@ -43,10 +43,9 @@ class ModeOpening3(ModeOpening):
             )
         )
         version_width = len(constants.VERSION) * constants.FONT_SIZE
-        jovialengine.shared.font_wrap.renderToInside(
+        jovialengine.shared.font_wrap.renderTo(
             self._background,
             (constants.SCREEN_SIZE[0] - version_width, constants.SCREEN_SIZE[1] - constants.FONT_HEIGHT),
-            version_width,
             constants.VERSION,
             constants.TEXT_COLOR
         )

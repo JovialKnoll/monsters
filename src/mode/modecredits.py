@@ -23,7 +23,7 @@ class ModeCredits(ModeOpening):
             constants.SCREEN_SIZE[0] * 3 // 4,
             credits_text,
             constants.WHITE,
-            background=constants.BLACK
+            constants.BLACK
         )
         self._credits_sprite.rect = self._credits_sprite.image.get_rect()
         self._credits_sprite.rect.topleft = (

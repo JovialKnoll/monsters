@@ -148,7 +148,7 @@ class ModeFight(ModeButtons):
             text_width,
             player_health_text,
             constants.TEXT_COLOR,
-            background=constants.WHITE
+            constants.WHITE
         )
         jovialengine.shared.font_wrap.renderToInside(
             self._user_interface,
@@ -156,7 +156,7 @@ class ModeFight(ModeButtons):
             text_width,
             enemy_health_text,
             constants.TEXT_COLOR,
-            background=constants.WHITE
+            constants.WHITE
         )
 
     def _shakeCamera(self):
@@ -240,13 +240,15 @@ class ModeFight(ModeButtons):
             jovialengine.shared.font_wrap.renderInside(
                 200,
                 text,
-                constants.TEXT_COLOR
+                constants.TEXT_COLOR,
+                constants.WHITE
             )
         )
         self._action_display_latest = jovialengine.shared.font_wrap.renderInside(
             200,
             text,
-            constants.BLACK
+            constants.BLACK,
+            constants.WHITE
         )
         self._action_set = not self._action_set
 
@@ -324,7 +326,8 @@ class ModeFight(ModeButtons):
             self._action_display_latest2 = jovialengine.shared.font_wrap.renderInside(
                 200,
                 "Click or press enter to",
-                constants.BLACK
+                constants.BLACK,
+                constants.WHITE
             )
             self._setActionDisplay("continue.")
             self._result_displayed = 2

@@ -1,2 +1,2 @@
 pygame==2.1.2
-jovialengine==0.6.0
+jovialengine==0.6.3

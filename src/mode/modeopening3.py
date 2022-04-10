@@ -26,6 +26,8 @@ class ModeOpening3(ModeOpening):
 
     def __init__(self):
         super().__init__()
+        pygame.mixer.music.load(constants.TITLE_PLAY)
+        pygame.mixer.music.play(1)
         # static elements setup
         self._background.fill(constants.WHITE)
         jovialengine.shared.font_wrap.renderToCentered(

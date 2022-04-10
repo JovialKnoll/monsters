@@ -62,10 +62,10 @@ BWOP = os.path.join(SOUND_DIRECTORY, 'bwop.ogg')
 
 MUSIC_DIRECTORY = os.path.join(SOUND_DIRECTORY, 'music')
 TITLE_INTRO = os.path.join(MUSIC_DIRECTORY, 'title_intro.ogg')
-TITLE_PLAY = os.path.join(MUSIC_DIRECTORY, 'title_play.wav')
+TITLE_PLAY = os.path.join(MUSIC_DIRECTORY, 'title_play.ogg')
 CHAT_LOOP = os.path.join(MUSIC_DIRECTORY, 'chat_loop.ogg')
 FIGHT_LOOP = os.path.join(MUSIC_DIRECTORY, 'fight_loop.ogg')
-CREDITS_PLAY = os.path.join(MUSIC_DIRECTORY, 'credits.wav')
+CREDITS_PLAY = os.path.join(MUSIC_DIRECTORY, 'credits.ogg')
 
 IMAGE_DIRECTORY = os.path.join(SRC_DIRECTORY, 'images')
 

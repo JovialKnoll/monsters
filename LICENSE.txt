@@ -2,6 +2,7 @@ MIT License
 
 Images Copyright (c) 2013 tinsil (S. Forrest)
 Music Copyright (c) 2021 tinsil (S. Forrest)
+Music Copyright (c) 2022 JovialKnoll (Brett Kaplan)
 Software Copyright (c) 2013-2022 JovialKnoll (Brett Kaplan)
 Sound Effects made by JovialKnoll (Brett Kaplan) with sfxr
   (https://www.drpetter.se/project_sfxr.html)

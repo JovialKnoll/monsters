@@ -99,7 +99,7 @@ class ModeOpening2(ModeOpening):
     def _update(self, dt):
         self._time += dt
         if self._time >= self._music_time and not self._music_started:
-            pygame.mixer.music.play(1, 0, 2100)
+            pygame.mixer.music.play(1, fade_ms=2100)
             self._music_started = True
         if self._time >= self._move_time:
             self._fade.set_alpha(

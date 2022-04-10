@@ -8,6 +8,8 @@ from .modeopening import ModeOpening
 
 class ModeCredits(ModeOpening):
     __slots__ = (
+        '_wait_song',
+        '_playing_song',
         '_credits_sprite',
         '_time',
         '_move_time',
@@ -16,6 +18,10 @@ class ModeCredits(ModeOpening):
 
     def __init__(self):
         super().__init__()
+        pygame.mixer.music.load(constants.CREDITS_PLAY)
+        pygame.mixer.music.set_volume(0.5)
+        self._wait_song = 1000
+        self._playing_song = False
         with open(constants.CREDITS_TEXT) as credits_file:
             credits_text = credits_file.read().replace(' ', '_')
         self._credits_sprite = jovialengine.AnimSprite()
@@ -60,6 +66,11 @@ class ModeCredits(ModeOpening):
         self.next_mode = ModeOpening0()
 
     def _update(self, dt):
+        if not self._playing_song:
+            self._wait_song -= dt
+            if self._wait_song <= 0:
+                pygame.mixer.music.play(1, fade_ms=500)
+                self._playing_song = True
         self._time += dt
         if self._time >= self._move_time:
             self._final_text.set_alpha(

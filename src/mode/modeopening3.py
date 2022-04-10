@@ -18,6 +18,8 @@ class ModeOpening3(ModeOpening):
     _FULL_MONSTER_WAIT_TIME = _EMPTY_TIME + _TRANSITION_TIME + _CENTER_TIME + _TRANSITION_TIME
 
     __slots__ = (
+        '_wait_song',
+        '_playing_song',
         '_monsters',
         '_wait_time',
         '_last_level',
@@ -26,6 +28,9 @@ class ModeOpening3(ModeOpening):
 
     def __init__(self):
         super().__init__()
+        pygame.mixer.music.load(constants.TITLE_PLAY)
+        self._wait_song = 500
+        self._playing_song = False
         # static elements setup
         self._background.fill(constants.WHITE)
         jovialengine.shared.font_wrap.renderToCentered(
@@ -98,6 +103,11 @@ class ModeOpening3(ModeOpening):
         self.next_mode = ModeIntroduction0()
 
     def _update(self, dt):
+        if not self._playing_song:
+            self._wait_song -= dt
+            if self._wait_song <= 0:
+                pygame.mixer.music.play(-1)
+                self._playing_song = True
         self._wait_time -= dt
         # every so often, set up additional looping _monsters here, so we don't run out
         if self._wait_time < self._initial_wait_time - self._FULL_MONSTER_WAIT_TIME:

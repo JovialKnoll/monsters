@@ -1,2 +1,0 @@
-necessary:
-* opening music (loop) (also for credits, maybe quieter?)

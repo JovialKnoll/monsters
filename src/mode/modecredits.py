@@ -2,6 +2,7 @@ import pygame
 import jovialengine
 
 import constants
+import state
 from .modeopening0 import ModeOpening0
 from .modeopening import ModeOpening
 
@@ -63,6 +64,7 @@ class ModeCredits(ModeOpening):
         self._final_text.set_alpha(0)
 
     def _switchMode(self):
+        jovialengine.shared.state = state.State()
         self.next_mode = ModeOpening0()
 
     def _update(self, dt):

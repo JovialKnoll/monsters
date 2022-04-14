@@ -62,7 +62,7 @@ class Monster(jovialengine.AnimSprite):
         self.rect = pygame.Rect(0, 0, 48, 48)
         self.sprite_groups = tuple(random.choice(('A', 'B', 'C')) for _ in range(5))
         self.sprite_files = None
-        self._setSpritePaths()
+        self._setSpriteFiles()
         self.old_sprite_files = []
         self._setSprites()
         self.setImage()
@@ -154,15 +154,15 @@ class Monster(jovialengine.AnimSprite):
         self.stats['hpm'] = self._getHealthBasis() + self.stats['vit']
         self.stats['hpc'] = self.stats['hpm']
 
-    def _getSpritePath(self, section: str, group: str):
+    def _getSpriteFile(self, section: str, group: str):
         part = ''
         if self.lvl > 0:
             part = random.randint(0, 2)
         return '{}-{}-{}{}.png'.format(self.lvl, section, group, part)
 
-    def _setSpritePaths(self):
+    def _setSpriteFiles(self):
         self.sprite_files = tuple(
-            self._getSpritePath(self.BODY_SECTIONS[i], self.sprite_groups[i]) for i in range(5)
+            self._getSpriteFile(self.BODY_SECTIONS[i], self.sprite_groups[i]) for i in range(5)
         )
         if self.lvl == 0:
             self.sprite_files = self.sprite_files[1:4]
@@ -223,7 +223,7 @@ class Monster(jovialengine.AnimSprite):
         self.stats['drv'] = self.DRV_MAX
         self.setHealth()
         self.old_sprite_files.append(self.sprite_files)
-        self._setSpritePaths()
+        self._setSpriteFiles()
         self._setSprites()
         self.setImage()
         return True

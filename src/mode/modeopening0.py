@@ -25,7 +25,7 @@ class ModeOpening0(ModeOpening):
             self._LOGO_TEXT,
             constants.BLACK
         )
-        logo = pygame.image.load(constants.JK_LOGO_BLACK).convert()
+        logo = jovialengine.load.image(constants.JK_LOGO_BLACK)
         self._background.blit(
             logo,
             (
@@ -34,8 +34,7 @@ class ModeOpening0(ModeOpening):
             )
         )
         star_sprite = jovialengine.AnimSprite()
-        star_sprite.image = pygame.image.load(constants.STAR).convert()
-        star_sprite.image.set_colorkey(constants.COLORKEY)
+        star_sprite.image = jovialengine.load.image(constants.STAR, constants.COLORKEY)
         star_sprite.rect = star_sprite.image.get_rect()
         star_sprite.rect.center = (
             constants.SCREEN_SIZE[0] // 2 + constants.SCREEN_SIZE[1] // 2 + star_sprite.rect.width // 2,
@@ -71,7 +70,7 @@ class ModeOpening0(ModeOpening):
                 self._LOGO_TEXT,
                 constants.DARK_TEXT_COLOR
             )
-            logo = pygame.image.load(constants.JK_LOGO_LIGHT_GREY).convert()
+            logo = jovialengine.load.image(constants.JK_LOGO_LIGHT_GREY)
             self._background.blit(
                 logo,
                 (
@@ -87,7 +86,7 @@ class ModeOpening0(ModeOpening):
                 self._LOGO_TEXT,
                 constants.BLACK
             )
-            logo = pygame.image.load(constants.JK_LOGO_GREY).convert()
+            logo = jovialengine.load.image(constants.JK_LOGO_GREY)
             self._background.blit(
                 logo,
                 (

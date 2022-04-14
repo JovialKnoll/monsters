@@ -204,7 +204,7 @@ class Monster(jovialengine.AnimSprite):
     def getBarColor2(self):
         return self.skin[self.lvl].dark
 
-    def setImage(self, face_right=False):
+    def setImage(self, face_right: bool = False):
         self.facing_right = face_right
         if face_right:
             self.image = self.sprite_right

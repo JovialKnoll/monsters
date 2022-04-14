@@ -39,7 +39,7 @@ class ModeOpening3(ModeOpening):
             "press any key to start",
             constants.BLACK
         )
-        logo = pygame.image.load(constants.CHIKKAI_LOGO).convert()
+        logo = jovialengine.load.image(constants.CHIKKAI_LOGO)
         self._background.blit(
             logo,
             (

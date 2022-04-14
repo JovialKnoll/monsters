@@ -176,7 +176,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
             constants.TEXT_COLOR,
             constants.WHITE
         )
-        self._user_interface = jovialengine.load.image(constants.LAYOUT_1_FILE, constants.COLORKEY)
+        self._user_interface = jovialengine.load.image(constants.LAYOUT_1_FILE, constants.COLORKEY).copy()
         for index, button in enumerate(self._choices):
             jovialengine.shared.font_wrap.renderToInside(
                 self._user_interface,

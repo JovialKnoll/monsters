@@ -80,7 +80,7 @@ class ModeFight(ModeButtons):
         self._enemy_choices = self._BOX_CHOICES \
             + list(itertools.repeat(self._enemy_mon.personality.preferred_action, 3))
 
-        self._user_interface = jovialengine.load.image(constants.LAYOUT_2_FILE, constants.COLORKEY)
+        self._user_interface = jovialengine.load.image(constants.LAYOUT_2_FILE, constants.COLORKEY).copy()
         for index, choice in enumerate(self._BOX_CHOICES):
             jovialengine.shared.font_wrap.renderToInside(
                 self._user_interface,

@@ -180,7 +180,9 @@ class Monster(jovialengine.AnimSprite):
         if alt_lvl is not None and alt_sprite_files is not None:
             lvl = alt_lvl
             sprite_files = alt_sprite_files
-        self.sprite = self._loadSpriteFile(sprite_files[0])
+        # the first load needs to get a copy: since these surfaces are cached and may be used later
+        # we need to not blit on to the original
+        self.sprite = self._loadSpriteFile(sprite_files[0]).copy()
         for sprite_path in sprite_files[1:]:
             new_part = self._loadSpriteFile(sprite_path)
             self.sprite.blit(new_part, (0, 0))

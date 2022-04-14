@@ -169,8 +169,9 @@ class Monster(jovialengine.AnimSprite):
 
     @staticmethod
     def _loadSpriteFile(sprite_file: str):
-        return pygame.image.load(
-            os.path.join(constants.MONSTER_PARTS_DIRECTORY, sprite_file)
+        return jovialengine.load.image(
+            os.path.join(constants.MONSTER_PARTS_DIRECTORY, sprite_file),
+            constants.COLORKEY
         )
 
     def _setSprites(self, alt_lvl=None, alt_sprite_files=None):
@@ -179,11 +180,9 @@ class Monster(jovialengine.AnimSprite):
         if alt_lvl is not None and alt_sprite_files is not None:
             lvl = alt_lvl
             sprite_files = alt_sprite_files
-        self.sprite = self._loadSpriteFile(sprite_files[0]).convert()
-        self.sprite.set_colorkey(constants.COLORKEY)
+        self.sprite = self._loadSpriteFile(sprite_files[0])
         for sprite_path in sprite_files[1:]:
             new_part = self._loadSpriteFile(sprite_path)
-            new_part.set_colorkey(constants.COLORKEY)
             self.sprite.blit(new_part, (0, 0))
         if lvl > 0:
             pix_array = pygame.PixelArray(self.sprite)

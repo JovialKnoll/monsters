@@ -62,7 +62,7 @@ class Monster(jovialengine.AnimSprite):
         self.rect = pygame.Rect(0, 0, 48, 48)
         self.sprite_groups = tuple(random.choice(('A', 'B', 'C')) for _ in range(5))
         self.sprite_files = None
-        self._setSpritePaths()
+        self._setSpriteFiles()
         self.old_sprite_files = []
         self._setSprites()
         self.setImage()
@@ -154,23 +154,24 @@ class Monster(jovialengine.AnimSprite):
         self.stats['hpm'] = self._getHealthBasis() + self.stats['vit']
         self.stats['hpc'] = self.stats['hpm']
 
-    def _getSpritePath(self, section: str, group: str):
+    def _getSpriteFile(self, section: str, group: str):
         part = ''
         if self.lvl > 0:
             part = random.randint(0, 2)
         return '{}-{}-{}{}.png'.format(self.lvl, section, group, part)
 
-    def _setSpritePaths(self):
+    def _setSpriteFiles(self):
         self.sprite_files = tuple(
-            self._getSpritePath(self.BODY_SECTIONS[i], self.sprite_groups[i]) for i in range(5)
+            self._getSpriteFile(self.BODY_SECTIONS[i], self.sprite_groups[i]) for i in range(5)
         )
         if self.lvl == 0:
             self.sprite_files = self.sprite_files[1:4]
 
     @staticmethod
     def _loadSpriteFile(sprite_file: str):
-        return pygame.image.load(
-            os.path.join(constants.MONSTER_PARTS_DIRECTORY, sprite_file)
+        return jovialengine.load.image(
+            os.path.join(constants.MONSTER_PARTS_DIRECTORY, sprite_file),
+            constants.COLORKEY
         )
 
     def _setSprites(self, alt_lvl=None, alt_sprite_files=None):
@@ -179,11 +180,11 @@ class Monster(jovialengine.AnimSprite):
         if alt_lvl is not None and alt_sprite_files is not None:
             lvl = alt_lvl
             sprite_files = alt_sprite_files
-        self.sprite = self._loadSpriteFile(sprite_files[0]).convert()
-        self.sprite.set_colorkey(constants.COLORKEY)
+        # the first load needs to get a copy: since these surfaces are cached and may be used later
+        # we need to not blit on to the original
+        self.sprite = self._loadSpriteFile(sprite_files[0]).copy()
         for sprite_path in sprite_files[1:]:
             new_part = self._loadSpriteFile(sprite_path)
-            new_part.set_colorkey(constants.COLORKEY)
             self.sprite.blit(new_part, (0, 0))
         if lvl > 0:
             pix_array = pygame.PixelArray(self.sprite)
@@ -204,7 +205,7 @@ class Monster(jovialengine.AnimSprite):
     def getBarColor2(self):
         return self.skin[self.lvl].dark
 
-    def setImage(self, face_right=False):
+    def setImage(self, face_right: bool = False):
         self.facing_right = face_right
         if face_right:
             self.image = self.sprite_right
@@ -223,7 +224,7 @@ class Monster(jovialengine.AnimSprite):
         self.stats['drv'] = self.DRV_MAX
         self.setHealth()
         self.old_sprite_files.append(self.sprite_files)
-        self._setSpritePaths()
+        self._setSpriteFiles()
         self._setSprites()
         self.setImage()
         return True

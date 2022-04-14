@@ -73,15 +73,14 @@ class ModeFight(ModeButtons):
         """The functions passed in should return the next mode."""
         super().__init__()
         self._background.fill(constants.WHITE)
-        self._health_bar = pygame.image.load(constants.HEALTHBAR_FILE).convert()
-        self._health_bar.set_colorkey(constants.COLORKEY)
+        self._health_bar = jovialengine.load.image(constants.HEALTHBAR_FILE, constants.COLORKEY)
 
         self._player_mon = player_mon
         self._enemy_mon = enemy_mon
         self._enemy_choices = self._BOX_CHOICES \
             + list(itertools.repeat(self._enemy_mon.personality.preferred_action, 3))
 
-        self._user_interface = pygame.image.load(constants.LAYOUT_2_FILE)
+        self._user_interface = jovialengine.load.image(constants.LAYOUT_2_FILE, constants.COLORKEY).copy()
         for index, choice in enumerate(self._BOX_CHOICES):
             jovialengine.shared.font_wrap.renderToInside(
                 self._user_interface,
@@ -90,8 +89,6 @@ class ModeFight(ModeButtons):
                 choice,
                 constants.TEXT_COLOR
             )
-        self._user_interface = self._user_interface.convert()
-        self._user_interface.set_colorkey(constants.COLORKEY)
 
         pygame.mixer.music.load(constants.FIGHT_LOOP)
         pygame.mixer.music.play(-1)

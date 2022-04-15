@@ -29,7 +29,6 @@ class ModeOpening1(ModeOpening):
             "tinsil",
             constants.BLACK
         )
-        bip = pygame.mixer.Sound(constants.BIP)
         self._logo = jovialengine.load.image(constants.TIN_LOGO, constants.COLORKEY)
         star_image = jovialengine.load.image(constants.STAR, constants.COLORKEY)
         star_image = pygame.transform.scale(
@@ -50,7 +49,7 @@ class ModeOpening1(ModeOpening):
                     star_image,
                     self._STAR_WAIT + i * self._STAR_TRAVEL,
                     (x, y),
-                    bip if j == 0 else None
+                    jovialengine.load.sound(constants.BIP) if j == 0 else None
                 )
 
     def _makeStar(self, image: pygame.Surface, wait: int, dest: tuple[int, int], sound):

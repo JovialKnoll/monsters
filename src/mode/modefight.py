@@ -54,9 +54,6 @@ class ModeFight(ModeButtons):
         '_enemy_mon',
         '_enemy_choices',
         '_user_interface',
-        '_thunk',
-        '_rooeee',
-        '_bwop',
         '_player_action',
         '_enemy_action',
         '_action_display',
@@ -92,10 +89,6 @@ class ModeFight(ModeButtons):
 
         pygame.mixer.music.load(constants.FIGHT_LOOP)
         pygame.mixer.music.play(-1)
-
-        self._thunk = pygame.mixer.Sound(constants.THUNK)
-        self._rooeee = pygame.mixer.Sound(constants.ROOEEE)
-        self._bwop = pygame.mixer.Sound(constants.BWOP)
 
         self._player_mon.fightStart()
         self._player_mon.setImage(True)
@@ -181,40 +174,40 @@ class ModeFight(ModeButtons):
             self._setActionDisplay("I'm gonna hit 'em!")
             self._player_mon.addWait(self._ANIM_WAIT)
             self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, 12, 0,
-                                       sound=self._thunk, positional_sound=True,
+                                       sound=jovialengine.load.sound(constants.THUNK), positional_sound=True,
                                        callback=self._shakeCamera)
             self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, -12, 0)
         elif self._player_action == constants.FIGHT_DEFEND:
             self._setActionDisplay("I'm gonna block 'em!")
             self._player_mon.addWait(self._ANIM_WAIT)
             self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 133, -8, 0,
-                                       sound=self._bwop, positional_sound=True,
+                                       sound=jovialengine.load.sound(constants.BWOP), positional_sound=True,
                                        callback=self._shakeCamera)
             self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, 12, 0)
             self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, -4, 0)
         elif self._player_action == constants.FIGHT_DODGE:
             self._setActionDisplay("I'm gonna dodge!")
             self._player_mon.addWait(self._ANIM_WAIT)
-            self._player_mon.addWait(0, sound=self._rooeee, positional_sound=True)
+            self._player_mon.addWait(0, sound=jovialengine.load.sound(constants.ROOEEE), positional_sound=True)
             self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 333, -20, 0)
             self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, 20, 0)
 
         if self._enemy_action == constants.FIGHT_ATTACK:
             self._enemy_mon.addWait(self._ANIM_WAIT)
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, -12, 0,
-                                      sound=self._thunk, positional_sound=True,
+                                      sound=jovialengine.load.sound(constants.THUNK), positional_sound=True,
                                       callback=self._shakeCamera)
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, 12, 0)
         elif self._enemy_action == constants.FIGHT_DEFEND:
             self._enemy_mon.addWait(self._ANIM_WAIT)
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 133, 8, 0,
-                                      sound=self._bwop, positional_sound=True,
+                                      sound=jovialengine.load.sound(constants.BWOP), positional_sound=True,
                                       callback=self._shakeCamera)
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, -12, 0)
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, 4, 0)
         elif self._enemy_action == constants.FIGHT_DODGE:
             self._enemy_mon.addWait(self._ANIM_WAIT)
-            self._enemy_mon.addWait(0, sound=self._rooeee, positional_sound=True)
+            self._enemy_mon.addWait(0, sound=jovialengine.load.sound(constants.ROOEEE), positional_sound=True)
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 333, 20, 0)
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, -20, 0)
 

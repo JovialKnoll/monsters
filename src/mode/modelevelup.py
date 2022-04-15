@@ -15,7 +15,6 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         '_time',
         '_first_sprite',
         '_sprite_switches',
-        '_bip'
     )
 
     def _drawFontEffect(self, text: str, pos: tuple[int, int]):
@@ -71,7 +70,6 @@ class ModeLevelUp(ModeOpening, abc.ABC):
             15750,
             16000,
         ))
-        self._bip = pygame.mixer.Sound(constants.BIP)
         try:
             os.mkdir(constants.IMAGE_DIRECTORY)
         except FileExistsError:
@@ -98,7 +96,7 @@ class ModeLevelUp(ModeOpening, abc.ABC):
             )
 
     def _switchVisibleSprite(self):
-        self._bip.play()
+        jovialengine.load.sound(constants.BIP).play()
         if self._first_sprite.visible:
             self._first_sprite.visible = 0
             jovialengine.shared.state.protag_mon.visible = 1

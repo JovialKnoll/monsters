@@ -40,7 +40,7 @@ class ModeOpening0(ModeOpening):
             constants.SCREEN_SIZE[0] // 2 + constants.SCREEN_SIZE[1] // 2 + star_sprite.rect.width // 2,
             star_sprite.rect.height // 2 * -1,
         )
-        star_sprite.addWait(750, sound=pygame.mixer.Sound(constants.LONGSLIDE), positional_sound=True)
+        star_sprite.addWait(750, sound=jovialengine.load.sound(constants.LONGSLIDE), positional_sound=True)
         star_sprite.addPosAbs(
             jovialengine.AnimSprite.Lerp,
             500,

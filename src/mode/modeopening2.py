@@ -23,7 +23,6 @@ class ModeOpening2(ModeOpening):
         left_mon = Monster.atLevel(3)
         right_mon = Monster.atLevel(2)
 
-        sproing = pygame.mixer.Sound(constants.SPROING)
         ground_level = constants.SCREEN_SIZE[1] - 32
         # starts at right
         left_mon.rect.bottomright = (constants.SCREEN_SIZE[0], ground_level)
@@ -35,20 +34,20 @@ class ModeOpening2(ModeOpening):
         pause = 50
         left_mon.addPosRel(Monster.Lerp, beat * 6, -constants.SCREEN_SIZE[0] // 2, 0)
         right_mon.addPosRel(Monster.Lerp, beat * 6, constants.SCREEN_SIZE[0] // 2, 0,
-                            sound=sproing, positional_sound=True)
+                            sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
         self._music_time = beat * 6
         # back and forth
         left_mon.addWait(beat * 8 + pause * 2)
         jump = right_mon.rect.width // 8
         right_mon.addPosRel(Monster.Lerp, beat, jump, -jump)
         right_mon.addPosRel(Monster.Lerp, beat, jump, jump,
-                            sound=sproing, positional_sound=True)
+                            sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
         right_mon.addPosRel(Monster.Lerp, beat, -jump, -jump)
         right_mon.addPosRel(Monster.Lerp, beat, -jump, jump)
-        right_mon.addWait(pause, sound=sproing, positional_sound=True)
+        right_mon.addWait(pause, sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
         right_mon.addPosRel(Monster.Lerp, beat, jump, -jump)
         right_mon.addPosRel(Monster.Lerp, beat, jump, jump,
-                            sound=sproing, positional_sound=True)
+                            sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
         right_mon.addPosRel(Monster.Lerp, beat, -jump, -jump)
         right_mon.addPosRel(Monster.Lerp, beat, -jump, jump)
         right_mon.addWait(pause)
@@ -58,7 +57,7 @@ class ModeOpening2(ModeOpening):
         # slash!
         left_mon.addPosRel(Monster.Lerp, 100, -jump // 2, -jump // 3)
         left_mon.addPosRel(Monster.Lerp, 200, jump + jump // 2, jump // 3,
-                           sound=pygame.mixer.Sound(constants.THUNK), positional_sound=True)
+                           sound=jovialengine.load.sound(constants.THUNK), positional_sound=True)
         right_mon.addWait(300)
         # jump back
         left_mon.addWait(beat)
@@ -81,7 +80,7 @@ class ModeOpening2(ModeOpening):
         # fire
         right_mon.addWait(beat * 2)
         right_mon.addPosRel(Monster.Lerp, beat, -jump * 6 - jump // 2, -jump * 2 - jump // 2,
-                            sound=pygame.mixer.Sound(constants.FSSSH))
+                            sound=jovialengine.load.sound(constants.FSSSH))
 
         # higher layer = draw later = "in front"
         left_mon.layer = 1

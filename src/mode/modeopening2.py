@@ -67,11 +67,11 @@ class ModeOpening2(ModeOpening):
         left_mon.addWait(150)
         left_mon.addPosRel(Monster.Lerp, 100, -jump, 0)
         right_mon.addWait(beat * 3,
-                          sound=sproing, positional_sound=True)
+                          sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
         # back and forth again
         right_mon.addPosRel(Monster.Lerp, beat, -jump, -jump * 2)
         right_mon.addPosRel(Monster.Lerp, beat, -jump, jump * 2,
-                            sound=sproing, positional_sound=True)
+                            sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
         right_mon.addPosRel(Monster.Lerp, beat, jump, -jump * 2)
         right_mon.addPosRel(Monster.Lerp, beat, jump, jump * 2)
         # charge

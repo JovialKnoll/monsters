@@ -12,9 +12,9 @@ class ModeMenu3(ModeMenu):
         if prev_convo_key == "3aa":
             self._stopMixer()
             self.next_mode = ModeFight(
-                jovialengine.shared.state.protag_mon,
+                jovialengine.game.getGame().state.protag_mon,
                 Monster.atLevel(3),
-                lambda: ModeTalkWin3() if jovialengine.shared.state.fight_results[-1] == 1 else ModeTalkElse3()
+                lambda: ModeTalkWin3() if jovialengine.game.getGame().state.fight_results[-1] == 1 else ModeTalkElse3()
             )
             return True
         return False

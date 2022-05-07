@@ -7,18 +7,13 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "1"
 import pygame
 pygame.init()
 import jovialengine
-
+game = jovialengine.game.initGame()
 from mode import ModeOpening0
+game.load(ModeOpening0)
 
+while game.run():
+    pass
 
-def main():
-    game = jovialengine.Game(ModeOpening0)
-    while game.run():
-        pass
-    del game
-
-
-if __name__ == "__main__":
-    main()
+del game
 pygame.quit()
 sys.exit()

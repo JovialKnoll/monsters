@@ -12,13 +12,14 @@ class ModeMenu0(ModeMenu):
     def _handleLoad(self):
         super()._handleLoad()
         if self._convo_key == "3a3":
-            if jovialengine.game.getGame().state.protag_mon.personality == Personality.Affectionate:
+            personality = jovialengine.game.getGame().state.protag_mon.personality
+            if personality == Personality.Affectionate:
                 self._text = "I'm sure we'll do great."
-            elif jovialengine.game.getGame().state.protag_mon.personality == Personality.Aggressive:
+            elif personality == Personality.Aggressive:
                 self._text = "Let's go win a fight!"
-            elif jovialengine.game.getGame().state.protag_mon.personality == Personality.Careful:
+            elif personality == Personality.Careful:
                 self._text = "Be careful, okay?"
-            elif jovialengine.game.getGame().state.protag_mon.personality == Personality.Energetic:
+            elif personality == Personality.Energetic:
                 self._text = "I'm so excited!"
 
     def _handleButton(self, prev_convo_key, index):

@@ -120,7 +120,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         self._renderText()
         self._text_rect.clamp_ip(self._surf_text.get_rect())
         # in case of monster display
-        jovialengine.shared.state.protag_mon.setImage()
+        jovialengine.game.getGame().state.protag_mon.setImage()
 
     @classmethod
     def _getScript(cls):
@@ -151,7 +151,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
     @staticmethod
     def _getTextReplace():
         return {
-            'MONSTER_NAME': jovialengine.shared.state.protag_mon.name,
+            'MONSTER_NAME': jovialengine.game.getGame().state.protag_mon.name,
         }
 
     def _loadText(self):
@@ -170,7 +170,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
 
     def _renderText(self):
         self._handleTags()
-        self._surf_text = jovialengine.shared.font_wrap.renderInside(
+        self._surf_text = jovialengine.game.getGame().font_wrap.renderInside(
             296,
             self._text,
             constants.TEXT_COLOR,
@@ -178,7 +178,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         )
         self._user_interface = jovialengine.load.image(constants.LAYOUT_1_FILE, constants.COLORKEY).copy()
         for index, button in enumerate(self._choices):
-            jovialengine.shared.font_wrap.renderToInside(
+            jovialengine.game.getGame().font_wrap.renderToInside(
                 self._user_interface,
                 self._textStart(index),
                 self._textWidth(index),
@@ -192,8 +192,8 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         self._all_sprites.empty()
         for tag in self._style:
             if tag == "SHOW_MONSTER":
-                jovialengine.shared.state.protag_mon.rect.center = (160, 128)
-                self._all_sprites.add(jovialengine.shared.state.protag_mon)
+                jovialengine.game.getGame().state.protag_mon.rect.center = (160, 128)
+                self._all_sprites.add(jovialengine.game.getGame().state.protag_mon)
             elif tag == "START_CHAT_MUSIC":
                 if "START_CHAT_MUSIC" not in self._active_tags:
                     pygame.mixer.music.load(constants.CHAT_LOOP)

@@ -11,9 +11,9 @@ class ModeTalkElse0(ModeConvo):
         if prev_convo_key == "6":
             self._stopMixer()
             self.next_mode = ModeFight(
-                jovialengine.shared.state.protag_mon,
+                jovialengine.game.getGame().state.protag_mon,
                 Monster.atLevel(0),
-                lambda: ModeTalkWin0() if jovialengine.shared.state.fight_results[-1] == 1 else ModeTalkElse0()
+                lambda: ModeTalkWin0() if jovialengine.game.getGame().state.fight_results[-1] == 1 else ModeTalkElse0()
             )
             return True
         return False

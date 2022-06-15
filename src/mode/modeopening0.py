@@ -19,7 +19,7 @@ class ModeOpening0(ModeOpening):
         self._time = 0
         self._step = 0
         self._background.fill(constants.WHITE)
-        jovialengine.game.getGame().font_wrap.renderToCentered(
+        jovialengine.game.getInstance().font_wrap.renderToCentered(
             self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
             self._LOGO_TEXT,
@@ -56,7 +56,7 @@ class ModeOpening0(ModeOpening):
         self._time += dt
         if self._time >= 1250 and self._step < 1:
             self._step += 1
-            jovialengine.game.getGame().font_wrap.renderToCentered(
+            jovialengine.game.getInstance().font_wrap.renderToCentered(
                 self._background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
                 self._LOGO_TEXT,
@@ -64,7 +64,7 @@ class ModeOpening0(ModeOpening):
             )
         if self._time >= 1500 and self._step < 2:
             self._step += 1
-            jovialengine.game.getGame().font_wrap.renderToCentered(
+            jovialengine.game.getInstance().font_wrap.renderToCentered(
                 self._background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
                 self._LOGO_TEXT,
@@ -80,7 +80,7 @@ class ModeOpening0(ModeOpening):
             )
         if self._time >= 1750 and self._step < 3:
             self._step += 1
-            jovialengine.game.getGame().font_wrap.renderToCentered(
+            jovialengine.game.getInstance().font_wrap.renderToCentered(
                 self._background,
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8),
                 self._LOGO_TEXT,

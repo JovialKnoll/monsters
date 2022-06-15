@@ -18,13 +18,13 @@ class ModeLevelUp(ModeOpening, abc.ABC):
     )
 
     def _drawFontEffect(self, text: str, pos: tuple[int, int]):
-        jovialengine.game.getGame().font_wrap.renderToCentered(
+        jovialengine.game.getInstance().font_wrap.renderToCentered(
             self._background,
             (pos[0] + 1, pos[1] + 1),
             text,
             constants.TEXT_COLOR
         )
-        jovialengine.game.getGame().font_wrap.renderToCentered(
+        jovialengine.game.getInstance().font_wrap.renderToCentered(
             self._background,
             (pos[0], pos[1]),
             text,
@@ -37,18 +37,18 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         self._time = 0
         self._background.fill(constants.WHITE)
         self._drawFontEffect("LEVEL UP", (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 4))
-        jovialengine.game.getGame().state.protag_mon.setImage()
+        jovialengine.game.getInstance().state.protag_mon.setImage()
         # set up first sprite
         self._first_sprite = pygame.sprite.DirtySprite()
-        self._first_sprite.image = jovialengine.game.getGame().state.protag_mon.image
-        self._first_sprite.rect = jovialengine.game.getGame().state.protag_mon.rect
+        self._first_sprite.image = jovialengine.game.getInstance().state.protag_mon.image
+        self._first_sprite.rect = jovialengine.game.getInstance().state.protag_mon.rect
         self._first_sprite.rect.center = (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 2 // 3)
         # level up and set up second sprite
-        jovialengine.game.getGame().state.protag_mon.levelUp()
-        jovialengine.game.getGame().state.protag_mon.setImage()
-        jovialengine.game.getGame().state.protag_mon.rect.midbottom = self._first_sprite.rect.midbottom
-        self._all_sprites.add(self._first_sprite, jovialengine.game.getGame().state.protag_mon)
-        jovialengine.game.getGame().state.protag_mon.visible = 0
+        jovialengine.game.getInstance().state.protag_mon.levelUp()
+        jovialengine.game.getInstance().state.protag_mon.setImage()
+        jovialengine.game.getInstance().state.protag_mon.rect.midbottom = self._first_sprite.rect.midbottom
+        self._all_sprites.add(self._first_sprite, jovialengine.game.getInstance().state.protag_mon)
+        jovialengine.game.getInstance().state.protag_mon.visible = 0
         self._sprite_switches = deque((
             4000,
             4100,
@@ -74,9 +74,9 @@ class ModeLevelUp(ModeOpening, abc.ABC):
             os.mkdir(constants.IMAGE_DIRECTORY)
         except FileExistsError:
             pass
-        file_name = f"{jovialengine.game.getGame().state.protag_mon.name}_{jovialengine.game.getGame().state.protag_mon.uuid}.png"
+        file_name = f"{jovialengine.game.getInstance().state.protag_mon.name}_{jovialengine.game.getInstance().state.protag_mon.uuid}.png"
         file_path = os.path.join(constants.IMAGE_DIRECTORY, file_name)
-        pygame.image.save(jovialengine.game.getGame().state.protag_mon.getCard(), file_path)
+        pygame.image.save(jovialengine.game.getInstance().state.protag_mon.getCard(), file_path)
 
     def _input(self, event):
         if self._time >= 16000:
@@ -99,7 +99,7 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         jovialengine.load.sound(constants.BIP).play()
         if self._first_sprite.visible:
             self._first_sprite.visible = 0
-            jovialengine.game.getGame().state.protag_mon.visible = 1
+            jovialengine.game.getInstance().state.protag_mon.visible = 1
         else:
             self._first_sprite.visible = 1
-            jovialengine.game.getGame().state.protag_mon.visible = 0
+            jovialengine.game.getInstance().state.protag_mon.visible = 0

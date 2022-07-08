@@ -7,7 +7,7 @@ from .modeconvo import ModeConvo
 class ModeIntroduction1(ModeConvo):
     def _handleLoad(self):
         if self._convo_key == "0":
-            personality = jovialengine.game.getInstance().state.protag_mon.personality
+            personality = jovialengine.getGame().state.protag_mon.personality
             if personality == Personality.Affectionate:
                 self._text = "Hello! :)"
             elif personality == Personality.Aggressive:

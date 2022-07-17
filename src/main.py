@@ -8,14 +8,12 @@ os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "1"
 import pygame
 import jovialengine
 
-game = jovialengine.getGame()
-# check if above line can move down
-
 import constants
 import mode
 from state import State
 
 
+game = jovialengine.getGame()
 game.load(
     mode,
     mode.ModeOpening0,

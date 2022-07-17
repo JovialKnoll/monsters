@@ -29,10 +29,7 @@ ASSETS_DIRECTORY = os.path.join(SRC_DIRECTORY, 'assets')
 GRAPHICS_DIRECTORY = os.path.join(ASSETS_DIRECTORY, 'gfx')
 SOUND_DIRECTORY = os.path.join(ASSETS_DIRECTORY, 'sfx')
 TEXT_DIRECTORY = os.path.join(ASSETS_DIRECTORY, 'txt')
-SAVE_DIRECTORY = os.path.join(SRC_DIRECTORY, 'saves')
-SCREENSHOT_DIRECTORY = os.path.join(SRC_DIRECTORY, 'screenshots')
 
-CONFIG_FILE = os.path.join(SRC_DIRECTORY, 'config.ini')
 WINDOW_ICON = os.path.join(GRAPHICS_DIRECTORY, 'icon.png')
 FONT = os.path.join(GRAPHICS_DIRECTORY, 'simple_mono.ttf')
 

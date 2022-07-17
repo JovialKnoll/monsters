@@ -1,10 +1,11 @@
 import abc
 
 import pygame
-import jovialengine
+
+from .modescreensize import ModeScreenSize
 
 
-class ModeOpening(jovialengine.ModeBase, abc.ABC):
+class ModeOpening(ModeScreenSize, abc.ABC):
     @abc.abstractmethod
     def _switchMode(self):
         raise NotImplementedError(

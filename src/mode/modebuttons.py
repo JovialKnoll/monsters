@@ -4,9 +4,10 @@ import pygame
 import jovialengine
 
 import constants
+from .modescreensize import ModeScreenSize
 
 
-class ModeButtons(jovialengine.ModeBase, abc.ABC):
+class ModeButtons(ModeScreenSize, abc.ABC):
     _TEXT_MARGIN = 4
     buttons = ()
     _back_keys = set()

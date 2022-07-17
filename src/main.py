@@ -13,8 +13,7 @@ import mode
 from state import State
 
 
-game = jovialengine.getGame()
-game.load(
+game = jovialengine.initGame(
     mode,
     mode.ModeOpening0,
     State,
@@ -27,6 +26,7 @@ game.load(
     constants.FONT_HEIGHT,
     constants.FONT_ANTIALIAS
 )
+game.start()
 while game.run():
     pass
 

@@ -79,7 +79,7 @@ class ModeFight(ModeButtons):
 
         self._user_interface = jovialengine.load.image(constants.LAYOUT_2_FILE, constants.COLORKEY).copy()
         for index, choice in enumerate(self._BOX_CHOICES):
-            jovialengine.getGame().font_wrap.renderToInside(
+            jovialengine.getDefaultFontWrap().renderToInside(
                 self._user_interface,
                 self._textStart(index),
                 self._textWidth(index),
@@ -132,7 +132,7 @@ class ModeFight(ModeButtons):
             self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 2 - text_width,
             self._ENEMY_BAR_Y - constants.FONT_HEIGHT
         )
-        jovialengine.getGame().font_wrap.renderToInside(
+        jovialengine.getDefaultFontWrap().renderToInside(
             self._user_interface,
             player_health_dest,
             text_width,
@@ -140,7 +140,7 @@ class ModeFight(ModeButtons):
             constants.TEXT_COLOR,
             constants.WHITE
         )
-        jovialengine.getGame().font_wrap.renderToInside(
+        jovialengine.getDefaultFontWrap().renderToInside(
             self._user_interface,
             enemy_health_dest,
             text_width,
@@ -227,14 +227,14 @@ class ModeFight(ModeButtons):
 
     def _setActionDisplay(self, text: str):
         self._action_display.appendleft(
-            jovialengine.getGame().font_wrap.renderInside(
+            jovialengine.getDefaultFontWrap().renderInside(
                 200,
                 text,
                 constants.TEXT_COLOR,
                 constants.WHITE
             )
         )
-        self._action_display_latest = jovialengine.getGame().font_wrap.renderInside(
+        self._action_display_latest = jovialengine.getDefaultFontWrap().renderInside(
             200,
             text,
             constants.BLACK,
@@ -313,7 +313,7 @@ class ModeFight(ModeButtons):
             self._result_displayed = 1
         elif not self._player_mon.stillAnimating() and self._result_displayed < 2:
             self._setActionDisplay("Click or press enter to")
-            self._action_display_latest2 = jovialengine.getGame().font_wrap.renderInside(
+            self._action_display_latest2 = jovialengine.getDefaultFontWrap().renderInside(
                 200,
                 "Click or press enter to",
                 constants.BLACK,

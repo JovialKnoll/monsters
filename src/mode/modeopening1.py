@@ -23,7 +23,7 @@ class ModeOpening1(ModeOpening):
 
         self._time = 0
         self._background.fill(constants.WHITE)
-        jovialengine.getGame().font_wrap.renderToCentered(
+        jovialengine.getDefaultFontWrap().renderToCentered(
             self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8 + 8),
             "tinsil",

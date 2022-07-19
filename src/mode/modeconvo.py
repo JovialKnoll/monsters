@@ -170,7 +170,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
 
     def _renderText(self):
         self._handleTags()
-        self._surf_text = jovialengine.getGame().font_wrap.renderInside(
+        self._surf_text = jovialengine.getDefaultFontWrap().renderInside(
             296,
             self._text,
             constants.TEXT_COLOR,
@@ -178,7 +178,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         )
         self._user_interface = jovialengine.load.image(constants.LAYOUT_1_FILE, constants.COLORKEY).copy()
         for index, button in enumerate(self._choices):
-            jovialengine.getGame().font_wrap.renderToInside(
+            jovialengine.getDefaultFontWrap().renderToInside(
                 self._user_interface,
                 self._textStart(index),
                 self._textWidth(index),

@@ -18,13 +18,13 @@ class ModeLevelUp(ModeOpening, abc.ABC):
     )
 
     def _drawFontEffect(self, text: str, pos: tuple[int, int]):
-        jovialengine.getGame().font_wrap.renderToCentered(
+        jovialengine.getDefaultFontWrap().renderToCentered(
             self._background,
             (pos[0] + 1, pos[1] + 1),
             text,
             constants.TEXT_COLOR
         )
-        jovialengine.getGame().font_wrap.renderToCentered(
+        jovialengine.getDefaultFontWrap().renderToCentered(
             self._background,
             (pos[0], pos[1]),
             text,

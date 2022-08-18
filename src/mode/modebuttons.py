@@ -16,12 +16,14 @@ class ModeButtons(ModeScreenSize, abc.ABC):
     __slots__ = (
         '_black_box',
         '_selected_button',
+        '_clicked_button',
     )
 
     def __init__(self):
         super().__init__()
         self._black_box = jovialengine.load.image(constants.BLACKBOX_FILE, constants.COLORKEY)
         self._selected_button = 0
+        self._clicked_button = None
 
     def _drawSelected(self, screen: pygame.surface):
         screen.blit(self._black_box, self.buttons[self._selected_button])
@@ -70,13 +72,13 @@ class ModeButtons(ModeScreenSize, abc.ABC):
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 self._posSelect(event.pos)
+                self._clicked_button = self._selected_button
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 if self._posSelect(event.pos) is not None \
-                    and self._mouseButtonStatus(event.button) \
-                    and self._posSelect(self._mouseButtonStatus(event.button)) \
-                        == self._posSelect(event.pos):
+                        and self._selected_button == self._clicked_button:
                     self._buttonPress()
+                self._clicked_button = None
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 self._buttonPress()

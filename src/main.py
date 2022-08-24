@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
-import os
 
-os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "1"
-
-import pygame
 import jovialengine
 
 import constants
@@ -32,5 +28,4 @@ game.start()
 while game.run():
     pass
 
-pygame.quit()
 sys.exit()

@@ -211,7 +211,7 @@ class ModeFight(ModeButtons):
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 333, 20, 0)
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, -20, 0)
 
-    def _input(self, event):
+    def _inputEvent(self, event):
         # click forward to next mode
         if self._result:
             if (event.type == pygame.MOUSEBUTTONUP and event.button == 1) \
@@ -223,7 +223,7 @@ class ModeFight(ModeButtons):
         # in the middle of action display
         if self._player_action:
             return
-        super()._input(event)
+        super()._inputEvent(event)
 
     def _setActionDisplay(self, text: str):
         self._action_display.appendleft(

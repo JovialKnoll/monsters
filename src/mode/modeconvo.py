@@ -237,13 +237,13 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
                 raise ValueError(f"The convo mode {type(self).__name__}, at key {self._convo_key},"
                                  f" has a button that doesn't lead to anything: {self._selected_button}")
 
-    def _input(self, event):
+    def _inputEvent(self, event):
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button == 4:
                 self._text_rect.move_ip(0, -constants.FONT_HEIGHT)
             elif event.button == 5:
                 self._text_rect.move_ip(0, constants.FONT_HEIGHT)
-        super()._input(event)
+        super()._inputEvent(event)
 
     @staticmethod
     def _getScrollDirection():

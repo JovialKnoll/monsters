@@ -78,9 +78,9 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         file_path = os.path.join(constants.IMAGE_DIRECTORY, file_name)
         pygame.image.save(jovialengine.getGame().state.protag_mon.getCard(), file_path)
 
-    def _input(self, event):
+    def _inputEvent(self, event):
         if self._time >= 16000:
-            super()._input(event)
+            super()._inputEvent(event)
         pass
 
     def _update(self, dt):

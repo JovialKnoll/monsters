@@ -9,6 +9,14 @@ FONT_SIZE = 8
 FONT_HEIGHT = 10
 FONT_ANTIALIAS = False
 
+INPUT_NAMES = (
+    "Left",
+    "Right",
+    "Up",
+    "Down",
+    "Confirm",
+)
+
 TEXT_COLOR = (164, 162, 165)
 DARK_TEXT_COLOR = (82, 81, 83)
 WHITE = (255, 255, 255)

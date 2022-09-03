@@ -18,7 +18,7 @@ game = jovialengine.initGame(
     constants.TITLE,
     constants.WINDOW_ICON,
     1,
-    7,
+    constants.INPUT_NAMES,
     constants.FONT,
     constants.FONT_SIZE,
     constants.FONT_HEIGHT,

@@ -1,6 +1,8 @@
 import sys
 import os
 
+import jovialengine
+import pygame
 
 TITLE = "CHIKKAI! Tiny Kaijus"
 SCREEN_SIZE = (320, 180)
@@ -9,12 +11,24 @@ FONT_SIZE = 8
 FONT_HEIGHT = 10
 FONT_ANTIALIAS = False
 
-INPUT_NAMES = (
+EVENT_NAMES = (
     "Left",
     "Right",
     "Up",
     "Down",
     "Confirm",
+)
+EVENT_LEFT = jovialengine.EVENT_TYPE_START_POS
+EVENT_RIGHT = jovialengine.EVENT_TYPE_START_POS + 1
+EVENT_UP = jovialengine.EVENT_TYPE_START_POS + 2
+EVENT_DOWN = jovialengine.EVENT_TYPE_START_POS + 3
+EVENT_CONFIRM = jovialengine.EVENT_TYPE_START_POS + 4
+INPUT_DEFAULTS = (
+    jovialengine.InputDefault(0, EVENT_LEFT, jovialengine.InputType.KEYBOARD, pygame.K_LEFT),
+    jovialengine.InputDefault(0, EVENT_RIGHT, jovialengine.InputType.KEYBOARD, pygame.K_RIGHT),
+    jovialengine.InputDefault(0, EVENT_UP, jovialengine.InputType.KEYBOARD, pygame.K_UP),
+    jovialengine.InputDefault(0, EVENT_DOWN, jovialengine.InputType.KEYBOARD, pygame.K_DOWN),
+    jovialengine.InputDefault(0, EVENT_CONFIRM, jovialengine.InputType.KEYBOARD, pygame.K_RETURN),
 )
 
 TEXT_COLOR = (164, 162, 165)

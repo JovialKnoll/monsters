@@ -6,16 +6,12 @@ on:
       v*.*.*
 
 jobs:
-  create-release:
-    uses: JovialKnoll/workflows/.github/workflows/create-release.yml@master
-
   build-python:
     uses: JovialKnoll/workflows/.github/workflows/build-python.yml@master
     needs: create-release
     with:
       project_name: chikkai
       python_version: '3.10'
-      upload_url: ${{ needs.create-release.outputs.upload_url }}
 
   upload-butler:
     uses: JovialKnoll/workflows/.github/workflows/upload-butler.yml@master

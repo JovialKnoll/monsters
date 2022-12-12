@@ -25,7 +25,6 @@ game = jovialengine.initGame(
     constants.FONT_HEIGHT,
     constants.FONT_ANTIALIAS
 )
-game.start()
 while game.run():
     pass
 

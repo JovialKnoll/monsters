@@ -8,6 +8,7 @@ on:
 jobs:
   build-python:
     uses: JovialKnoll/workflows/.github/workflows/build-python.yml@master
+    needs: create-release
     with:
       project_name: chikkai
       python_version: '3.10'

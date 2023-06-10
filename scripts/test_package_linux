@@ -1,8 +1,10 @@
 cd ../../jovialengine
+sed -i "s/VERSION/999/g" setup.cfg
 python -m build --sdist --wheel --outdir dist/ .
+sed -i "s/999/VERSION/g" setup.cfg
 cd ../monsters
 source src/venv/bin/activate
-pip install --force-reinstall ../jovialengine/dist/jovialengine-VERSION-py3-none-any.whl
+pip install --force-reinstall ../jovialengine/dist/jovialengine-999-py3-none-any.whl
 python src/main.py
 deactivate
 cd scripts

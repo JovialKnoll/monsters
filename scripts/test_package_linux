@@ -1,7 +1,7 @@
 cd ../../jovialengine
-sed -i "s/VERSION/999/g" setup.cfg
+sed -i "s/VERSION_REPLACE/999/g" setup.cfg
 python -m build --sdist --wheel --outdir dist/ .
-sed -i "s/999/VERSION/g" setup.cfg
+sed -i "s/999/VERSION_REPLACE/g" setup.cfg
 cd ../monsters
 source src/venv/bin/activate
 pip install --force-reinstall ../jovialengine/dist/jovialengine-999-py3-none-any.whl

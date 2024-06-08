@@ -4,5 +4,6 @@ sudo apt-get install python3-pip python3-venv
 cd ../src/
 python3 -m venv venv
 source venv/bin/activate
+pip install setuptools
 pip install -r requirements.txt
 deactivate

@@ -81,7 +81,6 @@ class ModeLevelUp(ModeOpening, abc.ABC):
     def _inputEvent(self, event):
         if self._time >= 16000:
             super()._inputEvent(event)
-        pass
 
     def _update(self, dt):
         self._time += dt

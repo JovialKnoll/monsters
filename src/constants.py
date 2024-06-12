@@ -29,6 +29,11 @@ INPUT_DEFAULTS = (
     jovialengine.InputDefault(0, EVENT_UP, jovialengine.InputType.KEYBOARD, pygame.K_UP),
     jovialengine.InputDefault(0, EVENT_DOWN, jovialengine.InputType.KEYBOARD, pygame.K_DOWN),
     jovialengine.InputDefault(0, EVENT_CONFIRM, jovialengine.InputType.KEYBOARD, pygame.K_RETURN),
+    jovialengine.InputDefault(0, EVENT_LEFT, jovialengine.InputType.CON_HAT, 0),
+    jovialengine.InputDefault(0, EVENT_RIGHT, jovialengine.InputType.CON_HAT, 1),
+    jovialengine.InputDefault(0, EVENT_UP, jovialengine.InputType.CON_HAT, 2),
+    jovialengine.InputDefault(0, EVENT_DOWN, jovialengine.InputType.CON_HAT, 3),
+    jovialengine.InputDefault(0, EVENT_CONFIRM, jovialengine.InputType.CON_BUTTON, 0),
 )
 
 TEXT_COLOR = (164, 162, 165)

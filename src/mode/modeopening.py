@@ -2,6 +2,7 @@ import abc
 
 import pygame
 
+import constants
 from .modescreensize import ModeScreenSize
 
 
@@ -22,4 +23,6 @@ class ModeOpening(ModeScreenSize, abc.ABC):
             self._switchMode()
 
     def _inputFrame(self, input_frame):
-        pass
+        if input_frame.wasAnyInputPressed(constants.ALL_EVENTS):
+            self._stopMixer()
+            self._switchMode()

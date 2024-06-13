@@ -23,6 +23,13 @@ EVENT_RIGHT = jovialengine.EVENT_TYPE_START_POS + 1
 EVENT_UP = jovialengine.EVENT_TYPE_START_POS + 2
 EVENT_DOWN = jovialengine.EVENT_TYPE_START_POS + 3
 EVENT_CONFIRM = jovialengine.EVENT_TYPE_START_POS + 4
+ALL_EVENTS = {
+    EVENT_LEFT,
+    EVENT_RIGHT,
+    EVENT_UP,
+    EVENT_DOWN,
+    EVENT_CONFIRM,
+}
 INPUT_DEFAULTS = (
     jovialengine.InputDefault(0, EVENT_LEFT, jovialengine.InputType.KEYBOARD, pygame.K_LEFT),
     jovialengine.InputDefault(0, EVENT_RIGHT, jovialengine.InputType.KEYBOARD, pygame.K_RIGHT),

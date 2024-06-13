@@ -82,6 +82,10 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         if self._time >= 16000:
             super()._inputEvent(event)
 
+    def _inputFrame(self, input_frame):
+        if self._time >= 16000:
+            super()._inputFrame(input_frame)
+
     def _update(self, dt):
         self._time += dt
         while self._sprite_switches and self._time >= self._sprite_switches[0]:

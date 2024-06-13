@@ -20,3 +20,6 @@ class ModeOpening(ModeScreenSize, abc.ABC):
                 ):
             self._stopMixer()
             self._switchMode()
+
+    def _inputFrame(self, input_frame):
+        pass

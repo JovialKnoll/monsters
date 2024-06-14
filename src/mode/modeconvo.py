@@ -238,8 +238,8 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         super()._inputEvent(event)
 
     def _getScrollDirection(self):
-        return (self._input_frame.wasInputPressed(constants.EVENT_DOWN)) \
-            - (self._input_frame.wasInputPressed(constants.EVENT_UP))
+        return (self._input_frame.getInputState(0, constants.EVENT_DOWN)) \
+            - (self._input_frame.getInputState(0, constants.EVENT_UP))
 
     def _update(self, dt):
         self._text_scroll, text_scroll_int = jovialengine.utility.getIntMovement(

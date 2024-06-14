@@ -17,18 +17,6 @@ class ModeFight(ModeButtons):
         pygame.Rect(24, 76, 88, 36),
         pygame.Rect(24, 128, 88, 36),
     )
-    _back_keys = {
-        pygame.K_UP,
-        pygame.K_LEFT,
-        pygame.K_w,
-        pygame.K_a,
-    }
-    _forward_keys = {
-        pygame.K_DOWN,
-        pygame.K_RIGHT,
-        pygame.K_s,
-        pygame.K_d,
-    }
     _PLAYER_POS = (170, 128)
     _ENEMY_POS = (262, 128)
     _ANIM_WAIT = 250
@@ -211,19 +199,36 @@ class ModeFight(ModeButtons):
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 333, 20, 0)
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, -20, 0)
 
+    def _endFight(self):
+        self._stopMixer()
+        jovialengine.getGame().state.fight_results.append(self._RESULT_SAVING[self._result])
+        self.next_mode = self._get_next_mode()
+
     def _inputEvent(self, event):
         # click forward to next mode
         if self._result:
-            if (event.type == pygame.MOUSEBUTTONUP and event.button == 1) \
-                    or (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN):
-                self._stopMixer()
-                jovialengine.getGame().state.fight_results.append(self._RESULT_SAVING[self._result])
-                self.next_mode = self._get_next_mode()
+            if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+                self._endFight()
                 return
         # in the middle of action display
         if self._player_action:
             return
         super()._inputEvent(event)
+
+    def _inputFrame(self, input_frame):
+        # click forward to next mode
+        if self._result:
+            if input_frame.wasInputPressed(constants.EVENT_CONFIRM):
+                self._endFight()
+                return
+        # in the middle of action display
+        if self._player_action:
+            return
+        super()._inputFrame(input_frame)
+        if input_frame.wasInputPressed(constants.EVENT_UP):
+            self._keySelect(-1)
+        if input_frame.wasInputPressed(constants.EVENT_DOWN):
+            self._keySelect(1)
 
     def _setActionDisplay(self, text: str):
         self._action_display.appendleft(

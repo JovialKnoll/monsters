@@ -10,8 +10,6 @@ from .modescreensize import ModeScreenSize
 class ModeButtons(ModeScreenSize, abc.ABC):
     _TEXT_MARGIN = 4
     buttons = ()
-    _back_keys = set()
-    _forward_keys = set()
 
     __slots__ = (
         '_black_box',
@@ -28,11 +26,8 @@ class ModeButtons(ModeScreenSize, abc.ABC):
     def _drawSelected(self, screen: pygame.surface):
         screen.blit(self._black_box, self.buttons[self._selected_button])
 
-    def _keySelect(self, key):
-        if key in self._back_keys:
-            self._selected_button -= 1
-        elif key in self._forward_keys:
-            self._selected_button += 1
+    def _keySelect(self, change: int):
+        self._selected_button += change
         self._selected_button %= len(self.buttons)
 
     def _posSelectButton(self, pos: tuple[int, int], index: int, rect: pygame.rect):
@@ -79,8 +74,11 @@ class ModeButtons(ModeScreenSize, abc.ABC):
                         and self._selected_button == self._clicked_button:
                     self._buttonPress()
                 self._clicked_button = None
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
-                self._buttonPress()
-            else:
-                self._keySelect(event.key)
+
+    def _inputFrame(self, input_frame):
+        if input_frame.wasInputPressed(constants.EVENT_CONFIRM):
+            self._buttonPress()
+        if input_frame.wasInputPressed(constants.EVENT_LEFT):
+            self._keySelect(-1)
+        if input_frame.wasInputPressed(constants.EVENT_RIGHT):
+            self._keySelect(1)

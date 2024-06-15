@@ -76,14 +76,6 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         pygame.Rect(8, 132, 88, 36),
         pygame.Rect(224, 132, 88, 36),
     )
-    _back_keys = {
-        pygame.K_LEFT,
-        pygame.K_a,
-    }
-    _forward_keys = {
-        pygame.K_RIGHT,
-        pygame.K_d,
-    }
     SCROLL_AMOUNT_SPEED = 0.1
 
     __slots__ = (
@@ -100,8 +92,8 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         '_user_interface',
     )
 
-    def _keySelect(self, key):
-        super()._keySelect(key)
+    def _keySelect(self, change):
+        super()._keySelect(change)
         self._selected_button %= len(self._choices)
 
     def _posSelectButton(self, pos: tuple[int, int], index: int, rect: pygame.rect):
@@ -245,11 +237,9 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
                 self._text_rect.move_ip(0, constants.FONT_HEIGHT)
         super()._inputEvent(event)
 
-    @staticmethod
-    def _getScrollDirection():
-        pressed_keys = pygame.key.get_pressed()
-        return (pressed_keys[pygame.K_DOWN] or pressed_keys[pygame.K_s]) \
-            - (pressed_keys[pygame.K_UP] or pressed_keys[pygame.K_w])
+    def _getScrollDirection(self):
+        return (self._input_frame.getInputState(0, constants.EVENT_DOWN)) \
+            - (self._input_frame.getInputState(0, constants.EVENT_UP))
 
     def _update(self, dt):
         self._text_scroll, text_scroll_int = jovialengine.utility.getIntMovement(

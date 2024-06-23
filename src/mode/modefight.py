@@ -252,7 +252,7 @@ class ModeFight(ModeButtons):
         enemy_hit_block = self._enemy_mon.fightHit(self._enemy_action)
 
         raw_player_damage = enemy_hit_block[0] - player_hit_block[1]
-        final_player_damage = jovialengine.utility.reduceNumber(
+        final_player_damage = jovialengine.utility.reduce_number(
             max(
                 0,
                 raw_player_damage
@@ -260,7 +260,7 @@ class ModeFight(ModeButtons):
             2
         )
         raw_enemy_damage = player_hit_block[0] - enemy_hit_block[1]
-        final_enemy_damage = jovialengine.utility.reduceNumber(
+        final_enemy_damage = jovialengine.utility.reduce_number(
             max(
                 0,
                 raw_enemy_damage

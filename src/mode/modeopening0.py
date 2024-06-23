@@ -40,8 +40,8 @@ class ModeOpening0(ModeOpening):
             star_sprite.rect.height // 2 * -1,
         )
         star_sprite.add_wait(750, sound=jovialengine.load.sound(constants.LONGSLIDE), positional_sound=True)
-        star_sprite.addPosAbs(
-            jovialengine.AnimSprite.Lerp,
+        star_sprite.add_pos_abs(
+            jovialengine.AnimSprite.LERP,
             500,
             constants.SCREEN_SIZE[0] // 2 - constants.SCREEN_SIZE[1] // 2 - star_sprite.rect.width // 2,
             constants.SCREEN_SIZE[1] + star_sprite.rect.height // 2

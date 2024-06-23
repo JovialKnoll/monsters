@@ -38,7 +38,7 @@ class ModeCredits(ModeOpening):
             constants.SCREEN_SIZE[1],
         )
         self._time = 0
-        self._credits_sprite.addWait(1000)
+        self._credits_sprite.add_wait(1000)
         self._move_time = 1000
         credits_speed = constants.FONT_HEIGHT / 500
         credits_distance = constants.SCREEN_SIZE[1] + self._credits_sprite.rect.height
@@ -50,7 +50,7 @@ class ModeCredits(ModeOpening):
             0,
             credits_distance * -1
         )
-        self._credits_sprite.addWait(1000)
+        self._credits_sprite.add_wait(1000)
         self._move_time += 1000
         self._all_sprites.add(self._credits_sprite)
         self._final_text = pygame.Surface(constants.SCREEN_SIZE).convert()

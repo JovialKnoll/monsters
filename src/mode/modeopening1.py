@@ -60,7 +60,7 @@ class ModeOpening1(ModeOpening):
             constants.SCREEN_SIZE[0] // 2,
             constants.SCREEN_SIZE[1] // 2,
         )
-        star_sprite.addWait(wait, sound=sound)
+        star_sprite.add_wait(wait, sound=sound)
         star_sprite.addPosAbs(
             jovialengine.AnimSprite.Lerp,
             self._STAR_TRAVEL,

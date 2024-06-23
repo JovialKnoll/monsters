@@ -19,10 +19,10 @@ class ModeOpening(ModeScreenSize, abc.ABC):
                 event.type == pygame.MOUSEBUTTONUP
                 and event.button == 1
                 ):
-            self._stopMixer()
+            self._stop_mixer()
             self._switchMode()
 
     def _inputFrame(self, input_frame):
         if input_frame.wasAnyInputPressed(constants.ALL_EVENTS):
-            self._stopMixer()
+            self._stop_mixer()
             self._switchMode()

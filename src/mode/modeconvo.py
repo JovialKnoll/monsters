@@ -112,7 +112,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         self._renderText()
         self._text_rect.clamp_ip(self._surf_text.get_rect())
         # in case of monster display
-        jovialengine.getGame().state.protag_mon.setImage()
+        jovialengine.get_game().state.protag_mon.setImage()
 
     @classmethod
     def _getScript(cls):
@@ -143,7 +143,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
     @staticmethod
     def _getTextReplace():
         return {
-            'MONSTER_NAME': jovialengine.getGame().state.protag_mon.name,
+            'MONSTER_NAME': jovialengine.get_game().state.protag_mon.name,
         }
 
     def _loadText(self):
@@ -162,7 +162,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
 
     def _renderText(self):
         self._handleTags()
-        self._surf_text = jovialengine.getDefaultFontWrap().renderInside(
+        self._surf_text = jovialengine.get_default_font_wrap().renderInside(
             296,
             self._text,
             constants.TEXT_COLOR,
@@ -170,7 +170,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         )
         self._user_interface = jovialengine.load.image(constants.LAYOUT_1_FILE, constants.COLORKEY).copy()
         for index, button in enumerate(self._choices):
-            jovialengine.getDefaultFontWrap().renderToInside(
+            jovialengine.get_default_font_wrap().renderToInside(
                 self._user_interface,
                 self._textStart(index),
                 self._textWidth(index),
@@ -184,15 +184,15 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         self._all_sprites.empty()
         for tag in self._style:
             if tag == "SHOW_MONSTER":
-                jovialengine.getGame().state.protag_mon.rect.center = (160, 128)
-                self._all_sprites.add(jovialengine.getGame().state.protag_mon)
+                jovialengine.get_game().state.protag_mon.rect.center = (160, 128)
+                self._all_sprites.add(jovialengine.get_game().state.protag_mon)
             elif tag == "START_CHAT_MUSIC":
                 if "START_CHAT_MUSIC" not in self._active_tags:
                     pygame.mixer.music.load(constants.CHAT_LOOP)
                     pygame.mixer.music.play(-1)
                     self._active_tags.add("START_CHAT_MUSIC")
             elif tag == "STOP_MUSIC":
-                self._stopMixer()
+                self._stop_mixer()
                 self._active_tags.discard("START_CHAT_MUSIC")
 
     def _handleButton(self, prev_convo_key: str, index: int):
@@ -223,7 +223,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
             next_mode = button.getNextMode()
             if next_mode:
                 self._handleButton(prev_convo_key, self._selected_button)
-                self._stopMixer()
+                self._stop_mixer()
                 self.next_mode = next_mode()
             else:
                 raise ValueError(f"The convo mode {type(self).__name__}, at key {self._convo_key},"
@@ -238,11 +238,11 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         super()._inputEvent(event)
 
     def _getScrollDirection(self):
-        return (self._input_frame.getInputState(0, constants.EVENT_DOWN)) \
-            - (self._input_frame.getInputState(0, constants.EVENT_UP))
+        return (self._input_frame.get_input_state(0, constants.EVENT_DOWN)) \
+            - (self._input_frame.get_input_state(0, constants.EVENT_UP))
 
     def _update(self, dt):
-        self._text_scroll, text_scroll_int = jovialengine.utility.getIntMovement(
+        self._text_scroll, text_scroll_int = jovialengine.utility.get_int_movement(
             self._text_scroll,
             self._getScrollDirection() * self.SCROLL_AMOUNT_SPEED,
             dt

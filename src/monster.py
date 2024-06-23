@@ -254,14 +254,14 @@ class Monster(jovialengine.AnimSprite):
             rect.midbottom = (64 // 2 + 64 * lvl, 64)
             card.blit(self.sprite_right, rect)
         self._setSprites()
-        jovialengine.getDefaultFontWrap().renderToInside(
+        jovialengine.get_default_font_wrap().renderToInside(
             card,
             (0, 64 + (64 - constants.FONT_HEIGHT * 5) // 2),
             64 * 4,
             self.getStatText(),
             constants.BLACK
         )
-        jovialengine.getDefaultFontWrap().renderToInside(
+        jovialengine.get_default_font_wrap().renderToInside(
             card,
             (0, 0),
             64 * 4,
@@ -270,7 +270,7 @@ class Monster(jovialengine.AnimSprite):
         )
         website = "jovialknoll.itch.io"
         website_width = len(website) * constants.FONT_SIZE
-        jovialengine.getDefaultFontWrap().renderToInside(
+        jovialengine.get_default_font_wrap().renderToInside(
             card,
             (64 * 4 - website_width, 64 * 2 - constants.FONT_HEIGHT),
             website_width,

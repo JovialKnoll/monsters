@@ -67,7 +67,7 @@ class ModeFight(ModeButtons):
 
         self._user_interface = jovialengine.load.image(constants.LAYOUT_2_FILE, constants.COLORKEY).copy()
         for index, choice in enumerate(self._BOX_CHOICES):
-            jovialengine.getDefaultFontWrap().renderToInside(
+            jovialengine.get_default_font_wrap().renderToInside(
                 self._user_interface,
                 self._textStart(index),
                 self._textWidth(index),
@@ -120,7 +120,7 @@ class ModeFight(ModeButtons):
             self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 2 - text_width,
             self._ENEMY_BAR_Y - constants.FONT_HEIGHT
         )
-        jovialengine.getDefaultFontWrap().renderToInside(
+        jovialengine.get_default_font_wrap().renderToInside(
             self._user_interface,
             player_health_dest,
             text_width,
@@ -128,7 +128,7 @@ class ModeFight(ModeButtons):
             constants.TEXT_COLOR,
             constants.WHITE
         )
-        jovialengine.getDefaultFontWrap().renderToInside(
+        jovialengine.get_default_font_wrap().renderToInside(
             self._user_interface,
             enemy_health_dest,
             text_width,
@@ -200,8 +200,8 @@ class ModeFight(ModeButtons):
             self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, -20, 0)
 
     def _endFight(self):
-        self._stopMixer()
-        jovialengine.getGame().state.fight_results.append(self._RESULT_SAVING[self._result])
+        self._stop_mixer()
+        jovialengine.get_game().state.fight_results.append(self._RESULT_SAVING[self._result])
         self.next_mode = self._get_next_mode()
 
     def _inputEvent(self, event):
@@ -232,14 +232,14 @@ class ModeFight(ModeButtons):
 
     def _setActionDisplay(self, text: str):
         self._action_display.appendleft(
-            jovialengine.getDefaultFontWrap().renderInside(
+            jovialengine.get_default_font_wrap().renderInside(
                 200,
                 text,
                 constants.TEXT_COLOR,
                 constants.WHITE
             )
         )
-        self._action_display_latest = jovialengine.getDefaultFontWrap().renderInside(
+        self._action_display_latest = jovialengine.get_default_font_wrap().renderInside(
             200,
             text,
             constants.BLACK,
@@ -318,7 +318,7 @@ class ModeFight(ModeButtons):
             self._result_displayed = 1
         elif not self._player_mon.stillAnimating() and self._result_displayed < 2:
             self._setActionDisplay("Click or press enter to")
-            self._action_display_latest2 = jovialengine.getDefaultFontWrap().renderInside(
+            self._action_display_latest2 = jovialengine.get_default_font_wrap().renderInside(
                 200,
                 "Click or press enter to",
                 constants.BLACK,

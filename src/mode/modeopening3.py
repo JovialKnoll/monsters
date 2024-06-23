@@ -33,7 +33,7 @@ class ModeOpening3(ModeOpening):
         self._playing_song = False
         # static elements setup
         self._background.fill(constants.WHITE)
-        jovialengine.getDefaultFontWrap().renderToCentered(
+        jovialengine.get_default_font_wrap().renderToCentered(
             self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2 + 4),
             "press any key to start",
@@ -48,7 +48,7 @@ class ModeOpening3(ModeOpening):
             )
         )
         version_width = len(constants.VERSION) * constants.FONT_SIZE
-        jovialengine.getDefaultFontWrap().renderTo(
+        jovialengine.get_default_font_wrap().renderTo(
             self._background,
             (constants.SCREEN_SIZE[0] - version_width, constants.SCREEN_SIZE[1] - constants.FONT_HEIGHT),
             constants.VERSION,
@@ -85,14 +85,14 @@ class ModeOpening3(ModeOpening):
         )
         monster.addWait(_wait_time + self._EMPTY_TIME)
         monster.addPosAbs(
-            Monster.Lerp,
+            Monster.LERP,
             self._TRANSITION_TIME,
             constants.SCREEN_SIZE[0] // 2,
             self._GROUND_LEVEL - monster.rect.height // 2
         )
         monster.addWait(self._CENTER_TIME)
         monster.addPosAbs(
-            Monster.Lerp,
+            Monster.LERP,
             self._TRANSITION_TIME,
             monster.rect.width // -2,
             self._GROUND_LEVEL - monster.rect.height // 2

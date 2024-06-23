@@ -34,20 +34,20 @@ class ModeOpening2(ModeOpening):
         pause = 50
         left_mon.add_pos_rel(Monster.LERP, beat * 6, -constants.SCREEN_SIZE[0] // 2, 0)
         right_mon.add_pos_rel(Monster.LERP, beat * 6, constants.SCREEN_SIZE[0] // 2, 0,
-                            sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
+                              sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
         self._music_time = beat * 6
         # back and forth
         left_mon.add_wait(beat * 8 + pause * 2)
         jump = right_mon.rect.width // 8
         right_mon.add_pos_rel(Monster.LERP, beat, jump, -jump)
         right_mon.add_pos_rel(Monster.LERP, beat, jump, jump,
-                            sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
+                              sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
         right_mon.add_pos_rel(Monster.LERP, beat, -jump, -jump)
         right_mon.add_pos_rel(Monster.LERP, beat, -jump, jump)
         right_mon.add_wait(pause, sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
         right_mon.add_pos_rel(Monster.LERP, beat, jump, -jump)
         right_mon.add_pos_rel(Monster.LERP, beat, jump, jump,
-                            sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
+                              sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
         right_mon.add_pos_rel(Monster.LERP, beat, -jump, -jump)
         right_mon.add_pos_rel(Monster.LERP, beat, -jump, jump)
         right_mon.add_wait(pause)
@@ -57,7 +57,7 @@ class ModeOpening2(ModeOpening):
         # slash!
         left_mon.add_pos_rel(Monster.LERP, 100, -jump // 2, -jump // 3)
         left_mon.add_pos_rel(Monster.LERP, 200, jump + jump // 2, jump // 3,
-                           sound=jovialengine.load.sound(constants.THUNK), positional_sound=True)
+                             sound=jovialengine.load.sound(constants.THUNK), positional_sound=True)
         right_mon.add_wait(300)
         # jump back
         left_mon.add_wait(beat)
@@ -67,11 +67,11 @@ class ModeOpening2(ModeOpening):
         left_mon.add_wait(150)
         left_mon.add_pos_rel(Monster.LERP, 100, -jump, 0)
         right_mon.add_wait(beat * 3,
-                          sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
+                           sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
         # back and forth again
         right_mon.add_pos_rel(Monster.LERP, beat, -jump, -jump * 2)
         right_mon.add_pos_rel(Monster.LERP, beat, -jump, jump * 2,
-                            sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
+                              sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
         right_mon.add_pos_rel(Monster.LERP, beat, jump, -jump * 2)
         right_mon.add_pos_rel(Monster.LERP, beat, jump, jump * 2)
         # charge
@@ -80,7 +80,7 @@ class ModeOpening2(ModeOpening):
         # fire
         right_mon.add_wait(beat * 2)
         right_mon.add_pos_rel(Monster.LERP, beat, -jump * 6 - jump // 2, -jump * 2 - jump // 2,
-                            sound=jovialengine.load.sound(constants.FSSSH))
+                              sound=jovialengine.load.sound(constants.FSSSH))
 
         # higher layer = draw later = "in front"
         left_mon.layer = 1

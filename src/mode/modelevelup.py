@@ -74,7 +74,8 @@ class ModeLevelUp(ModeOpening, abc.ABC):
             os.mkdir(constants.IMAGE_DIRECTORY)
         except FileExistsError:
             pass
-        file_name = f"{jovialengine.get_game().state.protag_mon.name}_{jovialengine.get_game().state.protag_mon.uuid}.png"
+        file_name = \
+            f"{jovialengine.get_game().state.protag_mon.name}_{jovialengine.get_game().state.protag_mon.uuid}.png"
         file_path = os.path.join(constants.IMAGE_DIRECTORY, file_name)
         pygame.image.save(jovialengine.get_game().state.protag_mon.getCard(), file_path)
 

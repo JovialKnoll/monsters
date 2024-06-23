@@ -44,7 +44,7 @@ class ModeCredits(ModeOpening):
         credits_distance = constants.SCREEN_SIZE[1] + self._credits_sprite.rect.height
         credits_time = int(credits_distance / credits_speed)
         self._move_time += credits_time
-        self._credits_sprite.addPosRel(
+        self._credits_sprite.add_pos_rel(
             jovialengine.AnimSprite.LERP,
             credits_time,
             0,

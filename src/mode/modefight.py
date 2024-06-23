@@ -303,7 +303,7 @@ class ModeFight(ModeButtons):
             self._camera_shake -= dt
             if self._camera_shake <= 0:
                 self._resetCamera()
-        if self._player_action in self._BOX_CHOICES and not self._player_mon.stillAnimating():
+        if self._player_action in self._BOX_CHOICES and not self._player_mon.still_animating():
             self._playerActionDone()
         elif self._player_action == 'draw':
             self._endStuff("They're both out cold.")
@@ -316,7 +316,7 @@ class ModeFight(ModeButtons):
         if len(self._player_mon.anims) < 2 and self._result_displayed < 1:
             self._setActionDisplay(result_display)
             self._result_displayed = 1
-        elif not self._player_mon.stillAnimating() and self._result_displayed < 2:
+        elif not self._player_mon.still_animating() and self._result_displayed < 2:
             self._setActionDisplay("Click or press enter to")
             self._action_display_latest2 = jovialengine.get_default_font_wrap().renderInside(
                 200,

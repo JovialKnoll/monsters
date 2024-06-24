@@ -60,7 +60,7 @@ class ModeButtons(ModeScreenSize, abc.ABC):
             type(self).__name__ + "._buttonPress(self)"
         )
 
-    def _inputEvent(self, event):
+    def _take_event(self, event):
         # using this for button selection and pressing
         if event.type == pygame.MOUSEMOTION:
             self._posSelect(event.pos)
@@ -75,10 +75,10 @@ class ModeButtons(ModeScreenSize, abc.ABC):
                     self._buttonPress()
                 self._clicked_button = None
 
-    def _inputFrame(self, input_frame):
-        if input_frame.wasInputPressed(constants.EVENT_CONFIRM):
+    def _take_frame(self, input_frame):
+        if input_frame.was_input_pressed(constants.EVENT_CONFIRM):
             self._buttonPress()
-        if input_frame.wasInputPressed(constants.EVENT_LEFT):
+        if input_frame.was_input_pressed(constants.EVENT_LEFT):
             self._keySelect(-1)
-        if input_frame.wasInputPressed(constants.EVENT_RIGHT):
+        if input_frame.was_input_pressed(constants.EVENT_RIGHT):
             self._keySelect(1)

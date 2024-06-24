@@ -26,7 +26,7 @@ class ModeCredits(ModeOpening):
         with open(constants.CREDITS_TEXT) as credits_file:
             credits_text = credits_file.read().replace(' ', '_')
         self._credits_sprite = jovialengine.AnimSprite()
-        self._credits_sprite.image = jovialengine.getDefaultFontWrap().renderInside(
+        self._credits_sprite.image = jovialengine.get_default_font_wrap().render_inside(
             constants.SCREEN_SIZE[0] * 3 // 4,
             credits_text,
             constants.WHITE,
@@ -38,24 +38,24 @@ class ModeCredits(ModeOpening):
             constants.SCREEN_SIZE[1],
         )
         self._time = 0
-        self._credits_sprite.addWait(1000)
+        self._credits_sprite.add_wait(1000)
         self._move_time = 1000
         credits_speed = constants.FONT_HEIGHT / 500
         credits_distance = constants.SCREEN_SIZE[1] + self._credits_sprite.rect.height
         credits_time = int(credits_distance / credits_speed)
         self._move_time += credits_time
-        self._credits_sprite.addPosRel(
-            jovialengine.AnimSprite.Lerp,
+        self._credits_sprite.add_pos_rel(
+            jovialengine.AnimSprite.LERP,
             credits_time,
             0,
             credits_distance * -1
         )
-        self._credits_sprite.addWait(1000)
+        self._credits_sprite.add_wait(1000)
         self._move_time += 1000
         self._all_sprites.add(self._credits_sprite)
         self._final_text = pygame.Surface(constants.SCREEN_SIZE).convert()
         self._final_text.fill(constants.BLACK)
-        jovialengine.getDefaultFontWrap().renderToCentered(
+        jovialengine.get_default_font_wrap().render_to_centered(
             self._final_text,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2),
             "press any key to proceed",
@@ -64,7 +64,7 @@ class ModeCredits(ModeOpening):
         self._final_text.set_alpha(0)
 
     def _switchMode(self):
-        jovialengine.getGame().state = state.State()
+        jovialengine.get_game().state = state.State()
         self.next_mode = ModeOpening0()
 
     def _update(self, dt):
@@ -79,6 +79,6 @@ class ModeCredits(ModeOpening):
                 min((self._time - self._move_time) * 255 // 1000, 255)
             )
 
-    def _drawPreSprites(self, screen):
+    def _draw_pre_sprites(self, screen):
         screen.fill(constants.BLACK)
         screen.blit(self._final_text, (0, 0))

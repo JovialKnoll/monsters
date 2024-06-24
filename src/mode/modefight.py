@@ -67,7 +67,7 @@ class ModeFight(ModeButtons):
 
         self._user_interface = jovialengine.load.image(constants.LAYOUT_2_FILE, constants.COLORKEY).copy()
         for index, choice in enumerate(self._BOX_CHOICES):
-            jovialengine.getDefaultFontWrap().renderToInside(
+            jovialengine.get_default_font_wrap().render_to_inside(
                 self._user_interface,
                 self._textStart(index),
                 self._textWidth(index),
@@ -120,7 +120,7 @@ class ModeFight(ModeButtons):
             self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 2 - text_width,
             self._ENEMY_BAR_Y - constants.FONT_HEIGHT
         )
-        jovialengine.getDefaultFontWrap().renderToInside(
+        jovialengine.get_default_font_wrap().render_to_inside(
             self._user_interface,
             player_health_dest,
             text_width,
@@ -128,7 +128,7 @@ class ModeFight(ModeButtons):
             constants.TEXT_COLOR,
             constants.WHITE
         )
-        jovialengine.getDefaultFontWrap().renderToInside(
+        jovialengine.get_default_font_wrap().render_to_inside(
             self._user_interface,
             enemy_health_dest,
             text_width,
@@ -160,51 +160,51 @@ class ModeFight(ModeButtons):
 
         if self._player_action == constants.FIGHT_ATTACK:
             self._setActionDisplay("I'm gonna hit 'em!")
-            self._player_mon.addWait(self._ANIM_WAIT)
-            self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, 12, 0,
-                                       sound=jovialengine.load.sound(constants.THUNK), positional_sound=True,
-                                       callback=self._shakeCamera)
-            self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, -12, 0)
+            self._player_mon.add_wait(self._ANIM_WAIT)
+            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, 12, 0,
+                                         sound=jovialengine.load.sound(constants.THUNK), positional_sound=True,
+                                         callback=self._shakeCamera)
+            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, -12, 0)
         elif self._player_action == constants.FIGHT_DEFEND:
             self._setActionDisplay("I'm gonna block 'em!")
-            self._player_mon.addWait(self._ANIM_WAIT)
-            self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 133, -8, 0,
-                                       sound=jovialengine.load.sound(constants.BWOP), positional_sound=True,
-                                       callback=self._shakeCamera)
-            self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, 12, 0)
-            self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, -4, 0)
+            self._player_mon.add_wait(self._ANIM_WAIT)
+            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 133, -8, 0,
+                                         sound=jovialengine.load.sound(constants.BWOP), positional_sound=True,
+                                         callback=self._shakeCamera)
+            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, 12, 0)
+            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 67, -4, 0)
         elif self._player_action == constants.FIGHT_DODGE:
             self._setActionDisplay("I'm gonna dodge!")
-            self._player_mon.addWait(self._ANIM_WAIT)
-            self._player_mon.addWait(0, sound=jovialengine.load.sound(constants.ROOEEE), positional_sound=True)
-            self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 333, -20, 0)
-            self._player_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, 20, 0)
+            self._player_mon.add_wait(self._ANIM_WAIT)
+            self._player_mon.add_wait(0, sound=jovialengine.load.sound(constants.ROOEEE), positional_sound=True)
+            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 333, -20, 0)
+            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 67, 20, 0)
 
         if self._enemy_action == constants.FIGHT_ATTACK:
-            self._enemy_mon.addWait(self._ANIM_WAIT)
-            self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, -12, 0,
-                                      sound=jovialengine.load.sound(constants.THUNK), positional_sound=True,
-                                      callback=self._shakeCamera)
-            self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, 12, 0)
+            self._enemy_mon.add_wait(self._ANIM_WAIT)
+            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, -12, 0,
+                                        sound=jovialengine.load.sound(constants.THUNK), positional_sound=True,
+                                        callback=self._shakeCamera)
+            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, 12, 0)
         elif self._enemy_action == constants.FIGHT_DEFEND:
-            self._enemy_mon.addWait(self._ANIM_WAIT)
-            self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 133, 8, 0,
-                                      sound=jovialengine.load.sound(constants.BWOP), positional_sound=True,
-                                      callback=self._shakeCamera)
-            self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 200, -12, 0)
-            self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, 4, 0)
+            self._enemy_mon.add_wait(self._ANIM_WAIT)
+            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 133, 8, 0,
+                                        sound=jovialengine.load.sound(constants.BWOP), positional_sound=True,
+                                        callback=self._shakeCamera)
+            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, -12, 0)
+            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 67, 4, 0)
         elif self._enemy_action == constants.FIGHT_DODGE:
-            self._enemy_mon.addWait(self._ANIM_WAIT)
-            self._enemy_mon.addWait(0, sound=jovialengine.load.sound(constants.ROOEEE), positional_sound=True)
-            self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 333, 20, 0)
-            self._enemy_mon.addPosRel(jovialengine.AnimSprite.Lerp, 67, -20, 0)
+            self._enemy_mon.add_wait(self._ANIM_WAIT)
+            self._enemy_mon.add_wait(0, sound=jovialengine.load.sound(constants.ROOEEE), positional_sound=True)
+            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 333, 20, 0)
+            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 67, -20, 0)
 
     def _endFight(self):
-        self._stopMixer()
-        jovialengine.getGame().state.fight_results.append(self._RESULT_SAVING[self._result])
+        self._stop_mixer()
+        jovialengine.get_game().state.fight_results.append(self._RESULT_SAVING[self._result])
         self.next_mode = self._get_next_mode()
 
-    def _inputEvent(self, event):
+    def _take_event(self, event):
         # click forward to next mode
         if self._result:
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
@@ -213,33 +213,33 @@ class ModeFight(ModeButtons):
         # in the middle of action display
         if self._player_action:
             return
-        super()._inputEvent(event)
+        super()._take_event(event)
 
-    def _inputFrame(self, input_frame):
+    def _take_frame(self, input_frame):
         # click forward to next mode
         if self._result:
-            if input_frame.wasInputPressed(constants.EVENT_CONFIRM):
+            if input_frame.was_input_pressed(constants.EVENT_CONFIRM):
                 self._endFight()
                 return
         # in the middle of action display
         if self._player_action:
             return
-        super()._inputFrame(input_frame)
-        if input_frame.wasInputPressed(constants.EVENT_UP):
+        super()._take_frame(input_frame)
+        if input_frame.was_input_pressed(constants.EVENT_UP):
             self._keySelect(-1)
-        if input_frame.wasInputPressed(constants.EVENT_DOWN):
+        if input_frame.was_input_pressed(constants.EVENT_DOWN):
             self._keySelect(1)
 
     def _setActionDisplay(self, text: str):
         self._action_display.appendleft(
-            jovialengine.getDefaultFontWrap().renderInside(
+            jovialengine.get_default_font_wrap().render_inside(
                 200,
                 text,
                 constants.TEXT_COLOR,
                 constants.WHITE
             )
         )
-        self._action_display_latest = jovialengine.getDefaultFontWrap().renderInside(
+        self._action_display_latest = jovialengine.get_default_font_wrap().render_inside(
             200,
             text,
             constants.BLACK,
@@ -252,7 +252,7 @@ class ModeFight(ModeButtons):
         enemy_hit_block = self._enemy_mon.fightHit(self._enemy_action)
 
         raw_player_damage = enemy_hit_block[0] - player_hit_block[1]
-        final_player_damage = jovialengine.utility.reduceNumber(
+        final_player_damage = jovialengine.utility.reduce_number(
             max(
                 0,
                 raw_player_damage
@@ -260,7 +260,7 @@ class ModeFight(ModeButtons):
             2
         )
         raw_enemy_damage = player_hit_block[0] - enemy_hit_block[1]
-        final_enemy_damage = jovialengine.utility.reduceNumber(
+        final_enemy_damage = jovialengine.utility.reduce_number(
             max(
                 0,
                 raw_enemy_damage
@@ -294,8 +294,8 @@ class ModeFight(ModeButtons):
 
     def _setupEnd(self, ending: str):
         self._player_action = ending
-        self._player_mon.addWait(750)
-        self._player_mon.addWait(750)
+        self._player_mon.add_wait(750)
+        self._player_mon.add_wait(750)
         pygame.mixer.music.fadeout(1000)
 
     def _update(self, dt):
@@ -303,7 +303,7 @@ class ModeFight(ModeButtons):
             self._camera_shake -= dt
             if self._camera_shake <= 0:
                 self._resetCamera()
-        if self._player_action in self._BOX_CHOICES and not self._player_mon.stillAnimating():
+        if self._player_action in self._BOX_CHOICES and not self._player_mon.still_animating():
             self._playerActionDone()
         elif self._player_action == 'draw':
             self._endStuff("They're both out cold.")
@@ -316,9 +316,9 @@ class ModeFight(ModeButtons):
         if len(self._player_mon.anims) < 2 and self._result_displayed < 1:
             self._setActionDisplay(result_display)
             self._result_displayed = 1
-        elif not self._player_mon.stillAnimating() and self._result_displayed < 2:
+        elif not self._player_mon.still_animating() and self._result_displayed < 2:
             self._setActionDisplay("Click or press enter to")
-            self._action_display_latest2 = jovialengine.getDefaultFontWrap().renderInside(
+            self._action_display_latest2 = jovialengine.get_default_font_wrap().render_inside(
                 200,
                 "Click or press enter to",
                 constants.BLACK,
@@ -328,10 +328,10 @@ class ModeFight(ModeButtons):
             self._result_displayed = 2
             self._result = self._player_action
 
-    def _updatePreDraw(self, screen):
+    def _update_pre_draw(self, screen):
         screen.fill(constants.WHITE)
 
-    def _drawPreSprites(self, screen):
+    def _draw_pre_sprites(self, screen):
         screen.blit(self._user_interface, (0, 0))
         if not self._action_set and self._player_action not in self._RESULT_SAVING:
             self._drawSelected(screen)

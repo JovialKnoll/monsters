@@ -32,55 +32,55 @@ class ModeOpening2(ModeOpening):
         # move to the positions
         beat = 250
         pause = 50
-        left_mon.addPosRel(Monster.Lerp, beat * 6, -constants.SCREEN_SIZE[0] // 2, 0)
-        right_mon.addPosRel(Monster.Lerp, beat * 6, constants.SCREEN_SIZE[0] // 2, 0,
-                            sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
+        left_mon.add_pos_rel(Monster.LERP, beat * 6, -constants.SCREEN_SIZE[0] // 2, 0)
+        right_mon.add_pos_rel(Monster.LERP, beat * 6, constants.SCREEN_SIZE[0] // 2, 0,
+                              sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
         self._music_time = beat * 6
         # back and forth
-        left_mon.addWait(beat * 8 + pause * 2)
+        left_mon.add_wait(beat * 8 + pause * 2)
         jump = right_mon.rect.width // 8
-        right_mon.addPosRel(Monster.Lerp, beat, jump, -jump)
-        right_mon.addPosRel(Monster.Lerp, beat, jump, jump,
-                            sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
-        right_mon.addPosRel(Monster.Lerp, beat, -jump, -jump)
-        right_mon.addPosRel(Monster.Lerp, beat, -jump, jump)
-        right_mon.addWait(pause, sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
-        right_mon.addPosRel(Monster.Lerp, beat, jump, -jump)
-        right_mon.addPosRel(Monster.Lerp, beat, jump, jump,
-                            sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
-        right_mon.addPosRel(Monster.Lerp, beat, -jump, -jump)
-        right_mon.addPosRel(Monster.Lerp, beat, -jump, jump)
-        right_mon.addWait(pause)
+        right_mon.add_pos_rel(Monster.LERP, beat, jump, -jump)
+        right_mon.add_pos_rel(Monster.LERP, beat, jump, jump,
+                              sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
+        right_mon.add_pos_rel(Monster.LERP, beat, -jump, -jump)
+        right_mon.add_pos_rel(Monster.LERP, beat, -jump, jump)
+        right_mon.add_wait(pause, sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
+        right_mon.add_pos_rel(Monster.LERP, beat, jump, -jump)
+        right_mon.add_pos_rel(Monster.LERP, beat, jump, jump,
+                              sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
+        right_mon.add_pos_rel(Monster.LERP, beat, -jump, -jump)
+        right_mon.add_pos_rel(Monster.LERP, beat, -jump, jump)
+        right_mon.add_wait(pause)
         # small pause
-        left_mon.addWait(beat)
-        right_mon.addWait(beat)
+        left_mon.add_wait(beat)
+        right_mon.add_wait(beat)
         # slash!
-        left_mon.addPosRel(Monster.Lerp, 100, -jump // 2, -jump // 3)
-        left_mon.addPosRel(Monster.Lerp, 200, jump + jump // 2, jump // 3,
-                           sound=jovialengine.load.sound(constants.THUNK), positional_sound=True)
-        right_mon.addWait(300)
+        left_mon.add_pos_rel(Monster.LERP, 100, -jump // 2, -jump // 3)
+        left_mon.add_pos_rel(Monster.LERP, 200, jump + jump // 2, jump // 3,
+                             sound=jovialengine.load.sound(constants.THUNK), positional_sound=True)
+        right_mon.add_wait(300)
         # jump back
-        left_mon.addWait(beat)
-        right_mon.addPosRel(Monster.Lerp, beat // 2, jump * 2, -jump * 2)
-        right_mon.addPosRel(Monster.Lerp, beat // 2, jump * 2, jump * 2)
+        left_mon.add_wait(beat)
+        right_mon.add_pos_rel(Monster.LERP, beat // 2, jump * 2, -jump * 2)
+        right_mon.add_pos_rel(Monster.LERP, beat // 2, jump * 2, jump * 2)
         # pause
-        left_mon.addWait(150)
-        left_mon.addPosRel(Monster.Lerp, 100, -jump, 0)
-        right_mon.addWait(beat * 3,
-                          sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
+        left_mon.add_wait(150)
+        left_mon.add_pos_rel(Monster.LERP, 100, -jump, 0)
+        right_mon.add_wait(beat * 3,
+                           sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
         # back and forth again
-        right_mon.addPosRel(Monster.Lerp, beat, -jump, -jump * 2)
-        right_mon.addPosRel(Monster.Lerp, beat, -jump, jump * 2,
-                            sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
-        right_mon.addPosRel(Monster.Lerp, beat, jump, -jump * 2)
-        right_mon.addPosRel(Monster.Lerp, beat, jump, jump * 2)
+        right_mon.add_pos_rel(Monster.LERP, beat, -jump, -jump * 2)
+        right_mon.add_pos_rel(Monster.LERP, beat, -jump, jump * 2,
+                              sound=jovialengine.load.sound(constants.SPROING), positional_sound=True)
+        right_mon.add_pos_rel(Monster.LERP, beat, jump, -jump * 2)
+        right_mon.add_pos_rel(Monster.LERP, beat, jump, jump * 2)
         # charge
-        right_mon.addWait(beat)
-        right_mon.addPosRel(Monster.Lerp, beat, jump // 2, jump // 2)
+        right_mon.add_wait(beat)
+        right_mon.add_pos_rel(Monster.LERP, beat, jump // 2, jump // 2)
         # fire
-        right_mon.addWait(beat * 2)
-        right_mon.addPosRel(Monster.Lerp, beat, -jump * 6 - jump // 2, -jump * 2 - jump // 2,
-                            sound=jovialengine.load.sound(constants.FSSSH))
+        right_mon.add_wait(beat * 2)
+        right_mon.add_pos_rel(Monster.LERP, beat, -jump * 6 - jump // 2, -jump * 2 - jump // 2,
+                              sound=jovialengine.load.sound(constants.FSSSH))
 
         # higher layer = draw later = "in front"
         left_mon.layer = 1
@@ -105,11 +105,11 @@ class ModeOpening2(ModeOpening):
                 min((self._time - self._move_time) * 255 // 750, 255)
             )
         if self._time >= self._move_time + 1500:
-            self._stopMixer()
+            self._stop_mixer()
             self._switchMode()
 
-    def _drawPreSprites(self, screen):
+    def _draw_pre_sprites(self, screen):
         screen.fill(constants.WHITE)
 
-    def _drawPostSprites(self, screen):
+    def _draw_post_sprites(self, screen):
         screen.blit(self._fade, (0, 0))

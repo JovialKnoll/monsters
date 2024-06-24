@@ -23,7 +23,7 @@ class ModeOpening1(ModeOpening):
 
         self._time = 0
         self._background.fill(constants.WHITE)
-        jovialengine.getDefaultFontWrap().renderToCentered(
+        jovialengine.get_default_font_wrap().render_to_centered(
             self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 5 // 8 + 8),
             "tinsil",
@@ -60,9 +60,9 @@ class ModeOpening1(ModeOpening):
             constants.SCREEN_SIZE[0] // 2,
             constants.SCREEN_SIZE[1] // 2,
         )
-        star_sprite.addWait(wait, sound=sound)
-        star_sprite.addPosAbs(
-            jovialengine.AnimSprite.Lerp,
+        star_sprite.add_wait(wait, sound=sound)
+        star_sprite.add_pos_abs(
+            jovialengine.AnimSprite.LERP,
             self._STAR_TRAVEL,
             dest
         )
@@ -74,10 +74,10 @@ class ModeOpening1(ModeOpening):
     def _update(self, dt):
         self._time += dt
         if self._time >= self._STAR_WAIT * 2 + self._STAR_TRAVEL * self._STAR_WAVES:
-            self._stopMixer()
+            self._stop_mixer()
             self._switchMode()
 
-    def _drawPostSprites(self, screen):
+    def _draw_post_sprites(self, screen):
         screen.blit(
             self._logo,
             (

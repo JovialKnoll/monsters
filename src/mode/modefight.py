@@ -218,16 +218,16 @@ class ModeFight(ModeButtons):
     def _take_frame(self, input_frame):
         # click forward to next mode
         if self._result:
-            if input_frame.wasInputPressed(constants.EVENT_CONFIRM):
+            if input_frame.was_input_pressed(constants.EVENT_CONFIRM):
                 self._endFight()
                 return
         # in the middle of action display
         if self._player_action:
             return
         super()._take_frame(input_frame)
-        if input_frame.wasInputPressed(constants.EVENT_UP):
+        if input_frame.was_input_pressed(constants.EVENT_UP):
             self._keySelect(-1)
-        if input_frame.wasInputPressed(constants.EVENT_DOWN):
+        if input_frame.was_input_pressed(constants.EVENT_DOWN):
             self._keySelect(1)
 
     def _setActionDisplay(self, text: str):

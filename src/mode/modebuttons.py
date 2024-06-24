@@ -76,9 +76,9 @@ class ModeButtons(ModeScreenSize, abc.ABC):
                 self._clicked_button = None
 
     def _take_frame(self, input_frame):
-        if input_frame.wasInputPressed(constants.EVENT_CONFIRM):
+        if input_frame.was_input_pressed(constants.EVENT_CONFIRM):
             self._buttonPress()
-        if input_frame.wasInputPressed(constants.EVENT_LEFT):
+        if input_frame.was_input_pressed(constants.EVENT_LEFT):
             self._keySelect(-1)
-        if input_frame.wasInputPressed(constants.EVENT_RIGHT):
+        if input_frame.was_input_pressed(constants.EVENT_RIGHT):
             self._keySelect(1)

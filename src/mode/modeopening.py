@@ -23,6 +23,6 @@ class ModeOpening(ModeScreenSize, abc.ABC):
             self._switchMode()
 
     def _take_frame(self, input_frame):
-        if input_frame.wasAnyInputPressed(constants.ALL_EVENTS):
+        if input_frame.was_any_input_pressed(constants.ALL_EVENTS):
             self._stop_mixer()
             self._switchMode()

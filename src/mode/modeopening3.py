@@ -33,7 +33,7 @@ class ModeOpening3(ModeOpening):
         self._playing_song = False
         # static elements setup
         self._background.fill(constants.WHITE)
-        jovialengine.get_default_font_wrap().renderToCentered(
+        jovialengine.get_default_font_wrap().render_to_centered(
             self._background,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2 + 4),
             "press any key to start",
@@ -48,7 +48,7 @@ class ModeOpening3(ModeOpening):
             )
         )
         version_width = len(constants.VERSION) * constants.FONT_SIZE
-        jovialengine.get_default_font_wrap().renderTo(
+        jovialengine.get_default_font_wrap().render_to(
             self._background,
             (constants.SCREEN_SIZE[0] - version_width, constants.SCREEN_SIZE[1] - constants.FONT_HEIGHT),
             constants.VERSION,

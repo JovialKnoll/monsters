@@ -26,7 +26,7 @@ class ModeCredits(ModeOpening):
         with open(constants.CREDITS_TEXT) as credits_file:
             credits_text = credits_file.read().replace(' ', '_')
         self._credits_sprite = jovialengine.AnimSprite()
-        self._credits_sprite.image = jovialengine.get_default_font_wrap().renderInside(
+        self._credits_sprite.image = jovialengine.get_default_font_wrap().render_inside(
             constants.SCREEN_SIZE[0] * 3 // 4,
             credits_text,
             constants.WHITE,
@@ -55,7 +55,7 @@ class ModeCredits(ModeOpening):
         self._all_sprites.add(self._credits_sprite)
         self._final_text = pygame.Surface(constants.SCREEN_SIZE).convert()
         self._final_text.fill(constants.BLACK)
-        jovialengine.get_default_font_wrap().renderToCentered(
+        jovialengine.get_default_font_wrap().render_to_centered(
             self._final_text,
             (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2),
             "press any key to proceed",
@@ -79,6 +79,6 @@ class ModeCredits(ModeOpening):
                 min((self._time - self._move_time) * 255 // 1000, 255)
             )
 
-    def _drawPreSprites(self, screen):
+    def _draw_pre_sprites(self, screen):
         screen.fill(constants.BLACK)
         screen.blit(self._final_text, (0, 0))

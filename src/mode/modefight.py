@@ -67,7 +67,7 @@ class ModeFight(ModeButtons):
 
         self._user_interface = jovialengine.load.image(constants.LAYOUT_2_FILE, constants.COLORKEY).copy()
         for index, choice in enumerate(self._BOX_CHOICES):
-            jovialengine.get_default_font_wrap().renderToInside(
+            jovialengine.get_default_font_wrap().render_to_inside(
                 self._user_interface,
                 self._textStart(index),
                 self._textWidth(index),
@@ -120,7 +120,7 @@ class ModeFight(ModeButtons):
             self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 2 - text_width,
             self._ENEMY_BAR_Y - constants.FONT_HEIGHT
         )
-        jovialengine.get_default_font_wrap().renderToInside(
+        jovialengine.get_default_font_wrap().render_to_inside(
             self._user_interface,
             player_health_dest,
             text_width,
@@ -128,7 +128,7 @@ class ModeFight(ModeButtons):
             constants.TEXT_COLOR,
             constants.WHITE
         )
-        jovialengine.get_default_font_wrap().renderToInside(
+        jovialengine.get_default_font_wrap().render_to_inside(
             self._user_interface,
             enemy_health_dest,
             text_width,
@@ -204,7 +204,7 @@ class ModeFight(ModeButtons):
         jovialengine.get_game().state.fight_results.append(self._RESULT_SAVING[self._result])
         self.next_mode = self._get_next_mode()
 
-    def _inputEvent(self, event):
+    def _take_event(self, event):
         # click forward to next mode
         if self._result:
             if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
@@ -213,9 +213,9 @@ class ModeFight(ModeButtons):
         # in the middle of action display
         if self._player_action:
             return
-        super()._inputEvent(event)
+        super()._take_event(event)
 
-    def _inputFrame(self, input_frame):
+    def _take_frame(self, input_frame):
         # click forward to next mode
         if self._result:
             if input_frame.wasInputPressed(constants.EVENT_CONFIRM):
@@ -224,7 +224,7 @@ class ModeFight(ModeButtons):
         # in the middle of action display
         if self._player_action:
             return
-        super()._inputFrame(input_frame)
+        super()._take_frame(input_frame)
         if input_frame.wasInputPressed(constants.EVENT_UP):
             self._keySelect(-1)
         if input_frame.wasInputPressed(constants.EVENT_DOWN):
@@ -232,14 +232,14 @@ class ModeFight(ModeButtons):
 
     def _setActionDisplay(self, text: str):
         self._action_display.appendleft(
-            jovialengine.get_default_font_wrap().renderInside(
+            jovialengine.get_default_font_wrap().render_inside(
                 200,
                 text,
                 constants.TEXT_COLOR,
                 constants.WHITE
             )
         )
-        self._action_display_latest = jovialengine.get_default_font_wrap().renderInside(
+        self._action_display_latest = jovialengine.get_default_font_wrap().render_inside(
             200,
             text,
             constants.BLACK,
@@ -318,7 +318,7 @@ class ModeFight(ModeButtons):
             self._result_displayed = 1
         elif not self._player_mon.still_animating() and self._result_displayed < 2:
             self._setActionDisplay("Click or press enter to")
-            self._action_display_latest2 = jovialengine.get_default_font_wrap().renderInside(
+            self._action_display_latest2 = jovialengine.get_default_font_wrap().render_inside(
                 200,
                 "Click or press enter to",
                 constants.BLACK,
@@ -328,10 +328,10 @@ class ModeFight(ModeButtons):
             self._result_displayed = 2
             self._result = self._player_action
 
-    def _updatePreDraw(self, screen):
+    def _update_pre_draw(self, screen):
         screen.fill(constants.WHITE)
 
-    def _drawPreSprites(self, screen):
+    def _draw_pre_sprites(self, screen):
         screen.blit(self._user_interface, (0, 0))
         if not self._action_set and self._player_action not in self._RESULT_SAVING:
             self._drawSelected(screen)

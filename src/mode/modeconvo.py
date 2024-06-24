@@ -162,7 +162,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
 
     def _renderText(self):
         self._handleTags()
-        self._surf_text = jovialengine.get_default_font_wrap().renderInside(
+        self._surf_text = jovialengine.get_default_font_wrap().render_inside(
             296,
             self._text,
             constants.TEXT_COLOR,
@@ -170,7 +170,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         )
         self._user_interface = jovialengine.load.image(constants.LAYOUT_1_FILE, constants.COLORKEY).copy()
         for index, button in enumerate(self._choices):
-            jovialengine.get_default_font_wrap().renderToInside(
+            jovialengine.get_default_font_wrap().render_to_inside(
                 self._user_interface,
                 self._textStart(index),
                 self._textWidth(index),
@@ -229,13 +229,13 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
                 raise ValueError(f"The convo mode {type(self).__name__}, at key {self._convo_key},"
                                  f" has a button that doesn't lead to anything: {self._selected_button}")
 
-    def _inputEvent(self, event):
+    def _take_event(self, event):
         if event.type == pygame.MOUSEBUTTONUP:
             if event.button == 4:
                 self._text_rect.move_ip(0, -constants.FONT_HEIGHT)
             elif event.button == 5:
                 self._text_rect.move_ip(0, constants.FONT_HEIGHT)
-        super()._inputEvent(event)
+        super()._take_event(event)
 
     def _getScrollDirection(self):
         return (self._input_frame.get_input_state(0, constants.EVENT_DOWN)) \
@@ -252,7 +252,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         if self._text_rect.bottom >= self._surf_text.get_rect().bottom:
             self._read_text = True
 
-    def _drawPreSprites(self, screen):
+    def _draw_pre_sprites(self, screen):
         screen.blit(self._user_interface, (0, 0))
         screen.blit(self._surf_text, (12, 12), self._text_rect)
         if self._read_text:

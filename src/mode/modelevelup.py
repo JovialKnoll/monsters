@@ -18,13 +18,13 @@ class ModeLevelUp(ModeOpening, abc.ABC):
     )
 
     def _drawFontEffect(self, text: str, pos: tuple[int, int]):
-        jovialengine.get_default_font_wrap().renderToCentered(
+        jovialengine.get_default_font_wrap().render_to_centered(
             self._background,
             (pos[0] + 1, pos[1] + 1),
             text,
             constants.TEXT_COLOR
         )
-        jovialengine.get_default_font_wrap().renderToCentered(
+        jovialengine.get_default_font_wrap().render_to_centered(
             self._background,
             (pos[0], pos[1]),
             text,
@@ -79,13 +79,13 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         file_path = os.path.join(constants.IMAGE_DIRECTORY, file_name)
         pygame.image.save(jovialengine.get_game().state.protag_mon.getCard(), file_path)
 
-    def _inputEvent(self, event):
+    def _take_event(self, event):
         if self._time >= 16000:
-            super()._inputEvent(event)
+            super()._take_event(event)
 
-    def _inputFrame(self, input_frame):
+    def _take_frame(self, input_frame):
         if self._time >= 16000:
-            super()._inputFrame(input_frame)
+            super()._take_frame(input_frame)
 
     def _update(self, dt):
         self._time += dt

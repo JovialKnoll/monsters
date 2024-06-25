@@ -88,8 +88,8 @@ class ModeFight(ModeButtons):
         self._enemy_mon.rect.midbottom = self._ENEMY_POS
         self._all_sprites.add(self._player_mon, self._enemy_mon)
 
-        self._player_action = False
-        self._enemy_action = False
+        self._player_action: bool | str = False
+        self._enemy_action: bool | str = False
 
         self._action_display = deque((), 4)
         self._action_display_latest = None

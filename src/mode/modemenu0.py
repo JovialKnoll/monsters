@@ -27,7 +27,7 @@ class ModeMenu0(ModeMenu):
             self._stop_mixer()
             self.next_mode = ModeFight(
                 jovialengine.get_game().state.protag_mon,
-                Monster.atLevel(0),
+                Monster.at_level(0),
                 lambda: ModeTalkWin0() if jovialengine.get_game().state.fight_results[-1] == 1 else ModeTalkElse0()
             )
             return True

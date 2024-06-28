@@ -20,13 +20,13 @@ class ModeOpening2(ModeOpening):
         super().__init__()
         pygame.mixer.music.load(constants.TITLE_INTRO)
         self._music_started = False
-        left_mon = Monster.atLevel(3)
-        right_mon = Monster.atLevel(2)
+        left_mon = Monster.at_level(3)
+        right_mon = Monster.at_level(2)
 
         ground_level = constants.SCREEN_SIZE[1] - 32
         # starts at right
         left_mon.rect.bottomright = (constants.SCREEN_SIZE[0], ground_level)
-        left_mon.setImage(True)
+        left_mon.set_image(True)
         # starts at left
         right_mon.rect.bottomleft = (0, ground_level)
         # move to the positions

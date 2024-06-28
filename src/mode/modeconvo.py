@@ -112,7 +112,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         self._renderText()
         self._text_rect.clamp_ip(self._surf_text.get_rect())
         # in case of monster display
-        jovialengine.get_game().state.protag_mon.setImage()
+        jovialengine.get_game().state.protag_mon.set_image()
 
     @classmethod
     def _getScript(cls):

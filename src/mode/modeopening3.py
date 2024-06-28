@@ -76,7 +76,7 @@ class ModeOpening3(ModeOpening):
             level = random.choice(
                 [i for i in range(1, 4) if i != self._last_level]
             )
-        monster = Monster.atLevel(level)
+        monster = Monster.at_level(level)
         self._last_level = level
         self._all_sprites.add(monster)
         monster.rect.midbottom = (

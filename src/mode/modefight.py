@@ -78,11 +78,11 @@ class ModeFight(ModeButtons):
         pygame.mixer.music.load(constants.FIGHT_LOOP)
         pygame.mixer.music.play(-1)
 
-        self._player_mon.fightStart()
-        self._player_mon.setImage(True)
+        self._player_mon.fight_start()
+        self._player_mon.set_image(True)
 
-        self._enemy_mon.fightStart()
-        self._enemy_mon.setImage(False)
+        self._enemy_mon.fight_start()
+        self._enemy_mon.set_image(False)
 
         self._player_mon.rect.midbottom = self._PLAYER_POS
         self._enemy_mon.rect.midbottom = self._ENEMY_POS
@@ -248,8 +248,8 @@ class ModeFight(ModeButtons):
         self._action_set = not self._action_set
 
     def _playerActionDone(self):
-        player_hit_block = self._player_mon.fightHit(self._player_action, True)
-        enemy_hit_block = self._enemy_mon.fightHit(self._enemy_action)
+        player_hit_block = self._player_mon.fight_hit(self._player_action, True)
+        enemy_hit_block = self._enemy_mon.fight_hit(self._enemy_action)
 
         raw_player_damage = enemy_hit_block[0] - player_hit_block[1]
         final_player_damage = jovialengine.utility.reduce_number(
@@ -341,7 +341,7 @@ class ModeFight(ModeButtons):
             * self._player_mon.stats['hpc'] / self._player_mon.stats['hpm']
         )
         screen.fill(
-            self._player_mon.getBarColor(),
+            self._player_mon.get_bar_color(),
             (
                 self._PLAYER_BAR_X + 1,
                 self._PLAYER_BAR_Y + 1,
@@ -350,7 +350,7 @@ class ModeFight(ModeButtons):
             )
         )
         screen.fill(
-            self._player_mon.getBarColor2(),
+            self._player_mon.get_bar_color2(),
             (
                 self._PLAYER_BAR_X + 1,
                 self._PLAYER_BAR_Y + self._HEALTH_BAR_HEIGHT - 1,
@@ -365,7 +365,7 @@ class ModeFight(ModeButtons):
             * self._enemy_mon.stats['hpc'] / self._enemy_mon.stats['hpm']
         )
         screen.fill(
-            self._enemy_mon.getBarColor(),
+            self._enemy_mon.get_bar_color(),
             (
                 self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 1 - enemy_bar_length,
                 self._ENEMY_BAR_Y + 1,
@@ -374,7 +374,7 @@ class ModeFight(ModeButtons):
             )
         )
         screen.fill(
-            self._enemy_mon.getBarColor2(),
+            self._enemy_mon.get_bar_color2(),
             (
                 self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 1 - enemy_bar_length,
                 self._ENEMY_BAR_Y + self._HEALTH_BAR_HEIGHT - 1,

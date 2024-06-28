@@ -49,7 +49,7 @@ class Monster(jovialengine.AnimSprite):
         self.uuid = str(uuid.uuid4())
         self.lvl = 0
         self.personality = Personality.random()
-        self.name = Personality.generateName(self.personality)
+        self.name = Personality.generate_name(self.personality)
         self.skin = Skin.random(self.personality)
 
         self.stats = {x: 2 for x in self.MAIN_STATS}

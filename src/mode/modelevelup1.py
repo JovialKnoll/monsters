@@ -3,5 +3,5 @@ from .modelevelup import ModeLevelUp
 
 
 class ModeLevelUp1(ModeLevelUp):
-    def _switchMode(self):
+    def _switch_mode(self):
         self.next_mode = ModePostLevel1()

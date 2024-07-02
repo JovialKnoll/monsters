@@ -8,12 +8,12 @@ from .modemenu import ModeMenu
 
 
 class ModeMenu3(ModeMenu):
-    def _handleButton(self, prev_convo_key, index):
+    def _handle_button(self, prev_convo_key, index):
         if prev_convo_key == "3aa":
             self._stop_mixer()
             self.next_mode = ModeFight(
                 jovialengine.get_game().state.protag_mon,
-                Monster.atLevel(3),
+                Monster.at_level(3),
                 lambda: ModeTalkWin3() if jovialengine.get_game().state.fight_results[-1] == 1 else ModeTalkElse3()
             )
             return True

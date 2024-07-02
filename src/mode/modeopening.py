@@ -8,9 +8,9 @@ from .modescreensize import ModeScreenSize
 
 class ModeOpening(ModeScreenSize, abc.ABC):
     @abc.abstractmethod
-    def _switchMode(self):
+    def _switch_mode(self):
         raise NotImplementedError(
-            type(self).__name__ + "._switchMode(self)"
+            type(self).__name__ + "._switch_mode(self)"
         )
 
     def _take_event(self, event):
@@ -20,9 +20,9 @@ class ModeOpening(ModeScreenSize, abc.ABC):
                 and event.button == 1
                 ):
             self._stop_mixer()
-            self._switchMode()
+            self._switch_mode()
 
     def _take_frame(self, input_frame):
         if input_frame.was_any_input_pressed(constants.ALL_EVENTS):
             self._stop_mixer()
-            self._switchMode()
+            self._switch_mode()

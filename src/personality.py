@@ -27,7 +27,7 @@ class Personality(object):
         return random.choice((cls.Affectionate, cls.Aggressive, cls.Careful, cls.Energetic))
 
     @classmethod
-    def generateName(cls, mon_personality):
+    def generate_name(cls, mon_personality):
         """Generate a name for a monster."""
         # fill in with unique syllables
         if mon_personality in (cls.Affectionate, cls.Careful):

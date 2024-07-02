@@ -45,14 +45,14 @@ class ModeOpening1(ModeOpening):
                 angle = j * 2 / star_number * math.pi
                 x = constants.SCREEN_SIZE[0] // 2 + radius * math.sin(angle)
                 y = constants.SCREEN_SIZE[1] // 2 - radius * math.cos(angle)
-                self._makeStar(
+                self._make_star(
                     star_image,
                     self._STAR_WAIT + i * self._STAR_TRAVEL,
                     (x, y),
                     jovialengine.load.sound(constants.BIP) if j == 0 else None
                 )
 
-    def _makeStar(self, image: pygame.Surface, wait: int, dest: tuple[int, int], sound):
+    def _make_star(self, image: pygame.Surface, wait: int, dest: tuple[int, int], sound):
         star_sprite = jovialengine.AnimSprite()
         star_sprite.image = image
         star_sprite.rect = star_sprite.image.get_rect()
@@ -68,14 +68,14 @@ class ModeOpening1(ModeOpening):
         )
         self._all_sprites.add(star_sprite)
 
-    def _switchMode(self):
+    def _switch_mode(self):
         self.next_mode = ModeOpening2()
 
     def _update(self, dt):
         self._time += dt
         if self._time >= self._STAR_WAIT * 2 + self._STAR_TRAVEL * self._STAR_WAVES:
             self._stop_mixer()
-            self._switchMode()
+            self._switch_mode()
 
     def _draw_post_sprites(self, screen):
         screen.blit(

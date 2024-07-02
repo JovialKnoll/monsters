@@ -8,7 +8,7 @@ from .modemenu import ModeMenu
 
 
 class ModeMenu3(ModeMenu):
-    def _handleButton(self, prev_convo_key, index):
+    def _handle_button(self, prev_convo_key, index):
         if prev_convo_key == "3aa":
             self._stop_mixer()
             self.next_mode = ModeFight(

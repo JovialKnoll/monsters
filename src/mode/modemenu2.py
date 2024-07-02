@@ -9,8 +9,8 @@ from .modemenu import ModeMenu
 
 
 class ModeMenu2(ModeMenu):
-    def _handleLoad(self):
-        super()._handleLoad()
+    def _handle_load(self):
+        super()._handle_load()
         if self._convo_key == "2":
             personality = jovialengine.get_game().state.protag_mon.personality
             if personality == Personality.Affectionate:
@@ -22,7 +22,7 @@ class ModeMenu2(ModeMenu):
             elif personality == Personality.Energetic:
                 self._text = "Excited and ready."
 
-    def _handleButton(self, prev_convo_key, index):
+    def _handle_button(self, prev_convo_key, index):
         if prev_convo_key == "3a":
             self._stop_mixer()
             self.next_mode = ModeFight(

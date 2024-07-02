@@ -23,39 +23,39 @@ class ModeButtons(ModeScreenSize, abc.ABC):
         self._selected_button = 0
         self._clicked_button = None
 
-    def _drawSelected(self, screen: pygame.surface):
+    def _draw_selected(self, screen: pygame.surface):
         screen.blit(self._black_box, self.buttons[self._selected_button])
 
-    def _keySelect(self, change: int):
+    def _key_select(self, change: int):
         self._selected_button += change
         self._selected_button %= len(self.buttons)
 
-    def _posSelectButton(self, pos: tuple[int, int], index: int, rect: pygame.rect):
+    def _pos_select_button(self, pos: tuple[int, int], index: int, rect: pygame.rect):
         if rect.collidepoint(pos):
             self._selected_button = index
             return self._selected_button
         return None
 
-    def _posSelect(self, pos: tuple[int, int]):
+    def _pos_select(self, pos: tuple[int, int]):
         for index, rect in enumerate(self.buttons):
-            selected_button = self._posSelectButton(pos, index, rect)
+            selected_button = self._pos_select_button(pos, index, rect)
             if selected_button is not None:
                 return selected_button
         return None
 
     @classmethod
-    def _textStart(cls, index: int):
+    def _text_start(cls, index: int):
         return (
             cls.buttons[index].x + cls._TEXT_MARGIN,
             cls.buttons[index].y + cls._TEXT_MARGIN,
         )
 
     @classmethod
-    def _textWidth(cls, index: int):
+    def _text_width(cls, index: int):
         return cls.buttons[index].w - (cls._TEXT_MARGIN * 2)
 
     @abc.abstractmethod
-    def _buttonPress(self):
+    def _button_press(self):
         raise NotImplementedError(
             type(self).__name__ + "._buttonPress(self)"
         )
@@ -63,22 +63,22 @@ class ModeButtons(ModeScreenSize, abc.ABC):
     def _take_event(self, event):
         # using this for button selection and pressing
         if event.type == pygame.MOUSEMOTION:
-            self._posSelect(event.pos)
+            self._pos_select(event.pos)
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                self._posSelect(event.pos)
+                self._pos_select(event.pos)
                 self._clicked_button = self._selected_button
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
-                if self._posSelect(event.pos) is not None \
+                if self._pos_select(event.pos) is not None \
                         and self._selected_button == self._clicked_button:
-                    self._buttonPress()
+                    self._button_press()
                 self._clicked_button = None
 
     def _take_frame(self, input_frame):
         if input_frame.was_input_pressed(constants.EVENT_CONFIRM):
-            self._buttonPress()
+            self._button_press()
         if input_frame.was_input_pressed(constants.EVENT_LEFT):
-            self._keySelect(-1)
+            self._key_select(-1)
         if input_frame.was_input_pressed(constants.EVENT_RIGHT):
-            self._keySelect(1)
+            self._key_select(1)

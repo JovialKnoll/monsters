@@ -69,8 +69,8 @@ class ModeFight(ModeButtons):
         for index, choice in enumerate(self._BOX_CHOICES):
             jovialengine.get_default_font_wrap().render_to_inside(
                 self._user_interface,
-                self._textStart(index),
-                self._textWidth(index),
+                self._text_start(index),
+                self._text_width(index),
                 choice,
                 constants.TEXT_COLOR
             )
@@ -154,7 +154,7 @@ class ModeFight(ModeButtons):
         self._camera.x = 0
         self._camera.y = 0
 
-    def _buttonPress(self):
+    def _button_press(self):
         self._player_action = self._BOX_CHOICES[self._selected_button]
         self._enemy_action = random.choice(self._enemy_choices)
 
@@ -226,9 +226,9 @@ class ModeFight(ModeButtons):
             return
         super()._take_frame(input_frame)
         if input_frame.was_input_pressed(constants.EVENT_UP):
-            self._keySelect(-1)
+            self._key_select(-1)
         if input_frame.was_input_pressed(constants.EVENT_DOWN):
-            self._keySelect(1)
+            self._key_select(1)
 
     def _setActionDisplay(self, text: str):
         self._action_display.appendleft(
@@ -334,7 +334,7 @@ class ModeFight(ModeButtons):
     def _draw_pre_sprites(self, screen):
         screen.blit(self._user_interface, (0, 0))
         if not self._action_set and self._player_action not in self._RESULT_SAVING:
-            self._drawSelected(screen)
+            self._draw_selected(screen)
 
         player_bar_length = math.ceil(
             self._HEALTH_BAR_LENGTH

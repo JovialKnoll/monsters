@@ -92,14 +92,14 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         '_user_interface',
     )
 
-    def _keySelect(self, change):
-        super()._keySelect(change)
+    def _key_select(self, change):
+        super()._key_select(change)
         self._selected_button %= len(self._choices)
 
-    def _posSelectButton(self, pos: tuple[int, int], index: int, rect: pygame.rect):
+    def _pos_select_button(self, pos: tuple[int, int], index: int, rect: pygame.rect):
         if index >= len(self._choices):
             return None
-        return super()._posSelectButton(pos, index, rect)
+        return super()._pos_select_button(pos, index, rect)
 
     def __init__(self, convo_key: str = '0'):
         super().__init__()
@@ -172,8 +172,8 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         for index, button in enumerate(self._choices):
             jovialengine.get_default_font_wrap().render_to_inside(
                 self._user_interface,
-                self._textStart(index),
-                self._textWidth(index),
+                self._text_start(index),
+                self._text_width(index),
                 button.text,
                 constants.TEXT_COLOR
             )
@@ -203,7 +203,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         """
         return False
 
-    def _buttonPress(self):
+    def _button_press(self):
         if not self._read_text:
             return
         button = self._choices[self._selected_button]
@@ -256,4 +256,4 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         screen.blit(self._user_interface, (0, 0))
         screen.blit(self._surf_text, (12, 12), self._text_rect)
         if self._read_text:
-            self._drawSelected(screen)
+            self._draw_selected(screen)

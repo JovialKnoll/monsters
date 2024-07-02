@@ -57,7 +57,7 @@ class ModeButtons(ModeScreenSize, abc.ABC):
     @abc.abstractmethod
     def _button_press(self):
         raise NotImplementedError(
-            type(self).__name__ + "._buttonPress(self)"
+            type(self).__name__ + "._button_press(self)"
         )
 
     def _take_event(self, event):

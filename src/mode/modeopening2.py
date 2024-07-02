@@ -92,7 +92,7 @@ class ModeOpening2(ModeOpening):
         self._fade.fill(constants.WHITE)
         self._fade.set_alpha(0)
 
-    def _switchMode(self):
+    def _switch_mode(self):
         self.next_mode = ModeOpening3()
 
     def _update(self, dt):
@@ -106,7 +106,7 @@ class ModeOpening2(ModeOpening):
             )
         if self._time >= self._move_time + 1500:
             self._stop_mixer()
-            self._switchMode()
+            self._switch_mode()
 
     def _draw_pre_sprites(self, screen):
         screen.fill(constants.WHITE)

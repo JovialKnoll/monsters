@@ -48,7 +48,7 @@ class ModeOpening0(ModeOpening):
         )
         self._all_sprites.add(star_sprite)
 
-    def _switchMode(self):
+    def _switch_mode(self):
         self.next_mode = ModeOpening1()
 
     def _update(self, dt):
@@ -95,4 +95,4 @@ class ModeOpening0(ModeOpening):
             )
         if self._time >= 4000:
             self._stop_mixer()
-            self._switchMode()
+            self._switch_mode()

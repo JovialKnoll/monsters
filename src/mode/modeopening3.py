@@ -99,7 +99,7 @@ class ModeOpening3(ModeOpening):
         )
         return monster
 
-    def _switchMode(self):
+    def _switch_mode(self):
         self.next_mode = ModeIntroduction0()
 
     def _update(self, dt):

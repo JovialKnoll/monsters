@@ -68,14 +68,14 @@ class ModeOpening1(ModeOpening):
         )
         self._all_sprites.add(star_sprite)
 
-    def _switchMode(self):
+    def _switch_mode(self):
         self.next_mode = ModeOpening2()
 
     def _update(self, dt):
         self._time += dt
         if self._time >= self._STAR_WAIT * 2 + self._STAR_TRAVEL * self._STAR_WAVES:
             self._stop_mixer()
-            self._switchMode()
+            self._switch_mode()
 
     def _draw_post_sprites(self, screen):
         screen.blit(

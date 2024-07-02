@@ -17,7 +17,7 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         '_sprite_switches',
     )
 
-    def _drawFontEffect(self, text: str, pos: tuple[int, int]):
+    def _draw_font_effect(self, text: str, pos: tuple[int, int]):
         jovialengine.get_default_font_wrap().render_to_centered(
             self._background,
             (pos[0] + 1, pos[1] + 1),
@@ -36,7 +36,7 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         self._done = False
         self._time = 0
         self._background.fill(constants.WHITE)
-        self._drawFontEffect("LEVEL UP", (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 4))
+        self._draw_font_effect("LEVEL UP", (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 4))
         jovialengine.get_game().state.protag_mon.set_image()
         # set up first sprite
         self._first_sprite = pygame.sprite.DirtySprite()
@@ -90,16 +90,16 @@ class ModeLevelUp(ModeOpening, abc.ABC):
     def _update(self, dt):
         self._time += dt
         while self._sprite_switches and self._time >= self._sprite_switches[0]:
-            self._switchVisibleSprite()
+            self._switch_visible_sprite()
             self._sprite_switches.popleft()
         if not self._sprite_switches and not self._done:
             self._done = True
-            self._drawFontEffect(
+            self._draw_font_effect(
                 "PRESS ANY KEY TO PROCEED",
                 (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 4 + 2 * constants.FONT_HEIGHT)
             )
 
-    def _switchVisibleSprite(self):
+    def _switch_visible_sprite(self):
         jovialengine.load.sound(constants.BIP).play()
         if self._first_sprite.visible:
             self._first_sprite.visible = 0

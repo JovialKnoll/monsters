@@ -57,20 +57,20 @@ class ModeOpening3(ModeOpening):
         # monster loop setup
         self._last_level = 3
         self._monsters = deque((), 3)
-        monster = self._getMonster(0, 3)
+        monster = self._get_monster(0, 3)
         # start the first one in the center
         monster.rect.midbottom = (constants.SCREEN_SIZE[0] // 2, self._GROUND_LEVEL)
         monster.anims.popleft()
         monster.anims.popleft()
         self._monsters.append(monster)
         self._wait_time = self._CENTER_TIME + self._TRANSITION_TIME
-        self._monsters.append(self._getMonster(self._wait_time))
+        self._monsters.append(self._get_monster(self._wait_time))
         self._wait_time += self._FULL_MONSTER_WAIT_TIME
-        self._monsters.append(self._getMonster(self._wait_time))
+        self._monsters.append(self._get_monster(self._wait_time))
         self._wait_time += self._FULL_MONSTER_WAIT_TIME
         self._initial_wait_time = self._wait_time
 
-    def _getMonster(self, _wait_time, level=None):
+    def _get_monster(self, _wait_time, level=None):
         # _wait_time is how much time until the previous mon is off the screen
         if level is None:
             level = random.choice(
@@ -111,7 +111,7 @@ class ModeOpening3(ModeOpening):
         self._wait_time -= dt
         # every so often, set up additional looping _monsters here, so we don't run out
         if self._wait_time < self._initial_wait_time - self._FULL_MONSTER_WAIT_TIME:
-            monster = self._getMonster(self._wait_time)
+            monster = self._get_monster(self._wait_time)
             self._monsters[0].kill()
             self._monsters.append(monster)
             self._wait_time += self._FULL_MONSTER_WAIT_TIME

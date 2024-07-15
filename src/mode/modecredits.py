@@ -52,7 +52,7 @@ class ModeCredits(ModeOpening):
         )
         self._credits_sprite.add_wait(1000)
         self._move_time += 1000
-        self._all_sprites.add(self._credits_sprite)
+        self.sprite_groups["all"].add(self._credits_sprite)
         self._final_text = pygame.Surface(constants.SCREEN_SIZE).convert()
         self._final_text.fill(constants.BLACK)
         jovialengine.get_default_font_wrap().render_to_centered(

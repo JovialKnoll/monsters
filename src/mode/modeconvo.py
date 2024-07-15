@@ -181,11 +181,11 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
             self._user_interface.fill(constants.WHITE, self.buttons[index])
 
     def _handle_tags(self):
-        self._all_sprites.empty()
+        self.sprite_groups["all"].empty()
         for tag in self._style:
             if tag == "SHOW_MONSTER":
                 jovialengine.get_game().state.protag_mon.rect.center = (160, 128)
-                self._all_sprites.add(jovialengine.get_game().state.protag_mon)
+                self.sprite_groups["all"].add(jovialengine.get_game().state.protag_mon)
             elif tag == "START_CHAT_MUSIC":
                 if "START_CHAT_MUSIC" not in self._active_tags:
                     pygame.mixer.music.load(constants.CHAT_LOOP)

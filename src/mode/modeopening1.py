@@ -66,7 +66,7 @@ class ModeOpening1(ModeOpening):
             self._STAR_TRAVEL,
             dest
         )
-        self._all_sprites.add(star_sprite)
+        self.sprite_groups["all"].add(star_sprite)
 
     def _switch_mode(self):
         self.next_mode = ModeOpening2()

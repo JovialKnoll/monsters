@@ -47,7 +47,7 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         jovialengine.get_game().state.protag_mon.level_up()
         jovialengine.get_game().state.protag_mon.set_image()
         jovialengine.get_game().state.protag_mon.rect.midbottom = self._first_sprite.rect.midbottom
-        self._all_sprites.add(self._first_sprite, jovialengine.get_game().state.protag_mon)
+        self.sprite_groups["all"].add(self._first_sprite, jovialengine.get_game().state.protag_mon)
         jovialengine.get_game().state.protag_mon.visible = 0
         self._sprite_switches = deque((
             4000,

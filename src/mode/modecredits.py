@@ -64,7 +64,7 @@ class ModeCredits(ModeOpening):
         self._final_text.set_alpha(0)
 
     def _switch_mode(self):
-        jovialengine.get_state() = state.State()
+        jovialengine.set_state()
         self.next_mode = ModeOpening0()
 
     def _update(self, dt):

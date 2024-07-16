@@ -12,7 +12,7 @@ class ModeMenu0(ModeMenu):
     def _handle_load(self):
         super()._handle_load()
         if self._convo_key == "3a3":
-            personality = jovialengine.get_game().state.protag_mon.personality
+            personality = jovialengine.get_state().protag_mon.personality
             if personality == Personality.Affectionate:
                 self._text = "I'm sure we'll do great."
             elif personality == Personality.Aggressive:
@@ -26,9 +26,9 @@ class ModeMenu0(ModeMenu):
         if prev_convo_key == "3a3":
             self._stop_mixer()
             self.next_mode = ModeFight(
-                jovialengine.get_game().state.protag_mon,
+                jovialengine.get_state().protag_mon,
                 Monster.at_level(0),
-                lambda: ModeTalkWin0() if jovialengine.get_game().state.fight_results[-1] == 1 else ModeTalkElse0()
+                lambda: ModeTalkWin0() if jovialengine.get_state().fight_results[-1] == 1 else ModeTalkElse0()
             )
             return True
         return False

@@ -201,7 +201,7 @@ class ModeFight(ModeButtons):
 
     def _end_fight(self):
         self._stop_mixer()
-        jovialengine.get_game().state.fight_results.append(self._RESULT_SAVING[self._result])
+        jovialengine.get_state().fight_results.append(self._RESULT_SAVING[self._result])
         self.next_mode = self._get_next_mode()
 
     def _take_event(self, event):

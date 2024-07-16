@@ -112,7 +112,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         self._render_text()
         self._text_rect.clamp_ip(self._surf_text.get_rect())
         # in case of monster display
-        jovialengine.get_game().state.protag_mon.set_image()
+        jovialengine.get_state().protag_mon.set_image()
 
     @classmethod
     def _get_script(cls):
@@ -143,7 +143,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
     @staticmethod
     def _get_text_replace():
         return {
-            'MONSTER_NAME': jovialengine.get_game().state.protag_mon.name,
+            'MONSTER_NAME': jovialengine.get_state().protag_mon.name,
         }
 
     def _load_text(self):
@@ -184,8 +184,8 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         self.sprite_groups["all"].empty()
         for tag in self._style:
             if tag == "SHOW_MONSTER":
-                jovialengine.get_game().state.protag_mon.rect.center = (160, 128)
-                self.sprite_groups["all"].add(jovialengine.get_game().state.protag_mon)
+                jovialengine.get_state().protag_mon.rect.center = (160, 128)
+                self.sprite_groups["all"].add(jovialengine.get_state().protag_mon)
             elif tag == "START_CHAT_MUSIC":
                 if "START_CHAT_MUSIC" not in self._active_tags:
                     pygame.mixer.music.load(constants.CHAT_LOOP)

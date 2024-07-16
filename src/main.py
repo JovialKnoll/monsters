@@ -9,7 +9,7 @@ import mode
 from state import State
 
 
-game = jovialengine.init_game(
+game = jovialengine.init(
     mode,
     mode.ModeOpening0,
     State,

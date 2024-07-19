@@ -71,7 +71,7 @@ class ModeOpening1(ModeOpening):
     def _switch_mode(self):
         self.next_mode = ModeOpening2()
 
-    def _update(self, dt):
+    def _update_pre_sprites(self, dt):
         self._time += dt
         if self._time >= self._STAR_WAIT * 2 + self._STAR_TRAVEL * self._STAR_WAVES:
             self._stop_mixer()

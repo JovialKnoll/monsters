@@ -51,7 +51,7 @@ class ModeOpening0(ModeOpening):
     def _switch_mode(self):
         self.next_mode = ModeOpening1()
 
-    def _update(self, dt):
+    def _update_pre_sprites(self, dt):
         self._time += dt
         if self._time >= 1250 and self._step < 1:
             self._step += 1

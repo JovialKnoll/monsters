@@ -241,7 +241,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         return (self._input_frame.get_input_state(0, constants.EVENT_DOWN)) \
             - (self._input_frame.get_input_state(0, constants.EVENT_UP))
 
-    def _update(self, dt):
+    def _update_pre_sprites(self, dt):
         self._text_scroll, text_scroll_int = jovialengine.utility.get_int_movement(
             self._text_scroll,
             self._get_scroll_direction() * self.SCROLL_AMOUNT_SPEED,

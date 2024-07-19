@@ -298,7 +298,7 @@ class ModeFight(ModeButtons):
         self._player_mon.add_wait(750)
         pygame.mixer.music.fadeout(1000)
 
-    def _update(self, dt):
+    def _update_pre_sprites(self, dt):
         if self._camera_shake is not None:
             self._camera_shake -= dt
             if self._camera_shake <= 0:

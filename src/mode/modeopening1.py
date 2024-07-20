@@ -20,7 +20,6 @@ class ModeOpening1(ModeOpening):
 
     def __init__(self):
         super().__init__()
-
         self._time = 0
         self._background.fill(constants.WHITE)
         jovialengine.get_default_font_wrap().render_to_centered(

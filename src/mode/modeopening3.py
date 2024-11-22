@@ -78,7 +78,7 @@ class ModeOpening3(ModeOpening):
             )
         monster = Monster.at_level(level)
         self._last_level = level
-        self.sprite_groups["all"].add(monster)
+        self.sprites_all.add(monster)
         monster.rect.midbottom = (
             constants.SCREEN_SIZE[0] + monster.rect.width // 2,
             self._GROUND_LEVEL

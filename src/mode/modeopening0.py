@@ -46,7 +46,7 @@ class ModeOpening0(ModeOpening):
             constants.SCREEN_SIZE[0] // 2 - constants.SCREEN_SIZE[1] // 2 - star_sprite.rect.width // 2,
             constants.SCREEN_SIZE[1] + star_sprite.rect.height // 2
         )
-        self.sprite_groups["all"].add(star_sprite)
+        self.sprites_all.add(star_sprite)
 
     def _switch_mode(self):
         self.next_mode = ModeOpening1()

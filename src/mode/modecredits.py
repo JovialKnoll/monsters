@@ -2,7 +2,6 @@ import pygame
 import jovialengine
 
 import constants
-import state
 from .modeopening0 import ModeOpening0
 from .modeopening import ModeOpening
 

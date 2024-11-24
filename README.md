@@ -1,6 +1,6 @@
 # CHIKKAI! Tiny Kaijus
 
-Requires Python 3 and Pygame.
+A game made with JovialEngine and Pygame-ce.
 
 ## How to setup virtual environment in windows:
 1. install latest python 3

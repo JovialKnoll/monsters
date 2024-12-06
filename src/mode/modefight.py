@@ -12,6 +12,7 @@ from .modebuttons import ModeButtons
 
 
 class ModeFight(ModeButtons):
+    _SPACE_SIZE = (constants.SCREEN_SIZE[0] + 2, constants.SCREEN_SIZE[1] + 2)
     buttons = (
         pygame.Rect(24, 24, 88, 36),
         pygame.Rect(24, 76, 88, 36),
@@ -57,6 +58,7 @@ class ModeFight(ModeButtons):
     def __init__(self, player_mon: Monster, enemy_mon: Monster, get_next_mode: callable):
         """The functions passed in should return the next mode."""
         super().__init__()
+        self._camera.topleft = (1, 1)
         self._background.fill(constants.WHITE)
         self._health_bar = jovialengine.load.image(constants.HEALTHBAR_FILE, constants.COLORKEY)
 
@@ -151,8 +153,7 @@ class ModeFight(ModeButtons):
 
     def _reset_camera(self):
         self._camera_shake = None
-        self._camera.x = 0
-        self._camera.y = 0
+        self._camera.topleft = (1, 1)
 
     def _button_press(self):
         self._player_action = self._BOX_CHOICES[self._selected_button]
@@ -327,9 +328,6 @@ class ModeFight(ModeButtons):
             self._set_action_display("continue.")
             self._result_displayed = 2
             self._result = self._player_action
-
-    def _update_pre_draw(self, screen):
-        screen.fill(constants.WHITE)
 
     def _draw_pre_sprites(self, screen):
         screen.blit(self._user_interface, (0, 0))

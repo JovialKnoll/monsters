@@ -83,9 +83,8 @@ class ModeOpening2(ModeOpening):
                               sound=jovialengine.load.sound(constants.FSSSH))
 
         # higher layer = draw later = "in front"
-        left_mon.layer = 1
-        right_mon.layer = 0
-        self.sprites_all.add(right_mon, left_mon)
+        self.sprites_all.add(left_mon, layer=1)
+        self.sprites_all.add(right_mon, layer=0)
         self._time = 0
         self._move_time = beat * 28 + pause * 2 + 300
         self._fade = pygame.Surface(constants.SCREEN_SIZE).convert()

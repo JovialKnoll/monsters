@@ -55,7 +55,7 @@ class ModeOpening1(ModeOpening):
         star_sprite = jovialengine.AnimSprite()
         star_sprite.image = image
         star_sprite.rect = star_sprite.image.get_rect()
-        star_sprite.rect.center = (
+        star_sprite.pos = (
             constants.SCREEN_SIZE[0] // 2,
             constants.SCREEN_SIZE[1] // 2,
         )

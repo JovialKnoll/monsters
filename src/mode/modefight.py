@@ -162,43 +162,43 @@ class ModeFight(ModeButtons):
         if self._player_action == constants.FIGHT_ATTACK:
             self._set_action_display("I'm gonna hit 'em!")
             self._player_mon.add_wait(self._ANIM_WAIT)
-            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, 12, 0,
+            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, (12, 0),
                                          sound=jovialengine.load.sound(constants.THUNK), positional_sound=True,
                                          callback=self._shake_camera)
-            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, -12, 0)
+            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, (-12, 0))
         elif self._player_action == constants.FIGHT_DEFEND:
             self._set_action_display("I'm gonna block 'em!")
             self._player_mon.add_wait(self._ANIM_WAIT)
-            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 133, -8, 0,
+            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 133, (-8, 0),
                                          sound=jovialengine.load.sound(constants.BWOP), positional_sound=True,
                                          callback=self._shake_camera)
-            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, 12, 0)
-            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 67, -4, 0)
+            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, (12, 0))
+            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 67, (-4, 0))
         elif self._player_action == constants.FIGHT_DODGE:
             self._set_action_display("I'm gonna dodge!")
             self._player_mon.add_wait(self._ANIM_WAIT)
             self._player_mon.add_wait(0, sound=jovialengine.load.sound(constants.ROOEEE), positional_sound=True)
-            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 333, -20, 0)
-            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 67, 20, 0)
+            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 333, (-20, 0))
+            self._player_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 67, (20, 0))
 
         if self._enemy_action == constants.FIGHT_ATTACK:
             self._enemy_mon.add_wait(self._ANIM_WAIT)
-            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, -12, 0,
+            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, (-12, 0),
                                         sound=jovialengine.load.sound(constants.THUNK), positional_sound=True,
                                         callback=self._shake_camera)
-            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, 12, 0)
+            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, (12, 0))
         elif self._enemy_action == constants.FIGHT_DEFEND:
             self._enemy_mon.add_wait(self._ANIM_WAIT)
-            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 133, 8, 0,
+            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 133, (8, 0),
                                         sound=jovialengine.load.sound(constants.BWOP), positional_sound=True,
                                         callback=self._shake_camera)
-            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, -12, 0)
-            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 67, 4, 0)
+            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 200, (-12, 0))
+            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 67, (4, 0))
         elif self._enemy_action == constants.FIGHT_DODGE:
             self._enemy_mon.add_wait(self._ANIM_WAIT)
             self._enemy_mon.add_wait(0, sound=jovialengine.load.sound(constants.ROOEEE), positional_sound=True)
-            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 333, 20, 0)
-            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 67, -20, 0)
+            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 333, (20, 0))
+            self._enemy_mon.add_pos_rel(jovialengine.AnimSprite.LERP, 67, (-20, 0))
 
     def _end_fight(self):
         self._stop_mixer()

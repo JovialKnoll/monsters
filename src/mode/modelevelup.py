@@ -39,7 +39,7 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         self._draw_font_effect("LEVEL UP", (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 4))
         jovialengine.get_state().protag_mon.set_image()
         # set up first sprite
-        self._first_sprite = pygame.sprite.DirtySprite()
+        self._first_sprite = pygame.sprite.Sprite()
         self._first_sprite.image = jovialengine.get_state().protag_mon.image
         self._first_sprite.rect = jovialengine.get_state().protag_mon.rect
         self._first_sprite.rect.center = (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 2 // 3)
@@ -47,8 +47,7 @@ class ModeLevelUp(ModeOpening, abc.ABC):
         jovialengine.get_state().protag_mon.level_up()
         jovialengine.get_state().protag_mon.set_image()
         jovialengine.get_state().protag_mon.rect.midbottom = self._first_sprite.rect.midbottom
-        self.sprites_all.add(self._first_sprite, jovialengine.get_state().protag_mon)
-        jovialengine.get_state().protag_mon.visible = 0
+        self.sprites_all.add(self._first_sprite)
         self._sprite_switches = deque((
             4000,
             4100,
@@ -101,9 +100,9 @@ class ModeLevelUp(ModeOpening, abc.ABC):
 
     def _switch_visible_sprite(self):
         jovialengine.load.sound(constants.BIP).play()
-        if self._first_sprite.visible:
-            self._first_sprite.visible = 0
-            jovialengine.get_state().protag_mon.visible = 1
+        if self._first_sprite.alive():
+            self.sprites_all.remove(self._first_sprite)
+            self.sprites_all.add(jovialengine.get_state().protag_mon)
         else:
-            self._first_sprite.visible = 1
-            jovialengine.get_state().protag_mon.visible = 0
+            self.sprites_all.add(self._first_sprite)
+            self.sprites_all.remove(jovialengine.get_state().protag_mon)

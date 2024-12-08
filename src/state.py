@@ -1,6 +1,6 @@
 import jovialengine
 
-from monster import Monster
+from sprite import Monster
 
 
 class State(jovialengine.Saveable):

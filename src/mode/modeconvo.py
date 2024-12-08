@@ -185,6 +185,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         for tag in self._style:
             if tag == "SHOW_MONSTER":
                 jovialengine.get_state().protag_mon.rect.center = (160, 128)
+                jovialengine.get_state().protag_mon.match_pos_to_rect()
                 self.sprites_all.add(jovialengine.get_state().protag_mon)
             elif tag == "START_CHAT_MUSIC":
                 if "START_CHAT_MUSIC" not in self._active_tags:

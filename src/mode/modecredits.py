@@ -46,8 +46,7 @@ class ModeCredits(ModeOpening):
         self._credits_sprite.add_pos_rel(
             jovialengine.AnimSprite.LERP,
             credits_time,
-            0,
-            credits_distance * -1
+            (0, credits_distance * -1)
         )
         self._credits_sprite.add_wait(1000)
         self._move_time += 1000

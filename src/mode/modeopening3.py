@@ -87,15 +87,13 @@ class ModeOpening3(ModeOpening):
         monster.add_pos_abs(
             Monster.LERP,
             self._TRANSITION_TIME,
-            constants.SCREEN_SIZE[0] // 2,
-            self._GROUND_LEVEL - monster.rect.height // 2
+            (constants.SCREEN_SIZE[0] // 2, self._GROUND_LEVEL - monster.rect.height // 2)
         )
         monster.add_wait(self._CENTER_TIME)
         monster.add_pos_abs(
             Monster.LERP,
             self._TRANSITION_TIME,
-            monster.rect.width // -2,
-            self._GROUND_LEVEL - monster.rect.height // 2
+            (monster.rect.width // -2, self._GROUND_LEVEL - monster.rect.height // 2)
         )
         return monster
 

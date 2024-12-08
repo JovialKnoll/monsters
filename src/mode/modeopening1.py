@@ -6,6 +6,7 @@ import jovialengine
 import constants
 from .modeopening2 import ModeOpening2
 from .modeopening import ModeOpening
+from sprite import Star
 
 
 class ModeOpening1(ModeOpening):

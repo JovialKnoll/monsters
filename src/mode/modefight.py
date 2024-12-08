@@ -7,7 +7,7 @@ import pygame
 import jovialengine
 
 import constants
-from monster import Monster
+from sprite import Monster
 from .modebuttons import ModeButtons
 
 

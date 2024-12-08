@@ -2,7 +2,7 @@ import pygame
 import jovialengine
 
 import constants
-from monster import Monster
+from sprite import Monster
 from .modeopening3 import ModeOpening3
 from .modeopening import ModeOpening
 

@@ -1,6 +1,6 @@
 import jovialengine
 
-from monster import Monster
+from sprite import Monster
 from personality import Personality
 from .modefight import ModeFight
 from .modetalkwin2 import ModeTalkWin2

@@ -33,7 +33,6 @@ class ModeOpening0(ModeOpening):
                 constants.SCREEN_SIZE[1] * 7 // 16 - logo.get_height() // 2,
             )
         )
-        print("MAKING STAR")
         star_sprite = Star((constants.SCREEN_SIZE[0] // 2 + constants.SCREEN_SIZE[0] // 20 * 7, 0 - 40 // 2))
         star_sprite.add_wait(750, sound=jovialengine.load.sound(constants.LONGSLIDE), positional_sound=True)
         star_sprite.add_pos_abs(

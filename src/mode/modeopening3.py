@@ -5,7 +5,7 @@ import pygame
 import jovialengine
 
 import constants
-from monster import Monster
+from sprite import Monster
 from .modeintroduction0 import ModeIntroduction0
 from .modeopening import ModeOpening
 
@@ -60,6 +60,7 @@ class ModeOpening3(ModeOpening):
         monster = self._get_monster(0, 3)
         # start the first one in the center
         monster.rect.midbottom = (constants.SCREEN_SIZE[0] // 2, self._GROUND_LEVEL)
+        monster.reset_pos()
         monster.anims.popleft()
         monster.anims.popleft()
         self._monsters.append(monster)
@@ -83,6 +84,7 @@ class ModeOpening3(ModeOpening):
             constants.SCREEN_SIZE[0] + monster.rect.width // 2,
             self._GROUND_LEVEL
         )
+        monster.reset_pos()
         monster.add_wait(_wait_time + self._EMPTY_TIME)
         monster.add_pos_abs(
             Monster.LERP,

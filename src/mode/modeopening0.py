@@ -3,6 +3,7 @@ import jovialengine
 import constants
 from .modeopening1 import ModeOpening1
 from .modeopening import ModeOpening
+from sprite import Star
 
 
 class ModeOpening0(ModeOpening):
@@ -32,13 +33,7 @@ class ModeOpening0(ModeOpening):
                 constants.SCREEN_SIZE[1] * 7 // 16 - logo.get_height() // 2,
             )
         )
-        star_sprite = jovialengine.AnimSprite()
-        star_sprite.image = jovialengine.load.image(constants.STAR, constants.COLORKEY)
-        star_sprite.rect = star_sprite.image.get_rect()
-        star_sprite.rect.center = (
-            constants.SCREEN_SIZE[0] // 2 + constants.SCREEN_SIZE[0] // 20 * 7,
-            0 - star_sprite.rect.height // 2,
-        )
+        star_sprite = Star((constants.SCREEN_SIZE[0] // 2 + constants.SCREEN_SIZE[0] // 20 * 7, 0 - 40 // 2))
         star_sprite.add_wait(750, sound=jovialengine.load.sound(constants.LONGSLIDE), positional_sound=True)
         star_sprite.add_pos_abs(
             jovialengine.AnimSprite.LERP,

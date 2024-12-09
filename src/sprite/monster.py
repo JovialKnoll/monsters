@@ -69,7 +69,6 @@ class Monster(jovialengine.AnimSprite):
 
     def save(self):
         return {
-            'super': super().save(),
             'uuid': self.uuid,
             'lvl': self.lvl,
             'personality': self.personality,
@@ -80,6 +79,11 @@ class Monster(jovialengine.AnimSprite):
             'sprite_files': self.sprite_files,
             'old_sprite_files': self.old_sprite_files,
             'facing_right': self.facing_right,
+
+            'pos': self.pos,
+            'anims': self.anims,
+            'last_pos': self.last_pos,
+            'time': self.time,
         }
 
     @classmethod
@@ -97,11 +101,10 @@ class Monster(jovialengine.AnimSprite):
         new_obj._set_sprites()
         new_obj.set_image(save_data['facing_right'])
 
-        super_obj = super().load(save_data['super'])
-        new_obj.rect.topleft = super_obj.rect.topleft
-        new_obj.anims = super_obj.anims
-        new_obj.last_pos = super_obj.last_pos
-        new_obj.time = super_obj.time
+        new_obj.pos = save_data['pos']
+        new_obj.anims = save_data['anims']
+        new_obj.last_pos = save_data['last_pos']
+        new_obj.time = save_data['time']
 
         return new_obj
 

@@ -36,6 +36,7 @@ class ModeCredits(ModeOpening):
             constants.SCREEN_SIZE[0] // 4,
             constants.SCREEN_SIZE[1],
         )
+        self._credits_sprite.reset_pos()
         self._time = 0
         self._credits_sprite.add_wait(1000)
         self._move_time = 1000

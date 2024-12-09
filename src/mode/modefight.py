@@ -7,7 +7,7 @@ import pygame
 import jovialengine
 
 import constants
-from monster import Monster
+from sprite import Monster
 from .modebuttons import ModeButtons
 
 
@@ -87,7 +87,9 @@ class ModeFight(ModeButtons):
         self._enemy_mon.set_image(False)
 
         self._player_mon.rect.midbottom = self._PLAYER_POS
+        self._player_mon.reset_pos()
         self._enemy_mon.rect.midbottom = self._ENEMY_POS
+        self._enemy_mon.reset_pos()
         self.sprites_all.add(self._player_mon, self._enemy_mon)
 
         self._player_action: bool | str = False

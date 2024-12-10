@@ -253,5 +253,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
 
     def _draw_pre_sprites(self, screen):
         screen.blit(self._surf_text, (12, 12), self._text_rect)
+
+    def _draw_post_camera(self, screen: pygame.Surface):
         if self._read_text:
             self._draw_selected(screen)

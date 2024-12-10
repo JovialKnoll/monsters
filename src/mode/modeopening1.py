@@ -11,6 +11,7 @@ from sprite import TinLogo
 
 class ModeOpening1(ModeOpening):
     _STAR_WAVES = 3
+    _STAR_COUNT = 7
     _STAR_WAIT = 1000
     _STAR_TRAVEL = 350
 
@@ -36,11 +37,10 @@ class ModeOpening1(ModeOpening):
                 star_image.get_height() // 2,
             )
         )
-        star_number = 7
         for i in range(self._STAR_WAVES):
-            for j in range(star_number):
+            for j in range(self._STAR_COUNT):
                 radius = constants.SCREEN_SIZE[0] * 5 // 8
-                angle = j * 2 / star_number * math.pi
+                angle = j * 2 / self._STAR_COUNT * math.pi
                 x = constants.SCREEN_SIZE[0] // 2 + radius * math.sin(angle)
                 y = constants.SCREEN_SIZE[1] // 2 - radius * math.cos(angle)
                 self._make_star(

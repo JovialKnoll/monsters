@@ -18,6 +18,7 @@ class ModeOpening2(ModeOpening):
 
     def __init__(self):
         super().__init__()
+        self._background.fill(constants.WHITE)
         pygame.mixer.music.load(constants.TITLE_INTRO)
         self._music_started = False
         left_mon = Monster.at_level(3)
@@ -108,9 +109,6 @@ class ModeOpening2(ModeOpening):
         if self._time >= self._move_time + 1500:
             self._stop_mixer()
             self._switch_mode()
-
-    def _draw_pre_sprites(self, screen):
-        screen.fill(constants.WHITE)
 
     def _draw_post_camera(self, screen):
         screen.blit(self._fade, (0, 0))

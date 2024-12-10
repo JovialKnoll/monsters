@@ -73,11 +73,12 @@ class ModeCredits(ModeOpening):
                 pygame.mixer.music.play(1, fade_ms=500)
                 self._playing_song = True
         self._time += dt
+
+    def _update_pre_draw(self):
         if self._time >= self._move_time:
             self._final_text.set_alpha(
                 min((self._time - self._move_time) * 255 // 1000, 255)
             )
 
-    def _draw_pre_sprites(self, screen):
-        screen.fill(constants.BLACK)
+    def _draw_post_camera(self, screen):
         screen.blit(self._final_text, (0, 0))

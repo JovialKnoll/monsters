@@ -6,17 +6,17 @@ import jovialengine
 import constants
 from .modeopening2 import ModeOpening2
 from .modeopening import ModeOpening
-from sprite import Star
+from sprite import TinLogo
 
 
 class ModeOpening1(ModeOpening):
     _STAR_WAVES = 3
+    _STAR_COUNT = 7
     _STAR_WAIT = 1000
     _STAR_TRAVEL = 350
 
     __slots__ = (
         '_time',
-        '_logo',
     )
 
     def __init__(self):
@@ -29,7 +29,6 @@ class ModeOpening1(ModeOpening):
             "tinsil",
             constants.BLACK
         )
-        self._logo = jovialengine.load.image(constants.TIN_LOGO, constants.COLORKEY)
         star_image = jovialengine.load.image(constants.STAR, constants.COLORKEY)
         star_image = pygame.transform.scale(
             star_image,
@@ -38,11 +37,10 @@ class ModeOpening1(ModeOpening):
                 star_image.get_height() // 2,
             )
         )
-        star_number = 7
         for i in range(self._STAR_WAVES):
-            for j in range(star_number):
+            for j in range(self._STAR_COUNT):
                 radius = constants.SCREEN_SIZE[0] * 5 // 8
-                angle = j * 2 / star_number * math.pi
+                angle = j * 2 / self._STAR_COUNT * math.pi
                 x = constants.SCREEN_SIZE[0] // 2 + radius * math.sin(angle)
                 y = constants.SCREEN_SIZE[1] // 2 - radius * math.cos(angle)
                 self._make_star(
@@ -51,6 +49,8 @@ class ModeOpening1(ModeOpening):
                     (x, y),
                     jovialengine.load.sound(constants.BIP) if j == 0 else None
                 )
+        logo = TinLogo((constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 7 // 16))
+        self.sprites_all.add(logo, layer=1)
 
     def _make_star(self, image: pygame.Surface, wait: int, dest: tuple[int, int], sound):
         star_sprite = jovialengine.AnimSprite()
@@ -76,12 +76,3 @@ class ModeOpening1(ModeOpening):
         if self._time >= self._STAR_WAIT * 2 + self._STAR_TRAVEL * self._STAR_WAVES:
             self._stop_mixer()
             self._switch_mode()
-
-    def _draw_post_sprites(self, screen):
-        screen.blit(
-            self._logo,
-            (
-                constants.SCREEN_SIZE[0] // 2 - self._logo.get_width() // 2,
-                constants.SCREEN_SIZE[1] * 7 // 16 - self._logo.get_height() // 2,
-            )
-        )

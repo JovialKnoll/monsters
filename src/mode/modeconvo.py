@@ -89,7 +89,6 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         '_text_rect',
         '_text_scroll',
         '_surf_text',
-        '_user_interface',
     )
 
     def _key_select(self, change):
@@ -103,7 +102,6 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
 
     def __init__(self, convo_key: str = '0'):
         super().__init__()
-        self._background.fill(constants.WHITE)
         self._convo_key = convo_key
         self._active_tags = set()
         self._convo_dict = self._get_script()
@@ -168,17 +166,18 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
             constants.TEXT_COLOR,
             constants.WHITE
         )
-        self._user_interface = jovialengine.load.image(constants.LAYOUT_1_FILE, constants.COLORKEY).copy()
+        self._background.fill(constants.WHITE)
+        self._background.blit(jovialengine.load.image(constants.LAYOUT_1_FILE, constants.COLORKEY))
         for index, button in enumerate(self._choices):
             jovialengine.get_default_font_wrap().render_to_inside(
-                self._user_interface,
+                self._background,
                 self._text_start(index),
                 self._text_width(index),
                 button.text,
                 constants.TEXT_COLOR
             )
         for index in range(len(self._choices), 4):
-            self._user_interface.fill(constants.WHITE, self.buttons[index])
+            self._background.fill(constants.WHITE, self.buttons[index])
 
     def _handle_tags(self):
         self.sprites_all.empty()
@@ -252,8 +251,7 @@ class ModeConvo(ModeButtons, jovialengine.Saveable):
         if self._text_rect.bottom >= self._surf_text.get_rect().bottom:
             self._read_text = True
 
-    def _draw_pre_sprites(self, screen):
-        screen.blit(self._user_interface, (0, 0))
+    def _draw_post_camera(self, screen: pygame.Surface):
         screen.blit(self._surf_text, (12, 12), self._text_rect)
         if self._read_text:
             self._draw_selected(screen)

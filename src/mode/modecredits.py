@@ -81,5 +81,4 @@ class ModeCredits(ModeOpening):
             )
 
     def _draw_pre_sprites(self, screen):
-        screen.fill(constants.BLACK)
         screen.blit(self._final_text, (0, 0))

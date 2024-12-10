@@ -80,5 +80,5 @@ class ModeCredits(ModeOpening):
                 min((self._time - self._move_time) * 255 // 1000, 255)
             )
 
-    def _draw_pre_sprites(self, screen):
+    def _draw_post_camera(self, screen):
         screen.blit(self._final_text, (0, 0))

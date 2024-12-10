@@ -18,8 +18,8 @@ class ModeFight(ModeButtons):
         pygame.Rect(24, 76, 88, 36),
         pygame.Rect(24, 128, 88, 36),
     )
-    _PLAYER_POS = (170, 128)
-    _ENEMY_POS = (262, 128)
+    _PLAYER_POS = (1 + 170, 1 + 128)
+    _ENEMY_POS = (1 + 262, 1 + 128)
     _ANIM_WAIT = 250
     _HEALTH_BAR_LENGTH = 60
     _HEALTH_BAR_HEIGHT = 10
@@ -33,16 +33,19 @@ class ModeFight(ModeButtons):
         'win': 1,
         'lose': -1,
     }
-    _PLAYER_BAR_X = 137
-    _ENEMY_BAR_X = 233
-    _PLAYER_BAR_Y = _ENEMY_BAR_Y = 29
+    _PLAYER_BAR_X = 1 + 137
+    _ENEMY_BAR_X = 1 + 233
+    _PLAYER_BAR_Y = _ENEMY_BAR_Y = 1 + 29
+    _ACTION_DISPLAY_X = 1 + 120
+    _ACTION_DISPLAY_Y = 1 + 166
 
     __slots__ = (
         '_health_bar',
+        '_player_health_rect',
+        '_enemy_health_rect',
         '_player_mon',
         '_enemy_mon',
         '_enemy_choices',
-        '_user_interface',
         '_player_action',
         '_enemy_action',
         '_action_display',
@@ -61,17 +64,22 @@ class ModeFight(ModeButtons):
         self._camera.topleft = (1, 1)
         self._background.fill(constants.WHITE)
         self._health_bar = jovialengine.load.image(constants.HEALTHBAR_FILE, constants.COLORKEY)
+        self._player_health_rect = self._health_bar.get_rect()
+        self._player_health_rect.topleft = (self._PLAYER_BAR_X, self._PLAYER_BAR_Y)
+        self._enemy_health_rect = self._health_bar.get_rect()
+        self._enemy_health_rect.topleft = (self._ENEMY_BAR_X, self._ENEMY_BAR_Y)
 
         self._player_mon = player_mon
         self._enemy_mon = enemy_mon
         self._enemy_choices = self._BOX_CHOICES \
             + list(itertools.repeat(self._enemy_mon.personality.preferred_action, 3))
 
-        self._user_interface = jovialengine.load.image(constants.LAYOUT_2_FILE, constants.COLORKEY).copy()
+        self._background.blit(jovialengine.load.image(constants.LAYOUT_2_FILE, constants.COLORKEY), (1, 1))
         for index, choice in enumerate(self._BOX_CHOICES):
+            dest = self._text_start(index)
             jovialengine.get_default_font_wrap().render_to_inside(
-                self._user_interface,
-                self._text_start(index),
+                self._background,
+                (dest[0] + 1, dest[1] + 1),
                 self._text_width(index),
                 choice,
                 constants.TEXT_COLOR
@@ -125,7 +133,7 @@ class ModeFight(ModeButtons):
             self._ENEMY_BAR_Y - constants.FONT_HEIGHT
         )
         jovialengine.get_default_font_wrap().render_to_inside(
-            self._user_interface,
+            self._background,
             player_health_dest,
             text_width,
             player_health_text,
@@ -133,7 +141,7 @@ class ModeFight(ModeButtons):
             constants.WHITE
         )
         jovialengine.get_default_font_wrap().render_to_inside(
-            self._user_interface,
+            self._background,
             enemy_health_dest,
             text_width,
             enemy_health_text,
@@ -331,17 +339,15 @@ class ModeFight(ModeButtons):
             self._result_displayed = 2
             self._result = self._player_action
 
-    def _draw_pre_sprites(self, screen):
-        screen.blit(self._user_interface, (0, 0))
-        if not self._action_set and self._player_action not in self._RESULT_SAVING:
-            self._draw_selected(screen)
-
+    def _update_pre_draw(self):
         player_bar_length = math.ceil(
             self._HEALTH_BAR_LENGTH
             * self._player_mon.stats['hpc'] / self._player_mon.stats['hpm']
         )
-        screen.fill(
+        self._background.fill(constants.WHITE, self._player_health_rect)
+        self._background.fill(
             self._player_mon.get_bar_color(),
+
             (
                 self._PLAYER_BAR_X + 1,
                 self._PLAYER_BAR_Y + 1,
@@ -349,7 +355,7 @@ class ModeFight(ModeButtons):
                 self._HEALTH_BAR_HEIGHT - 2
             )
         )
-        screen.fill(
+        self._background.fill(
             self._player_mon.get_bar_color2(),
             (
                 self._PLAYER_BAR_X + 1,
@@ -358,13 +364,14 @@ class ModeFight(ModeButtons):
                 2
             )
         )
-        screen.blit(self._health_bar, (self._PLAYER_BAR_X, self._PLAYER_BAR_Y))
+        self._background.blit(self._health_bar, self._player_health_rect)
 
         enemy_bar_length = math.ceil(
             self._HEALTH_BAR_LENGTH
             * self._enemy_mon.stats['hpc'] / self._enemy_mon.stats['hpm']
         )
-        screen.fill(
+        self._background.fill(constants.WHITE, self._enemy_health_rect)
+        self._background.fill(
             self._enemy_mon.get_bar_color(),
             (
                 self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 1 - enemy_bar_length,
@@ -373,7 +380,7 @@ class ModeFight(ModeButtons):
                 self._HEALTH_BAR_HEIGHT - 2
             )
         )
-        screen.fill(
+        self._background.fill(
             self._enemy_mon.get_bar_color2(),
             (
                 self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 1 - enemy_bar_length,
@@ -382,10 +389,33 @@ class ModeFight(ModeButtons):
                 2
             )
         )
-        screen.blit(self._health_bar, (self._ENEMY_BAR_X, self._ENEMY_BAR_Y))
+        self._background.blit(self._health_bar, self._enemy_health_rect)
+
+        self._background.fill(
+            constants.WHITE,
+            (
+                self._ACTION_DISPLAY_X,
+                self._ACTION_DISPLAY_Y - constants.FONT_HEIGHT * 3,
+                self._SPACE_SIZE[0] - self._ACTION_DISPLAY_X,
+                self._SPACE_SIZE[1] - (self._ACTION_DISPLAY_Y - constants.FONT_HEIGHT * 3)
+            )
+        )
         for index, line in enumerate(self._action_display):
-            screen.blit(line, (120, 166 - constants.FONT_HEIGHT * index))
+            self._background.blit(
+                line,
+                (self._ACTION_DISPLAY_X, self._ACTION_DISPLAY_Y - constants.FONT_HEIGHT * index)
+            )
         if self._action_display_latest:
-            screen.blit(self._action_display_latest, (120, 166))
+            self._background.blit(
+                self._action_display_latest,
+                (self._ACTION_DISPLAY_X, self._ACTION_DISPLAY_Y)
+            )
         if self._action_display_latest2:
-            screen.blit(self._action_display_latest2, (120, 166 - constants.FONT_HEIGHT))
+            self._background.blit(
+                self._action_display_latest2,
+                (self._ACTION_DISPLAY_X, self._ACTION_DISPLAY_Y - constants.FONT_HEIGHT)
+            )
+
+    def _draw_post_camera(self, screen: pygame.Surface):
+        if not self._action_set and self._player_action not in self._RESULT_SAVING:
+            self._draw_selected(screen)

@@ -112,5 +112,5 @@ class ModeOpening2(ModeOpening):
     def _draw_pre_sprites(self, screen):
         screen.fill(constants.WHITE)
 
-    def _draw_post_sprites(self, screen):
+    def _draw_post_camera(self, screen):
         screen.blit(self._fade, (0, 0))

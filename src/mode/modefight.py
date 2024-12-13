@@ -117,20 +117,13 @@ class ModeFight(ModeButtons):
         self._draw_hp()
 
     def _draw_hp(self):
+        text_width = constants.FONT_SIZE * 5
         player_health_text = f"{self._player_mon.stats['hpc']}/{self._player_mon.stats['hpm']}"
         if self._player_mon.stats['hpc'] < 10:
             player_health_text = "_" + player_health_text
-        enemy_health_text = f"{self._enemy_mon.stats['hpc']}/{self._enemy_mon.stats['hpm']}"
-        if self._enemy_mon.stats['hpc'] < 10:
-            enemy_health_text = "_" + enemy_health_text
-        text_width = constants.FONT_SIZE * 5
         player_health_dest = (
             self._PLAYER_BAR_X + self._HEALTH_BAR_LENGTH + 2 - text_width,
             self._PLAYER_BAR_Y - constants.FONT_HEIGHT
-        )
-        enemy_health_dest = (
-            self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 2 - text_width,
-            self._ENEMY_BAR_Y - constants.FONT_HEIGHT
         )
         jovialengine.get_default_font_wrap().render_to_inside(
             self._background,
@@ -140,6 +133,38 @@ class ModeFight(ModeButtons):
             constants.TEXT_COLOR,
             constants.WHITE
         )
+        player_bar_length = math.ceil(
+            self._HEALTH_BAR_LENGTH
+            * self._player_mon.stats['hpc'] / self._player_mon.stats['hpm']
+        )
+        self._background.fill(constants.WHITE, self._player_health_rect)
+        self._background.fill(
+            self._player_mon.get_bar_color(),
+
+            (
+                self._PLAYER_BAR_X + 1,
+                self._PLAYER_BAR_Y + 1,
+                player_bar_length,
+                self._HEALTH_BAR_HEIGHT - 2
+            )
+        )
+        self._background.fill(
+            self._player_mon.get_bar_color2(),
+            (
+                self._PLAYER_BAR_X + 1,
+                self._PLAYER_BAR_Y + self._HEALTH_BAR_HEIGHT - 1,
+                player_bar_length,
+                2
+            )
+        )
+        self._background.blit(self._health_bar, self._player_health_rect)
+        enemy_health_text = f"{self._enemy_mon.stats['hpc']}/{self._enemy_mon.stats['hpm']}"
+        if self._enemy_mon.stats['hpc'] < 10:
+            enemy_health_text = "_" + enemy_health_text
+        enemy_health_dest = (
+            self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 2 - text_width,
+            self._ENEMY_BAR_Y - constants.FONT_HEIGHT
+        )
         jovialengine.get_default_font_wrap().render_to_inside(
             self._background,
             enemy_health_dest,
@@ -148,6 +173,30 @@ class ModeFight(ModeButtons):
             constants.TEXT_COLOR,
             constants.WHITE
         )
+        enemy_bar_length = math.ceil(
+            self._HEALTH_BAR_LENGTH
+            * self._enemy_mon.stats['hpc'] / self._enemy_mon.stats['hpm']
+        )
+        self._background.fill(constants.WHITE, self._enemy_health_rect)
+        self._background.fill(
+            self._enemy_mon.get_bar_color(),
+            (
+                self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 1 - enemy_bar_length,
+                self._ENEMY_BAR_Y + 1,
+                enemy_bar_length,
+                self._HEALTH_BAR_HEIGHT - 2
+            )
+        )
+        self._background.fill(
+            self._enemy_mon.get_bar_color2(),
+            (
+                self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 1 - enemy_bar_length,
+                self._ENEMY_BAR_Y + self._HEALTH_BAR_HEIGHT - 1,
+                enemy_bar_length,
+                2
+            )
+        )
+        self._background.blit(self._health_bar, self._enemy_health_rect)
 
     def _shake_camera(self):
         if self._camera_shake is None:
@@ -340,57 +389,6 @@ class ModeFight(ModeButtons):
             self._result = self._player_action
 
     def _update_pre_draw(self):
-        player_bar_length = math.ceil(
-            self._HEALTH_BAR_LENGTH
-            * self._player_mon.stats['hpc'] / self._player_mon.stats['hpm']
-        )
-        self._background.fill(constants.WHITE, self._player_health_rect)
-        self._background.fill(
-            self._player_mon.get_bar_color(),
-
-            (
-                self._PLAYER_BAR_X + 1,
-                self._PLAYER_BAR_Y + 1,
-                player_bar_length,
-                self._HEALTH_BAR_HEIGHT - 2
-            )
-        )
-        self._background.fill(
-            self._player_mon.get_bar_color2(),
-            (
-                self._PLAYER_BAR_X + 1,
-                self._PLAYER_BAR_Y + self._HEALTH_BAR_HEIGHT - 1,
-                player_bar_length,
-                2
-            )
-        )
-        self._background.blit(self._health_bar, self._player_health_rect)
-
-        enemy_bar_length = math.ceil(
-            self._HEALTH_BAR_LENGTH
-            * self._enemy_mon.stats['hpc'] / self._enemy_mon.stats['hpm']
-        )
-        self._background.fill(constants.WHITE, self._enemy_health_rect)
-        self._background.fill(
-            self._enemy_mon.get_bar_color(),
-            (
-                self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 1 - enemy_bar_length,
-                self._ENEMY_BAR_Y + 1,
-                enemy_bar_length,
-                self._HEALTH_BAR_HEIGHT - 2
-            )
-        )
-        self._background.fill(
-            self._enemy_mon.get_bar_color2(),
-            (
-                self._ENEMY_BAR_X + self._HEALTH_BAR_LENGTH + 1 - enemy_bar_length,
-                self._ENEMY_BAR_Y + self._HEALTH_BAR_HEIGHT - 1,
-                enemy_bar_length,
-                2
-            )
-        )
-        self._background.blit(self._health_bar, self._enemy_health_rect)
-
         self._background.fill(
             constants.WHITE,
             (

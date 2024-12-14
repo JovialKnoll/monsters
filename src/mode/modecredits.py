@@ -81,4 +81,4 @@ class ModeCredits(ModeOpening):
             )
 
     def _draw_post_camera(self, screen):
-        screen.blit(self._final_text, (0, 0))
+        screen.blit(self._final_text)

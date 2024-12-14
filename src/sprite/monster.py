@@ -188,7 +188,7 @@ class Monster(jovialengine.AnimSprite):
         self.sprite = self._load_sprite_file(sprite_files[0]).copy()
         for sprite_path in sprite_files[1:]:
             new_part = self._load_sprite_file(sprite_path)
-            self.sprite.blit(new_part, (0, 0))
+            self.sprite.blit(new_part)
         if lvl > 0:
             pix_array = pygame.PixelArray(self.sprite)
             pix_array.replace(

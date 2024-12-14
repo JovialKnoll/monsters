@@ -49,8 +49,6 @@ class ModeFight(ModeButtons):
         '_player_action',
         '_enemy_action',
         '_action_display',
-        '_action_display_latest',
-        '_action_display_latest2',
         '_action_set',
         '_result_displayed',
         '_result',
@@ -104,8 +102,6 @@ class ModeFight(ModeButtons):
         self._enemy_action: bool | str = False
 
         self._action_display = deque((), 4)
-        self._action_display_latest = None
-        self._action_display_latest2 = None
         self._action_set = False
 
         self._result_displayed = 0
@@ -260,13 +256,32 @@ class ModeFight(ModeButtons):
                 constants.WHITE
             )
         )
-        self._action_display_latest = jovialengine.get_default_font_wrap().render_inside(
+        self._action_set = not self._action_set
+        self._background.fill(
+            constants.WHITE,
+            (
+                self._ACTION_DISPLAY_X,
+                self._ACTION_DISPLAY_Y - constants.FONT_HEIGHT * 3,
+                self._SPACE_SIZE[0] - self._ACTION_DISPLAY_X,
+                self._SPACE_SIZE[1] - (self._ACTION_DISPLAY_Y - constants.FONT_HEIGHT * 3)
+            )
+        )
+        for index, line in enumerate(self._action_display):
+            self._background.blit(
+                line,
+                (self._ACTION_DISPLAY_X, self._ACTION_DISPLAY_Y - constants.FONT_HEIGHT * index)
+            )
+        action_display_latest = jovialengine.get_default_font_wrap().render_inside(
             200,
             text,
             constants.BLACK,
             constants.WHITE
         )
-        self._action_set = not self._action_set
+        self._background.blit(
+            action_display_latest,
+            (self._ACTION_DISPLAY_X, self._ACTION_DISPLAY_Y)
+        )
+
 
     def _player_action_done(self):
         player_hit_block = self._player_mon.fight_hit(self._player_action, True)
@@ -340,41 +355,19 @@ class ModeFight(ModeButtons):
             self._result_displayed = 1
         elif not self._player_mon.still_animating() and self._result_displayed < 2:
             self._set_action_display("Click or press enter to")
-            self._action_display_latest2 = jovialengine.get_default_font_wrap().render_inside(
+            self._set_action_display("continue.")
+            action_display_latest2 = jovialengine.get_default_font_wrap().render_inside(
                 200,
                 "Click or press enter to",
                 constants.BLACK,
                 constants.WHITE
             )
-            self._set_action_display("continue.")
-            self._result_displayed = 2
-            self._result = self._player_action
-
-    def _update_pre_draw(self):
-        self._background.fill(
-            constants.WHITE,
-            (
-                self._ACTION_DISPLAY_X,
-                self._ACTION_DISPLAY_Y - constants.FONT_HEIGHT * 3,
-                self._SPACE_SIZE[0] - self._ACTION_DISPLAY_X,
-                self._SPACE_SIZE[1] - (self._ACTION_DISPLAY_Y - constants.FONT_HEIGHT * 3)
-            )
-        )
-        for index, line in enumerate(self._action_display):
             self._background.blit(
-                line,
-                (self._ACTION_DISPLAY_X, self._ACTION_DISPLAY_Y - constants.FONT_HEIGHT * index)
-            )
-        if self._action_display_latest:
-            self._background.blit(
-                self._action_display_latest,
-                (self._ACTION_DISPLAY_X, self._ACTION_DISPLAY_Y)
-            )
-        if self._action_display_latest2:
-            self._background.blit(
-                self._action_display_latest2,
+                action_display_latest2,
                 (self._ACTION_DISPLAY_X, self._ACTION_DISPLAY_Y - constants.FONT_HEIGHT)
             )
+            self._result_displayed = 2
+            self._result = self._player_action
 
     def _draw_post_camera(self, screen: pygame.Surface):
         if not self._action_set and self._player_action not in self._RESULT_SAVING:

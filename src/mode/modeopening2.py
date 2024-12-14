@@ -111,4 +111,4 @@ class ModeOpening2(ModeOpening):
             self._switch_mode()
 
     def _draw_post_camera(self, screen):
-        screen.blit(self._fade, (0, 0))
+        screen.blit(self._fade)

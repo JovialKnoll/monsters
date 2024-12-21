@@ -155,14 +155,9 @@ class ModeFight(ModeButtons):
 
     def _shake_camera(self):
         if self._camera_shake is None:
-            if bool(random.getrandbits(1)):
-                self._camera.x -= 1
-            else:
-                self._camera.x += 1
-            if bool(random.getrandbits(1)):
-                self._camera.y -= 1
-            else:
-                self._camera.y += 1
+            dx = -1 if bool(random.getrandbits(1)) else 1
+            dy = -1 if bool(random.getrandbits(1)) else 1
+            self._camera.move_ip(dx, dy)
             self._camera_shake = 50
 
     def _reset_camera(self):

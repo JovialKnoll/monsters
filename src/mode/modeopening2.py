@@ -27,11 +27,9 @@ class ModeOpening2(ModeOpening):
         ground_level = constants.SCREEN_SIZE[1] - 32
         # starts at right
         left_mon.rect.bottomright = (constants.SCREEN_SIZE[0], ground_level)
-        left_mon.reset_pos()
         left_mon.set_image(True)
         # starts at left
         right_mon.rect.bottomleft = (0, ground_level)
-        right_mon.reset_pos()
         # move to the positions
         beat = 250
         pause = 50

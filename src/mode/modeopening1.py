@@ -55,11 +55,8 @@ class ModeOpening1(ModeOpening):
     def _make_star(self, image: pygame.Surface, wait: int, dest: tuple[int, int], sound):
         star_sprite = jovialengine.AnimSprite()
         star_sprite.image = image
-        star_sprite.rect = star_sprite.image.get_rect()
-        star_sprite.pos = (
-            constants.SCREEN_SIZE[0] // 2,
-            constants.SCREEN_SIZE[1] // 2,
-        )
+        star_sprite.rect = star_sprite.image.get_rect(center=
+            (constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] // 2))
         star_sprite.add_wait(wait, sound=sound)
         star_sprite.add_pos_abs(
             jovialengine.AnimSprite.LERP,

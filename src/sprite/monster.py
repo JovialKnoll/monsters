@@ -80,7 +80,7 @@ class Monster(jovialengine.AnimSprite):
             'old_sprite_files': self.old_sprite_files,
             'facing_right': self.facing_right,
 
-            'pos': self.pos,
+            'rect_center': self.rect.center,
             'anims': self.anims,
             'last_pos': self.last_pos,
             'time': self.time,
@@ -101,7 +101,7 @@ class Monster(jovialengine.AnimSprite):
         new_obj._set_sprites()
         new_obj.set_image(save_data['facing_right'])
 
-        new_obj.pos = save_data['pos']
+        new_obj.rect.center = save_data['rect_center']
         new_obj.anims = save_data['anims']
         new_obj.last_pos = save_data['last_pos']
         new_obj.time = save_data['time']

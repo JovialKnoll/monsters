@@ -93,9 +93,7 @@ class ModeFight(ModeButtons):
         self._enemy_mon.set_image(False)
 
         self._player_mon.rect.midbottom = self._PLAYER_POS
-        self._player_mon.reset_pos()
         self._enemy_mon.rect.midbottom = self._ENEMY_POS
-        self._enemy_mon.reset_pos()
         self.sprites_all.add(self._player_mon, self._enemy_mon)
 
         self._player_action: bool | str = False
@@ -157,14 +155,9 @@ class ModeFight(ModeButtons):
 
     def _shake_camera(self):
         if self._camera_shake is None:
-            if bool(random.getrandbits(1)):
-                self._camera.x -= 1
-            else:
-                self._camera.x += 1
-            if bool(random.getrandbits(1)):
-                self._camera.y -= 1
-            else:
-                self._camera.y += 1
+            dx = -1 if bool(random.getrandbits(1)) else 1
+            dy = -1 if bool(random.getrandbits(1)) else 1
+            self._camera.move_ip(dx, dy)
             self._camera_shake = 50
 
     def _reset_camera(self):

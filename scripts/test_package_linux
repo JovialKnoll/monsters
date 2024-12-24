@@ -1,6 +1,6 @@
 cd ../../jovialengine
 sed -i "s/VERSION_REPLACE/999/g" setup.cfg
-python -m build --sdist --wheel --outdir dist/ .
+python3.13 -m build --sdist --wheel --outdir dist/ .
 sed -i "s/999/VERSION_REPLACE/g" setup.cfg
 cd ../monsters
 source src/venv/bin/activate

@@ -49,7 +49,7 @@ class ModeOpening1(ModeOpening):
                     (x, y),
                     jovialengine.load.sound(constants.BIP) if j == 0 else None
                 )
-        logo = TinLogo((constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 7 // 16))
+        logo = TinLogo(center=(constants.SCREEN_SIZE[0] // 2, constants.SCREEN_SIZE[1] * 7 // 16))
         self.sprites_all.add(logo, layer=1)
 
     def _make_star(self, image: pygame.Surface, wait: int, dest: tuple[int, int], sound):

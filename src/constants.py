@@ -104,10 +104,10 @@ CREDITS_PLAY = os.path.join(MUSIC_DIRECTORY, 'credits.ogg')
 
 IMAGE_DIRECTORY = os.path.join(SRC_DIRECTORY, 'images')
 
-VERSION_TEXT = os.path.join(TEXT_DIRECTORY, 'version.txt')
 CREDITS_TEXT = os.path.join(TEXT_DIRECTORY, 'credits.txt')
 CONVO_DIRECTORY = os.path.join(TEXT_DIRECTORY, 'convos')
 
+VERSION_TEXT = os.path.join(ASSETS_DIRECTORY, 'version.txt')
 VERSION = ''
 try:
     with open(VERSION_TEXT) as version_file:

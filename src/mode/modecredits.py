@@ -60,7 +60,8 @@ class ModeCredits(ModeOpening):
 
     def _switch_mode(self):
         jovialengine.set_state()
-        self.next_mode = ModeOpening0()
+        next_mode_cls = jovialengine.get_restart_mode_cls()
+        self.next_mode = next_mode_cls()
 
     def _update_pre_sprites(self, dt):
         if not self._playing_song:

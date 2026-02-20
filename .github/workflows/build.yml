@@ -14,7 +14,7 @@ jobs:
     needs: create-release
     with:
       project_name: chikkai
-      python_version: '3.13'
+      python_version: '3.14'
       upload_url: ${{ needs.create-release.outputs.upload_url }}
 
   upload-butler:
